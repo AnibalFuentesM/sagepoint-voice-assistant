@@ -262,7 +262,7 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [selectedService, setSelectedService] = useState('Consultoría General');
-  
+
   // Language State
   const [lang, setLang] = useState<'es' | 'en'>('es');
   const t = content[lang];
@@ -295,15 +295,15 @@ function App() {
 
     // Validación manual estricta
     if (!name || name.trim().length < 2) {
-        alert(lang === 'es' ? "Por favor ingresa un nombre válido." : "Please enter a valid name.");
-        return;
+      alert(lang === 'es' ? "Por favor ingresa un nombre válido." : "Please enter a valid name.");
+      return;
     }
 
     // Regex simple pero efectivo para email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
-        alert(lang === 'es' ? "Por favor ingresa un correo electrónico válido." : "Please enter a valid email address.");
-        return;
+      alert(lang === 'es' ? "Por favor ingresa un correo electrónico válido." : "Please enter a valid email address.");
+      return;
     }
 
     setFormState('sending');
@@ -326,9 +326,9 @@ function App() {
       setFormState('success');
       // Reset after a delay
       setTimeout(() => {
-          setFormState('idle');
-          setSelectedService(t.contact.form.options.general); // Reset selection
-          (e.target as HTMLFormElement).reset();
+        setFormState('idle');
+        setSelectedService(t.contact.form.options.general); // Reset selection
+        (e.target as HTMLFormElement).reset();
       }, 3000);
     } else {
       setFormState('error');
@@ -344,7 +344,7 @@ function App() {
 
   return (
     <div className="font-sans text-slate-300 min-h-screen relative overflow-x-hidden selection:bg-sage/30 selection:text-sage">
-      
+
       {/* Background Ambient Effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute w-[520px] h-[520px] bg-sage/35 rounded-full blur-[100px] -bottom-44 -left-32 opacity-50" />
@@ -356,28 +356,28 @@ function App() {
       <header className={`sticky top-0 z-40 backdrop-blur-md border-b transition-all duration-300 ${isScrolled ? 'bg-[#070d0e]/90 border-slate-300/10 py-3' : 'bg-transparent border-transparent py-5'}`}>
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
           <a href="/" onClick={scrollToTop} className="font-serif text-2xl font-bold text-ink tracking-tight">Sagepoint</a>
-          
+
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
             <a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage transition-colors">{t.nav.services}</a>
             <a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage transition-colors">{t.nav.benefits}</a>
             <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage transition-colors">{t.nav.pricing}</a>
-            
+
             {/* Language Toggles */}
             <div className="flex items-center gap-2 px-2 border-l border-slate-700/50">
-                <button 
-                  onClick={() => setLang('es')} 
-                  className={`text-xl hover:scale-110 transition-transform ${lang === 'es' ? 'opacity-100' : 'opacity-40 grayscale'}`}
-                  title="Español"
-                >
-                  🇬🇹
-                </button>
-                <button 
-                  onClick={() => setLang('en')} 
-                  className={`text-xl hover:scale-110 transition-transform ${lang === 'en' ? 'opacity-100' : 'opacity-40 grayscale'}`}
-                  title="English"
-                >
-                  🇺🇸
-                </button>
+              <button
+                onClick={() => setLang('es')}
+                className={`text-xl hover:scale-110 transition-transform ${lang === 'es' ? 'opacity-100' : 'opacity-40 grayscale'}`}
+                title="Español"
+              >
+                🇬🇹
+              </button>
+              <button
+                onClick={() => setLang('en')}
+                className={`text-xl hover:scale-110 transition-transform ${lang === 'en' ? 'opacity-100' : 'opacity-40 grayscale'}`}
+                title="English"
+              >
+                🇺🇸
+              </button>
             </div>
 
             <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="px-5 py-2.5 rounded-full border border-sage/40 text-sage bg-[#0f1a1c]/80 hover:bg-[#0f1a1c] hover:-translate-y-px hover:shadow-[0_8px_22px_rgba(47,176,148,0.35)] transition-all duration-200">
@@ -388,7 +388,7 @@ function App() {
       </header>
 
       <main className="relative z-10">
-        
+
         {/* Hero Section */}
         <section className="pt-24 pb-20 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-[floatIn_0.9s_ease-out]">
@@ -407,7 +407,7 @@ function App() {
                 {t.hero.cta_services}
               </a>
             </div>
-            
+
             {/* Metrics / Social Proof */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-slate-300/10">
               <div>
@@ -426,39 +426,39 @@ function App() {
           </div>
 
           <div className="relative animate-[floatIn_0.9s_ease-out_0.15s_both]">
-             <div className="bg-[#0f191b]/95 border border-slate-300/10 rounded-3xl p-6 shadow-[0_24px_60px_rgba(2,6,7,0.6)] backdrop-blur-sm">
-                <div className="flex justify-between items-center text-sm mb-6 border-b border-slate-300/10 pb-4">
-                  <span className="text-muted">{t.hero.dashboard.title}</span>
-                  <span className="text-deep-sage font-semibold flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-deep-sage animate-pulse"></span>
-                    {t.hero.dashboard.updated}
-                  </span>
-                </div>
-                <div className="space-y-4">
-                  <div className="bg-mist p-4 rounded-2xl">
-                    <h3 className="font-serif text-ink mb-4">{t.hero.dashboard.projection}</h3>
-                    {/* Trend text removed */}
-                    <div className="flex items-end gap-2 h-20">
-                      {[42, 58, 65, 80].map((h, i) => (
-                        <div key={i} className="flex-1 rounded-t-lg opacity-90 bg-gradient-to-b from-sage to-deep-sage" style={{ height: `${h}%` }}></div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="bg-mist p-4 rounded-2xl">
-                    <h3 className="font-serif text-ink mb-3">{t.hero.dashboard.alerts}</h3>
-                    <ul className="space-y-2 text-sm text-muted">
-                       <li className="flex items-center gap-2">
-                         <div className="w-1.5 h-1.5 rounded-full bg-copper"></div>
-                         {t.hero.dashboard.stock}
-                       </li>
-                       <li className="flex items-center gap-2">
-                         <div className="w-1.5 h-1.5 rounded-full bg-sage"></div>
-                         {t.hero.dashboard.goal}
-                       </li>
-                    </ul>
+            <div className="bg-[#0f191b]/95 border border-slate-300/10 rounded-3xl p-6 shadow-[0_24px_60px_rgba(2,6,7,0.6)] backdrop-blur-sm">
+              <div className="flex justify-between items-center text-sm mb-6 border-b border-slate-300/10 pb-4">
+                <span className="text-muted">{t.hero.dashboard.title}</span>
+                <span className="text-deep-sage font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-deep-sage animate-pulse"></span>
+                  {t.hero.dashboard.updated}
+                </span>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-mist p-4 rounded-2xl">
+                  <h3 className="font-serif text-ink mb-4">{t.hero.dashboard.projection}</h3>
+                  {/* Trend text removed */}
+                  <div className="flex items-end gap-2 h-20">
+                    {[42, 58, 65, 80].map((h, i) => (
+                      <div key={i} className="flex-1 rounded-t-lg opacity-90 bg-gradient-to-b from-sage to-deep-sage" style={{ height: `${h}%` }}></div>
+                    ))}
                   </div>
                 </div>
-             </div>
+                <div className="bg-mist p-4 rounded-2xl">
+                  <h3 className="font-serif text-ink mb-3">{t.hero.dashboard.alerts}</h3>
+                  <ul className="space-y-2 text-sm text-muted">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-copper"></div>
+                      {t.hero.dashboard.stock}
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-sage"></div>
+                      {t.hero.dashboard.goal}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -486,35 +486,35 @@ function App() {
         {/* Why Us / Benefits Section (Formerly Automation) */}
         <section id="why-us" className="py-24 px-6 bg-[#0d1719]/50 border-y border-slate-300/5 scroll-mt-20">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-             <div>
-                <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.benefits.subtitle}</p>
-                <h2 className="font-serif text-4xl text-ink mb-6">{t.benefits.title}</h2>
-                <p className="text-lg text-muted mb-8">
-                   {t.benefits.description}
-                </p>
-                <ul className="space-y-4">
-                  {t.benefits.list.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <div className="mt-1 w-5 h-5 rounded-full bg-sage/20 text-sage flex items-center justify-center text-xs">✓</div>
-                      <span className="text-slate-300"><strong className="text-ink">{item.bold}</strong> {item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-             </div>
+            <div>
+              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.benefits.subtitle}</p>
+              <h2 className="font-serif text-4xl text-ink mb-6">{t.benefits.title}</h2>
+              <p className="text-lg text-muted mb-8">
+                {t.benefits.description}
+              </p>
+              <ul className="space-y-4">
+                {t.benefits.list.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="mt-1 w-5 h-5 rounded-full bg-sage/20 text-sage flex items-center justify-center text-xs">✓</div>
+                    <span className="text-slate-300"><strong className="text-ink">{item.bold}</strong> {item.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-             <div className="space-y-4">
-               {t.benefits.cards.map((benefit, i) => (
-                 <div key={i} className="flex gap-6 p-6 bg-[#0e181a] border-l-4 border-sage rounded-r-2xl shadow-lg hover:shadow-sage/10 transition-shadow">
-                    <div className="pt-1">
-                      <div className="w-8 h-8 rounded-full bg-sage/20 text-sage flex items-center justify-center font-bold font-serif">{i + 1}</div>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-serif text-ink mb-1">{benefit.title}</h3>
-                      <p className="text-muted text-sm">{benefit.desc}</p>
-                    </div>
-                 </div>
-               ))}
-             </div>
+            <div className="space-y-4">
+              {t.benefits.cards.map((benefit, i) => (
+                <div key={i} className="flex gap-6 p-6 bg-[#0e181a] border-l-4 border-sage rounded-r-2xl shadow-lg hover:shadow-sage/10 transition-shadow">
+                  <div className="pt-1">
+                    <div className="w-8 h-8 rounded-full bg-sage/20 text-sage flex items-center justify-center font-bold font-serif">{i + 1}</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-serif text-ink mb-1">{benefit.title}</h3>
+                    <p className="text-muted text-sm">{benefit.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -522,14 +522,14 @@ function App() {
         <section id="pricing" className="py-24 px-6 max-w-6xl mx-auto scroll-mt-20">
           <div className="bg-gradient-to-br from-sage/10 to-copper/5 rounded-[32px] p-8 md:p-12 lg:p-16">
             <div className="text-center max-w-2xl mx-auto mb-16">
-               <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.pricing.subtitle}</p>
-               <h2 className="font-serif text-4xl text-ink">{t.pricing.title}</h2>
+              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.pricing.subtitle}</p>
+              <h2 className="font-serif text-4xl text-ink">{t.pricing.title}</h2>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-8">
               {t.pricing.cards.map((plan, i) => {
-                 const isPro = i === 1;
-                 return (
+                const isPro = i === 1;
+                return (
                   <div key={i} className={`bg-dark p-8 rounded-3xl shadow-xl flex flex-col transition-all duration-300 ${isPro ? 'border-2 border-deep-sage relative transform md:-translate-y-4 shadow-2xl' : 'border border-slate-300/10 hover:border-slate-300/30'}`}>
                     {isPro && <div className="absolute top-4 right-4 bg-deep-sage text-dark text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{plan.tag}</div>}
                     <h3 className="font-serif text-2xl text-ink">{plan.title}</h3>
@@ -544,85 +544,89 @@ function App() {
                       {plan.cta}
                     </a>
                   </div>
-                 )
+                )
               })}
             </div>
-            
+
             <div className="text-center mt-12">
-               <p className="text-muted mb-4">{t.pricing.footer_text}</p>
-               <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="text-sage font-bold hover:underline">{t.pricing.footer_link}</a>
+              <p className="text-muted mb-4">{t.pricing.footer_text}</p>
+              <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="text-sage font-bold hover:underline">{t.pricing.footer_link}</a>
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
         <section id="contact" className="pb-24 px-6 max-w-6xl mx-auto scroll-mt-20">
-           <div className="bg-[#0d1719]/95 border border-slate-300/10 rounded-[28px] p-8 md:p-12 shadow-[0_24px_60px_rgba(2,6,7,0.6)] grid lg:grid-cols-2 gap-12 items-center">
-             <div>
-                <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.contact.subtitle}</p>
-                <h2 className="font-serif text-4xl text-ink mb-6">{t.contact.title}</h2>
-                <p className="text-muted text-lg mb-6">
-                  {t.contact.description}
+          <div className="bg-[#0d1719]/95 border border-slate-300/10 rounded-[28px] p-8 md:p-12 shadow-[0_24px_60px_rgba(2,6,7,0.6)] grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.contact.subtitle}</p>
+              <h2 className="font-serif text-4xl text-ink mb-6">{t.contact.title}</h2>
+              <p className="text-muted text-lg mb-6">
+                {t.contact.description}
+              </p>
+              <div className="space-y-2 text-sm text-slate-400">
+                <p>
+                  <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="hover:text-sage transition-colors">
+                    📱 +502 40464716
+                  </a>
                 </p>
-                <div className="space-y-2 text-sm text-slate-400">
-                  {/* Email removed */}
-                  <p>
-                    <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="hover:text-sage transition-colors">
-                      📱 +502 40464716
-                    </a>
-                  </p>
-                </div>
-             </div>
-             
-             <form className="space-y-5" onSubmit={handleFormSubmit}>
-               <div>
-                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.name}</label>
-                 <input 
-                    name="name" 
-                    type="text" 
-                    required 
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors" 
-                    placeholder={t.contact.form.name_ph} 
-                 />
-               </div>
-               <div>
-                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.email}</label>
-                 <input 
-                    name="email" 
-                    type="email" 
-                    required 
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors" 
-                    placeholder={t.contact.form.email_ph} 
-                 />
-               </div>
-               <div>
-                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.service}</label>
-                 <select 
-                    name="service" 
-                    value={selectedService}
-                    onChange={(e) => setSelectedService(e.target.value)}
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
-                 >
-                   <option value="Consultoría General">{t.contact.form.options.general}</option>
-                   <option value="Plan Básico">{t.contact.form.options.basic}</option>
-                   <option value="Plan Profesional">{t.contact.form.options.pro}</option>
-                   <option value="Solución a Medida">{t.contact.form.options.custom}</option>
-                 </select>
-               </div>
-               
-               {selectedService === 'Solución a Medida' && (
-                 <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                   <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.details}</label>
-                   <textarea
-                      name="details"
-                      rows={3}
-                      className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors placeholder:text-muted/40"
-                      placeholder={t.contact.form.details_ph}
-                   ></textarea>
-                 </div>
-               )}
+                <p>
+                  <a href="mailto:info@sagepoint-analytics.com" className="hover:text-sage transition-colors">
+                    ✉️ info@sagepoint-analytics.com
+                  </a>
+                </p>
+              </div>
+            </div>
 
-               <button 
+            <form className="space-y-5" onSubmit={handleFormSubmit}>
+              <div>
+                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.name}</label>
+                <input
+                  name="name"
+                  type="text"
+                  required
+                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  placeholder={t.contact.form.name_ph}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.email}</label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  placeholder={t.contact.form.email_ph}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.service}</label>
+                <select
+                  name="service"
+                  value={selectedService}
+                  onChange={(e) => setSelectedService(e.target.value)}
+                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                >
+                  <option value="Consultoría General">{t.contact.form.options.general}</option>
+                  <option value="Plan Básico">{t.contact.form.options.basic}</option>
+                  <option value="Plan Profesional">{t.contact.form.options.pro}</option>
+                  <option value="Solución a Medida">{t.contact.form.options.custom}</option>
+                </select>
+              </div>
+
+              {selectedService === 'Solución a Medida' && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.details}</label>
+                  <textarea
+                    name="details"
+                    rows={3}
+                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors placeholder:text-muted/40"
+                    placeholder={t.contact.form.details_ph}
+                  ></textarea>
+                </div>
+              )}
+
+              <button
                 type="submit"
                 disabled={formState !== 'idle' && formState !== 'error'}
                 className={`w-full py-4 rounded-full font-bold transition-all duration-300 
@@ -631,15 +635,15 @@ function App() {
                   ${formState === 'idle' ? 'bg-deep-sage text-dark hover:shadow-[0_10px_25px_rgba(47,176,148,0.25)] hover:-translate-y-1' : ''}
                   ${formState === 'sending' ? 'bg-deep-sage/50 text-dark opacity-80 cursor-wait' : ''}
                 `}
-               >
-                 {formState === 'idle' && t.contact.form.submit}
-                 {formState === 'sending' && t.contact.form.sending}
-                 {formState === 'success' && t.contact.form.success}
-                 {formState === 'error' && t.contact.form.error}
-               </button>
-               <p className="text-xs text-center text-muted/60">{t.contact.form.note}</p>
-             </form>
-           </div>
+              >
+                {formState === 'idle' && t.contact.form.submit}
+                {formState === 'sending' && t.contact.form.sending}
+                {formState === 'success' && t.contact.form.success}
+                {formState === 'error' && t.contact.form.error}
+              </button>
+              <p className="text-xs text-center text-muted/60">{t.contact.form.note}</p>
+            </form>
+          </div>
         </section>
 
       </main>
@@ -647,24 +651,27 @@ function App() {
       {/* Footer */}
       <footer className="border-t border-slate-300/5 bg-[#070d0e] pt-16 pb-8 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 mb-16">
-           <div className="col-span-1">
-             <a href="/" onClick={scrollToTop} className="font-serif text-2xl font-bold text-ink tracking-tight mb-4 block">Sagepoint</a>
-             <p className="text-sm text-muted">{t.footer.tagline}</p>
-           </div>
-           
-           <div>
-             <h4 className="font-bold text-ink mb-4">{t.footer.menu}</h4>
-             <ul className="space-y-2 text-sm text-muted">
-               <li><a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage">{t.nav.services}</a></li>
-               <li><a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage">{t.nav.benefits}</a></li>
-               <li><a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage">{t.nav.pricing}</a></li>
-             </ul>
-           </div>
+          <div className="col-span-1">
+            <a href="/" onClick={scrollToTop} className="font-serif text-2xl font-bold text-ink tracking-tight mb-4 block">Sagepoint</a>
+            <p className="text-sm text-muted">{t.footer.tagline}</p>
+          </div>
 
-           <div>
-             <h4 className="font-bold text-ink mb-4">{t.footer.contact}</h4>
-             <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="text-sm text-sage hover:underline">+502 40464716</a>
-           </div>
+          <div>
+            <h4 className="font-bold text-ink mb-4">{t.footer.menu}</h4>
+            <ul className="space-y-2 text-sm text-muted">
+              <li><a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage">{t.nav.services}</a></li>
+              <li><a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage">{t.nav.benefits}</a></li>
+              <li><a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage">{t.nav.pricing}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-ink mb-4">{t.footer.contact}</h4>
+            <div className="flex flex-col gap-2">
+              <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="text-sm text-sage hover:underline">+502 40464716</a>
+              <a href="mailto:info@sagepoint-analytics.com" className="text-sm text-sage hover:underline">info@sagepoint-analytics.com</a>
+            </div>
+          </div>
         </div>
         <div className="max-w-6xl mx-auto text-center text-xs text-muted/40">
           {t.footer.rights}
