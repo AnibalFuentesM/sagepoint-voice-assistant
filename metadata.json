@@ -1,0 +1,7 @@
+{
+  "name": "Sagepoint Voice Assistant",
+  "description": "A React conversion of the Sagepoint landing page featuring a Gemini Live API voice assistant in Spanish.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

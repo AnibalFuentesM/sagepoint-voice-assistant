@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sagepoint Analytics - Asistente de Voz</title>
+    <meta
+      name="description"
+      content="Sagepoint Analytics con asistente de voz Gemini Live en español."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['Fraunces', 'serif'],
+              sans: ['Space Grotesk', 'sans-serif'],
+            },
+            colors: {
+              ink: '#f4f7f6',
+              slate: '#d1ddda',
+              muted: '#8b9c99',
+              mist: '#152325',
+              sage: '#7bd6b4',
+              'deep-sage': '#2fb094',
+              copper: '#f3b56b',
+              sun: '#302116',
+              dark: '#0f1b1d', // Renamed from css 'white' to logical 'dark' for bg
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background: linear-gradient(130deg, #070f12 0%, #0d1b1c 45%, #14292c 100%);
+        color: #d1ddda;
+      }
+      .orb-a {
+        background: radial-gradient(circle, rgba(243, 181, 107, 0.35), transparent 70%);
+      }
+      .orb-b {
+        background: radial-gradient(circle, rgba(123, 214, 180, 0.35), transparent 70%);
+      }
+      .orb-c {
+        background: radial-gradient(circle, rgba(47, 176, 148, 0.3), transparent 70%);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.37.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
