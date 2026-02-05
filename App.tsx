@@ -99,26 +99,28 @@ const content = {
     },
     contact: {
       subtitle: "CONTACTO",
-      title: "Ready to boost your company with the power of your data?",
-      description: "Contact us today and get a free initial consultation. Together we will take your company to the next level, making informed decisions.",
+      title: "¿Listo para impulsar tu empresa con el poder de tus datos?",
+      description: "Contáctanos hoy y obtén una consultoría inicial gratuita. Juntos llevaremos tu empresa al siguiente nivel, tomando decisiones informadas.",
+      phone: "+502 40464716",
+      email: "info@sagepoint-analytics.com",
       form: {
-        name: "Name",
-        name_ph: "Your name",
-        email: "Work Email",
-        email_ph: "you@company.com",
-        service: "I'm interested in:",
+        name: "Nombre",
+        name_ph: "Tu nombre",
+        email: "Correo de trabajo",
+        email_ph: "tu@empresa.com",
+        service: "Me interesa:",
         options: {
-          general: "General Consultation",
-          basic: "Basic Plan ($300)",
-          pro: "Professional Plan ($600)",
-          custom: "Custom Solution"
+          general: "Consultoría General",
+          basic: "Plan Básico ($300)",
+          pro: "Plan Profesional ($600)",
+          custom: "Solución a Medida"
         },
-        details: "Tell us more details",
-        details_ph: "Describe your specific needs (data volume, current tools, goals...)",
-        submit: "Schedule my Free Consultation",
-        sending: "Sending...",
+        details: "Cuéntanos más detalles",
+        details_ph: "Describe tus necesidades específicas (volumen de datos, herramientas actuales, objetivos...)",
+        submit: "Agendar mi Consultoría Gratuita",
+        sending: "Enviando...",
         success: "¡Solicitud enviada!",
-        note: "We will respond in less than 24 hours.",
+        note: "Responderemos en menos de 24 horas.",
         error: "Error de conexión. Revisa constants.ts"
       }
     },
@@ -227,6 +229,8 @@ const content = {
       subtitle: "CONTACT",
       title: "Ready to boost your company with the power of your data?",
       description: "Contact us today and get a free initial consultation. Together we will take your company to the next level, making informed decisions.",
+      phone: "+502 40464716",
+      email: "info@sagepoint-analytics.com",
       form: {
         name: "Name",
         name_ph: "Your name",
@@ -566,13 +570,13 @@ function App() {
               </p>
               <div className="space-y-2 text-sm text-slate-400">
                 <p>
-                  <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="hover:text-sage transition-colors">
-                    📱 +502 40464716
+                  <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-sage transition-colors">
+                    📱 {t.contact.phone}
                   </a>
                 </p>
                 <p>
-                  <a href="mailto:info@sagepoint-analytics.com" className="hover:text-sage transition-colors">
-                    ✉️ info@sagepoint-analytics.com
+                  <a href={`mailto:${t.contact.email}`} className="hover:text-sage transition-colors">
+                    ✉️ {t.contact.email}
                   </a>
                 </p>
               </div>
@@ -668,8 +672,8 @@ function App() {
           <div>
             <h4 className="font-bold text-ink mb-4">{t.footer.contact}</h4>
             <div className="flex flex-col gap-2">
-              <a href="https://wa.me/50240464716" target="_blank" rel="noopener noreferrer" className="text-sm text-sage hover:underline">+502 40464716</a>
-              <a href="mailto:info@sagepoint-analytics.com" className="text-sm text-sage hover:underline">info@sagepoint-analytics.com</a>
+              <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-sm text-sage hover:underline">{t.contact.phone}</a>
+              <a href={`mailto:${t.contact.email}`} className="text-sm text-sage hover:underline">{t.contact.email}</a>
             </div>
           </div>
         </div>
