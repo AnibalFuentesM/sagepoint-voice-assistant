@@ -108,6 +108,29 @@ const content = {
         name_ph: "Tu nombre",
         email: "Correo de trabajo",
         email_ph: "tu@empresa.com",
+        industry: "Industria (Opcional)",
+        industry_ph: "Selecciona tu industria",
+        industry_options: {
+          retail: "Comercio / Retail",
+          services: "Servicios",
+          manufacturing: "Manufactura",
+          tech: "Tecnología",
+          logistics: "Logística",
+          other: "Otro"
+        },
+        country: "País (Opcional)",
+        country_ph: "Selecciona tu país",
+        country_options: {
+          gt: "Guatemala",
+          sv: "El Salvador",
+          hn: "Honduras",
+          ni: "Nicaragua",
+          cr: "Costa Rica",
+          pa: "Panamá",
+          mx: "México",
+          us: "Estados Unidos",
+          other: "Otro"
+        },
         service: "Me interesa:",
         options: {
           general: "Consultoría General",
@@ -236,6 +259,29 @@ const content = {
         name_ph: "Your name",
         email: "Work Email",
         email_ph: "you@company.com",
+        industry: "Industry (Optional)",
+        industry_ph: "Select your industry",
+        industry_options: {
+          retail: "Retail",
+          services: "Services",
+          manufacturing: "Manufacturing",
+          tech: "Technology",
+          logistics: "Logistics",
+          other: "Other"
+        },
+        country: "Country (Optional)",
+        country_ph: "Select your country",
+        country_options: {
+          gt: "Guatemala",
+          sv: "El Salvador",
+          hn: "Honduras",
+          ni: "Nicaragua",
+          cr: "Costa Rica",
+          pa: "Panama",
+          mx: "Mexico",
+          us: "United States",
+          other: "Other"
+        },
         service: "I'm interested in:",
         options: {
           general: "General Consultation",
@@ -295,7 +341,8 @@ function App() {
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     let serviceValue = formData.get('service') as string;
-    const details = formData.get('details') as string;
+    const industry = formData.get('industry') as string;
+    const country = formData.get('country') as string;
 
     // Validación manual estricta
     if (!name || name.trim().length < 2) {
@@ -319,7 +366,10 @@ function App() {
     const data = {
       name: name,
       email: email,
+      industry: industry || 'No especificado',
+      country: country || 'No especificado',
       service: serviceValue,
+      language: lang === 'es' ? 'Español' : 'English',
       type: 'Formulario Web'
     };
 
@@ -616,6 +666,33 @@ function App() {
                   <option value="Plan Profesional">{t.contact.form.options.pro}</option>
                   <option value="Solución a Medida">{t.contact.form.options.custom}</option>
                 </select>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.industry}</label>
+                  <select
+                    name="industry"
+                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  >
+                    <option value="">{t.contact.form.industry_ph}</option>
+                    {Object.entries(t.contact.form.industry_options).map(([key, label]) => (
+                      <option key={key} value={label as string}>{label as string}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.country}</label>
+                  <select
+                    name="country"
+                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  >
+                    <option value="">{t.contact.form.country_ph}</option>
+                    {Object.entries(t.contact.form.country_options).map(([key, label]) => (
+                      <option key={key} value={label as string}>{label as string}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {selectedService === 'Solución a Medida' && (
