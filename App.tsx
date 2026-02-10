@@ -343,6 +343,7 @@ function App() {
     let serviceValue = formData.get('service') as string;
     const industry = formData.get('industry') as string;
     const country = formData.get('country') as string;
+    const details = formData.get('details') as string; // Fix: Define details
 
     // Validación manual estricta
     if (!name || name.trim().length < 2) {

@@ -31,6 +31,9 @@ export async function submitToGoogleSheet(data: Record<string, string>) {
     return false;
   }
   
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
   try {
     // Usamos FormData estándar que funciona mejor con no-cors y GAS
     const formData = new FormData();
@@ -46,12 +49,21 @@ export async function submitToGoogleSheet(data: Record<string, string>) {
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       body: formData,
-      mode: 'no-cors'
+      mode: 'no-cors',
+      signal: controller.signal
     });
     
+    clearTimeout(timeoutId);
     console.log("✅ Datos enviados a Google Sheet (modo opaco)");
     return true;
-  } catch (e) {
+  } catch (e: any) {
+    clearTimeout(timeoutId);
+    if (e.name === 'AbortError') {
+      console.error("❌ Error: La solicitud excedió el tiempo de espera (10s).");
+      // Even if it times out, in no-cors mode, it might have been sent. 
+      // But we return false to trigger the error state in UI so user knows something happened.
+      return false; 
+    }
     console.error("❌ Error enviando datos a Google Sheet", e);
     return false;
   }
