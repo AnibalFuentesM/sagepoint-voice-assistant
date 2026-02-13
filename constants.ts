@@ -40,4 +40,4 @@ export const SHEET_ID = '1JIHkkwn4fLVz6cV6Bb_CS2fryKBP-WbaFLROeuctV4c';
 // 8. Copia la "URL de la aplicación web" (Web App URL) que termina en '/exec'.
 // 9. Pégala abajo reemplazando el texto.
 
-export const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmZCrLF-QJO6gaje26VsZJR-L2ap7rdMD8BUWoyo1UVRNI9nIBXgLsk5h5FGF71Ag9/exec';
+export const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyD5CjQ2bChRogiXhRiYFkKbLmIYumO6zrhMzKeP-WZOFUwqfuQwsRCyb8mvdiqbch4/exec';
