@@ -11,7 +11,7 @@ Para que el asistente de voz funcione en producción, necesitas agregar la API K
 5. Haz clic en **"Add New"** o **"Add"**
 6. Configura:
    - **Name (Nombre)**: `GEMINI_API_KEY`
-   - **Value (Valor)**: `AIzaSyBhIHWVh8vaRbwTfGfWfFnwY8CcnIQ4nrY`
+   - **Value (Valor)**: `AIzaSyA5D13nhD6qvJHglG2Ww7mJrQjuggmY33E`
    - **Environment**: Selecciona todas (Production, Preview, Development)
 7. Haz clic en **"Save"**
 8. Ve a la pestaña **"Deployments"**
