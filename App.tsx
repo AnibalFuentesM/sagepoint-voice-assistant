@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import VoiceAssistant from './components/VoiceAssistant';
+import GlobeDashboard from './components/GlobeDashboard';
 import { submitToGoogleSheet } from './utils/sheetUtils';
 
 // Content Dictionary for Translations
@@ -24,11 +25,8 @@ const content = {
         visibility: "visibilidad total del negocio"
       },
       dashboard: {
-        title: "Tus Ventas en Tiempo Real",
+        title: "Actividad en Tiempo Real (IA)",
         updated: "Actualizado",
-        projection: "Proyección de Ingresos (IA)",
-        trend: "Tendencia positiva detectada",
-        alerts: "Alertas Inteligentes",
         stock: "Stock bajo: Producto A (Reordenar)",
         goal: "Meta de ventas semanal alcanzada"
       }
@@ -175,11 +173,8 @@ const content = {
         visibility: "total business visibility"
       },
       dashboard: {
-        title: "Your Real-Time Sales",
+        title: "Global Data Analysis (AI)",
         updated: "Updated",
-        projection: "Revenue Projection (AI)",
-        trend: "Positive trend detected",
-        alerts: "Smart Alerts",
         stock: "Low Stock: Product A (Reorder)",
         goal: "Weekly sales goal reached"
       }
@@ -480,41 +475,12 @@ function App() {
             </div>
           </div>
 
-          <div className="relative animate-[floatIn_0.9s_ease-out_0.15s_both]">
-            <div className="bg-[#0f191b]/95 border border-slate-300/10 rounded-3xl p-6 shadow-[0_24px_60px_rgba(2,6,7,0.6)] backdrop-blur-sm">
-              <div className="flex justify-between items-center text-sm mb-6 border-b border-slate-300/10 pb-4">
-                <span className="text-muted">{t.hero.dashboard.title}</span>
-                <span className="text-deep-sage font-semibold flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-deep-sage animate-pulse"></span>
-                  {t.hero.dashboard.updated}
-                </span>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-mist p-4 rounded-2xl">
-                  <h3 className="font-serif text-ink mb-4">{t.hero.dashboard.projection}</h3>
-                  {/* Trend text removed */}
-                  <div className="flex items-end gap-2 h-20">
-                    {[42, 58, 65, 80].map((h, i) => (
-                      <div key={i} className="flex-1 rounded-t-lg opacity-90 bg-gradient-to-b from-sage to-deep-sage" style={{ height: `${h}%` }}></div>
-                    ))}
-                  </div>
-                </div>
-                <div className="bg-mist p-4 rounded-2xl">
-                  <h3 className="font-serif text-ink mb-3">{t.hero.dashboard.alerts}</h3>
-                  <ul className="space-y-2 text-sm text-muted">
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-copper"></div>
-                      {t.hero.dashboard.stock}
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-sage"></div>
-                      {t.hero.dashboard.goal}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <GlobeDashboard texts={{
+            title: t.hero.dashboard.title,
+            updated: t.hero.dashboard.updated,
+            stockAlert: t.hero.dashboard.stock,
+            goalAlert: t.hero.dashboard.goal
+          }} />
         </section>
 
         {/* Services Section */}
