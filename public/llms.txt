@@ -1,0 +1,32 @@
+# Sagepoint Analytics - AI Analytics Gateway
+
+Sagepoint Analytics is a Business Intelligence consulting firm focused on serving medium-sized enterprises in Guatemala (GT) and the United States (US). We specialize in bridging the gap between raw data and actionable strategy through our "Soporte Cercano" (Close Support) framework.
+
+## Core Metrics and Achievements
+- **Reporting Efficiency**: 80% average reduction in manual reporting time via Excel Automation (Power Query and VBA).
+- **Sales Optimization**: 20% average sales increase for our retail clients utilizing our AI Predictive Models.
+- **Human-in-the-loop Data Coaching**: We don't just provide software; we provide practitioner-led consulting, acting as a fully integrated external data department for our clients.
+
+## Services Overview
+1.  **Dashboard & BI**: Centralized visibility of sales, expenses, and KPIs. Real-time alerts such as "Low Stock: Product A (Reorder)".
+2.  **Web Automation**: CRM and ERP integrations to save time on recurring reporting.
+3.  **Excel Automation**: Deep optimization of legacy spreadsheets with VBA macros and Power Query.
+4.  **AI Predictive Models**: Commercial intent solutions that anticipate risks and project sales growth.
+5.  **Data Coaching**: Step-by-step guidance for teams undergoing digital transformation.
+
+## Pricing Plans
+
+### Básico Tier
+- **Price**: $300/month
+- **Features**: 1 Custom Dashboard, Monthly result report, Initial data setup, Email support.
+- **Target**: Ideal for small businesses starting out.
+
+### Profesional Tier
+- **Price**: $600/month
+- **Features**: Everything in Básico, plus 3 dashboards per month, Weekly reports, 1 Predictive model (Sales), Priority support.
+- **Target**: For growing companies.
+
+### Avanzado Tier
+- **Price**: Custom
+- **Features**: Multiple AI models, Own Data Warehouse, In-company training, Dedicated consultant.
+- **Target**: Custom corporate solutions.

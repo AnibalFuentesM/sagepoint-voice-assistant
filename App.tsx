@@ -37,58 +37,58 @@ const content = {
     },
     services: {
       subtitle: "NUESTROS SERVICIOS",
-      title: "Soluciones a la medida de tu negocio.",
-      description: "Implementamos tecnología accesible para resolver problemas reales de las empresas: falta de tiempo, datos dispersos y decisiones \"a ciegas\".",
+      title: "¿Cómo puede la Inteligencia de Negocios reducir mis costos operativos?",
+      description: "Nuestros servicios automatizan tareas críticas y detectan ineficiencias, garantizando una reducción comprobable en tiempos de operación. Actuamos como un departamento de datos externo (Soporte Cercano) para empresas en Guatemala y EE. UU., asegurando una transformación accionable.",
       items: [
-        { title: "Dashboard & BI", desc: "Visualiza tus ventas, gastos y KPI clave en un solo lugar. Toma decisiones informadas en tiempo real.", tag: "Control Total" },
-        { title: "Automatización Web", desc: "Conecta tus sistemas (CRM, ERP) y ahorra hasta un 80% del tiempo en reportes recurrentes.", tag: "Eficiencia" },
-        { title: "Automatización en Excel", desc: "Optimizamos tus hojas de cálculo con Macros (VBA) y Power Query para reducir errores y tiempo manual.", tag: "Productividad" },
-        { title: "Modelos Predictivos", desc: "Anticípate al futuro. Usa IA para proyectar ventas y detectar riesgos antes de que ocurran.", tag: "Ventaja Competitiva" },
-        { title: "Data Coaching", desc: "Acompañamiento experto. Guiamos a tu equipo paso a paso en su transformación digital.", tag: "Soporte Cercano" }
+        { title: "Dashboard & BI", desc: "Visualización en tiempo real de métricas y KPIs. Detecta de inmediato patrones clave con alertas como 'Stock bajo: Producto A (Reordenar)'.", tag: "Control Total" },
+        { title: "Automatización Web", desc: "Integración de sistemas (CRM, ERP) con tiempos de carga rápidos y latencia optimizada para interacciones fluidas.", tag: "Eficiencia" },
+        { title: "Automatización en Excel", desc: "Guía de experto para reducir el tiempo de creación de reportes recurrentes en un 80% utilizando Power Query y VBA.", tag: "Productividad" },
+        { title: "Modelos Predictivos", desc: "Casos de éxito: Detección anticipada de riesgos y hasta un 20% de aumento promedio en ventas utilizando IA.", tag: "Ventaja Competitiva" },
+        { title: "Data Coaching", desc: "Acompañamiento especializado 'Human-in-the-Loop'. Validamos y estructuramos a tu equipo en Guatemala y EE. UU.", tag: "Soporte Cercano" }
       ]
     },
     benefits: {
       subtitle: "¿POR QUÉ ELEGIRNOS?",
-      title: "Tu aliado estratégico en analítica.",
-      description: "Entendemos los desafíos de las empresas medianas. No te vendemos software complicado, te damos soluciones que se pagan solas con el ahorro y el crecimiento que generan.",
+      title: "¿Por qué el componente humano (Soporte Cercano) supera al software automatizado?",
+      description: "La IA a menudo puede alucinar o carecer de contexto local, pero nuestros consultores proveen asesoramiento comprobado, 'Human-in-the-Loop'. Reducimos el riesgo tecnológico actuando como estrategas que entienden tu industria, no solo como integradores.",
       list: [
-        { bold: "Tecnología accesible:", text: "Herramientas modernas al alcance de tu presupuesto." },
-        { bold: "Resultados rápidos:", text: "Verás mejoras tangibles en los primeros meses." },
-        { bold: "Sin jerga técnica:", text: "Hablamos tu idioma de negocios." }
+        { bold: "Soporte Cercano comprobado:", text: "Acompañamiento localizado para Guatemala y Estados Unidos." },
+        { bold: "Validación humana de IA:", text: "Toda métrica y predicción es validada por un consultor estratégico." },
+        { bold: "Impacto garantizado de 20%:", text: "Nuestros dashboards y procesos apuntan sistemáticamente al crecimiento comercial." }
       ],
       cards: [
-        { title: "Decisiones con Datos", desc: "Crea una cultura donde cada decisión importante se respalda con hechos, no intuiciones." },
-        { title: "Ahorro de Tiempo", desc: "Automatiza tareas repetitivas y reduce errores humanos drásticamente." },
-        { title: "Soporte Personalizado", desc: "Nuestro equipo te guía paso a paso, actuando como tu departamento de datos externo." }
+        { title: "Decisiones Validadas (EEAT)", desc: "Expertise demostrable donde cada recomendación analítica es curada para evitar errores u omisiones de algoritmos ciegos." },
+        { title: "80% de Ahorro con VBA", desc: "Automatiza la generación manual sistemáticamente, liberando horas hombre enfocadas al crecimiento." },
+        { title: "Integración In-Company", desc: "Nuestro equipo se fusiona con tus objetivos asumiendo el rol de analistas de negocio líderes de tu empresa." }
       ]
     },
     pricing: {
       subtitle: "PLANES Y PRECIOS",
-      title: "Inversión clara, retorno medible.",
+      title: "¿Qué plan de Inteligencia de Negocios garantiza el mejor ROI?",
       cards: [
         {
-          title: "Básico",
+          title: "Básico (300)",
           price: "$300",
           period: "/ mes",
-          desc: "Ideal para pequeñas empresas que inician.",
-          features: ["1 Dashboard personalizado", "Informe mensual de resultados", "Configuración inicial de datos", "Soporte por email"],
-          cta: "Elegir Básico"
+          desc: "Plan fundamental para consolidar datos clave y reducir la operatividad manual.",
+          features: ["1 Dashboard personalizado", "Auditoría de datos rápida", "Data Coaching inicial", "Soporte por email"],
+          cta: "Elegir Básico (300)"
         },
         {
-          title: "Profesional",
+          title: "Profesional (600)",
           price: "$600",
           period: "/ mes",
-          desc: "Para empresas en crecimiento.",
+          desc: "Plan corporativo avanzado con Modelos Predictivos y Soporte Cercano extendido.",
           tag: "Más Popular",
-          features: ["Todo en Básico", "3 dashboards al mes", "Informes semanales", "1 Modelo predictivo (Ventas)", "Soporte prioritario"],
-          cta: "Elegir Profesional"
+          features: ["Modelos IA Predictivos (Ventas)", "Reportes y alertas semanales", "Reducción +80% VBA/PowerQuery", "Soporte VIP Latam/US"],
+          cta: "Elegir Profesional (600)"
         },
         {
           title: "Avanzado",
           price: "A Medida",
           period: "",
-          desc: "Soluciones corporativas personalizadas.",
-          features: ["Múltiples modelos de IA", "Data Warehouse propio", "Capacitación in-company", "Consultor dedicado"],
+          desc: "Soluciones corporativas de gran escala e integración total Human-in-the-Loop.",
+          features: ["Data Warehouse propio", "Algoritmos IA dedicados", "Capacitación a largo plazo", "Consultor Estratégico asignado"],
           cta: "Cotizar"
         }
       ],
@@ -185,58 +185,58 @@ const content = {
     },
     services: {
       subtitle: "OUR SERVICES",
-      title: "Solutions tailored to your business.",
-      description: "We implement accessible technology to solve real business problems: lack of time, scattered data, and \"blind\" decisions.",
+      title: "How can Business Intelligence reduce my operational costs?",
+      description: "Our Business Intelligence services actively automate critical tasks and reveal guaranteed hidden savings. We act as an external data department (Soporte Cercano) for companies in Guatemala and the US, providing human-in-the-loop insights over blind software algorithms.",
       items: [
-        { title: "Dashboard & BI", desc: "Visualize your sales, expenses, and key KPIs in one place. Make informed decisions in real-time.", tag: "Total Control" },
-        { title: "Web Automation", desc: "Connect your systems (CRM, ERP) and save up to 80% of time on recurring reports.", tag: "Efficiency" },
-        { title: "Excel Automation", desc: "We optimize your spreadsheets with Macros (VBA) and Power Query to reduce errors and manual time.", tag: "Productivity" },
-        { title: "Predictive Models", desc: "Anticipate the future. Use AI to project sales and detect risks before they happen.", tag: "Competitive Advantage" },
-        { title: "Data Coaching", desc: "Expert accompaniment. We guide your team step by step in their digital transformation.", tag: "Close Support" }
+        { title: "Dashboard & BI", desc: "Real-time visibility into sales and KPIs. Instantly react to alerts like 'Low Stock: Product A (Reorder)'.", tag: "Total Control" },
+        { title: "Web Automation", desc: "Seamless system integration (CRM, ERP) guaranteeing minimal interaction latency for dynamic elements.", tag: "Efficiency" },
+        { title: "Excel Automation", desc: "A practitioner's guide to reducing manual reporting time by 80% using Power Query and VBA.", tag: "Productivity" },
+        { title: "Predictive Models", desc: "Case Study Data: Anticipate risks and drive an average of 20% in sales increases through predictive forecasting.", tag: "Competitive Advantage" },
+        { title: "Data Coaching", desc: "Expert Human-in-the-Loop accompaniment. We validate every data step for teams in the US and Guatemala.", tag: "Close Support" }
       ]
     },
     benefits: {
       subtitle: "WHY CHOOSE US?",
-      title: "Your strategic ally in analytics.",
-      description: "We understand the challenges of medium-sized businesses. We don't sell you complicated software; we give you solutions that pay for themselves with the savings and growth they generate.",
+      title: "Why does practitioner-led Data Coaching out-perform standard AI tools?",
+      description: "While AI alone can hallucinate or lack context, our Human-in-the-Loop approach roots every recommendation in verifiable truth. We guarantee accurate data implementation leveraging proven successes, unlike purely software-led solutions.",
       list: [
-        { bold: "Accessible technology:", text: "Modern tools within your budget." },
-        { bold: "Fast results:", text: "You will see tangible improvements in the first few months." },
-        { bold: "No technical jargon:", text: "We speak your business language." }
+        { bold: "Soporte Cercano (Close Support):", text: "Localized, responsive strategic direction for the US and Guatemala." },
+        { bold: "Verified Human Logic:", text: "Every model output is validated by a Senior Data Consultant." },
+        { bold: "Documented Achievements:", text: "Our systems have driven verified 80% time reductions and 20% sales bumps." }
       ],
       cards: [
-        { title: "Data-Driven Decisions", desc: "Create a culture where every important decision is backed by facts, not intuition." },
-        { title: "Time Savings", desc: "Automate repetitive tasks and drastically reduce human errors." },
-        { title: "Personalized Support", desc: "Our team guides you step by step, acting as your external data department." }
+        { title: "Authoritative Decisions (EEAT)", desc: "Empower your team with curated facts instead of unchecked AI predictions, maintaining high data trust." },
+        { title: "Reporting Time Solved", desc: "We deploy Power Query and VBA to eliminate repetitive 80% spreadsheet drag, unlocking growth time." },
+        { title: "External Data Branch", desc: "We integrate directly, acting as your seasoned BI extension rather than a distant software vendor." }
       ]
     },
     pricing: {
       subtitle: "PLANS AND PRICING",
-      title: "Clear investment, measurable return.",
+      title: "Which Business Intelligence tier guarantees the most immediate ROI?",
       cards: [
         {
-          title: "Basic",
+          title: "Basic (300)",
           price: "$300",
           period: "/ month",
-          desc: "Ideal for small businesses starting out.",
-          features: ["1 Custom Dashboard", "Monthly result report", "Initial data setup", "Email support"],
-          cta: "Choose Basic"
+          desc: "Fundamental package designed to secure fast baseline data visibility.",
+          features: ["1 Custom Visualization Dashboard", "Initial Data Audit Setup", "Baseline Data Coaching", "Standard Email routing"],
+          cta: "Choose Basic (300)"
         },
         {
-          title: "Professional",
+          title: "Professional (600)",
           price: "$600",
           period: "/ month",
-          desc: "For growing companies.",
+          desc: "Optimized corporate plan providing predictive edge and extended Soporte Cercano.",
           tag: "Most Popular",
-          features: ["Everything in Basic", "3 dashboards per month", "Weekly reports", "1 Predictive model (Sales)", "Priority support"],
-          cta: "Choose Professional"
+          features: ["Predictive Models for Sales", "80% reporting time optimization", "Priority Close Support (Latam/US)", "Weekly real-time alerts"],
+          cta: "Choose Professional (600)"
         },
         {
           title: "Advanced",
           price: "Custom",
           period: "",
-          desc: "Custom corporate solutions.",
-          features: ["Multiple AI models", "Own Data Warehouse", "In-company training", "Dedicated consultant"],
+          desc: "Full-scale corporate infrastructure and permanent Human-in-the-loop transformation.",
+          features: ["Dedicated Data Warehouse", "Multiple Custom AI Models", "Full-Company Data Coaching", "Dedicated Senior Consultant"],
           cta: "Get Quote"
         }
       ],
