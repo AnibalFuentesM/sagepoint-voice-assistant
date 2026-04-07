@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import VoiceAssistant from './components/VoiceAssistant';
 import GlobeDashboard from './components/GlobeDashboard';
+import SocialConnectButtons from './components/SocialConnectButtons';
 import { submitToGoogleSheet } from './utils/sheetUtils';
 
 // Content Dictionary for Translations
@@ -150,7 +152,7 @@ const content = {
       menu: "Menu",
       legal: "Legal",
       contact: "Contact",
-      rights: "© 2024 Sagepoint Analytics. All rights reserved."
+      rights: `© ${new Date().getFullYear()} Sagepoint Analytics. All rights reserved.`
     }
   },
   en: {
@@ -298,7 +300,7 @@ const content = {
       menu: "Menu",
       legal: "Legal",
       contact: "Contact",
-      rights: "© 2024 Sagepoint Analytics. All rights reserved."
+      rights: `© ${new Date().getFullYear()} Sagepoint Analytics. All rights reserved.`
     }
   }
 };
@@ -411,6 +413,7 @@ function App() {
             <a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage transition-colors">{t.nav.services}</a>
             <a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage transition-colors">{t.nav.benefits}</a>
             <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage transition-colors">{t.nav.pricing}</a>
+            <Link to="/portfolio" className="hover:text-sage transition-colors">Portfolio</Link>
 
             {/* Language Toggles */}
             <div className="flex items-center gap-2 px-2 border-l border-slate-700/50">
@@ -457,6 +460,7 @@ function App() {
                 {t.hero.cta_services}
               </a>
             </div>
+            <SocialConnectButtons lang={lang} />
 
             {/* Metrics / Social Proof */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-slate-300/10">

@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
+import PortfolioPage from './components/PortfolioPage';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -10,6 +13,11 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
