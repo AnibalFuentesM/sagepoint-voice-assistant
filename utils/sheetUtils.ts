@@ -45,16 +45,23 @@ export async function submitToGoogleSheet(data: Record<string, string>) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      body: params,
-      redirect: 'follow',
-      signal: controller.signal
-    });
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: params,
+        redirect: 'follow',
+        signal: controller.signal
+      });
 
-    clearTimeout(timeoutId);
-    console.log("✅ Datos enviados a Google Sheet (cors, redirect follow)", response.status);
-    return true;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log("✅ Datos enviados a Google Sheet (cors, redirect follow)", response.status);
+      return true;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   } catch (corsError: any) {
     console.warn("⚠️ Intento CORS falló, intentando no-cors...", corsError.message || corsError.name);
   }

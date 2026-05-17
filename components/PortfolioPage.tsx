@@ -200,6 +200,9 @@ function PortfolioSection() {
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={index === 0 ? 'high' : 'auto'}
                   className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-background/10 group-hover:bg-transparent transition-colors duration-500" />

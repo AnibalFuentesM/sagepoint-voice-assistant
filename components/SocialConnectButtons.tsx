@@ -16,6 +16,7 @@ type SocialConnectButtonsProps = {
 
 type SocialButtonConfig = {
   id: 'facebook' | 'instagram' | 'linkedin';
+  key?: React.Key;
   href: string;
   label: string;
   title: string;

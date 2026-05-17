@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import VoiceAssistant from './components/VoiceAssistant';
 import GlobeDashboard from './components/GlobeDashboard';
 import SocialConnectButtons from './components/SocialConnectButtons';
 import { submitToGoogleSheet } from './utils/sheetUtils';
+
+const VoiceAssistant = lazy(() => import('./components/VoiceAssistant'));
 
 // Content Dictionary for Translations
 const content = {
@@ -730,7 +731,9 @@ function App() {
         </div>
       </footer>
 
-      <VoiceAssistant lang={lang} />
+      <Suspense fallback={null}>
+        <VoiceAssistant lang={lang} />
+      </Suspense>
 
     </div>
   );
