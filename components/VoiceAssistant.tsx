@@ -520,7 +520,7 @@ ${SAGEPOINT_INFO}
                             width: 24, height: 24, borderRadius: 7, flexShrink: 0,
                             background: chip.primary ? 'rgba(7,13,14,0.2)' : `${C.sage}18`,
                             color: chip.primary ? C.dark : C.sage,
-                            display: 'flex', alignItems: 'center', justifycontent: 'center', fontSize: 12,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12,
                         }}>→</span>
                         <span style={{ flex: 1 }}>
                             <span style={{ display: 'block', fontSize: 13, fontWeight: 600, lineHeight: 1.2 }}>{chip.t}</span>
