@@ -1,15 +1,16 @@
 {
-  "name": "sagepoint-voice-assistant",
+  "name": "sagepoint-web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && node scripts/postbuild-seo.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/genai": "^1.37.0",
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.98",
     "@tailwindcss/vite": "^4.2.2",
     "cobe": "^0.6.5",
     "lucide-react": "^1.7.0",

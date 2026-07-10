@@ -1,32 +1,50 @@
 # Sagepoint Analytics - AI Analytics Gateway
 
-Sagepoint Analytics is a Business Intelligence consulting firm focused on serving medium-sized enterprises in Guatemala (GT) and the United States (US). We specialize in bridging the gap between raw data and actionable strategy through our "Soporte Cercano" (Close Support) framework.
+Sagepoint Analytics is a Business Intelligence consulting firm serving SMEs in Guatemala (GT), Central America and the United States (US). We deliver productized, fixed-scope BI projects through our "Soporte Cercano" (Close Support) human-in-the-loop framework.
+The portfolio includes hands-on AI and operations automation experience using Python, Playwright, Google Apps Script, Google Sheets, Slack workflows, APIs and dashboard/reporting systems.
 
 ## Core Metrics and Achievements
 - **Reporting Efficiency**: 80% average reduction in manual reporting time via Excel Automation (Power Query and VBA).
 - **Sales Optimization**: 20% average sales increase for our retail clients utilizing our AI Predictive Models.
-- **Human-in-the-loop Data Coaching**: We don't just provide software; we provide practitioner-led consulting, acting as a fully integrated external data department for our clients.
+- **Human-in-the-loop Data Coaching**: Practitioner-led consulting, acting as a fully integrated external data department for our clients.
 
 ## Services Overview
-1.  **Dashboard & BI**: Centralized visibility of sales, expenses, and KPIs. Real-time alerts such as "Low Stock: Product A (Reorder)".
-2.  **Web Automation**: CRM and ERP integrations to save time on recurring reporting.
-3.  **Excel Automation**: Deep optimization of legacy spreadsheets with VBA macros and Power Query.
-4.  **AI Predictive Models**: Commercial intent solutions that anticipate risks and project sales growth.
-5.  **Data Coaching**: Step-by-step guidance for teams undergoing digital transformation.
+1. **Dashboard & BI**: Centralized visibility of sales, expenses, and KPIs with real-time alerts.
+2. **Web Automation**: CRM and ERP integrations to save time on recurring reporting.
+3. **Excel Automation**: Deep optimization of legacy spreadsheets with VBA macros and Power Query.
+4. **AI and Operations Automation**: Python/Playwright browser automation, Slack alert workflows, API reporting, structured JSON exports and Google Sheets logging.
+5. **AI Predictive Models**: Solutions that anticipate risks and project sales growth.
+6. **Data Coaching**: Step-by-step guidance for teams undergoing digital transformation.
 
-## Pricing Plans
+## Portfolio proof points
 
-### Básico Tier
-- **Price**: $300/month
-- **Features**: 1 Custom Dashboard, Monthly result report, Initial data setup, Email support.
-- **Target**: Ideal for small businesses starting out.
+- **InboxHealth Admin Portal Automation**: Python and Playwright workflow for API integration lookup, credential-link retrieval, screenshots, structured JSON output and optional Google Sheets export, with MFA-aware session handling.
+- **Zendesk Talk API Reporting**: Google Apps Script and Google Sheets workflow connected to Zendesk Talk, replacing manual exports and validating 11,327 Explore call units against API data.
+- **IBH BPO Production Reporting**: Executive reporting refresh with 33,370 rows across 20 months, 79 production weeks, 14 PM systems and 22 source files.
+- **ECW Alert Automation**: In-progress workflow connecting Slack alerts, Inbox Health credential lookup, Google Sheets logging and Playwright-assisted password rotation.
 
-### Profesional Tier
-- **Price**: $600/month
-- **Features**: Everything in Básico, plus 3 dashboards per month, Weekly reports, 1 Predictive model (Sales), Priority support.
-- **Target**: For growing companies.
+## Spanish Search Context
+Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, dashboards ejecutivos, automatizacion de reportes, automatizacion de Excel con Power Query/VBA, modelos predictivos, integraciones CRM/ERP y acompanamiento humano para equipos en Guatemala, Centroamerica y Estados Unidos.
 
-### Avanzado Tier
-- **Price**: Custom
-- **Features**: Multiple AI models, Own Data Warehouse, In-company training, Dedicated consultant.
-- **Target**: Custom corporate solutions.
+## Packages (fixed-scope projects)
+
+### Express Assessment + Quick-Win Dashboard
+- **Price**: $750 USD one-time | **Timeline**: 2 weeks
+- **Includes**: Audit of up to 2 data sources, 1 dashboard with up to 8 key KPIs, prioritized opportunity report, 1 revision round.
+- **Not included**: Automation, integrations, predictive models.
+
+### Executive Dashboard + Automation (Most Popular)
+- **Price**: from $2,500 USD per project | **Timeline**: 4–6 weeks
+- **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated reporting flow (−80% time), 2 training sessions, documentation, 2 revision rounds.
+- **Not included**: Data warehouse, custom AI models.
+
+### Custom Solution
+- **Price**: formal quote | **Timeline**: to be defined
+- **Includes**: Dedicated predictive models, CRM/ERP integrations, data warehouse. Scope defined in a formal quote.
+
+### Soporte Cercano Monthly (add-on)
+- **Price**: $300 / $600 / $1,000 USD/month
+- **Includes**: Dashboard maintenance, adjustments, coaching and a priority WhatsApp line. Tiers depend on support intensity, with fixed monthly hours that do not roll over.
+
+## Getting Started
+The initial assessment (30–45 minute video call) is free. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com

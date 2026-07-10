@@ -1,20 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Sagepoint Analytics — Web
 
-# Run and deploy your AI Studio app
+Landing page bilingüe (ES/EN) de Sagepoint Analytics: paquetes productizados de inteligencia de negocios para PYMEs en Guatemala y EE. UU.
 
-This contains everything you need to run your app locally.
+Stack: Vite + React 19 + Tailwind (CDN) + react-router-dom. Deploy en Vercel.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1J9j91A59MQO57OANanw9ETYKwx6RBiHU
+## Correr localmente
 
-## Run Locally
+**Prerrequisitos:** Node.js
 
-**Prerequisites:**  Node.js
+1. Instalar dependencias: `npm install`
+2. Correr la app: `npm run dev` (puerto 3000)
+3. Build de producción: `npm run build` · Preview: `npm run preview`
 
+## Configuración
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- **Formulario de contacto**: envía a Google Sheets vía Apps Script (`GOOGLE_SCRIPT_URL` en `constants.ts`).
+- **Google Analytics 4**: reemplaza `G-XXXXXXXXXX` en `index.html` con tu Measurement ID real.

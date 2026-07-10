@@ -204,7 +204,7 @@ export default function SocialConnectButtons({ lang }: SocialConnectButtonsProps
     },
     {
       id: 'linkedin',
-      href: 'https://www.linkedin.com/company/112223220/admin/dashboard/',
+      href: 'https://www.linkedin.com/company/112223220/',
       label: localizedCopy.buttons.linkedin,
       title: localizedCopy.buttons.linkedin,
       border: 'rgba(128, 158, 168, 0.24)',

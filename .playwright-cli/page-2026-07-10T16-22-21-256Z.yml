@@ -1,0 +1,458 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Sagepoint Analytics" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e13]: Sagepoint
+        - generic [ref=e14]: Analytics
+      - navigation [ref=e15]:
+        - link "Servicios" [ref=e16] [cursor=pointer]:
+          - /url: "#services"
+        - link "Beneficios" [ref=e17] [cursor=pointer]:
+          - /url: "#why-us"
+        - link "Paquetes" [ref=e18] [cursor=pointer]:
+          - /url: "#pricing"
+        - link "FAQ" [ref=e19] [cursor=pointer]:
+          - /url: "#faq"
+        - link "Portfolio" [ref=e20] [cursor=pointer]:
+          - /url: /portfolio/
+        - generic [ref=e21]:
+          - button "Español" [ref=e22] [cursor=pointer]: ES
+          - button "English" [ref=e23] [cursor=pointer]: EN
+        - link "Agendar diagnóstico" [ref=e24] [cursor=pointer]:
+          - /url: "#contact"
+  - main [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]: INTELIGENCIA DE NEGOCIOS PARA EMPRESAS
+        - heading [level=1] [ref=e33]:
+          - text: Convierte tus datos en
+          - emphasis [ref=e34]: decisiones que venden.
+        - paragraph [ref=e35]: "Proyectos de inteligencia de negocios con entregable, plazo y precio claros: dashboards interactivos, automatización de reportes y modelos predictivos. Resultados visibles desde la segunda semana."
+        - generic [ref=e36]:
+          - link "Agenda tu diagnóstico gratuito" [ref=e37] [cursor=pointer]:
+            - /url: "#contact"
+          - link "Ver paquetes" [ref=e41] [cursor=pointer]:
+            - /url: "#pricing"
+        - group "Botones de redes sociales" [ref=e44]:
+          - link "Visítanos en Facebook" [ref=e45] [cursor=pointer]:
+            - /url: https://www.facebook.com/profile.php?id=61582019309607
+          - link "Síguenos en Instagram" [ref=e49] [cursor=pointer]:
+            - /url: https://www.instagram.com/anibalmarianofuentes/
+          - link "Conéctate en LinkedIn" [ref=e55] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/112223220/
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]: 80%
+            - paragraph [ref=e63]: ahorro en tiempo de reportes
+          - generic [ref=e64]:
+            - generic [ref=e65]: 11,327
+            - paragraph [ref=e66]: registros reconciliados
+          - generic [ref=e67]:
+            - generic [ref=e68]: 33,370
+            - paragraph [ref=e69]: filas consolidadas
+      - figure "Actividad en Tiempo Real (IA). 33,370 rows, 11,327 call units, and 80% reporting time saved." [ref=e70]:
+        - generic [ref=e74]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: SAGEPOINT // DECISION ROOM
+            - generic [ref=e81]: Actualizado
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - generic [ref=e84]:
+                - paragraph [ref=e85]: 06:42 GT / LIVE SIGNAL
+                - heading "Actividad en Tiempo Real (IA)" [level=3] [ref=e86]
+              - generic [ref=e87]:
+                - generic [ref=e88]: "+18.4"
+                - generic [ref=e89]: SIGNAL INDEX
+            - generic [ref=e90]:
+              - generic [ref=e91]:
+                - generic [ref=e92]: OPERATING PULSE / PULSO
+                - generic [ref=e93]: +24.8%
+              - generic [ref=e95]:
+                - 'img "Actividad en Tiempo Real (IA): 33,370 rows / filas, 11,327 call units / unidades, 80 percent." [ref=e96]'
+                - generic:
+                  - generic: "01"
+                  - generic: "02"
+                  - generic: "03"
+                  - generic: "04"
+                  - generic: "05"
+                  - generic: "06"
+                  - generic: NOW
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - generic [ref=e105]:
+                  - generic [ref=e106]: "01"
+                  - generic [ref=e107]: PROOF
+                - strong [ref=e108]: 33,370
+                - generic [ref=e109]: ROWS / FILAS
+              - generic [ref=e112]:
+                - generic [ref=e113]:
+                  - generic [ref=e114]: "02"
+                  - generic [ref=e115]: PROOF
+                - strong [ref=e116]: 11,327
+                - generic [ref=e117]: CALL UNITS / UNIDADES
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - generic [ref=e122]: "03"
+                  - generic [ref=e123]: PROOF
+                - strong [ref=e124]: 80%
+                - generic [ref=e125]: REPORT TIME / TIEMPO
+            - generic [ref=e128]:
+              - 'generic "Stock bajo: Producto A (Reordenar)" [ref=e133]'
+              - generic "Meta de ventas semanal alcanzada" [ref=e136]
+          - generic [ref=e137]:
+            - generic [ref=e138]: HUMAN + AI VERIFIED
+            - generic [ref=e139]: GT / US
+    - region "Datos clave" [ref=e140]:
+      - generic [ref=e141]:
+        - generic [ref=e142]: De datos dispersos a claridad operativa.
+        - generic [ref=e147]:
+          - generic [ref=e154]:
+            - strong [ref=e155]: GT + US
+            - generic [ref=e156]: Operación bilingüe
+          - generic [ref=e161]:
+            - strong [ref=e162]: 2 semanas
+            - generic [ref=e163]: Primer Quick-Win
+          - generic [ref=e167]:
+            - strong [ref=e168]: <24 horas
+            - generic [ref=e169]: Tiempo de respuesta
+    - generic [ref=e170]:
+      - generic [ref=e171]:
+        - generic [ref=e172]:
+          - paragraph [ref=e173]:
+            - generic [ref=e174]: "01"
+            - text: NUESTROS SERVICIOS
+          - heading "¿Cómo puede la Inteligencia de Negocios reducir mis costos operativos?" [level=2] [ref=e175]
+        - paragraph [ref=e176]: Automatizamos tareas críticas y detectamos ineficiencias con reducción comprobable en tiempos de operación. Actuamos como un departamento de datos externo (Soporte Cercano) para empresas en Guatemala y EE. UU.
+      - generic [ref=e177]:
+        - article [ref=e178]:
+          - generic [ref=e179]: "01"
+          - generic [ref=e184]:
+            - heading "Dashboard & BI" [level=3] [ref=e185]
+            - paragraph [ref=e186]: "Visualización en tiempo real de métricas y KPIs. Detecta de inmediato patrones clave con alertas como 'Stock bajo: Producto A (Reordenar)'."
+          - generic [ref=e187]: Control Total
+        - article [ref=e189]:
+          - generic [ref=e190]: "02"
+          - generic [ref=e197]:
+            - heading "Automatización Web" [level=3] [ref=e198]
+            - paragraph [ref=e199]: Conectamos tus sistemas (CRM, ERP, facturación) para que la información fluya sola entre plataformas, sin copiar y pegar entre archivos.
+          - generic [ref=e200]: Eficiencia
+        - article [ref=e202]:
+          - generic [ref=e203]: "03"
+          - generic [ref=e208]:
+            - heading "Automatización en Excel" [level=3] [ref=e209]
+            - paragraph [ref=e210]: Guía de experto para reducir el tiempo de creación de reportes recurrentes en un 80% utilizando Power Query y VBA.
+          - generic [ref=e211]: Productividad
+        - article [ref=e213]:
+          - generic [ref=e214]: "04"
+          - generic [ref=e229]:
+            - heading "Modelos Predictivos" [level=3] [ref=e230]
+            - paragraph [ref=e231]: "Casos de éxito: detección anticipada de riesgos y un aumento promedio del 20% en ventas utilizando IA."
+          - generic [ref=e232]: Ventaja Competitiva
+        - article [ref=e234]:
+          - generic [ref=e235]: "05"
+          - generic [ref=e242]:
+            - heading "Data Coaching" [level=3] [ref=e243]
+            - paragraph [ref=e244]: "Acompañamiento especializado 'Human-in-the-Loop': validamos cada paso de tus datos y capacitamos a tu equipo, en Guatemala y EE. UU."
+          - generic [ref=e245]: Soporte Cercano
+    - generic [ref=e248]:
+      - generic [ref=e249]:
+        - paragraph [ref=e250]:
+          - generic [ref=e251]: "02"
+          - text: ¿POR QUÉ ELEGIRNOS?
+        - heading "¿Por qué el componente humano (Soporte Cercano) supera al software automatizado?" [level=2] [ref=e252]
+        - paragraph [ref=e253]: La IA por sí sola puede alucinar o carecer de contexto local; nuestros consultores validan cada recomendación con criterio humano ('Human-in-the-Loop'). Reducimos el riesgo tecnológico actuando como estrategas que entienden tu industria, no solo como integradores.
+        - list [ref=e254]:
+          - listitem [ref=e255]:
+            - generic [ref=e259]:
+              - strong [ref=e260]: "Soporte Cercano comprobado:"
+              - text: Acompañamiento localizado para Guatemala y Estados Unidos.
+          - listitem [ref=e261]:
+            - generic [ref=e265]:
+              - strong [ref=e266]: "Validación humana de IA:"
+              - text: Toda métrica y predicción es validada por un consultor estratégico.
+          - listitem [ref=e267]:
+            - generic [ref=e271]:
+              - strong [ref=e272]: "Alcance y precio claros:"
+              - text: Cada paquete define entregables, plazos y límites por escrito antes de empezar.
+      - generic "Proceso de decisión" [ref=e273]:
+        - generic [ref=e274]:
+          - generic [ref=e275]: EL SISTEMA SAGEPOINT
+          - generic [ref=e276]: Validación activa
+        - generic [ref=e278]:
+          - generic [ref=e279]: "01"
+          - generic [ref=e286]:
+            - heading "Decisiones Validadas por Expertos" [level=3] [ref=e287]
+            - paragraph [ref=e288]: Cada recomendación analítica es revisada por un consultor para evitar errores u omisiones de algoritmos ciegos.
+        - generic [ref=e291]:
+          - generic [ref=e292]: "02"
+          - generic [ref=e299]:
+            - heading "80% de Ahorro en Reportes" [level=3] [ref=e300]
+            - paragraph [ref=e301]: Automatizamos la generación manual con Power Query y VBA, liberando horas de tu equipo para enfocarse en crecer.
+        - generic [ref=e304]:
+          - generic [ref=e305]: "03"
+          - generic [ref=e319]:
+            - heading "Tu Departamento de Datos Externo" [level=3] [ref=e320]
+            - paragraph [ref=e321]: Nos integramos a tu operación como tus analistas de negocio de confianza, no como un proveedor de software distante.
+        - generic [ref=e324]:
+          - generic [ref=e325]: Datos fragmentados
+          - strong [ref=e327]: Decisión confiable
+    - generic [ref=e329]:
+      - generic [ref=e330]:
+        - paragraph [ref=e331]:
+          - generic [ref=e332]: "03"
+          - text: PAQUETES Y PRECIOS
+        - heading "Proyectos con entregable, plazo y precio claros." [level=2] [ref=e333]
+        - paragraph [ref=e334]: "Sin suscripciones abiertas ni alcances difusos: cada paquete define exactamente qué recibes, cuándo y por cuánto."
+      - generic [ref=e335]:
+        - generic [ref=e336]:
+          - generic [ref=e337]:
+            - generic [ref=e338]: "01"
+            - generic [ref=e339]: Proyecto definido
+          - heading "Diagnóstico Express + Dashboard Quick-Win" [level=3] [ref=e340]
+          - paragraph [ref=e341]: $750 pago único
+          - paragraph [ref=e342]: "Plazo: 2 semanas"
+          - paragraph [ref=e346]: "La forma más rápida de ver tus datos trabajando: auditoría + un dashboard accionable."
+          - list [ref=e347]:
+            - listitem [ref=e348]: Auditoría de hasta 2 fuentes de datos
+            - listitem [ref=e351]: 1 dashboard con hasta 8 KPIs clave
+            - listitem [ref=e354]: Informe de oportunidades priorizadas
+            - listitem [ref=e357]: 1 ronda de revisiones
+          - paragraph [ref=e360]:
+            - generic [ref=e361]: "No incluye:"
+            - text: Automatización, integraciones y modelos predictivos.
+          - link "Empezar con el diagnóstico" [ref=e362] [cursor=pointer]:
+            - /url: "#contact"
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]: "02"
+            - generic [ref=e369]: Más Popular
+          - heading "Dashboard Ejecutivo + Automatización" [level=3] [ref=e373]
+          - paragraph [ref=e374]: desde $2,500 por proyecto
+          - paragraph [ref=e375]: "Plazo: 4–6 semanas"
+          - paragraph [ref=e379]: "La suite completa: visibilidad total del negocio y reportes que se generan solos."
+          - list [ref=e380]:
+            - listitem [ref=e381]: Hasta 4 fuentes de datos integradas
+            - listitem [ref=e384]: Hasta 3 dashboards ejecutivos
+            - listitem [ref=e387]: Automatización de 1 flujo de reportes (−80% de tiempo)
+            - listitem [ref=e390]: 2 sesiones de capacitación + documentación
+            - listitem [ref=e393]: 2 rondas de revisiones
+          - paragraph [ref=e396]:
+            - generic [ref=e397]: "No incluye:"
+            - text: Data warehouse y modelos IA a medida.
+          - link "Cotizar mi proyecto" [ref=e398] [cursor=pointer]:
+            - /url: "#contact"
+        - generic [ref=e402]:
+          - generic [ref=e403]:
+            - generic [ref=e404]: "03"
+            - generic [ref=e405]: Proyecto definido
+          - heading "Solución a Medida" [level=3] [ref=e406]
+          - paragraph [ref=e407]: Cotización
+          - paragraph [ref=e408]: "Plazo: a definir"
+          - paragraph [ref=e412]: Modelos IA, integraciones CRM/ERP y data warehouse para necesidades corporativas.
+          - list [ref=e413]:
+            - listitem [ref=e414]: Modelos predictivos dedicados
+            - listitem [ref=e417]: Integraciones CRM/ERP
+            - listitem [ref=e420]: Data warehouse propio
+            - listitem [ref=e423]: Alcance definido en cotización formal
+          - link "Hablar con un consultor" [ref=e426] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e430]:
+        - generic [ref=e436]:
+          - generic [ref=e437]: Add-on mensual
+          - heading "Soporte Cercano Mensual" [level=3] [ref=e438]
+          - paragraph [ref=e439]: "Continuidad después de tu proyecto: mantenimiento de dashboards, ajustes, coaching y línea directa de WhatsApp prioritaria. Tiers según intensidad de soporte, con horas mensuales definidas y no acumulables."
+        - generic [ref=e440]:
+          - paragraph [ref=e441]: $300 / $600 / $1,000 / mes
+          - link "Agregar Soporte Cercano" [ref=e442] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e446]:
+        - paragraph [ref=e447]: ¿No sabes qué paquete te conviene?
+        - link "El diagnóstico inicial es gratuito — agéndalo aquí." [ref=e448] [cursor=pointer]:
+          - /url: "#contact"
+    - generic [ref=e452]:
+      - generic [ref=e453]:
+        - generic [ref=e454]:
+          - paragraph [ref=e455]:
+            - generic [ref=e456]: "04"
+            - text: CASOS SELECCIONADOS
+          - heading "Resultados observados en proyectos reales." [level=2] [ref=e457]
+        - generic [ref=e458]:
+          - paragraph [ref=e459]: Una muestra de nuestro trabajo. Explora el portfolio completo para ver más.
+          - link "Ver portfolio completo" [ref=e460] [cursor=pointer]:
+            - /url: /portfolio/
+      - generic [ref=e464]:
+        - article [ref=e465]:
+          - generic [ref=e466]:
+            - generic [ref=e467]: CASE / 01
+            - generic [ref=e479]:
+              - strong [ref=e480]: MFA + API
+              - generic [ref=e481]: AUTOMATION
+          - generic [ref=e482]:
+            - text: IA & Automatización
+            - heading "InboxHealth Automation" [level=3] [ref=e483]
+            - paragraph [ref=e484]: Automatización con Python y Playwright para portal administrativo, lookup de integraciones API, capturas, JSON y exportación a Google Sheets.
+            - link "Ver capacidad" [ref=e485] [cursor=pointer]:
+              - /url: /portfolio/
+        - article [ref=e490]:
+          - generic [ref=e491]:
+            - generic [ref=e492]: CASE / 02
+            - generic [ref=e504]:
+              - strong [ref=e505]: 11,327
+              - generic [ref=e506]: RECONCILED
+          - generic [ref=e507]:
+            - text: Operaciones & BI
+            - heading "Zendesk Talk API Reporting" [level=3] [ref=e508]
+            - paragraph [ref=e509]: Google Apps Script y Sheets conectados a Zendesk Talk para reemplazar exportaciones manuales y validar la API como fuente de verdad.
+            - link "Ver capacidad" [ref=e510] [cursor=pointer]:
+              - /url: /portfolio/
+        - article [ref=e515]:
+          - generic [ref=e516]:
+            - generic [ref=e517]: CASE / 03
+            - generic [ref=e529]:
+              - strong [ref=e530]: 24/7
+              - generic [ref=e531]: LIVE SIGNAL
+          - generic [ref=e532]:
+            - text: IA & Automatización
+            - heading "GravityClaw" [level=3] [ref=e533]
+            - paragraph [ref=e534]: Plataforma de IA con bot de Telegram, publicación automática en redes y dashboard de control en tiempo real.
+            - link "Ver capacidad" [ref=e535] [cursor=pointer]:
+              - /url: /portfolio/
+    - generic [ref=e540]:
+      - generic [ref=e541]:
+        - paragraph [ref=e542]:
+          - generic [ref=e543]: "05"
+          - text: PREGUNTAS FRECUENTES
+        - heading "Lo que las empresas nos preguntan antes de empezar." [level=2] [ref=e544]
+      - generic [ref=e545]:
+        - generic [ref=e546]:
+          - button "01 ¿Qué incluye el diagnóstico gratuito? +" [expanded] [ref=e547] [cursor=pointer]:
+            - generic [ref=e548]:
+              - generic [ref=e549]: "01"
+              - generic [ref=e550]: ¿Qué incluye el diagnóstico gratuito?
+            - generic [ref=e551]: +
+          - paragraph [ref=e552]: Una videollamada de 30–45 minutos donde revisamos tus fuentes de datos, tus reportes actuales y tus objetivos. Sales con una recomendación concreta del paquete que te conviene (o con la conclusión honesta de que aún no lo necesitas).
+        - button "02 ¿En cuánto tiempo veo resultados? +" [ref=e554] [cursor=pointer]:
+          - generic [ref=e555]:
+            - generic [ref=e556]: "02"
+            - generic [ref=e557]: ¿En cuánto tiempo veo resultados?
+          - generic [ref=e558]: +
+        - button "03 ¿Qué pasa cuando termina el proyecto? +" [ref=e560] [cursor=pointer]:
+          - generic [ref=e561]:
+            - generic [ref=e562]: "03"
+            - generic [ref=e563]: ¿Qué pasa cuando termina el proyecto?
+          - generic [ref=e564]: +
+        - button "04 ¿Con qué herramientas trabajan? +" [ref=e566] [cursor=pointer]:
+          - generic [ref=e567]:
+            - generic [ref=e568]: "04"
+            - generic [ref=e569]: ¿Con qué herramientas trabajan?
+          - generic [ref=e570]: +
+        - button "05 ¿Trabajan fuera de Guatemala? +" [ref=e572] [cursor=pointer]:
+          - generic [ref=e573]:
+            - generic [ref=e574]: "05"
+            - generic [ref=e575]: ¿Trabajan fuera de Guatemala?
+          - generic [ref=e576]: +
+        - button "06 ¿Necesito tener mis datos ordenados antes de empezar? +" [ref=e578] [cursor=pointer]:
+          - generic [ref=e579]:
+            - generic [ref=e580]: "06"
+            - generic [ref=e581]: ¿Necesito tener mis datos ordenados antes de empezar?
+          - generic [ref=e582]: +
+    - generic [ref=e584]:
+      - generic [ref=e585]:
+        - paragraph [ref=e586]:
+          - generic [ref=e587]: "06"
+          - text: CONTACTO
+        - heading "¿Listo para impulsar tu empresa con el poder de tus datos?" [level=2] [ref=e588]
+        - paragraph [ref=e589]: Agenda hoy tu diagnóstico gratuito. Te respondemos en menos de 24 horas con una recomendación concreta.
+        - generic [ref=e590]:
+          - generic [ref=e595]:
+            - strong [ref=e596]: <24 horas
+            - text: para responder
+          - generic [ref=e601]:
+            - strong [ref=e602]: Guatemala + US
+            - text: servicio remoto
+        - generic [ref=e603]:
+          - paragraph [ref=e604]:
+            - link "+502 4046 4716" [ref=e605] [cursor=pointer]:
+              - /url: https://wa.me/50240464716
+          - paragraph [ref=e608]:
+            - link "info@sagepoint-analytics.com" [ref=e609] [cursor=pointer]:
+              - /url: mailto:info@sagepoint-analytics.com
+      - generic [ref=e613]:
+        - generic [ref=e614]:
+          - generic [ref=e615]: SOLICITUD DE DIAGNÓSTICO
+          - generic [ref=e616]: Disponible
+        - generic [ref=e618]:
+          - generic [ref=e619]: Nombre
+          - textbox "Tu nombre" [ref=e620]
+        - generic [ref=e621]:
+          - generic [ref=e622]: Correo de trabajo
+          - textbox "tu@empresa.com" [ref=e623]
+        - generic [ref=e624]:
+          - generic [ref=e625]: "Me interesa:"
+          - combobox [ref=e626]:
+            - option "Diagnóstico gratuito / Consultoría general" [selected]
+            - option "Diagnóstico Express + Dashboard Quick-Win ($750)"
+            - option "Dashboard Ejecutivo + Automatización (desde $2,500)"
+            - option "Solución a Medida (cotización)"
+            - option "Soporte Cercano Mensual ($300 / $600 / $1,000/mes)"
+        - generic [ref=e627]:
+          - generic [ref=e628]:
+            - generic [ref=e629]: Industria (Opcional)
+            - combobox [ref=e630]:
+              - option "Selecciona tu industria" [selected]
+              - option "Comercio / Retail"
+              - option "Servicios"
+              - option "Manufactura"
+              - option "Tecnología"
+              - option "Logística"
+              - option "Otro"
+          - generic [ref=e631]:
+            - generic [ref=e632]: País (Opcional)
+            - combobox [ref=e633]:
+              - option "Selecciona tu país" [selected]
+              - option "Guatemala"
+              - option "El Salvador"
+              - option "Honduras"
+              - option "Nicaragua"
+              - option "Costa Rica"
+              - option "Panamá"
+              - option "México"
+              - option "Estados Unidos"
+              - option "Otro"
+        - button "Agendar mi Diagnóstico Gratuito" [ref=e634] [cursor=pointer]
+        - paragraph [ref=e635]: Responderemos en menos de 24 horas.
+  - contentinfo [ref=e638]:
+    - generic [ref=e639]:
+      - generic [ref=e640]:
+        - link "Sagepoint" [ref=e641] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e649]: Convertimos datos en crecimiento para empresas modernas.
+        - generic [ref=e650]: Convirtiendo señales en decisiones.
+      - generic [ref=e652]:
+        - heading "Menú" [level=4] [ref=e653]
+        - list [ref=e654]:
+          - listitem [ref=e655]:
+            - link "Servicios" [ref=e656] [cursor=pointer]:
+              - /url: "#services"
+          - listitem [ref=e657]:
+            - link "Beneficios" [ref=e658] [cursor=pointer]:
+              - /url: "#why-us"
+          - listitem [ref=e659]:
+            - link "Paquetes" [ref=e660] [cursor=pointer]:
+              - /url: "#pricing"
+          - listitem [ref=e661]:
+            - link "Portfolio" [ref=e662] [cursor=pointer]:
+              - /url: /portfolio/
+      - generic [ref=e663]:
+        - heading "Contacto" [level=4] [ref=e664]
+        - generic [ref=e665]:
+          - link "+502 4046 4716" [ref=e666] [cursor=pointer]:
+            - /url: https://wa.me/50240464716
+          - link "info@sagepoint-analytics.com" [ref=e667] [cursor=pointer]:
+            - /url: mailto:info@sagepoint-analytics.com
+    - generic [ref=e668]:
+      - generic [ref=e669]: © 2026 Sagepoint Analytics. Todos los derechos reservados.
+      - generic [ref=e670]: DATA / CLARITY / GROWTH
+  - link "Escríbenos por WhatsApp" [ref=e671] [cursor=pointer]:
+    - /url: https://wa.me/50240464716?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20los%20servicios%20de%20Sagepoint%20Analytics.

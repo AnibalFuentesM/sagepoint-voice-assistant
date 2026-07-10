@@ -1,27 +1,55 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import GlobeDashboard from './components/GlobeDashboard';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import {
+  ArrowUpRight,
+  BarChart3,
+  BrainCircuit,
+  Check,
+  Clock3,
+  DatabaseZap,
+  Globe2,
+  Mail,
+  MapPin,
+  MessageCircle,
+  MoveRight,
+  Network,
+  Sparkles,
+  TableProperties,
+  UsersRound,
+  Workflow,
+} from 'lucide-react';
+import HeroScene from './components/HeroScene';
 import SocialConnectButtons from './components/SocialConnectButtons';
+import WhatsAppButton from './components/WhatsAppButton';
 import { submitToGoogleSheet } from './utils/sheetUtils';
+import { trackEvent } from './utils/analytics';
+import { useDocumentMeta } from './hooks/useDocumentMeta';
 
-const VoiceAssistant = lazy(() => import('./components/VoiceAssistant'));
+// Stable package IDs: used by the form, GA4 events and the Google Sheet.
+// Never compare against visible (translated) labels.
+export type PackageId = 'quick-win' | 'executive' | 'custom' | 'retainer' | 'general';
 
 // Content Dictionary for Translations
 const content = {
   es: {
+    meta: {
+      title: 'Dashboards e Inteligencia de Negocios para PYMEs en Guatemala | Sagepoint Analytics',
+      description: 'Dashboards ejecutivos, automatización de reportes y diagnóstico gratuito para PYMEs en Guatemala y EE. UU. Paquetes con entregable, plazo y precio claros.'
+    },
     nav: {
       services: "Servicios",
       benefits: "Beneficios",
-      testimonials: "Testimonios",
-      pricing: "Precios",
-      schedule: "Agendar consultoría"
+      packages: "Paquetes",
+      faq: "FAQ",
+      schedule: "Agendar diagnóstico",
+      schedule_short: "Agendar"
     },
     hero: {
       subtitle: "INTELIGENCIA DE NEGOCIOS PARA EMPRESAS",
-      title: "Tus datos, el impulso.",
-      description: "Descubre oportunidades ocultas en tu negocio mediante dashboards interactivos y predicciones basadas en IA. Aumenta tus ingresos y optimiza costos hoy mismo.",
-      cta_consult: "Solicita una Consultoría Gratuita",
-      cta_services: "Ver Servicios",
+      title: "Convierte tus datos en decisiones que venden.",
+      description: "Proyectos de inteligencia de negocios con entregable, plazo y precio claros: dashboards interactivos, automatización de reportes y modelos predictivos. Resultados visibles desde la segunda semana.",
+      cta_consult: "Agenda tu diagnóstico gratuito",
+      cta_services: "Ver paquetes",
       metrics: {
         savings: "ahorro en tiempo de reportes",
         sales: "aumento promedio en ventas",
@@ -34,75 +62,116 @@ const content = {
         goal: "Meta de ventas semanal alcanzada"
       }
     },
-    testimonials: {
-      quote: "\"Gracias al equipo de Sagepoint, nuestras ventas crecieron un 20% en solo 6 meses. Ahora entendemos mejor a nuestros clientes y optimizamos el inventario cada semana.\"",
-      role: "Director de Operaciones, Distribuidora XYZ"
-    },
     services: {
       subtitle: "NUESTROS SERVICIOS",
       title: "¿Cómo puede la Inteligencia de Negocios reducir mis costos operativos?",
-      description: "Nuestros servicios automatizan tareas críticas y detectan ineficiencias, garantizando una reducción comprobable en tiempos de operación. Actuamos como un departamento de datos externo (Soporte Cercano) para empresas en Guatemala y EE. UU., asegurando una transformación accionable.",
+      description: "Automatizamos tareas críticas y detectamos ineficiencias con reducción comprobable en tiempos de operación. Actuamos como un departamento de datos externo (Soporte Cercano) para empresas en Guatemala y EE. UU.",
       items: [
         { title: "Dashboard & BI", desc: "Visualización en tiempo real de métricas y KPIs. Detecta de inmediato patrones clave con alertas como 'Stock bajo: Producto A (Reordenar)'.", tag: "Control Total" },
-        { title: "Automatización Web", desc: "Integración de sistemas (CRM, ERP) con tiempos de carga rápidos y latencia optimizada para interacciones fluidas.", tag: "Eficiencia" },
+        { title: "Automatización Web", desc: "Conectamos tus sistemas (CRM, ERP, facturación) para que la información fluya sola entre plataformas, sin copiar y pegar entre archivos.", tag: "Eficiencia" },
         { title: "Automatización en Excel", desc: "Guía de experto para reducir el tiempo de creación de reportes recurrentes en un 80% utilizando Power Query y VBA.", tag: "Productividad" },
-        { title: "Modelos Predictivos", desc: "Casos de éxito: Detección anticipada de riesgos y hasta un 20% de aumento promedio en ventas utilizando IA.", tag: "Ventaja Competitiva" },
-        { title: "Data Coaching", desc: "Acompañamiento especializado 'Human-in-the-Loop'. Validamos y estructuramos a tu equipo en Guatemala y EE. UU.", tag: "Soporte Cercano" }
+        { title: "Modelos Predictivos", desc: "Casos de éxito: detección anticipada de riesgos y un aumento promedio del 20% en ventas utilizando IA.", tag: "Ventaja Competitiva" },
+        { title: "Data Coaching", desc: "Acompañamiento especializado 'Human-in-the-Loop': validamos cada paso de tus datos y capacitamos a tu equipo, en Guatemala y EE. UU.", tag: "Soporte Cercano" }
       ]
     },
     benefits: {
       subtitle: "¿POR QUÉ ELEGIRNOS?",
       title: "¿Por qué el componente humano (Soporte Cercano) supera al software automatizado?",
-      description: "La IA a menudo puede alucinar o carecer de contexto local, pero nuestros consultores proveen asesoramiento comprobado, 'Human-in-the-Loop'. Reducimos el riesgo tecnológico actuando como estrategas que entienden tu industria, no solo como integradores.",
+      description: "La IA por sí sola puede alucinar o carecer de contexto local; nuestros consultores validan cada recomendación con criterio humano ('Human-in-the-Loop'). Reducimos el riesgo tecnológico actuando como estrategas que entienden tu industria, no solo como integradores.",
       list: [
         { bold: "Soporte Cercano comprobado:", text: "Acompañamiento localizado para Guatemala y Estados Unidos." },
         { bold: "Validación humana de IA:", text: "Toda métrica y predicción es validada por un consultor estratégico." },
-        { bold: "Impacto garantizado de 20%:", text: "Nuestros dashboards y procesos apuntan sistemáticamente al crecimiento comercial." }
+        { bold: "Alcance y precio claros:", text: "Cada paquete define entregables, plazos y límites por escrito antes de empezar." }
       ],
       cards: [
-        { title: "Decisiones Validadas (EEAT)", desc: "Expertise demostrable donde cada recomendación analítica es curada para evitar errores u omisiones de algoritmos ciegos." },
-        { title: "80% de Ahorro con VBA", desc: "Automatiza la generación manual sistemáticamente, liberando horas hombre enfocadas al crecimiento." },
-        { title: "Integración In-Company", desc: "Nuestro equipo se fusiona con tus objetivos asumiendo el rol de analistas de negocio líderes de tu empresa." }
+        { title: "Decisiones Validadas por Expertos", desc: "Cada recomendación analítica es revisada por un consultor para evitar errores u omisiones de algoritmos ciegos." },
+        { title: "80% de Ahorro en Reportes", desc: "Automatizamos la generación manual con Power Query y VBA, liberando horas de tu equipo para enfocarse en crecer." },
+        { title: "Tu Departamento de Datos Externo", desc: "Nos integramos a tu operación como tus analistas de negocio de confianza, no como un proveedor de software distante." }
       ]
     },
-    pricing: {
-      subtitle: "PLANES Y PRECIOS",
-      title: "¿Qué plan de Inteligencia de Negocios garantiza el mejor ROI?",
+    packages: {
+      subtitle: "PAQUETES Y PRECIOS",
+      title: "Proyectos con entregable, plazo y precio claros.",
+      description: "Sin suscripciones abiertas ni alcances difusos: cada paquete define exactamente qué recibes, cuándo y por cuánto.",
+      timeline_label: "Plazo",
+      excludes_label: "No incluye",
       cards: [
         {
-          title: "Básico (300)",
-          price: "$300",
-          period: "/ mes",
-          desc: "Plan fundamental para consolidar datos clave y reducir la operatividad manual.",
-          features: ["1 Dashboard personalizado", "Auditoría de datos rápida", "Data Coaching inicial", "Soporte por email"],
-          cta: "Elegir Básico (300)"
+          id: 'quick-win' as PackageId,
+          title: "Diagnóstico Express + Dashboard Quick-Win",
+          price: "$750",
+          period: "pago único",
+          timeline: "2 semanas",
+          desc: "La forma más rápida de ver tus datos trabajando: auditoría + un dashboard accionable.",
+          features: ["Auditoría de hasta 2 fuentes de datos", "1 dashboard con hasta 8 KPIs clave", "Informe de oportunidades priorizadas", "1 ronda de revisiones"],
+          excludes: "Automatización, integraciones y modelos predictivos.",
+          cta: "Empezar con el diagnóstico"
         },
         {
-          title: "Profesional (600)",
-          price: "$600",
-          period: "/ mes",
-          desc: "Plan corporativo avanzado con Modelos Predictivos y Soporte Cercano extendido.",
+          id: 'executive' as PackageId,
+          title: "Dashboard Ejecutivo + Automatización",
+          pricePrefix: "desde",
+          price: "$2,500",
+          period: "por proyecto",
+          timeline: "4–6 semanas",
+          desc: "La suite completa: visibilidad total del negocio y reportes que se generan solos.",
           tag: "Más Popular",
-          features: ["Modelos IA Predictivos (Ventas)", "Reportes y alertas semanales", "Reducción +80% VBA/PowerQuery", "Soporte VIP Latam/US"],
-          cta: "Elegir Profesional (600)"
+          features: ["Hasta 4 fuentes de datos integradas", "Hasta 3 dashboards ejecutivos", "Automatización de 1 flujo de reportes (−80% de tiempo)", "2 sesiones de capacitación + documentación", "2 rondas de revisiones"],
+          excludes: "Data warehouse y modelos IA a medida.",
+          cta: "Cotizar mi proyecto"
         },
         {
-          title: "Avanzado",
-          price: "A Medida",
+          id: 'custom' as PackageId,
+          title: "Solución a Medida",
+          price: "Cotización",
           period: "",
-          desc: "Soluciones corporativas de gran escala e integración total Human-in-the-Loop.",
-          features: ["Data Warehouse propio", "Algoritmos IA dedicados", "Capacitación a largo plazo", "Consultor Estratégico asignado"],
-          cta: "Cotizar"
+          timeline: "a definir",
+          desc: "Modelos IA, integraciones CRM/ERP y data warehouse para necesidades corporativas.",
+          features: ["Modelos predictivos dedicados", "Integraciones CRM/ERP", "Data warehouse propio", "Alcance definido en cotización formal"],
+          excludes: "",
+          cta: "Hablar con un consultor"
         }
       ],
-      footer_text: "¿No sabes qué plan te conviene?",
-      footer_link: "¡Solicita una asesoría gratuita!"
+      retainer: {
+        id: 'retainer' as PackageId,
+        tag: "Add-on mensual",
+        title: "Soporte Cercano Mensual",
+        price: "$300 / $600 / $1,000",
+        period: "/ mes",
+        desc: "Continuidad después de tu proyecto: mantenimiento de dashboards, ajustes, coaching y línea directa de WhatsApp prioritaria. Tiers según intensidad de soporte, con horas mensuales definidas y no acumulables.",
+        cta: "Agregar Soporte Cercano"
+      },
+      footer_text: "¿No sabes qué paquete te conviene?",
+      footer_link: "El diagnóstico inicial es gratuito — agéndalo aquí."
+    },
+    cases: {
+      subtitle: "CASOS SELECCIONADOS",
+      title: "Resultados observados en proyectos reales.",
+      description: "Una muestra de nuestro trabajo. Explora el portfolio completo para ver más.",
+      items: [
+        { title: "InboxHealth Automation", category: "IA & Automatización", desc: "Automatización con Python y Playwright para portal administrativo, lookup de integraciones API, capturas, JSON y exportación a Google Sheets." },
+        { title: "Zendesk Talk API Reporting", category: "Operaciones & BI", desc: "Google Apps Script y Sheets conectados a Zendesk Talk para reemplazar exportaciones manuales y validar la API como fuente de verdad." },
+        { title: "GravityClaw", category: "IA & Automatización", desc: "Plataforma de IA con bot de Telegram, publicación automática en redes y dashboard de control en tiempo real." }
+      ],
+      cta: "Ver portfolio completo"
+    },
+    faq: {
+      subtitle: "PREGUNTAS FRECUENTES",
+      title: "Lo que las empresas nos preguntan antes de empezar.",
+      items: [
+        { q: "¿Qué incluye el diagnóstico gratuito?", a: "Una videollamada de 30–45 minutos donde revisamos tus fuentes de datos, tus reportes actuales y tus objetivos. Sales con una recomendación concreta del paquete que te conviene (o con la conclusión honesta de que aún no lo necesitas)." },
+        { q: "¿En cuánto tiempo veo resultados?", a: "El paquete Quick-Win entrega un dashboard funcionando en 2 semanas. El Dashboard Ejecutivo + Automatización toma de 4 a 6 semanas según las fuentes de datos." },
+        { q: "¿Qué pasa cuando termina el proyecto?", a: "El entregable es tuyo: dashboards, automatizaciones y documentación. Si quieres continuidad, el add-on de Soporte Cercano Mensual cubre mantenimiento, ajustes y coaching." },
+        { q: "¿Con qué herramientas trabajan?", a: "Power BI, Looker Studio, Excel (Power Query/VBA), Google Sheets y desarrollos a medida en la nube. Nos adaptamos a las herramientas que tu equipo ya usa." },
+        { q: "¿Trabajan fuera de Guatemala?", a: "Sí. Atendemos empresas en Guatemala, Centroamérica, México y Estados Unidos, en español o inglés, de forma remota." },
+        { q: "¿Necesito tener mis datos ordenados antes de empezar?", a: "No. Parte del diagnóstico es precisamente evaluar el estado de tus datos. Trabajamos con lo que tengas: Excel dispersos, sistemas contables, CRM o bases de datos." }
+      ]
     },
     contact: {
       subtitle: "CONTACTO",
       title: "¿Listo para impulsar tu empresa con el poder de tus datos?",
-      description: "Contáctanos hoy y obtén una consultoría inicial gratuita. Juntos llevaremos tu empresa al siguiente nivel, tomando decisiones informadas.",
-      phone: "+502 40464716",
+      description: "Agenda hoy tu diagnóstico gratuito. Te respondemos en menos de 24 horas con una recomendación concreta.",
+      phone: "+502 4046 4716",
       email: "info@sagepoint-analytics.com",
       form: {
         name: "Nombre",
@@ -134,42 +203,48 @@ const content = {
         },
         service: "Me interesa:",
         options: {
-          general: "Consultoría General",
-          basic: "Plan Básico ($300)",
-          pro: "Plan Profesional ($600)",
-          custom: "Solución a Medida"
-        },
+          general: "Diagnóstico gratuito / Consultoría general",
+          'quick-win': "Diagnóstico Express + Dashboard Quick-Win ($750)",
+          executive: "Dashboard Ejecutivo + Automatización (desde $2,500)",
+          custom: "Solución a Medida (cotización)",
+          retainer: "Soporte Cercano Mensual ($300 / $600 / $1,000/mes)"
+        } as Record<PackageId, string>,
         details: "Cuéntanos más detalles",
         details_ph: "Describe tus necesidades específicas (volumen de datos, herramientas actuales, objetivos...)",
-        submit: "Agendar mi Consultoría Gratuita",
+        submit: "Agendar mi Diagnóstico Gratuito",
         sending: "Enviando...",
         success: "¡Solicitud enviada!",
         note: "Responderemos en menos de 24 horas.",
-        error: "Error de conexión. Revisa constants.ts"
+        error: "Error de conexión. Inténtalo de nuevo o escríbenos por WhatsApp."
       }
     },
     footer: {
-      tagline: "We convert data into growth for modern companies.",
-      menu: "Menu",
+      tagline: "Convertimos datos en crecimiento para empresas modernas.",
+      menu: "Menú",
       legal: "Legal",
-      contact: "Contact",
-      rights: `© ${new Date().getFullYear()} Sagepoint Analytics. All rights reserved.`
+      contact: "Contacto",
+      rights: `© ${new Date().getFullYear()} Sagepoint Analytics. Todos los derechos reservados.`
     }
   },
   en: {
+    meta: {
+      title: 'Business Intelligence Dashboards for SMEs in Guatemala & the US | Sagepoint Analytics',
+      description: 'Executive dashboards, report automation and a free assessment for SMEs in Guatemala and the US. Fixed-scope packages with clear deliverables and pricing.'
+    },
     nav: {
       services: "Services",
       benefits: "Benefits",
-      testimonials: "Testimonials",
-      pricing: "Pricing",
-      schedule: "Schedule Consultation"
+      packages: "Packages",
+      faq: "FAQ",
+      schedule: "Book assessment",
+      schedule_short: "Book a call"
     },
     hero: {
       subtitle: "BUSINESS INTELLIGENCE FOR COMPANIES",
-      title: "Your data, the momentum.",
-      description: "Discover hidden opportunities in your business through interactive dashboards and AI-based predictions. Increase your revenue and optimize costs today.",
-      cta_consult: "Request Free Consultation",
-      cta_services: "View Services",
+      title: "Turn your data into decisions that sell.",
+      description: "Business intelligence projects with a clear deliverable, timeline and price: interactive dashboards, report automation and predictive models. Visible results from week two.",
+      cta_consult: "Book your free assessment",
+      cta_services: "View packages",
       metrics: {
         savings: "savings in reporting time",
         sales: "average increase in sales",
@@ -182,75 +257,116 @@ const content = {
         goal: "Weekly sales goal reached"
       }
     },
-    testimonials: {
-      quote: "\"Thanks to the Sagepoint team, our sales grew by 20% in just 6 months. Now we understand our customers better and optimize inventory every week.\"",
-      role: "Director of Operations, XYZ Distributor"
-    },
     services: {
       subtitle: "OUR SERVICES",
       title: "How can Business Intelligence reduce my operational costs?",
-      description: "Our Business Intelligence services actively automate critical tasks and reveal guaranteed hidden savings. We act as an external data department (Soporte Cercano) for companies in Guatemala and the US, providing human-in-the-loop insights over blind software algorithms.",
+      description: "We automate critical tasks and reveal hidden savings with measurable reductions in operating time. We act as an external data department (Soporte Cercano) for companies in Guatemala and the US.",
       items: [
         { title: "Dashboard & BI", desc: "Real-time visibility into sales and KPIs. Instantly react to alerts like 'Low Stock: Product A (Reorder)'.", tag: "Total Control" },
-        { title: "Web Automation", desc: "Seamless system integration (CRM, ERP) guaranteeing minimal interaction latency for dynamic elements.", tag: "Efficiency" },
+        { title: "Web Automation", desc: "We connect your systems (CRM, ERP, billing) so information flows between platforms automatically — no more copy-paste.", tag: "Efficiency" },
         { title: "Excel Automation", desc: "A practitioner's guide to reducing manual reporting time by 80% using Power Query and VBA.", tag: "Productivity" },
-        { title: "Predictive Models", desc: "Case Study Data: Anticipate risks and drive an average of 20% in sales increases through predictive forecasting.", tag: "Competitive Advantage" },
+        { title: "Predictive Models", desc: "Case study data: anticipate risks and drive an average 20% increase in sales through predictive forecasting.", tag: "Competitive Advantage" },
         { title: "Data Coaching", desc: "Expert Human-in-the-Loop accompaniment. We validate every data step for teams in the US and Guatemala.", tag: "Close Support" }
       ]
     },
     benefits: {
       subtitle: "WHY CHOOSE US?",
-      title: "Why does practitioner-led Data Coaching out-perform standard AI tools?",
-      description: "While AI alone can hallucinate or lack context, our Human-in-the-Loop approach roots every recommendation in verifiable truth. We guarantee accurate data implementation leveraging proven successes, unlike purely software-led solutions.",
+      title: "Why does practitioner-led Data Coaching outperform standard AI tools?",
+      description: "While AI alone can hallucinate or lack context, our Human-in-the-Loop approach roots every recommendation in verifiable truth. We act as strategists who understand your industry, not just integrators.",
       list: [
         { bold: "Soporte Cercano (Close Support):", text: "Localized, responsive strategic direction for the US and Guatemala." },
         { bold: "Verified Human Logic:", text: "Every model output is validated by a Senior Data Consultant." },
-        { bold: "Documented Achievements:", text: "Our systems have driven verified 80% time reductions and 20% sales bumps." }
+        { bold: "Clear scope and pricing:", text: "Every package defines deliverables, timelines and limits in writing before we start." }
       ],
       cards: [
-        { title: "Authoritative Decisions (EEAT)", desc: "Empower your team with curated facts instead of unchecked AI predictions, maintaining high data trust." },
-        { title: "Reporting Time Solved", desc: "We deploy Power Query and VBA to eliminate repetitive 80% spreadsheet drag, unlocking growth time." },
-        { title: "External Data Branch", desc: "We integrate directly, acting as your seasoned BI extension rather than a distant software vendor." }
+        { title: "Expert-Validated Decisions", desc: "Empower your team with curated facts instead of unchecked AI predictions, maintaining high data trust." },
+        { title: "80% Reporting Time Saved", desc: "We deploy Power Query and VBA to eliminate repetitive spreadsheet work, freeing your team's hours for growth." },
+        { title: "Your External Data Department", desc: "We integrate directly, acting as your seasoned BI extension rather than a distant software vendor." }
       ]
     },
-    pricing: {
-      subtitle: "PLANS AND PRICING",
-      title: "Which Business Intelligence tier guarantees the most immediate ROI?",
+    packages: {
+      subtitle: "PACKAGES AND PRICING",
+      title: "Projects with a clear deliverable, timeline and price.",
+      description: "No open-ended subscriptions, no fuzzy scope: every package defines exactly what you get, when, and for how much.",
+      timeline_label: "Timeline",
+      excludes_label: "Not included",
       cards: [
         {
-          title: "Basic (300)",
-          price: "$300",
-          period: "/ month",
-          desc: "Fundamental package designed to secure fast baseline data visibility.",
-          features: ["1 Custom Visualization Dashboard", "Initial Data Audit Setup", "Baseline Data Coaching", "Standard Email routing"],
-          cta: "Choose Basic (300)"
+          id: 'quick-win' as PackageId,
+          title: "Express Assessment + Quick-Win Dashboard",
+          price: "$750",
+          period: "one-time",
+          timeline: "2 weeks",
+          desc: "The fastest way to see your data working: an audit plus one actionable dashboard.",
+          features: ["Audit of up to 2 data sources", "1 dashboard with up to 8 key KPIs", "Prioritized opportunity report", "1 revision round"],
+          excludes: "Automation, integrations and predictive models.",
+          cta: "Start with the assessment"
         },
         {
-          title: "Professional (600)",
-          price: "$600",
-          period: "/ month",
-          desc: "Optimized corporate plan providing predictive edge and extended Soporte Cercano.",
+          id: 'executive' as PackageId,
+          title: "Executive Dashboard + Automation",
+          pricePrefix: "from",
+          price: "$2,500",
+          period: "per project",
+          timeline: "4–6 weeks",
+          desc: "The full suite: total business visibility and reports that build themselves.",
           tag: "Most Popular",
-          features: ["Predictive Models for Sales", "80% reporting time optimization", "Priority Close Support (Latam/US)", "Weekly real-time alerts"],
-          cta: "Choose Professional (600)"
+          features: ["Up to 4 integrated data sources", "Up to 3 executive dashboards", "1 automated reporting flow (−80% time)", "2 training sessions + documentation", "2 revision rounds"],
+          excludes: "Data warehouse and custom AI models.",
+          cta: "Quote my project"
         },
         {
-          title: "Advanced",
-          price: "Custom",
+          id: 'custom' as PackageId,
+          title: "Custom Solution",
+          price: "Custom quote",
           period: "",
-          desc: "Full-scale corporate infrastructure and permanent Human-in-the-loop transformation.",
-          features: ["Dedicated Data Warehouse", "Multiple Custom AI Models", "Full-Company Data Coaching", "Dedicated Senior Consultant"],
-          cta: "Get Quote"
+          timeline: "to be defined",
+          desc: "AI models, CRM/ERP integrations and data warehouses for corporate needs.",
+          features: ["Dedicated predictive models", "CRM/ERP integrations", "Own data warehouse", "Scope defined in a formal quote"],
+          excludes: "",
+          cta: "Talk to a consultant"
         }
       ],
-      footer_text: "Don't know which plan suits you?",
-      footer_link: "Request a free advisory!"
+      retainer: {
+        id: 'retainer' as PackageId,
+        tag: "Monthly add-on",
+        title: "Soporte Cercano Monthly",
+        price: "$300 / $600 / $1,000",
+        period: "/ month",
+        desc: "Continuity after your project: dashboard maintenance, adjustments, coaching and a priority WhatsApp line. Tiers depend on support intensity, with fixed monthly hours that do not roll over.",
+        cta: "Add Close Support"
+      },
+      footer_text: "Not sure which package fits you?",
+      footer_link: "The initial assessment is free — book it here."
+    },
+    cases: {
+      subtitle: "SELECTED WORK",
+      title: "Observed results from real projects.",
+      description: "A sample of our work. Explore the full portfolio to see more.",
+      items: [
+        { title: "InboxHealth Automation", category: "AI & Automation", desc: "Python and Playwright automation for admin portal workflows, API integration lookup, screenshots, JSON output and Google Sheets export." },
+        { title: "Zendesk Talk API Reporting", category: "Operations & BI", desc: "Google Apps Script and Sheets connected to Zendesk Talk to replace manual exports and validate the API as the reporting source of truth." },
+        { title: "GravityClaw", category: "AI & Automation", desc: "AI platform with a Telegram bot, automated social publishing and a real-time control dashboard." }
+      ],
+      cta: "View full portfolio"
+    },
+    faq: {
+      subtitle: "FREQUENTLY ASKED QUESTIONS",
+      title: "What companies ask us before getting started.",
+      items: [
+        { q: "What does the free assessment include?", a: "A 30–45 minute video call where we review your data sources, current reports and goals. You leave with a concrete recommendation of the right package (or the honest conclusion that you don't need one yet)." },
+        { q: "How fast will I see results?", a: "The Quick-Win package delivers a working dashboard in 2 weeks. The Executive Dashboard + Automation takes 4 to 6 weeks depending on your data sources." },
+        { q: "What happens when the project ends?", a: "The deliverable is yours: dashboards, automations and documentation. If you want continuity, the Soporte Cercano monthly add-on covers maintenance, adjustments and coaching." },
+        { q: "Which tools do you work with?", a: "Power BI, Looker Studio, Excel (Power Query/VBA), Google Sheets and custom cloud builds. We adapt to the tools your team already uses." },
+        { q: "Do you work outside Guatemala?", a: "Yes. We serve companies in Guatemala, Central America, Mexico and the United States, in Spanish or English, fully remote." },
+        { q: "Do I need clean data before starting?", a: "No. Assessing the state of your data is exactly what the diagnosis is for. We work with whatever you have: scattered Excel files, accounting systems, CRMs or databases." }
+      ]
     },
     contact: {
       subtitle: "CONTACT",
       title: "Ready to boost your company with the power of your data?",
-      description: "Contact us today and get a free initial consultation. Together we will take your company to the next level, making informed decisions.",
-      phone: "+502 40464716",
+      description: "Book your free assessment today. We reply within 24 hours with a concrete recommendation.",
+      phone: "+502 4046 4716",
       email: "info@sagepoint-analytics.com",
       form: {
         name: "Name",
@@ -282,18 +398,19 @@ const content = {
         },
         service: "I'm interested in:",
         options: {
-          general: "General Consultation",
-          basic: "Basic Plan ($300)",
-          pro: "Professional Plan ($600)",
-          custom: "Custom Solution"
-        },
+          general: "Free assessment / General consulting",
+          'quick-win': "Express Assessment + Quick-Win Dashboard ($750)",
+          executive: "Executive Dashboard + Automation (from $2,500)",
+          custom: "Custom Solution (quote)",
+          retainer: "Soporte Cercano Monthly ($300 / $600 / $1,000/mo)"
+        } as Record<PackageId, string>,
         details: "Tell us more details",
         details_ph: "Describe your specific needs (data volume, current tools, goals...)",
-        submit: "Schedule my Free Consultation",
+        submit: "Book my Free Assessment",
         sending: "Sending...",
         success: "Request sent!",
         note: "We will respond in less than 24 hours.",
-        error: "Connection error. Check constants.ts"
+        error: "Connection error. Try again or message us on WhatsApp."
       }
     },
     footer: {
@@ -306,14 +423,105 @@ const content = {
   }
 };
 
+const FORM_OPTION_IDS: PackageId[] = ['general', 'quick-win', 'executive', 'custom', 'retainer'];
+
+const SERVICE_ICONS = [BarChart3, Workflow, TableProperties, BrainCircuit, UsersRound];
+
+// Decorative stack ticker shown under the proof rail. Not translated on purpose: tool names are proper nouns.
+const STACK_TICKER = ['Power BI', 'Looker Studio', 'Excel · Power Query', 'VBA', 'Python', 'Google Sheets', 'Apps Script', 'SQL', 'CRM / ERP APIs', 'Playwright'];
+
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Animated counter for stat values like "80%" or "11,327"; renders the final value for reduced motion.
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    const match = value.match(/[\d,]+/);
+    if (!el || !match || match[0].length === 0 || prefersReducedMotion()) return;
+
+    const target = parseInt(match[0].replace(/,/g, ''), 10);
+    const start = value.slice(0, match.index);
+    const end = value.slice((match.index ?? 0) + match[0].length);
+    const useGrouping = match[0].includes(',');
+    let raf = 0;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - t0) / 1600);
+        const eased = 1 - Math.pow(1 - p, 4);
+        const current = Math.round(target * eased);
+        el.textContent = start + (useGrouping ? current.toLocaleString('en-US') : String(current)) + end;
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }, { threshold: 0.6 });
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [value]);
+
+  return <span ref={ref} className="tabular-nums">{value}</span>;
+}
+
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-  const [selectedService, setSelectedService] = useState('Consultoría General');
+  const [selectedService, setSelectedService] = useState<PackageId>('general');
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  // Language State
-  const [lang, setLang] = useState<'es' | 'en'>('es');
+  // Language state, initialized from the URL (?lang=en) so hreflang alternates are truthful.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [lang, setLang] = useState<'es' | 'en'>(searchParams.get('lang') === 'en' ? 'en' : 'es');
   const t = content[lang];
+  const heroTitle = lang === 'es'
+    ? { lead: 'Convierte tus datos en', emphasis: 'decisiones que venden.' }
+    : { lead: 'Turn your data into', emphasis: 'decisions that sell.' };
+  const proofRail = lang === 'es'
+    ? [
+        { value: 'GT + US', label: 'Operación bilingüe', icon: Globe2 },
+        { value: '2 semanas', label: 'Primer Quick-Win', icon: Clock3 },
+        { value: '<24 horas', label: 'Tiempo de respuesta', icon: MessageCircle },
+      ]
+    : [
+        { value: 'GT + US', label: 'Bilingual delivery', icon: Globe2 },
+        { value: '2 weeks', label: 'First Quick-Win', icon: Clock3 },
+        { value: '<24 hours', label: 'Response time', icon: MessageCircle },
+      ];
+
+  useDocumentMeta(t.meta.title, t.meta.description, lang === 'en' ? '/?lang=en' : '/');
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  // Scroll to the section hash when arriving from another route (e.g. /portfolio → /#contact).
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }, []);
+
+  const switchLang = (next: 'es' | 'en') => {
+    setLang(next);
+    const params = new URLSearchParams(searchParams);
+    if (next === 'en') {
+      params.set('lang', 'en');
+    } else {
+      params.delete('lang');
+    }
+    setSearchParams(params, { replace: true });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -322,6 +530,99 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Scroll-choreographed reveals: [data-reveal] elements animate in the first time they enter the viewport.
+  // The reveal is marked with a data attribute (not a class): React rewrites className on re-render
+  // (e.g. FAQ items toggling faq-item--open), which would silently strip an observer-added class.
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.setAttribute('data-revealed', ''));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.setAttribute('data-revealed', '');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Cursor spotlight on .spot cards: track pointer position as CSS vars consumed by ::before.
+  useEffect(() => {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const handleMove = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement | null)?.closest?.('.spot') as HTMLElement | null;
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
+      card.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
+    };
+    document.addEventListener('pointermove', handleMove, { passive: true });
+    return () => document.removeEventListener('pointermove', handleMove);
+  }, []);
+
+  // Ambient glow that trails the cursor (desktop pointers only).
+  const glowRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = glowRef.current;
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches || prefersReducedMotion()) return;
+    let raf = 0;
+    let targetX = 0, targetY = 0, x = 0, y = 0;
+    const step = () => {
+      x += (targetX - x) * 0.09;
+      y += (targetY - y) * 0.09;
+      el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+      raf = Math.abs(targetX - x) + Math.abs(targetY - y) > 0.6 ? requestAnimationFrame(step) : 0;
+    };
+    const handleMove = (e: PointerEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (!el.classList.contains('cursor-glow--on')) {
+        x = targetX;
+        y = targetY;
+        el.classList.add('cursor-glow--on');
+      }
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    window.addEventListener('pointermove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', handleMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Reading progress bar across the top of the page (updates outside React via rAF).
+  const progressRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      progressRef.current?.style.setProperty('transform', `scaleX(${max > 0 ? window.scrollY / max : 0})`);
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', request);
+      window.removeEventListener('resize', request);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const heroWords = [
+    ...heroTitle.lead.split(' ').map((text) => ({ text, em: false })),
+    ...heroTitle.emphasis.split(' ').map((text) => ({ text, em: true })),
+  ];
 
   // Helper for smooth scrolling preventing default navigation
   const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -332,16 +633,24 @@ function App() {
     }
   };
 
+  // Package CTA: preselect the package in the form and scroll to it.
+  const handleSelectPackage = (e: React.MouseEvent<HTMLAnchorElement>, id: PackageId) => {
+    e.preventDefault();
+    setSelectedService(id);
+    trackEvent('select_package', { package_id: id, language: lang });
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
-    let serviceValue = formData.get('service') as string;
+    const packageId = (formData.get('service') as PackageId) || 'general';
     const industry = formData.get('industry') as string;
     const country = formData.get('country') as string;
-    const details = formData.get('details') as string; // Fix: Define details
+    const details = formData.get('details') as string;
 
     // Validación manual estricta
     if (!name || name.trim().length < 2) {
@@ -358,7 +667,9 @@ function App() {
 
     setFormState('sending');
 
-    if (serviceValue === 'Solución a Medida' && details) {
+    const serviceLabel = t.contact.form.options[packageId];
+    let serviceValue = `${packageId} | ${serviceLabel}`;
+    if (packageId === 'custom' && details) {
       serviceValue += ` | Detalles: ${details}`;
     }
 
@@ -368,24 +679,33 @@ function App() {
       industry: industry || 'No especificado',
       country: country || 'No especificado',
       service: serviceValue,
+      packageId: packageId,
       language: lang === 'es' ? 'Español' : 'English',
       type: 'Formulario Web'
     };
 
-    // Send to Google Sheet
-    const success = await submitToGoogleSheet(data);
+    trackEvent('lead_submit_attempt', { package_id: packageId, language: lang });
 
-    if (success) {
+    // Send to Google Sheet
+    const result = await submitToGoogleSheet(data);
+
+    if (result) {
+      // Only count a confirmed server response as a real conversion;
+      // the no-cors fallback cannot verify the row was written.
+      if (result === 'confirmed') {
+        trackEvent('generate_lead', { package_id: packageId, language: lang });
+      } else {
+        trackEvent('lead_submit_attempt', { package_id: packageId, language: lang, delivery: 'unconfirmed' });
+      }
       setFormState('success');
       // Reset after a delay
       setTimeout(() => {
         setFormState('idle');
-        setSelectedService(t.contact.form.options.general); // Reset selection
+        setSelectedService('general');
         (e.target as HTMLFormElement).reset();
       }, 3000);
     } else {
       setFormState('error');
-      // alert("Error: No se pudo conectar con la hoja de cálculo. Verifica la URL en 'constants.ts'.");
       setTimeout(() => setFormState('idle'), 4000);
     }
   };
@@ -396,91 +716,132 @@ function App() {
   };
 
   return (
-    <div className="font-sans text-slate-300 min-h-screen relative overflow-x-hidden selection:bg-sage/30 selection:text-sage">
+    <div className="site-shell font-sans text-slate-300 min-h-screen relative overflow-x-hidden selection:bg-sage/30 selection:text-sage">
 
-      {/* Background Ambient Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute w-[520px] h-[520px] bg-sage/35 rounded-full blur-[100px] -bottom-44 -left-32 opacity-50" />
-        <div className="absolute w-[300px] h-[300px] bg-deep-sage/30 rounded-full blur-[80px] top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40" />
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(240,248,246,0.06)_1px,transparent_1px)] [background-size:26px_26px] opacity-40" />
+      <div ref={progressRef} className="scroll-progress" aria-hidden="true" />
+
+      {/* Ambient data field */}
+      <div className="site-ambient fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+        <div className="site-ambient__orb site-ambient__orb--one" />
+        <div className="site-ambient__orb site-ambient__orb--two" />
+        <div className="site-ambient__grid" />
+        <div className="site-ambient__noise" />
+        <div ref={glowRef} className="cursor-glow" />
       </div>
 
       {/* Navigation */}
-      <header className={`sticky top-0 z-40 backdrop-blur-md border-b transition-all duration-300 ${isScrolled ? 'bg-[#070d0e]/90 border-slate-300/10 py-3' : 'bg-transparent border-transparent py-5'}`}>
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <a href="/" onClick={scrollToTop} className="font-serif text-2xl font-bold text-ink tracking-tight">Sagepoint</a>
+      <header className={`site-header sticky top-0 z-40 border-b transition-all duration-300 ${isScrolled ? 'site-header--scrolled py-3' : 'border-transparent py-5'}`}>
+        <div className="max-w-[1240px] mx-auto px-5 md:px-8 flex items-center justify-between">
+          <a href="/" onClick={scrollToTop} className="brand-lockup group" aria-label="Sagepoint Analytics">
+            <span className="brand-mark"><BarChart3 size={17} strokeWidth={2.2} /></span>
+            <span className="font-serif text-[1.45rem] text-ink tracking-tight leading-none">Sagepoint</span>
+            <span className="brand-subtitle">Analytics</span>
+          </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
-            <a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage transition-colors">{t.nav.services}</a>
-            <a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage transition-colors">{t.nav.benefits}</a>
-            <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage transition-colors">{t.nav.pricing}</a>
-            <Link to="/portfolio" className="hover:text-sage transition-colors">Portfolio</Link>
+          <nav className="hidden md:flex items-center gap-7 text-[0.78rem] font-semibold text-muted">
+            <a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="nav-link hover:text-sage transition-colors">{t.nav.services}</a>
+            <a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="nav-link hover:text-sage transition-colors">{t.nav.benefits}</a>
+            <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="nav-link hover:text-sage transition-colors">{t.nav.packages}</a>
+            <a href="#faq" onClick={(e) => handleScrollToSection(e, 'faq')} className="nav-link hover:text-sage transition-colors">{t.nav.faq}</a>
+            <Link to="/portfolio/" className="nav-link hover:text-sage transition-colors">Portfolio</Link>
 
             {/* Language Toggles */}
-            <div className="flex items-center gap-2 px-2 border-l border-slate-700/50">
+            <div className="flex items-center gap-1 pl-4 border-l border-white/10">
               <button
-                onClick={() => setLang('es')}
-                className={`text-xl hover:scale-110 transition-transform ${lang === 'es' ? 'opacity-100' : 'opacity-40 grayscale'}`}
+                onClick={() => switchLang('es')}
+                className={`language-chip ${lang === 'es' ? 'language-chip--active' : ''}`}
                 title="Español"
+                aria-label="Español"
               >
-                🇬🇹
+                ES
               </button>
               <button
-                onClick={() => setLang('en')}
-                className={`text-xl hover:scale-110 transition-transform ${lang === 'en' ? 'opacity-100' : 'opacity-40 grayscale'}`}
+                onClick={() => switchLang('en')}
+                className={`language-chip ${lang === 'en' ? 'language-chip--active' : ''}`}
                 title="English"
+                aria-label="English"
               >
-                🇺🇸
+                EN
               </button>
             </div>
 
-            <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="px-5 py-2.5 rounded-full border border-sage/40 text-sage bg-[#0f1a1c]/80 hover:bg-[#0f1a1c] hover:-translate-y-px hover:shadow-[0_8px_22px_rgba(47,176,148,0.35)] transition-all duration-200">
-              {t.nav.schedule}
+            <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--nav">
+              {t.nav.schedule}<ArrowUpRight size={14} />
             </a>
           </nav>
+
+          {/* Mobile: language toggle + main CTA (section links live in the footer) */}
+          <div className="flex md:hidden items-center gap-1">
+            <button
+              onClick={() => switchLang('es')}
+              className={`language-chip ${lang === 'es' ? 'language-chip--active' : ''}`}
+              title="Español"
+              aria-label="Español"
+            >
+              ES
+            </button>
+            <button
+              onClick={() => switchLang('en')}
+              className={`language-chip mr-1 ${lang === 'en' ? 'language-chip--active' : ''}`}
+              title="English"
+              aria-label="English"
+            >
+              EN
+            </button>
+            <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--nav px-3.5! whitespace-nowrap">
+              {t.nav.schedule_short}
+            </a>
+          </div>
         </div>
       </header>
 
       <main className="relative z-10">
 
         {/* Hero Section */}
-        <section className="pt-24 pb-20 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-[floatIn_0.9s_ease-out]">
-            <p className="text-xs font-bold tracking-[0.14em] text-deep-sage uppercase">{t.hero.subtitle}</p>
-            <h1 className="font-serif text-5xl md:text-6xl text-ink leading-[1.1]">
-              {t.hero.title}
+        <section className="hero-section px-5 md:px-8 max-w-[1240px] mx-auto">
+          <div className="hero-copy animate-[floatIn_0.9s_ease-out]">
+            <div className="eyebrow"><span className="eyebrow-dot" />{t.hero.subtitle}</div>
+            <h1 key={lang} className="hero-title font-serif text-ink">
+              {heroWords.map((word, i) => (
+                <React.Fragment key={`${word.text}-${i}`}>
+                  <span className="hero-word">
+                    <span className="hero-word__inner" style={{ animationDelay: `${140 + i * 85}ms` }}>
+                      {word.em ? <em>{word.text}</em> : word.text}
+                    </span>
+                  </span>
+                  {i < heroWords.length - 1 ? ' ' : ''}
+                </React.Fragment>
+              ))}
             </h1>
-            <p className="text-lg text-muted max-w-lg leading-relaxed">
+            <p className="hero-description text-muted">
               {t.hero.description}
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="px-6 py-3 rounded-full font-semibold bg-deep-sage text-dark hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(47,176,148,0.35)] transition-all">
-                {t.hero.cta_consult}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--primary">
+                {t.hero.cta_consult}<ArrowUpRight size={18} />
               </a>
-              <a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="px-6 py-3 rounded-full font-semibold border border-slate-300/20 text-ink bg-[#0f1a1c]/85 hover:-translate-y-1 transition-transform">
-                {t.hero.cta_services}
+              <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="button button--secondary">
+                {t.hero.cta_services}<MoveRight size={17} />
               </a>
             </div>
             <SocialConnectButtons lang={lang} />
 
             {/* Metrics / Social Proof */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-slate-300/10">
-              <div>
-                <span className="block text-xl font-bold text-ink">80%</span>
-                <p className="text-sm text-muted">{t.hero.metrics.savings}</p>
-              </div>
-              <div>
-                <span className="block text-xl font-bold text-ink">+20%</span>
-                <p className="text-sm text-muted">{t.hero.metrics.sales}</p>
-              </div>
-              <div>
-                <span className="block text-xl font-bold text-ink">24/7</span>
-                <p className="text-sm text-muted">{t.hero.metrics.visibility}</p>
-              </div>
+            <div className="hero-metrics">
+              {[
+                { value: '80%', label: t.hero.metrics.savings },
+                { value: '11,327', label: lang === 'es' ? 'registros reconciliados' : 'records reconciled' },
+                { value: '33,370', label: lang === 'es' ? 'filas consolidadas' : 'rows consolidated' },
+              ].map((metric) => (
+                <div key={metric.value} className="hero-metric">
+                  <CountUp value={metric.value} />
+                  <p>{metric.label}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <GlobeDashboard texts={{
+          <HeroScene texts={{
             title: t.hero.dashboard.title,
             updated: t.hero.dashboard.updated,
             stockAlert: t.hero.dashboard.stock,
@@ -488,130 +849,284 @@ function App() {
           }} />
         </section>
 
-        {/* Services Section */}
-        <section id="services" className="py-24 px-6 max-w-6xl mx-auto scroll-mt-20">
-          <div className="max-w-2xl mb-16">
-            <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.services.subtitle}</p>
-            <h2 className="font-serif text-4xl text-ink mb-4">{t.services.title}</h2>
-            <p className="text-lg text-muted">
-              {t.services.description}
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-6">
-            {t.services.items.map((service, i) => (
-              <article key={i} className="bg-[#0f191b]/80 border border-slate-300/10 p-6 rounded-[18px] hover:bg-[#0f191b] hover:translate-y-[-4px] transition-all duration-300 shadow-xl flex-1 min-w-[280px] max-w-[400px]">
-                <h3 className="font-serif text-xl text-ink mb-3">{service.title}</h3>
-                <p className="text-sm text-muted leading-relaxed mb-6">{service.desc}</p>
-                <span className="text-xs font-bold text-deep-sage uppercase tracking-wider">{service.tag}</span>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Why Us / Benefits Section (Formerly Automation) */}
-        <section id="why-us" className="py-24 px-6 bg-[#0d1719]/50 border-y border-slate-300/5 scroll-mt-20">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.benefits.subtitle}</p>
-              <h2 className="font-serif text-4xl text-ink mb-6">{t.benefits.title}</h2>
-              <p className="text-lg text-muted mb-8">
-                {t.benefits.description}
-              </p>
-              <ul className="space-y-4">
-                {t.benefits.list.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="mt-1 w-5 h-5 rounded-full bg-sage/20 text-sage flex items-center justify-center text-xs">✓</div>
-                    <span className="text-slate-300"><strong className="text-ink">{item.bold}</strong> {item.text}</span>
-                  </li>
-                ))}
-              </ul>
+        <section className="proof-rail max-w-[1240px] mx-auto px-5 md:px-8" aria-label={lang === 'es' ? 'Datos clave' : 'Key facts'}>
+          <div className="proof-rail__inner" data-reveal>
+            <div className="proof-rail__lead">
+              <Sparkles size={16} />
+              <span>{lang === 'es' ? 'De datos dispersos a claridad operativa.' : 'From scattered data to operational clarity.'}</span>
             </div>
-
-            <div className="space-y-4">
-              {t.benefits.cards.map((benefit, i) => (
-                <div key={i} className="flex gap-6 p-6 bg-[#0e181a] border-l-4 border-sage rounded-r-2xl shadow-lg hover:shadow-sage/10 transition-shadow">
-                  <div className="pt-1">
-                    <div className="w-8 h-8 rounded-full bg-sage/20 text-sage flex items-center justify-center font-bold font-serif">{i + 1}</div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-serif text-ink mb-1">{benefit.title}</h3>
-                    <p className="text-muted text-sm">{benefit.desc}</p>
-                  </div>
+            <div className="proof-rail__facts">
+              {proofRail.map(({ value, label, icon: Icon }) => (
+                <div key={value} className="proof-fact">
+                  <Icon size={16} />
+                  <div><strong>{value}</strong><span>{label}</span></div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section id="pricing" className="py-24 px-6 max-w-6xl mx-auto scroll-mt-20">
-          <div className="bg-gradient-to-br from-sage/10 to-copper/5 rounded-[32px] p-8 md:p-12 lg:p-16">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.pricing.subtitle}</p>
-              <h2 className="font-serif text-4xl text-ink">{t.pricing.title}</h2>
+        {/* Stack ticker */}
+        <div className="tool-marquee" aria-hidden="true">
+          <div className="tool-marquee__track">
+            {[0, 1].map((dup) => (
+              <div key={dup} className="tool-marquee__group">
+                {STACK_TICKER.map((tool) => (
+                  <span key={tool}><i />{tool}</span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Services Section */}
+        <section id="services" className="section-frame max-w-[1240px] mx-auto px-5 md:px-8 scroll-mt-20">
+          <div className="section-heading section-heading--split" data-reveal>
+            <div>
+              <p className="eyebrow"><span>01</span>{t.services.subtitle}</p>
+              <h2 className="section-title font-serif text-ink">{t.services.title}</h2>
+            </div>
+            <p className="section-description text-muted">
+              {t.services.description}
+            </p>
+          </div>
+
+          <div className="services-grid">
+            {t.services.items.map((service, i) => {
+              const Icon = SERVICE_ICONS[i];
+              return (
+                <article key={i} className={`service-card service-card--${i + 1} spot`} data-reveal style={{ '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}>
+                  <div className="service-card__top">
+                    <span className="service-card__number">0{i + 1}</span>
+                    <span className="service-card__icon"><Icon size={21} /></span>
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-[1.6rem] leading-tight text-ink mb-3">{service.title}</h3>
+                    <p className="text-sm text-muted leading-relaxed">{service.desc}</p>
+                  </div>
+                  <div className="service-card__tag"><span />{service.tag}</div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Why Us / Benefits Section */}
+        <section id="why-us" className="decision-section scroll-mt-20">
+          <div className="max-w-[1240px] mx-auto px-5 md:px-8 grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20 items-start">
+            <div className="decision-copy" data-reveal>
+              <p className="eyebrow"><span>02</span>{t.benefits.subtitle}</p>
+              <h2 className="section-title font-serif text-ink mb-6">{t.benefits.title}</h2>
+              <p className="section-description text-muted mb-9">
+                {t.benefits.description}
+              </p>
+              <ul className="decision-checks">
+                {t.benefits.list.map((item, i) => (
+                  <li key={i}>
+                    <div className="decision-check"><Check size={14} strokeWidth={3} /></div>
+                    <span className="text-slate-300"><strong className="text-ink">{item.bold}</strong> {item.text}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {t.pricing.cards.map((plan, i) => {
-                const isPro = i === 1;
+            <div className="decision-flow" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties} aria-label={lang === 'es' ? 'Proceso de decisión' : 'Decision process'}>
+              <div className="decision-flow__header">
+                <span>{lang === 'es' ? 'EL SISTEMA SAGEPOINT' : 'THE SAGEPOINT SYSTEM'}</span>
+                <span className="decision-flow__status"><i />{lang === 'es' ? 'Validación activa' : 'Validation active'}</span>
+              </div>
+              {t.benefits.cards.map((benefit, i) => (
+                <div key={i} className="decision-step">
+                  <div className="decision-step__index">0{i + 1}</div>
+                  <div className="decision-step__icon">
+                    {i === 0 ? <DatabaseZap size={21} /> : i === 1 ? <Network size={21} /> : <BrainCircuit size={21} />}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-serif text-ink mb-2">{benefit.title}</h3>
+                    <p className="text-muted text-sm leading-relaxed">{benefit.desc}</p>
+                  </div>
+                  <MoveRight className="decision-step__arrow" size={20} />
+                </div>
+              ))}
+              <div className="decision-flow__footer">
+                <span>{lang === 'es' ? 'Datos fragmentados' : 'Fragmented data'}</span>
+                <span className="decision-flow__line" />
+                <strong>{lang === 'es' ? 'Decisión confiable' : 'Confident decision'}</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Packages Section */}
+        <section id="pricing" className="section-frame max-w-[1240px] mx-auto px-5 md:px-8 scroll-mt-20">
+          <div className="pricing-shell">
+            <div className="section-heading text-center max-w-3xl mx-auto" data-reveal>
+              <p className="eyebrow justify-center"><span>03</span>{t.packages.subtitle}</p>
+              <h2 className="section-title font-serif text-ink mb-5">{t.packages.title}</h2>
+              <p className="section-description text-muted mx-auto">{t.packages.description}</p>
+            </div>
+
+            <div className="pricing-grid">
+              {t.packages.cards.map((plan, i) => {
+                const isPopular = 'tag' in plan && !!plan.tag;
                 return (
-                  <div key={i} className={`bg-dark p-8 rounded-3xl shadow-xl flex flex-col transition-all duration-300 ${isPro ? 'border-2 border-deep-sage relative transform md:-translate-y-4 shadow-2xl' : 'border border-slate-300/10 hover:border-slate-300/30'}`}>
-                    {isPro && <div className="absolute top-4 right-4 bg-deep-sage text-dark text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">{plan.tag}</div>}
-                    <h3 className="font-serif text-2xl text-ink">{plan.title}</h3>
-                    <p className="text-3xl font-bold text-ink mt-4 mb-6">{plan.price} <span className="text-lg font-normal text-muted">{plan.period}</span></p>
-                    <p className="text-sm text-muted mb-6 italic">{plan.desc}</p>
-                    <ul className="space-y-3 text-muted text-sm mb-8 flex-1">
+                  <div key={plan.id} className={`price-card spot ${isPopular ? 'price-card--featured' : ''}`} data-reveal style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}>
+                    <div className="price-card__topline">
+                      <span>0{i + 1}</span>
+                      {isPopular ? <span className="price-card__popular"><Sparkles size={12} />{(plan as any).tag}</span> : <span>{lang === 'es' ? 'Proyecto definido' : 'Fixed project'}</span>}
+                    </div>
+                    <h3 className="font-serif text-[1.65rem] leading-tight text-ink">{plan.title}</h3>
+                    <p className="price-card__price text-ink">
+                      {'pricePrefix' in plan && (plan as any).pricePrefix ? <><em>{(plan as any).pricePrefix}</em>{' '}</> : null}
+                      {plan.price} <span>{plan.period}</span>
+                    </p>
+                    <p className="price-card__timeline"><Clock3 size={14} />{t.packages.timeline_label}: {plan.timeline}</p>
+                    <p className="text-sm text-muted mb-7 leading-relaxed">{plan.desc}</p>
+                    <ul className="price-card__features text-muted text-sm mb-7 flex-1">
                       {plan.features.map((feat, j) => (
-                        <li key={j} className={isPro && j === 0 ? 'text-sage font-medium' : ''}>• {feat}</li>
+                        <li key={j} className={isPopular && j === 0 ? 'text-sage font-medium' : ''}><Check size={14} />{feat}</li>
                       ))}
                     </ul>
-                    <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className={`w-full py-3 rounded-full text-center font-semibold transition-all ${isPro ? 'bg-deep-sage text-dark font-bold hover:shadow-lg hover:-translate-y-1' : 'border border-slate-300/20 text-ink hover:bg-slate-800'}`}>
-                      {plan.cta}
+                    {plan.excludes && (
+                      <p className="price-card__excludes"><span>{t.packages.excludes_label}:</span> {plan.excludes}</p>
+                    )}
+                    <a href="#contact" onClick={(e) => handleSelectPackage(e, plan.id)} className={`button w-full justify-between ${isPopular ? 'button--primary' : 'button--secondary'}`}>
+                      {plan.cta}<ArrowUpRight size={17} />
                     </a>
                   </div>
                 )
               })}
             </div>
 
-            <div className="text-center mt-12">
-              <p className="text-muted mb-4">{t.pricing.footer_text}</p>
-              <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="text-sage font-bold hover:underline">{t.pricing.footer_link}</a>
+            {/* Retainer add-on */}
+            <div className="retainer-card" data-reveal>
+              <div className="retainer-card__icon"><UsersRound size={24} /></div>
+              <div className="flex-1">
+                <span className="retainer-card__tag">{t.packages.retainer.tag}</span>
+                <h3 className="font-serif text-[1.7rem] text-ink mb-2">{t.packages.retainer.title}</h3>
+                <p className="text-sm text-muted max-w-3xl leading-relaxed">{t.packages.retainer.desc}</p>
+              </div>
+              <div className="md:text-right shrink-0">
+                <p className="retainer-card__price text-ink">{t.packages.retainer.price} <span>{t.packages.retainer.period}</span></p>
+                <a href="#contact" onClick={(e) => handleSelectPackage(e, 'retainer')} className="button button--copper">
+                  {t.packages.retainer.cta}<ArrowUpRight size={16} />
+                </a>
+              </div>
+            </div>
+
+            <div className="pricing-footer">
+              <p className="text-muted">{t.packages.footer_text}</p>
+              <a href="#contact" onClick={(e) => handleSelectPackage(e, 'general')}>{t.packages.footer_link}<MoveRight size={16} /></a>
             </div>
           </div>
         </section>
 
+        {/* Selected Cases Section */}
+        <section id="cases" className="case-section scroll-mt-20">
+          <div className="max-w-[1240px] mx-auto px-5 md:px-8">
+            <div className="section-heading section-heading--split" data-reveal>
+              <div>
+                <p className="eyebrow"><span>04</span>{t.cases.subtitle}</p>
+                <h2 className="section-title font-serif text-ink">{t.cases.title}</h2>
+              </div>
+              <div>
+                <p className="section-description text-muted">{t.cases.description}</p>
+                <Link to="/portfolio/" className="text-link mt-5">{t.cases.cta}<ArrowUpRight size={16} /></Link>
+              </div>
+            </div>
+            <div className="case-grid">
+              {t.cases.items.map((c, i) => (
+                <article key={i} className="case-card" data-reveal style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}>
+                  <div className="case-card__signal" aria-hidden="true">
+                    <div className="case-card__signal-head"><span>CASE / 0{i + 1}</span><i /></div>
+                    <div className="case-card__bars">
+                      {[38, 57, 49, 74, 62, 88, 72, 96].map((height, barIndex) => (
+                        <span key={barIndex} style={{ height: `${height}%`, animationDelay: `${barIndex * 80}ms` }} />
+                      ))}
+                    </div>
+                    <div className="case-card__readout">
+                      <strong>{i === 0 ? 'MFA + API' : i === 1 ? '11,327' : '24/7'}</strong>
+                      <span>{i === 0 ? 'AUTOMATION' : i === 1 ? 'RECONCILED' : 'LIVE SIGNAL'}</span>
+                    </div>
+                  </div>
+                  <div className="case-card__body">
+                    <span className="case-card__category">{c.category}</span>
+                    <h3 className="font-serif text-[1.65rem] leading-tight text-ink mt-3 mb-4">{c.title}</h3>
+                    <p className="text-sm text-muted leading-relaxed">{c.desc}</p>
+                    <Link to="/portfolio/" className="case-card__footer"><span>{lang === 'es' ? 'Ver capacidad' : 'View capability'}</span><ArrowUpRight size={16} /></Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section id="faq" className="section-frame px-5 md:px-8 max-w-[1040px] mx-auto scroll-mt-20">
+          <div className="section-heading text-center max-w-3xl mx-auto" data-reveal>
+            <p className="eyebrow justify-center"><span>05</span>{t.faq.subtitle}</p>
+            <h2 className="section-title font-serif text-ink">{t.faq.title}</h2>
+          </div>
+          <div className="faq-list">
+            {t.faq.items.map((item, i) => (
+              <div key={i} className={`faq-item ${openFaq === i ? 'faq-item--open' : ''}`} data-reveal style={{ '--reveal-delay': `${i * 55}ms` } as React.CSSProperties}>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  className="w-full flex items-center justify-between gap-5 px-5 md:px-7 py-6 text-left"
+                >
+                  <span className="flex items-center gap-5"><i>0{i + 1}</i><span className="font-serif text-lg md:text-xl text-ink">{item.q}</span></span>
+                  <span className={`faq-toggle ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                </button>
+                <div className="faq-answer" aria-hidden={openFaq !== i}>
+                  <div>
+                    <p className="px-5 md:px-7 pb-6 md:pl-[5.4rem] text-muted text-sm leading-relaxed max-w-3xl">{item.a}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Contact Section */}
-        <section id="contact" className="pb-24 px-6 max-w-6xl mx-auto scroll-mt-20">
-          <div className="bg-[#0d1719]/95 border border-slate-300/10 rounded-[28px] p-8 md:p-12 shadow-[0_24px_60px_rgba(2,6,7,0.6)] grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-bold tracking-widest text-deep-sage uppercase mb-3">{t.contact.subtitle}</p>
-              <h2 className="font-serif text-4xl text-ink mb-6">{t.contact.title}</h2>
-              <p className="text-muted text-lg mb-6">
+        <section id="contact" className="contact-section px-5 md:px-8 max-w-[1240px] mx-auto scroll-mt-20">
+          <div className="contact-shell">
+            <div className="contact-copy" data-reveal>
+              <p className="eyebrow"><span>06</span>{t.contact.subtitle}</p>
+              <h2 className="contact-title font-serif text-ink">{t.contact.title}</h2>
+              <p className="section-description text-muted mb-8">
                 {t.contact.description}
               </p>
-              <div className="space-y-2 text-sm text-slate-400">
+              <div className="contact-promise">
+                <div><Clock3 size={18} /><span><strong>{lang === 'es' ? '<24 horas' : '<24 hours'}</strong>{lang === 'es' ? 'para responder' : 'to respond'}</span></div>
+                <div><MapPin size={18} /><span><strong>Guatemala + US</strong>{lang === 'es' ? 'servicio remoto' : 'remote delivery'}</span></div>
+              </div>
+              <div className="contact-links">
                 <p>
-                  <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-sage transition-colors">
-                    📱 {t.contact.phone}
+                  <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'contact_section' })} className="hover:text-sage transition-colors">
+                    <MessageCircle size={16} />{t.contact.phone}
                   </a>
                 </p>
                 <p>
                   <a href={`mailto:${t.contact.email}`} className="hover:text-sage transition-colors">
-                    ✉️ {t.contact.email}
+                    <Mail size={16} />{t.contact.email}
                   </a>
                 </p>
               </div>
             </div>
 
-            <form className="space-y-5" onSubmit={handleFormSubmit}>
+            <form className="contact-form" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties} onSubmit={handleFormSubmit}>
+              <div className="contact-form__header">
+                <span>{lang === 'es' ? 'SOLICITUD DE DIAGNÓSTICO' : 'ASSESSMENT REQUEST'}</span>
+                <span><i />{lang === 'es' ? 'Disponible' : 'Available'}</span>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.name}</label>
                 <input
                   name="name"
                   type="text"
                   required
-                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  className="form-control"
                   placeholder={t.contact.form.name_ph}
                 />
               </div>
@@ -621,7 +1136,7 @@ function App() {
                   name="email"
                   type="email"
                   required
-                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  className="form-control"
                   placeholder={t.contact.form.email_ph}
                 />
               </div>
@@ -630,13 +1145,12 @@ function App() {
                 <select
                   name="service"
                   value={selectedService}
-                  onChange={(e) => setSelectedService(e.target.value)}
-                  className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                  onChange={(e) => setSelectedService(e.target.value as PackageId)}
+                  className="form-control"
                 >
-                  <option value="Consultoría General">{t.contact.form.options.general}</option>
-                  <option value="Plan Básico">{t.contact.form.options.basic}</option>
-                  <option value="Plan Profesional">{t.contact.form.options.pro}</option>
-                  <option value="Solución a Medida">{t.contact.form.options.custom}</option>
+                  {FORM_OPTION_IDS.map((id) => (
+                    <option key={id} value={id}>{t.contact.form.options[id]}</option>
+                  ))}
                 </select>
               </div>
 
@@ -645,7 +1159,7 @@ function App() {
                   <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.industry}</label>
                   <select
                     name="industry"
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                    className="form-control"
                   >
                     <option value="">{t.contact.form.industry_ph}</option>
                     {Object.entries(t.contact.form.industry_options).map(([key, label]) => (
@@ -657,7 +1171,7 @@ function App() {
                   <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.country}</label>
                   <select
                     name="country"
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors"
+                    className="form-control"
                   >
                     <option value="">{t.contact.form.country_ph}</option>
                     {Object.entries(t.contact.form.country_options).map(([key, label]) => (
@@ -667,13 +1181,13 @@ function App() {
                 </div>
               </div>
 
-              {selectedService === 'Solución a Medida' && (
-                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+              {(selectedService === 'custom' || selectedService === 'executive') && (
+                <div className="animate-[floatIn_0.3s_ease-out]">
                   <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.details}</label>
                   <textarea
                     name="details"
                     rows={3}
-                    className="w-full bg-[#080f10] border border-slate-300/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-copper focus:ring-1 focus:ring-copper transition-colors placeholder:text-muted/40"
+                    className="form-control resize-none"
                     placeholder={t.contact.form.details_ph}
                   ></textarea>
                 </div>
@@ -682,10 +1196,10 @@ function App() {
               <button
                 type="submit"
                 disabled={formState !== 'idle' && formState !== 'error'}
-                className={`w-full py-4 rounded-full font-bold transition-all duration-300 
+                className={`button w-full justify-center py-4! font-bold transition-all duration-300
                   ${formState === 'success' ? 'bg-green-500 text-white' : ''}
                   ${formState === 'error' ? 'bg-red-500/20 border border-red-500 text-red-400' : ''}
-                  ${formState === 'idle' ? 'bg-deep-sage text-dark hover:shadow-[0_10px_25px_rgba(47,176,148,0.25)] hover:-translate-y-1' : ''}
+                  ${formState === 'idle' ? 'button--primary' : ''}
                   ${formState === 'sending' ? 'bg-deep-sage/50 text-dark opacity-80 cursor-wait' : ''}
                 `}
               >
@@ -694,7 +1208,7 @@ function App() {
                 {formState === 'success' && t.contact.form.success}
                 {formState === 'error' && t.contact.form.error}
               </button>
-              <p className="text-xs text-center text-muted/60">{t.contact.form.note}</p>
+              <p className="text-xs text-center text-muted/60 flex items-center justify-center gap-2"><Check size={12} />{t.contact.form.note}</p>
             </form>
           </div>
         </section>
@@ -702,38 +1216,40 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-300/5 bg-[#070d0e] pt-16 pb-8 px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 mb-16">
+      <footer className="site-footer pt-16 pb-8 px-5 md:px-8">
+        <div className="max-w-[1240px] mx-auto grid md:grid-cols-[1.4fr_0.7fr_0.9fr] gap-12 mb-16">
           <div className="col-span-1">
-            <a href="/" onClick={scrollToTop} className="font-serif text-2xl font-bold text-ink tracking-tight mb-4 block">Sagepoint</a>
-            <p className="text-sm text-muted">{t.footer.tagline}</p>
+            <a href="/" onClick={scrollToTop} className="brand-lockup mb-5"><span className="brand-mark"><BarChart3 size={17} /></span><span className="font-serif text-2xl text-ink">Sagepoint</span></a>
+            <p className="text-sm text-muted max-w-sm leading-relaxed">{t.footer.tagline}</p>
+            <div className="footer-signal"><i />{lang === 'es' ? 'Convirtiendo señales en decisiones.' : 'Turning signals into decisions.'}</div>
           </div>
 
           <div>
-            <h4 className="font-bold text-ink mb-4">{t.footer.menu}</h4>
+            <h4 className="footer-heading">{t.footer.menu}</h4>
             <ul className="space-y-2 text-sm text-muted">
               <li><a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage">{t.nav.services}</a></li>
               <li><a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage">{t.nav.benefits}</a></li>
-              <li><a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage">{t.nav.pricing}</a></li>
+              <li><a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage">{t.nav.packages}</a></li>
+              <li><Link to="/portfolio/" className="hover:text-sage">Portfolio</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold text-ink mb-4">{t.footer.contact}</h4>
+            <h4 className="footer-heading">{t.footer.contact}</h4>
             <div className="flex flex-col gap-2">
-              <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-sm text-sage hover:underline">{t.contact.phone}</a>
+              <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'footer' })} className="text-sm text-sage hover:underline">{t.contact.phone}</a>
               <a href={`mailto:${t.contact.email}`} className="text-sm text-sage hover:underline">{t.contact.email}</a>
             </div>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto text-center text-xs text-muted/40">
-          {t.footer.rights}
+        <div className="footer-watermark" aria-hidden="true">SAGEPOINT</div>
+        <div className="max-w-[1240px] mx-auto pt-7 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted/50">
+          <span>{t.footer.rights}</span>
+          <span className="font-mono tracking-wider">DATA / CLARITY / GROWTH</span>
         </div>
       </footer>
 
-      <Suspense fallback={null}>
-        <VoiceAssistant lang={lang} />
-      </Suspense>
+      <WhatsAppButton lang={lang} />
 
     </div>
   );

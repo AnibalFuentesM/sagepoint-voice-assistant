@@ -1,7 +1,5 @@
 {
-  "name": "Sagepoint Voice Assistant",
-  "description": "A React conversion of the Sagepoint landing page featuring a Gemini Live API voice assistant in Spanish.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "name": "Sagepoint Web",
+  "description": "Sagepoint Analytics landing page: productized Business Intelligence packages for SMEs in Guatemala and the US.",
+  "requestFramePermissions": []
 }
