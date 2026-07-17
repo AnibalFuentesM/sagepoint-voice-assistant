@@ -15,4 +15,5 @@ Stack: Vite + React 19 + Tailwind (CDN) + react-router-dom. Deploy en Vercel.
 ## Configuración
 
 - **Formulario de contacto**: envía a Google Sheets vía Apps Script (`GOOGLE_SCRIPT_URL` en `constants.ts`).
-- **Google Analytics 4**: reemplaza `G-XXXXXXXXXX` en `index.html` con tu Measurement ID real.
+- **Google Analytics 4**: define `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` en `.env.local` para desarrollo y en Vercel para producción. La web captura `page_view`, `select_package`, `lead_submit_attempt`, `generate_lead` y `whatsapp_click`.
+- **Atribución de leads**: los parámetros de la campaña más reciente se guardan localmente y se envían con el formulario (`utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, página de entrada y referente).

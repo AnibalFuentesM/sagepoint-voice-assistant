@@ -1829,27 +1829,19 @@ textarea:focus-visible {
   mask-image: linear-gradient(180deg, #000, transparent 94%);
 }
 
-/* 3D hero backdrop: Spline canvas floats behind the dashboard card, never intercepts input. */
+/* Hero backdrop: one soft brand glow behind the dashboard card (replaces the old Spline 3D scene). */
 .hero-scene {
   position: relative;
 }
 
-.hero-scene__canvas {
+.hero-scene__glow {
   position: absolute;
-  inset: -8% -14%;
+  inset: -12% -18%;
   z-index: 0;
-  opacity: 0;
-  transition: opacity 1.4s ease 0.2s;
   pointer-events: none;
-}
-
-.hero-scene__canvas--on {
-  opacity: 0.9;
-}
-
-.hero-scene__canvas canvas {
-  width: 100% !important;
-  height: 100% !important;
+  background:
+    radial-gradient(ellipse 55% 45% at 70% 30%, rgba(99, 230, 190, 0.09), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 25% 75%, rgba(242, 166, 90, 0.05), transparent 70%);
 }
 
 .hero-scene > figure {

@@ -13,7 +13,7 @@ sin paquetes con precios, sin FAQ, sin datos estructurados, con `/portfolio/` da
 404 y con Tailwind por CDN. Todo lo bueno ya está en este repo, solo falta publicarlo.
 
 ```bash
-cd ~/Desktop/NewWebpage/sagepoint-web
+cd ~/Desktop/Projects/NewWebpage/sagepoint-web
 npm run build          # verifica que el build pasa (ya probado el 2026-07-02)
 git add -A
 git commit -m "Nueva versión: paquetes, FAQ, SEO, analytics y Tailwind compilado"
@@ -35,10 +35,27 @@ de medición está vacío, así que hoy no se registra nada.
 2. Admin → Crear propiedad → nombre "Sagepoint Analytics", zona horaria Guatemala, moneda USD.
 3. Crea un flujo de datos Web con la URL `https://www.sagepoint-analytics.com`.
 4. Copia el ID de medición (formato `G-XXXXXXXXXX`).
-5. Pégalo en [index.html](../index.html) en la línea `const GA_MEASUREMENT_ID = '';`
-   → `const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';`
-6. Rebuild + deploy (paso 1).
+5. En Vercel, abre Project Settings → Environment Variables y crea
+   `VITE_GA_MEASUREMENT_ID` con ese ID para Production, Preview y Development.
+6. Haz un nuevo deploy (paso 1). Para desarrollo local puedes copiar
+   [`.env.example`](../.env.example) a `.env.local` y reemplazar el valor.
 7. En GA4, marca `generate_lead` como conversión (Admin → Eventos → marcar como conversión).
+
+### Bloqueo detectado en el formulario (2026-07-11)
+
+La prueba end-to-end del Apps Script devolvió:
+`No cuentas con el permiso para llamar a MailApp.sendEmail`.
+
+Antes de usar campañas:
+
+1. Abre el proyecto de Apps Script asociado a `GOOGLE_SCRIPT_URL`.
+2. Ejecuta manualmente la función que envía el correo y acepta el permiso
+   `script.send_mail` para la cuenta propietaria.
+3. Crea una nueva implementación como aplicación web y actualiza
+   `GOOGLE_SCRIPT_URL` si Google genera una URL distinta.
+4. Envía un lead llamado `TEST - DELETE`, confirma que llega a la hoja y al correo,
+   y elimina las filas de prueba. La web ahora detecta cuerpos de respuesta con
+   `Error`, `Exception` o errores de permiso y no los registra como `generate_lead`.
 
 ## 3. Google Search Console (impacto: alto, 15 min)
 

@@ -52,7 +52,17 @@ export async function submitToGoogleSheet(data: Record<string, string>): Promise
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.error(`❌ Google Apps Script respondió HTTP ${response.status}`);
+        return false;
+      }
+
+      // Apps Script can return HTTP 200 while the body contains an execution
+      // error (for example, a missing MailApp authorization). Never count that
+      // as a confirmed lead or retry it via no-cors, which could duplicate rows.
+      const responseText = await response.text();
+      if (/\b(error|exception|permission|permiso)\b/i.test(responseText)) {
+        console.error('❌ Google Apps Script reportó un error:', responseText);
+        return false;
       }
 
       console.log("✅ Datos enviados a Google Sheet (cors, redirect follow)", response.status);

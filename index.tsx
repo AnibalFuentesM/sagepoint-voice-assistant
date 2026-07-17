@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import PortfolioPage from './components/PortfolioPage';
+import { captureLeadAttribution, initializeAnalytics } from './utils/analytics';
 import './index.css';
+
+initializeAnalytics();
+captureLeadAttribution();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

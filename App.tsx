@@ -22,7 +22,7 @@ import HeroScene from './components/HeroScene';
 import SocialConnectButtons from './components/SocialConnectButtons';
 import WhatsAppButton from './components/WhatsAppButton';
 import { submitToGoogleSheet } from './utils/sheetUtils';
-import { trackEvent } from './utils/analytics';
+import { getLeadAttribution, trackEvent, trackPageView } from './utils/analytics';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
 
 // Stable package IDs: used by the form, GA4 events and the Google Sheet.
@@ -502,6 +502,10 @@ function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  useEffect(() => {
+    trackPageView(lang === 'en' ? '/?lang=en' : '/', t.meta.title);
+  }, [lang, t.meta.title]);
+
   // Scroll to the section hash when arriving from another route (e.g. /portfolio → /#contact).
   useEffect(() => {
     if (window.location.hash) {
@@ -681,10 +685,17 @@ function App() {
       service: serviceValue,
       packageId: packageId,
       language: lang === 'es' ? 'Español' : 'English',
-      type: 'Formulario Web'
+      type: 'Formulario Web',
+      ...getLeadAttribution(),
     };
 
-    trackEvent('lead_submit_attempt', { package_id: packageId, language: lang });
+    const attribution = getLeadAttribution();
+    trackEvent('lead_submit_attempt', {
+      package_id: packageId,
+      language: lang,
+      campaign: attribution.utm_campaign,
+      source: attribution.utm_source,
+    });
 
     // Send to Google Sheet
     const result = await submitToGoogleSheet(data);
@@ -693,7 +704,12 @@ function App() {
       // Only count a confirmed server response as a real conversion;
       // the no-cors fallback cannot verify the row was written.
       if (result === 'confirmed') {
-        trackEvent('generate_lead', { package_id: packageId, language: lang });
+        trackEvent('generate_lead', {
+          package_id: packageId,
+          language: lang,
+          campaign: attribution.utm_campaign,
+          source: attribution.utm_source,
+        });
       } else {
         trackEvent('lead_submit_attempt', { package_id: packageId, language: lang, delivery: 'unconfirmed' });
       }
