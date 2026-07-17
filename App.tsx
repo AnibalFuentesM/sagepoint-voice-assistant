@@ -178,6 +178,8 @@ const content = {
         name_ph: "Tu nombre",
         email: "Correo de trabajo",
         email_ph: "tu@empresa.com",
+        phone: "WhatsApp (Opcional)",
+        phone_ph: "+502 5555 5555",
         industry: "Industria (Opcional)",
         industry_ph: "Selecciona tu industria",
         industry_options: {
@@ -214,6 +216,9 @@ const content = {
         submit: "Agendar mi Diagnóstico Gratuito",
         sending: "Enviando...",
         success: "¡Solicitud enviada!",
+        success_body: "Te responderemos en menos de 24 horas con una recomendación concreta. Si prefieres hablar ya, escríbenos por WhatsApp.",
+        success_wa: "Continuar por WhatsApp",
+        success_again: "Enviar otra solicitud",
         note: "Responderemos en menos de 24 horas.",
         error: "Error de conexión. Inténtalo de nuevo o escríbenos por WhatsApp."
       }
@@ -373,6 +378,8 @@ const content = {
         name_ph: "Your name",
         email: "Work Email",
         email_ph: "you@company.com",
+        phone: "WhatsApp (Optional)",
+        phone_ph: "+1 555 123 4567",
         industry: "Industry (Optional)",
         industry_ph: "Select your industry",
         industry_options: {
@@ -409,6 +416,9 @@ const content = {
         submit: "Book my Free Assessment",
         sending: "Sending...",
         success: "Request sent!",
+        success_body: "We'll reply within 24 hours with a concrete recommendation. Prefer to talk now? Message us on WhatsApp.",
+        success_wa: "Continue on WhatsApp",
+        success_again: "Send another request",
         note: "We will respond in less than 24 hours.",
         error: "Connection error. Try again or message us on WhatsApp."
       }
@@ -495,6 +505,24 @@ function App() {
         { value: '2 weeks', label: 'First Quick-Win', icon: Clock3 },
         { value: '<24 hours', label: 'Response time', icon: MessageCircle },
       ];
+
+  // Pre-filled WhatsApp messages per package: the lowest-friction channel for GT/CA leads.
+  const waMessages: Record<PackageId, string> = lang === 'es'
+    ? {
+        general: 'Hola, quiero agendar el diagnóstico gratuito de Sagepoint Analytics.',
+        'quick-win': 'Hola, me interesa el Diagnóstico Express + Dashboard Quick-Win ($750). ¿Podemos agendar el diagnóstico gratuito?',
+        executive: 'Hola, me interesa el Dashboard Ejecutivo + Automatización. Quisiera cotizar mi proyecto.',
+        custom: 'Hola, necesito una solución a medida (modelos predictivos / integraciones / data warehouse). ¿Podemos hablar?',
+        retainer: 'Hola, me interesa el Soporte Cercano Mensual para mantenimiento y coaching.',
+      }
+    : {
+        general: 'Hi, I would like to book the free assessment with Sagepoint Analytics.',
+        'quick-win': 'Hi, I am interested in the Express Assessment + Quick-Win Dashboard ($750). Can we book the free assessment?',
+        executive: 'Hi, I am interested in the Executive Dashboard + Automation package. I would like a quote for my project.',
+        custom: 'Hi, I need a custom solution (predictive models / integrations / data warehouse). Can we talk?',
+        retainer: 'Hi, I am interested in the Soporte Cercano monthly support add-on.',
+      };
+  const waLink = (id: PackageId) => `https://wa.me/50240464716?text=${encodeURIComponent(waMessages[id])}`;
 
   useDocumentMeta(t.meta.title, t.meta.description, lang === 'en' ? '/?lang=en' : '/');
 
@@ -651,6 +679,7 @@ function App() {
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
     const packageId = (formData.get('service') as PackageId) || 'general';
     const industry = formData.get('industry') as string;
     const country = formData.get('country') as string;
@@ -680,6 +709,7 @@ function App() {
     const data = {
       name: name,
       email: email,
+      phone: phone?.trim() || 'No especificado',
       industry: industry || 'No especificado',
       country: country || 'No especificado',
       service: serviceValue,
@@ -713,13 +743,9 @@ function App() {
       } else {
         trackEvent('lead_submit_attempt', { package_id: packageId, language: lang, delivery: 'unconfirmed' });
       }
+      // Persistent success panel (fields unmount, so no manual reset needed).
+      // Keeps selectedService so the WhatsApp follow-up references the right package.
       setFormState('success');
-      // Reset after a delay
-      setTimeout(() => {
-        setFormState('idle');
-        setSelectedService('general');
-        (e.target as HTMLFormElement).reset();
-      }, 3000);
     } else {
       setFormState('error');
       setTimeout(() => setFormState('idle'), 4000);
@@ -1009,6 +1035,15 @@ function App() {
                     <a href="#contact" onClick={(e) => handleSelectPackage(e, plan.id)} className={`button w-full justify-between ${isPopular ? 'button--primary' : 'button--secondary'}`}>
                       {plan.cta}<ArrowUpRight size={17} />
                     </a>
+                    <a
+                      href={waLink(plan.id)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'price_card', package_id: plan.id })}
+                      className="price-card__wa"
+                    >
+                      <MessageCircle size={14} />{lang === 'es' ? 'o cotiza por WhatsApp' : 'or quote via WhatsApp'}
+                    </a>
                   </div>
                 )
               })}
@@ -1026,6 +1061,15 @@ function App() {
                 <p className="retainer-card__price text-ink">{t.packages.retainer.price} <span>{t.packages.retainer.period}</span></p>
                 <a href="#contact" onClick={(e) => handleSelectPackage(e, 'retainer')} className="button button--copper">
                   {t.packages.retainer.cta}<ArrowUpRight size={16} />
+                </a>
+                <a
+                  href={waLink('retainer')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'retainer_card', package_id: 'retainer' })}
+                  className="price-card__wa mt-3"
+                >
+                  <MessageCircle size={14} />{lang === 'es' ? 'o escríbenos por WhatsApp' : 'or message us on WhatsApp'}
                 </a>
               </div>
             </div>
@@ -1136,6 +1180,30 @@ function App() {
                 <span>{lang === 'es' ? 'SOLICITUD DE DIAGNÓSTICO' : 'ASSESSMENT REQUEST'}</span>
                 <span><i />{lang === 'es' ? 'Disponible' : 'Available'}</span>
               </div>
+              {formState === 'success' ? (
+                <div className="contact-form__success animate-[floatIn_0.4s_ease-out]" role="status">
+                  <div className="contact-form__success-icon"><Check size={24} strokeWidth={3} /></div>
+                  <h3 className="font-serif text-2xl text-ink">{t.contact.form.success}</h3>
+                  <p className="text-sm text-muted leading-relaxed">{t.contact.form.success_body}</p>
+                  <a
+                    href={waLink(selectedService)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'form_success', package_id: selectedService })}
+                    className="button button--primary w-full justify-center"
+                  >
+                    <MessageCircle size={17} />{t.contact.form.success_wa}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => { setFormState('idle'); setSelectedService('general'); }}
+                    className="text-sm text-muted hover:text-sage transition-colors"
+                  >
+                    {t.contact.form.success_again}
+                  </button>
+                </div>
+              ) : (
+              <>
               <div>
                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.name}</label>
                 <input
@@ -1146,15 +1214,27 @@ function App() {
                   placeholder={t.contact.form.name_ph}
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.email}</label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  className="form-control"
-                  placeholder={t.contact.form.email_ph}
-                />
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.email}</label>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    className="form-control"
+                    placeholder={t.contact.form.email_ph}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.phone}</label>
+                  <input
+                    name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    className="form-control"
+                    placeholder={t.contact.form.phone_ph}
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.service}</label>
@@ -1178,8 +1258,9 @@ function App() {
                     className="form-control"
                   >
                     <option value="">{t.contact.form.industry_ph}</option>
+                    {/* Value is always the English label so the Google Sheet stays consistent across languages. */}
                     {Object.entries(t.contact.form.industry_options).map(([key, label]) => (
-                      <option key={key} value={label as string}>{label as string}</option>
+                      <option key={key} value={content.en.contact.form.industry_options[key as keyof typeof content.en.contact.form.industry_options]}>{label as string}</option>
                     ))}
                   </select>
                 </div>
@@ -1190,8 +1271,9 @@ function App() {
                     className="form-control"
                   >
                     <option value="">{t.contact.form.country_ph}</option>
+                    {/* Value is always the English label so the Google Sheet stays consistent across languages. */}
                     {Object.entries(t.contact.form.country_options).map(([key, label]) => (
-                      <option key={key} value={label as string}>{label as string}</option>
+                      <option key={key} value={content.en.contact.form.country_options[key as keyof typeof content.en.contact.form.country_options]}>{label as string}</option>
                     ))}
                   </select>
                 </div>
@@ -1213,7 +1295,6 @@ function App() {
                 type="submit"
                 disabled={formState !== 'idle' && formState !== 'error'}
                 className={`button w-full justify-center py-4! font-bold transition-all duration-300
-                  ${formState === 'success' ? 'bg-green-500 text-white' : ''}
                   ${formState === 'error' ? 'bg-red-500/20 border border-red-500 text-red-400' : ''}
                   ${formState === 'idle' ? 'button--primary' : ''}
                   ${formState === 'sending' ? 'bg-deep-sage/50 text-dark opacity-80 cursor-wait' : ''}
@@ -1221,10 +1302,11 @@ function App() {
               >
                 {formState === 'idle' && t.contact.form.submit}
                 {formState === 'sending' && t.contact.form.sending}
-                {formState === 'success' && t.contact.form.success}
                 {formState === 'error' && t.contact.form.error}
               </button>
               <p className="text-xs text-center text-muted/60 flex items-center justify-center gap-2"><Check size={12} />{t.contact.form.note}</p>
+              </>
+              )}
             </form>
           </div>
         </section>
