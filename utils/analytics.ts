@@ -15,11 +15,18 @@ export type LeadAttribution = Record<(typeof UTM_KEYS)[number], string> & {
   capturedAt: string;
 };
 
+// Public GA4 measurement ID (not a secret — it ships in the HTML of every GA site).
+// Used automatically in production builds; dev stays silent unless
+// VITE_GA_MEASUREMENT_ID is set in .env.local.
+const PROD_MEASUREMENT_ID = 'G-F296ZSRJ2Z';
+
 export function initializeAnalytics() {
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
+  const measurementId =
+    import.meta.env.VITE_GA_MEASUREMENT_ID?.trim() ||
+    (import.meta.env.PROD ? PROD_MEASUREMENT_ID : '');
   if (!measurementId || !/^G-[A-Z0-9]+$/i.test(measurementId)) {
     if (import.meta.env.DEV) {
-      console.info('GA4 disabled: set VITE_GA_MEASUREMENT_ID to a valid G-... value.');
+      console.info('GA4 disabled in dev: set VITE_GA_MEASUREMENT_ID in .env.local to test analytics locally.');
     }
     return;
   }
