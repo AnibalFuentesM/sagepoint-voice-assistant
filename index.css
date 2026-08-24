@@ -35,11 +35,17 @@
 html {
   scroll-behavior: smooth;
   background: var(--page);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   background: var(--page);
   color: var(--ivory);
 }
@@ -195,13 +201,14 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.5rem;
   border: 0;
   border-radius: 999px;
   color: rgba(243, 240, 232, 0.38);
   background: transparent;
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -269,9 +276,9 @@ textarea:focus-visible {
 }
 
 .button--nav {
-  min-height: 2.55rem;
-  padding: 0.65rem 1rem;
-  font-size: 0.73rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.75rem;
 }
 
 .button--copper {
@@ -283,6 +290,20 @@ textarea:focus-visible {
 .button--copper:hover {
   color: #07110f;
   background: var(--copper);
+}
+
+.button--whatsapp {
+  color: var(--ivory);
+  border-color: rgba(37, 211, 102, 0.32);
+  background: rgba(37, 211, 102, 0.08);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.08);
+}
+
+.button--whatsapp:hover {
+  border-color: rgba(37, 211, 102, 0.65);
+  color: #ffffff;
+  background: rgba(37, 211, 102, 0.16);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.22);
 }
 
 .hero-section {
@@ -384,6 +405,19 @@ textarea:focus-visible {
   margin: 1.8rem 0 1.35rem;
   font-size: clamp(0.98rem, 1.4vw, 1.08rem);
   line-height: 1.8;
+}
+
+.hero-microproof {
+  line-height: 1.4;
+}
+
+.hero-microproof span {
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.hero-microproof span:hover {
+  border-color: rgba(99, 230, 190, 0.3);
+  background-color: rgba(99, 230, 190, 0.06);
 }
 
 .hero-metrics {
@@ -1138,6 +1172,209 @@ textarea:focus-visible {
   color: var(--mint);
 }
 
+/* ── Testimonials ───────────────────────────────────────────── */
+
+/* El encabezado va centrado. Se hace aquí (y no con `mx-auto`) porque
+   `.section-title { margin: 0 }` no está en @layer y le gana a las utilidades
+   de Tailwind 4. Ver docs/review-2026-07-24.md § A-2. */
+#testimonials .section-title,
+#testimonials .section-description {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 24ch;
+}
+
+#testimonials .section-description {
+  max-width: 44ch;
+  margin-top: 1.25rem;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.testimonial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border: 1px solid var(--rule);
+  background: #081310;
+  transition: transform 260ms ease, border-color 260ms ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 230, 190, 0.3);
+}
+
+.testimonial-card__mark {
+  color: var(--mint);
+  opacity: 0.55;
+  margin-bottom: 1.1rem;
+  flex-shrink: 0;
+}
+
+.testimonial-card__quote {
+  margin: 0 0 auto;
+  padding: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: var(--ivory);
+  text-wrap: pretty;
+}
+
+.case-card__impact {
+  margin-top: 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 6px;
+  background: rgba(10, 23, 20, 0.7);
+  border: 1px solid rgba(243, 240, 232, 0.07);
+}
+
+.case-card__impact-before {
+  font-size: 0.75rem;
+  color: rgba(242, 166, 90, 0.9);
+  line-height: 1.4;
+  margin-bottom: 0.35rem;
+}
+
+.case-card__impact-after {
+  font-size: 0.75rem;
+  color: var(--mint);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.case-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.case-card__tag {
+  font-size: 0.62rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(243, 240, 232, 0.05);
+  border: 1px solid rgba(243, 240, 232, 0.08);
+  color: rgba(243, 240, 232, 0.75);
+}
+
+.testimonial-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.testimonial-card__stars {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--copper);
+}
+
+.testimonial-card__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.62rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mint);
+  background: rgba(99, 230, 190, 0.08);
+  border: 1px solid rgba(99, 230, 190, 0.25);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.testimonial-card__metric-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(99, 230, 190, 0.06);
+  border: 1px solid rgba(99, 230, 190, 0.2);
+  color: var(--mint);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 2rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--rule);
+}
+
+.testimonial-card__avatar {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(99, 230, 190, 0.15), rgba(242, 166, 90, 0.15));
+  border: 1px solid rgba(99, 230, 190, 0.35);
+  color: var(--ivory);
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.testimonial-card__author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.testimonial-card__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ivory);
+}
+
+.testimonial-card__role {
+  font-size: 0.85rem;
+  /* Alpha alta a propósito: 0.82 sobre #07110f da ~6.1:1 (WCAG AA). */
+  color: rgba(150, 165, 159, 0.92);
+}
+
+.testimonial-card__project {
+  margin-top: 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(99, 230, 190, 0.85);
+}
+
+@media (max-width: 900px) {
+  .testimonial-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .faq-list {
   border-top: 1px solid var(--rule);
 }
@@ -1505,16 +1742,18 @@ textarea:focus-visible {
   }
 
   .hero-section {
-    padding-top: 4.7rem;
-    padding-bottom: 3rem;
+    padding-top: 3.5rem;
+    padding-bottom: 2.75rem;
   }
 
   .hero-title {
-    font-size: clamp(3.55rem, 18vw, 5rem);
+    font-size: clamp(2.85rem, 14vw, 4.4rem);
+    line-height: 0.92;
   }
 
   .hero-description {
     font-size: 0.92rem;
+    margin: 1.2rem 0 1rem;
   }
 
   .hero-metrics {
@@ -1797,6 +2036,94 @@ textarea:focus-visible {
 
 @keyframes marqueeScroll {
   to { transform: translateX(-50%); }
+}
+
+/* Results rail: measured figures over client quotes, scrolling in opposite directions. */
+.results-rail {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(2.75rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.results-rail__lane {
+  overflow: hidden;
+}
+
+.results-rail__lane + .results-rail__lane {
+  border-top: 1px solid var(--rule);
+}
+
+.results-rail__track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 46s linear infinite;
+}
+
+.results-rail__lane--quotes .results-rail__track {
+  animation-duration: 74s;
+}
+
+.results-rail:hover .results-rail__track {
+  animation-play-state: paused;
+}
+
+.results-rail__group {
+  display: flex;
+  align-items: stretch;
+}
+
+.rail-quote {
+  display: flex;
+  border-right: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.rail-quote {
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.15rem 2.1rem;
+}
+
+.rail-quote q {
+  font-size: 0.875rem;
+  line-height: 1.15;
+  letter-spacing: -0.008em;
+  color: var(--ivory);
+  quotes: "\201C" "\201D";
+}
+
+.rail-quote i {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+.rail-quote cite {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(150, 165, 159, 0.72);
+}
+
+.rail-quote cite b {
+  color: var(--mint);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .results-rail__track { animation: none; }
+}
+
+@media (max-width: 640px) {
+    .rail-quote { padding: 0.8rem 1.4rem; gap: 0.65rem; }
+    .rail-quote q { font-size: 0.8125rem; }
+  .rail-quote cite { font-size: 0.58rem; }
 }
 
 /* Smooth FAQ expand/collapse via the grid-rows trick. */
@@ -2132,3 +2459,46 @@ textarea:focus-visible {
   background: rgba(99, 230, 190, 0.12);
   border: 1px solid rgba(99, 230, 190, 0.35);
 }
+
+/* Custom ROI Calculator Sliders */
+.roi-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.roi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-sage, #63e6be);
+  box-shadow: 0 0 10px rgba(99, 230, 190, 0.5);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.roi-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--color-sage, #63e6be);
+  box-shadow: 0 0 10px rgba(99, 230, 190, 0.5);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.roi-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 16px rgba(99, 230, 190, 0.8);
+}
+
+.roi-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 16px rgba(99, 230, 190, 0.8);
+}
+

@@ -23,7 +23,7 @@ export default function WhatsAppButton({ lang }: { lang: 'es' | 'en' }) {
       rel="noopener noreferrer"
       aria-label={LABELS[lang]}
       title={LABELS[lang]}
-      onClick={() => trackEvent('whatsapp_click', { language: lang })}
+      onClick={() => trackEvent('whatsapp_click', { source_section: 'floating_button', package_id: 'general', language: lang })}
       className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.45)] hover:scale-110 hover:shadow-[0_12px_32px_rgba(37,211,102,0.6)] transition-all duration-200"
     >
       <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true">

@@ -20,12 +20,11 @@ function validateScriptUrl(url: string): { valid: boolean; error?: string } {
 // confirmación de escritura (no debe contarse como conversión final en analytics).
 export type SubmitResult = 'confirmed' | 'unconfirmed' | false;
 
-export async function submitToGoogleSheet(data: Record<string, string>): Promise<SubmitResult> {
+export async function submitToGoogleSheet(data: Record<string, any>): Promise<SubmitResult> {
   const validation = validateScriptUrl(GOOGLE_SCRIPT_URL);
 
   if (!validation.valid) {
     console.error("❌ ERROR DE CONFIGURACIÓN:", validation.error);
-    alert(validation.error);
     return false;
   }
 
@@ -33,7 +32,9 @@ export async function submitToGoogleSheet(data: Record<string, string>): Promise
   const params = new URLSearchParams();
   params.append('action', 'submit');
   for (const key in data) {
-    params.append(key, data[key]);
+    if (data[key] !== undefined && data[key] !== null) {
+      params.append(key, String(data[key]));
+    }
   }
   params.append('timestamp', new Date().toISOString());
   params.append('source', 'Sagepoint Web');

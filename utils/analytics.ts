@@ -8,8 +8,13 @@ declare global {
 
 const ATTRIBUTION_KEY = 'sagepoint_lead_attribution';
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+const CLICK_ID_KEYS = ['gclid', 'fbclid', 'msclkid', 'ttclid'] as const;
 
 export type LeadAttribution = Record<(typeof UTM_KEYS)[number], string> & {
+  gclid?: string;
+  fbclid?: string;
+  msclkid?: string;
+  ttclid?: string;
   landingPage: string;
   referrer: string;
   capturedAt: string;
@@ -47,21 +52,50 @@ export function initializeAnalytics() {
 
 export function captureLeadAttribution() {
   const params = new URLSearchParams(window.location.search);
-  const hasCampaign = UTM_KEYS.some((key) => params.has(key));
+  const hasCampaign =
+    UTM_KEYS.some((key) => params.has(key)) ||
+    CLICK_ID_KEYS.some((key) => params.has(key));
 
   try {
     if (!hasCampaign && localStorage.getItem(ATTRIBUTION_KEY)) return;
 
-    const attribution = {
-      utm_source: params.get('utm_source') || 'direct',
-      utm_medium: params.get('utm_medium') || 'none',
+    // Detect click IDs from search params
+    const gclid = params.get('gclid') || '';
+    const fbclid = params.get('fbclid') || '';
+    const msclkid = params.get('msclkid') || '';
+    const ttclid = params.get('ttclid') || '';
+
+    // Smart default source/medium if click IDs exist without explicit UTMs
+    let defaultSource = 'direct';
+    let defaultMedium = 'none';
+    if (gclid) {
+      defaultSource = 'google';
+      defaultMedium = 'cpc';
+    } else if (fbclid) {
+      defaultSource = 'facebook';
+      defaultMedium = 'paid_social';
+    } else if (msclkid) {
+      defaultSource = 'bing';
+      defaultMedium = 'cpc';
+    } else if (ttclid) {
+      defaultSource = 'tiktok';
+      defaultMedium = 'paid_social';
+    }
+
+    const attribution: LeadAttribution = {
+      utm_source: params.get('utm_source') || defaultSource,
+      utm_medium: params.get('utm_medium') || defaultMedium,
       utm_campaign: params.get('utm_campaign') || 'none',
       utm_content: params.get('utm_content') || 'none',
       utm_term: params.get('utm_term') || 'none',
+      ...(gclid ? { gclid } : {}),
+      ...(fbclid ? { fbclid } : {}),
+      ...(msclkid ? { msclkid } : {}),
+      ...(ttclid ? { ttclid } : {}),
       landingPage: `${window.location.pathname}${window.location.search}`,
       referrer: document.referrer || 'direct',
       capturedAt: new Date().toISOString(),
-    } satisfies LeadAttribution;
+    };
 
     localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution));
   } catch {
@@ -89,12 +123,120 @@ export function getLeadAttribution(): LeadAttribution {
   };
 }
 
-export function trackEvent(name: string, params: Record<string, string | number | boolean> = {}) {
+export function trackEvent(name: string, params: Record<string, unknown> = {}) {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
     window.gtag('event', name, params);
   }
 }
 
-export function trackPageView(path: string, title: string) {
-  trackEvent('page_view', { page_path: path, page_title: title });
+export function trackPageView(path: string, title: string, language?: string) {
+  const page_location = typeof window !== 'undefined' ? window.location.href : '';
+  const lang = language || (typeof document !== 'undefined' && document.documentElement.lang) || 'es';
+  trackEvent('page_view', {
+    page_title: title,
+    page_location,
+    page_path: path,
+    language: lang,
+  });
 }
+
+export interface SelectPackageEventParams {
+  package_id: string;
+  package_name?: string;
+  price?: string | number;
+  currency?: string;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackSelectPackage(params: SelectPackageEventParams) {
+  trackEvent('select_package', {
+    currency: 'USD',
+    ...params,
+  });
+}
+
+export interface LeadSubmitAttemptEventParams {
+  package_id?: string;
+  form_location?: string;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackLeadSubmitAttempt(params: LeadSubmitAttemptEventParams) {
+  trackEvent('lead_submit_attempt', {
+    form_location: 'contact_section',
+    ...params,
+  });
+}
+
+export interface GenerateLeadEventParams {
+  package_id?: string;
+  lead_id?: string;
+  attribution?: unknown;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackGenerateLead(params: GenerateLeadEventParams) {
+  trackEvent('generate_lead', {
+    ...params,
+  });
+}
+
+export interface WhatsAppClickEventParams {
+  source_section?: string;
+  package_id?: string;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackWhatsAppClick(params: WhatsAppClickEventParams) {
+  trackEvent('whatsapp_click', {
+    ...params,
+  });
+}
+
+export interface ScheduleCallEventParams {
+  source_section?: string;
+  package_id?: string;
+  method?: string;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackScheduleCall(params: ScheduleCallEventParams) {
+  trackEvent('schedule_call', {
+    method: 'direct_calendar',
+    ...params,
+  });
+}
+
+export interface ViewRoiCalcEventParams {
+  source_section?: string;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackViewRoiCalc(params: ViewRoiCalcEventParams) {
+  trackEvent('view_roi_calc', {
+    source_section: 'roi_calculator',
+    ...params,
+  });
+}
+
+export interface CalculateRoiEventParams {
+  team_size: number;
+  hours_per_week: number;
+  estimated_savings: number;
+  language?: string;
+  [key: string]: unknown;
+}
+
+export function trackCalculateRoi(params: CalculateRoiEventParams) {
+  trackEvent('calculate_roi', {
+    ...params,
+  });
+}
+
+

@@ -46,5 +46,45 @@ Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, d
 - **Price**: $300 / $600 / $1,000 USD/month
 - **Includes**: Dashboard maintenance, adjustments, coaching and a priority WhatsApp line. Tiers depend on support intensity, with fixed monthly hours that do not roll over.
 
+## Website Design and Development (Guatemala) — /web/
+
+Landing page: https://www.sagepoint-analytics.com/web/ (Spanish) and https://www.sagepoint-analytics.com/web/?lang=en
+
+Websites built by an analytics consultancy, with a customer dashboard included. Positioning: every provider sells a website; we also tell you whether it is working. Prices are quoted in Guatemalan quetzales (GTQ) because the offer targets Guatemalan SMBs; the BI packages above stay in USD.
+
+Market context we cite: per the 7th National E-Commerce Study of the Guatemalan Chamber of Commerce (2026), the share of Guatemalans closing their last purchase on a company's own website rose from 36% (2024) to 61% (2026), while social media fell from 26% to 14%.
+
+Always included: domain and hosting registered in the client's name, SSL, email on the client's domain, mobile-first build, sub-2.5s load on mobile data, WhatsApp button with a per-page pre-written message, fixed written price before starting.
+
+### Esencial (Essential)
+- **Price**: Q4,500 GTQ one-time | **Timeline**: 7 business days
+- **Includes**: 1–3 page custom-designed site, first year of domain and hosting, WhatsApp and contact form, mobile and Google search optimization, basic dashboard (visits and messages), 1 revision round.
+- **Not included**: Online store, blog, English version.
+
+### Sitio + Panel de Clientes (Site + Customer Dashboard) — Most Popular
+- **Price**: Q8,500 GTQ one-time | **Timeline**: 14 business days
+- **Includes**: 4–6 page custom-designed site, everything in Esencial, full customer dashboard (visits, traffic sources, WhatsApp conversations, per-page conversion), Google Business Profile configured for local SEO, catalog or gallery up to 30 items, 1 training session, 2 revision rounds.
+- **Not included**: Online payment gateway, inventory integration.
+
+### Tienda o A Medida (Store or Custom)
+- **Price**: from Q15,000 GTQ | **Timeline**: 4–6 weeks
+- **Includes**: Online store with payments, integrations with billing/inventory/CRM, bilingual Spanish-English site, dashboard connected to real sales data. Scope in a formal quote.
+
+### Mantenimiento (Maintenance, add-on)
+- **Price**: Q450 / Q900 / Q1,500 GTQ per month
+- **Includes**: Hosting and domain, backups, content changes, monthly dashboard report, priority WhatsApp. Tiers differ by number of monthly changes.
+- **Note**: After year one, domain plus hosting cost roughly Q1,200 GTQ per year if the client manages them.
+
+Payment terms: 50% to start, 50% on delivery. Service is remote, so it covers Guatemala City, Quetzaltenango, Antigua, Escuintla, Coban and Peten equally, plus US clients in Spanish or English.
+
+## Spanish Search Context — Paginas Web
+Sagepoint Analytics disena y desarrolla paginas web para PYMEs en Guatemala con panel de clientes incluido: sitios web con dominio y hosting, WhatsApp integrado, SEO local, tiendas en linea y sitios bilingues. Precio cerrado en quetzales, plazo definido, dominio a nombre del cliente. Cuanto cuesta una pagina web en Guatemala: desde Q4,500.
+
+## Client Testimonials
+Quotes used with permission from delivered projects.
+
+- "What I value most is that he had the patience to listen and understand our ideas before proposing a solution. Really top-tier work." — Meylin Sic, project coordinator (dashboard and report automation project).
+- "He showed the ECW alert automation working to the team and the reaction was unanimous: excellent work, and genuinely proactive." — Billing operations team, medical billing platform (US), on the ECW Alert Automation project.
+
 ## Getting Started
 The initial assessment (30–45 minute video call) is free. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com

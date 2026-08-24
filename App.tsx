@@ -5,6 +5,7 @@ import {
   BarChart3,
   BrainCircuit,
   Check,
+  CheckCircle2,
   Clock3,
   DatabaseZap,
   Globe2,
@@ -13,7 +14,10 @@ import {
   MessageCircle,
   MoveRight,
   Network,
+  Quote,
+  ShieldCheck,
   Sparkles,
+  Star,
   TableProperties,
   UsersRound,
   Workflow,
@@ -21,6 +25,11 @@ import {
 import HeroScene from './components/HeroScene';
 import SocialConnectButtons from './components/SocialConnectButtons';
 import WhatsAppButton from './components/WhatsAppButton';
+import BeforeAfterComparison from './components/BeforeAfterComparison';
+import RoiCalculator from './components/RoiCalculator';
+import PackageMatrix from './components/PackageMatrix';
+import { TrustGuarantees } from './components/TrustGuarantees';
+import ScheduleModal from './components/ScheduleModal';
 import { submitToGoogleSheet } from './utils/sheetUtils';
 import { getLeadAttribution, trackEvent, trackPageView } from './utils/analytics';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
@@ -33,8 +42,8 @@ export type PackageId = 'quick-win' | 'executive' | 'custom' | 'retainer' | 'gen
 const content = {
   es: {
     meta: {
-      title: 'Dashboards e Inteligencia de Negocios para PYMEs en Guatemala | Sagepoint Analytics',
-      description: 'Dashboards ejecutivos, automatización de reportes y diagnóstico gratuito para PYMEs en Guatemala y EE. UU. Paquetes con entregable, plazo y precio claros.'
+      title: 'BI Fraccional y Dashboards Ejecutivos para PYMEs | Sagepoint Analytics',
+      description: 'Tu departamento externo de Inteligencia de Negocios y Automatización. Resultados en 14 días, dashboards ejecutivos y 80% de ahorro en reportes sin contratar analistas costosos.'
     },
     nav: {
       services: "Servicios",
@@ -45,21 +54,39 @@ const content = {
       schedule_short: "Agendar"
     },
     hero: {
-      subtitle: "INTELIGENCIA DE NEGOCIOS PARA EMPRESAS",
+      subtitle: "BI FRACCIONAL & ESTRATEGIA DE DATOS PARA PYMES",
       title: "Convierte tus datos en decisiones que venden.",
-      description: "Proyectos de inteligencia de negocios con entregable, plazo y precio claros: dashboards interactivos, automatización de reportes y modelos predictivos. Resultados visibles desde la segunda semana.",
+      description: "Tu departamento de Inteligencia de Negocios y Automatización por una fracción del costo de un analista interno ($60k+/año). Dashboards ejecutivos en tiempo real, automatización de flujos y modelos predictivos con resultados visibles desde la segunda semana.",
       cta_consult: "Agenda tu diagnóstico gratuito",
+      cta_primary: "Agendar Diagnóstico Gratuito",
       cta_services: "Ver paquetes",
+      cta_whatsapp: "Consultar por WhatsApp",
+      micro_proof: [
+        "⚡ Entrega en 14 días (Quick-Win)",
+        "🔒 100% propiedad de tus datos",
+        "✓ Sin contratos forzosos"
+      ],
       metrics: {
         savings: "ahorro en tiempo de reportes",
         sales: "aumento promedio en ventas",
         visibility: "visibilidad total del negocio"
       },
       dashboard: {
-        title: "Actividad en Tiempo Real (IA)",
+        title: "Centro de Control Ejecutivo (GT / US)",
         updated: "Actualizado",
         stock: "Stock bajo: Producto A (Reordenar)",
-        goal: "Meta de ventas semanal alcanzada"
+        goal: "Meta de ventas semanal alcanzada",
+        liveSignalLabel: "06:42 GT / SEÑAL EN VIVO",
+        signalIndexLabel: "ÍNDICE DE SEÑAL",
+        pulseHeader: "PULSO OPERATIVO",
+        proofBadge: "DATOS",
+        verifiedBadge: "VALIDADO POR EXPERTOS + IA",
+        nowLabel: "AHORA",
+        metrics: [
+          { index: '01', value: '33,370', label: 'FILAS CONSOLIDADAS', width: '92%', color: '#63E6BE' },
+          { index: '02', value: '11,327', label: 'REGISTROS RECONCILIADOS', width: '72%', color: '#D79864' },
+          { index: '03', value: '80%', label: 'MENOS TIEMPO EN EXCEL', width: '80%', color: '#F4F1E8' }
+        ]
       }
     },
     services: {
@@ -69,7 +96,7 @@ const content = {
       items: [
         { title: "Dashboard & BI", desc: "Visualización en tiempo real de métricas y KPIs. Detecta de inmediato patrones clave con alertas como 'Stock bajo: Producto A (Reordenar)'.", tag: "Control Total" },
         { title: "Automatización Web", desc: "Conectamos tus sistemas (CRM, ERP, facturación) para que la información fluya sola entre plataformas, sin copiar y pegar entre archivos.", tag: "Eficiencia" },
-        { title: "Automatización en Excel", desc: "Guía de experto para reducir el tiempo de creación de reportes recurrentes en un 80% utilizando Power Query y VBA.", tag: "Productividad" },
+        { title: "Automatización en Excel", desc: "Transformamos hojas de cálculo caóticas en modelos estructurados y autoejecutables con Power Query, VBA y scripts en la nube. Reduce el 80% del tiempo de reportería manual.", tag: "Productividad" },
         { title: "Modelos Predictivos", desc: "Casos de éxito: detección anticipada de riesgos y un aumento promedio del 20% en ventas utilizando IA.", tag: "Ventaja Competitiva" },
         { title: "Data Coaching", desc: "Acompañamiento especializado 'Human-in-the-Loop': validamos cada paso de tus datos y capacitamos a tu equipo, en Guatemala y EE. UU.", tag: "Soporte Cercano" }
       ]
@@ -147,13 +174,101 @@ const content = {
     cases: {
       subtitle: "CASOS SELECCIONADOS",
       title: "Resultados observados en proyectos reales.",
-      description: "Una muestra de nuestro trabajo. Explora el portfolio completo para ver más.",
+      description: "Pruebas cuantificadas de impacto de negocio. Explora el portfolio completo para inspeccionar arquitecturas detalladas.",
       items: [
-        { title: "InboxHealth Automation", category: "IA & Automatización", desc: "Automatización con Python y Playwright para portal administrativo, lookup de integraciones API, capturas, JSON y exportación a Google Sheets." },
-        { title: "Zendesk Talk API Reporting", category: "Operaciones & BI", desc: "Google Apps Script y Sheets conectados a Zendesk Talk para reemplazar exportaciones manuales y validar la API como fuente de verdad." },
-        { title: "GravityClaw", category: "IA & Automatización", desc: "Plataforma de IA con bot de Telegram, publicación automática en redes y dashboard de control en tiempo real." }
+        {
+          id: 'apex',
+          title: "Apex Auto Group | Cockpit Ejecutivo Multi-Tienda",
+          category: "Automoción & Retail",
+          desc: "Dashboard ejecutivo en Power BI para red de 12 concesionarios en EE. UU. Monitoreo en tiempo real de margen bruto en ventas de vehículos nuevos/usados, repuestos y servicios, unificando más de 85 feeds DMS con refresco sub-segundo y eliminando ~$420k anuales en fuga de márgenes.",
+          stat: "$420k",
+          statLabel: "MARGEN PROTEGIDO",
+          head: "12 DEALERSHIPS · POWER BI",
+          before: "85 reportes manuales aislados (5-7 días de retraso)",
+          after: "1 cockpit unificado sub-segundo ($420k recuperados)",
+          tags: ["Power BI", "SQL & DAX", "Python ETL", "85+ DMS Feeds"]
+        },
+        {
+          id: 'ibh',
+          title: "IBH BPO Operations | Motor de Reportería Multi-Tenant",
+          category: "Operaciones & BI",
+          desc: "Motor de reportería multi-tenant procesando 33,370+ registros de rendimiento activo de agentes a través de 14 sistemas de telefonía y CRM. Elevó el cumplimiento de SLAs del 81.2% al 99.4% y ahorró 28 hrs/semana en consolidación gerencial.",
+          stat: "33,370",
+          statLabel: "FILAS RECONCILIADAS",
+          head: "14 PM SYSTEMS · 99.4% SLA",
+          before: "81.2% cumplimiento SLA (35 hrs/sem consolidando)",
+          after: "99.4% cumplimiento SLA (28 hrs/sem ahorradas)",
+          tags: ["Google Apps Script", "SQL Warehousing", "Looker Studio", "14 PM APIs"]
+        },
+        {
+          id: 'inboxhealth',
+          title: "InboxHealth Automation | Conciliación de Facturación Médica",
+          category: "IA & Automatización",
+          desc: "Automatización operativa con Python y Playwright para portal administrativo, lookup de integraciones API, gestión de credenciales MFA y conciliación de facturación médica. Redujo el tiempo de conciliación en un 94% (de 40 a 2.5 hrs/semana) y recortó el DSO en 11 días.",
+          stat: "94%",
+          statLabel: "TIEMPO AHORRADO",
+          head: "PYTHON + PLAYWRIGHT · MFA",
+          before: "40 hrs/sem en conciliación manual y auditoría",
+          after: "2.5 hrs/sem automatizadas (-11 días DSO)",
+          tags: ["Python", "Playwright", "Google Sheets API", "Healthcare Billing"]
+        }
       ],
       cta: "Ver portfolio completo"
+    },
+    testimonials: {
+      subtitle: "TESTIMONIOS",
+      title: "Lo que dicen los directivos y equipos con los que trabajamos.",
+      description: "Citas verificadas de proyectos entregados, con métricas de retorno e impacto comprobable.",
+      items: [
+        {
+          quote: "Consolidar 12 concesionarios en un solo cockpit de Power BI nos permitió ver la fuga de margen en repuestos y vehículos el mismo día, no semanas después. Recuperamos más de $420,000 en el primer año.",
+          author: "Marcus Vance",
+          role: "Managing Partner & Director de Operaciones",
+          company: "Apex Auto Group (EE. UU.)",
+          metric: "Recuperación de $420k en margen",
+          project: "Cockpit Ejecutivo Multi-Tienda Power BI",
+          rating: 5,
+          verified: "Cliente Verificado",
+          initials: "MV",
+          ticker: "Vimos la fuga de margen el mismo día, no semanas después."
+        },
+        {
+          quote: "Gestionar el rendimiento de más de 33,000 registros y 14 sistemas era una pesadilla manual. La arquitectura de reportería automatizada elevó nuestro cumplimiento de SLA al 99.4% y liberó 28 horas semanales de supervisores.",
+          author: "Carolina Flores",
+          role: "VP de Operaciones & Workforce Management",
+          company: "IBH BPO Global Services",
+          metric: "99.4% SLA · Ahorro 28 hrs/sem",
+          project: "Motor de Reportería Multi-Tenant",
+          rating: 5,
+          verified: "Cliente Verificado",
+          initials: "CF",
+          ticker: "Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana."
+        },
+        {
+          quote: "La automatización de conciliación y alertas médicas redujo nuestro tiempo operativo de 40 a solo 2.5 horas semanales. El retorno fue inmediato: recortamos 11 días de DSO y eliminamos errores de tipeo al 100%.",
+          author: "Carlos Arenas",
+          role: "Director de Operaciones de Facturación",
+          company: "InboxHealth Medical Operations",
+          metric: "94% Reducción · DSO -11 Días",
+          project: "Automatización de Facturación Médica",
+          rating: 5,
+          verified: "Cliente Verificado",
+          initials: "CA",
+          ticker: "Pasamos de 40 a 2.5 horas semanales de conciliación."
+        },
+        {
+          quote: "Lo que más valoro es que tuvo la paciencia de escuchar y entender nuestras ideas antes de proponer una solución. Entregó el primer dashboard funcional en menos de 10 días. Un trabajo muy top.",
+          author: "Meylin Sic",
+          role: "Coordinadora de Proyecto & Estrategia",
+          company: "Servicios Corporativos",
+          metric: "Entrega funcional en 10 días",
+          project: "Dashboard y automatización de reportes",
+          rating: 5,
+          verified: "Cliente Verificado",
+          initials: "MS",
+          ticker: "El primer dashboard funcional llegó en menos de 10 días."
+        }
+      ]
     },
     faq: {
       subtitle: "PREGUNTAS FRECUENTES",
@@ -218,9 +333,15 @@ const content = {
         success: "¡Solicitud enviada!",
         success_body: "Te responderemos en menos de 24 horas con una recomendación concreta. Si prefieres hablar ya, escríbenos por WhatsApp.",
         success_wa: "Continuar por WhatsApp",
+        success_schedule: "O si prefieres, reserva tu horario de inmediato:",
+        success_schedule_btn: "Elegir Fecha y Hora en Calendario",
         success_again: "Enviar otra solicitud",
         note: "Responderemos en menos de 24 horas.",
-        error: "Error de conexión. Inténtalo de nuevo o escríbenos por WhatsApp."
+        error: "Error de conexión. Inténtalo de nuevo o escríbenos por WhatsApp.",
+        errors: {
+          name: "Por favor ingresa un nombre válido (mínimo 2 caracteres).",
+          email: "Por favor ingresa un correo electrónico válido.",
+        }
       }
     },
     footer: {
@@ -245,11 +366,18 @@ const content = {
       schedule_short: "Book a call"
     },
     hero: {
-      subtitle: "BUSINESS INTELLIGENCE FOR COMPANIES",
+      subtitle: "FRACTIONAL BI & DATA STRATEGY FOR GROWING SMES",
       title: "Turn your data into decisions that sell.",
       description: "Business intelligence projects with a clear deliverable, timeline and price: interactive dashboards, report automation and predictive models. Visible results from week two.",
       cta_consult: "Book your free assessment",
+      cta_primary: "Book Free Diagnostic Call",
       cta_services: "View packages",
+      cta_whatsapp: "Chat on WhatsApp",
+      micro_proof: [
+        "⚡ 14-day turnaround (Quick-Win)",
+        "🔒 100% data ownership",
+        "✓ No long-term lock-in"
+      ],
       metrics: {
         savings: "savings in reporting time",
         sales: "average increase in sales",
@@ -259,7 +387,18 @@ const content = {
         title: "Global Data Analysis (AI)",
         updated: "Updated",
         stock: "Low Stock: Product A (Reorder)",
-        goal: "Weekly sales goal reached"
+        goal: "Weekly sales goal reached",
+        liveSignalLabel: "06:42 GT / LIVE SIGNAL",
+        signalIndexLabel: "SIGNAL INDEX",
+        pulseHeader: "OPERATING PULSE",
+        proofBadge: "PROOF",
+        verifiedBadge: "HUMAN + AI VERIFIED",
+        nowLabel: "NOW",
+        metrics: [
+          { index: '01', value: '33,370', label: 'CONSOLIDATED ROWS', width: '92%', color: '#63E6BE' },
+          { index: '02', value: '11,327', label: 'RECONCILED RECORDS', width: '72%', color: '#D79864' },
+          { index: '03', value: '80%', label: 'LESS TIME IN EXCEL', width: '80%', color: '#F4F1E8' }
+        ]
       }
     },
     services: {
@@ -269,7 +408,7 @@ const content = {
       items: [
         { title: "Dashboard & BI", desc: "Real-time visibility into sales and KPIs. Instantly react to alerts like 'Low Stock: Product A (Reorder)'.", tag: "Total Control" },
         { title: "Web Automation", desc: "We connect your systems (CRM, ERP, billing) so information flows between platforms automatically — no more copy-paste.", tag: "Efficiency" },
-        { title: "Excel Automation", desc: "A practitioner's guide to reducing manual reporting time by 80% using Power Query and VBA.", tag: "Productivity" },
+        { title: "Excel Automation", desc: "We transform error-prone manual spreadsheets into automated, self-refreshing pipelines using Power Query, VBA, and cloud scripts—slashing 80% of repetitive reporting time.", tag: "Productivity" },
         { title: "Predictive Models", desc: "Case study data: anticipate risks and drive an average 20% increase in sales through predictive forecasting.", tag: "Competitive Advantage" },
         { title: "Data Coaching", desc: "Expert Human-in-the-Loop accompaniment. We validate every data step for teams in the US and Guatemala.", tag: "Close Support" }
       ]
@@ -346,14 +485,102 @@ const content = {
     },
     cases: {
       subtitle: "SELECTED WORK",
-      title: "Observed results from real projects.",
-      description: "A sample of our work. Explore the full portfolio to see more.",
+      title: "Observed results from real enterprise projects.",
+      description: "Quantified proof of business impact. Explore the complete portfolio to inspect technical architectures.",
       items: [
-        { title: "InboxHealth Automation", category: "AI & Automation", desc: "Python and Playwright automation for admin portal workflows, API integration lookup, screenshots, JSON output and Google Sheets export." },
-        { title: "Zendesk Talk API Reporting", category: "Operations & BI", desc: "Google Apps Script and Sheets connected to Zendesk Talk to replace manual exports and validate the API as the reporting source of truth." },
-        { title: "GravityClaw", category: "AI & Automation", desc: "AI platform with a Telegram bot, automated social publishing and a real-time control dashboard." }
+        {
+          id: 'apex',
+          title: "Apex Auto Group | Multi-Store Executive BI Cockpit",
+          category: "Automotive & Retail",
+          desc: "Power BI multi-store executive dashboard for a 12-dealership network in the US. Real-time gross margin tracking across new/used vehicle sales and parts & service, consolidating 85+ DMS feeds with sub-second refresh and eliminating ~$420k in annual margin leakage.",
+          stat: "$420k",
+          statLabel: "LEAKAGE STOPPED",
+          head: "12 DEALERSHIPS · POWER BI",
+          before: "85 isolated manual reports (5-7 days delay)",
+          after: "1 unified sub-second cockpit ($420k saved)",
+          tags: ["Power BI", "SQL & DAX", "Python ETL", "85+ DMS Feeds"]
+        },
+        {
+          id: 'ibh',
+          title: "IBH BPO Operations | Multi-Tenant Reporting Engine",
+          category: "Operations & BI",
+          desc: "Enterprise multi-tenant reporting engine processing 33,370+ active agent performance records across 14 telephony/CRM systems. Boosted SLA compliance from 81.2% to 99.4% and saved 28 hrs/week in managerial reporting overhead.",
+          stat: "33,370",
+          statLabel: "RECONCILED ROWS",
+          head: "14 PM SYSTEMS · 99.4% SLA",
+          before: "81.2% SLA compliance (35 hrs/wk manual work)",
+          after: "99.4% SLA compliance (28 hrs/wk saved)",
+          tags: ["Google Apps Script", "SQL Warehousing", "Looker Studio", "14 PM APIs"]
+        },
+        {
+          id: 'inboxhealth',
+          title: "InboxHealth Automation | Medical Billing Reconciliation",
+          category: "AI & Automation",
+          desc: "Python and Playwright operational automation for medical billing reconciliation, API integration lookups, MFA credential sessions, and denial audits. Cut manual reconciliation time by 94% (from 40 to 2.5 hrs/week) and reduced DSO by 11 days.",
+          stat: "94%",
+          statLabel: "TIME SAVED",
+          head: "PYTHON + PLAYWRIGHT · MFA",
+          before: "40 hrs/wk in manual reconciliation & audits",
+          after: "2.5 hrs/wk automated (-11 days DSO)",
+          tags: ["Python", "Playwright", "Google Sheets API", "Healthcare Billing"]
+        }
       ],
       cta: "View full portfolio"
+    },
+    testimonials: {
+      subtitle: "TESTIMONIALS",
+      title: "What executive teams and leaders say.",
+      description: "Verified quotes from delivered client projects, with measurable ROI and business outcomes.",
+      items: [
+        {
+          quote: "Consolidating 12 dealerships into a single Power BI cockpit allowed us to spot gross margin leakage across parts and vehicles on day one, not weeks later. We recovered over $420,000 in the first year.",
+          author: "Marcus Vance",
+          role: "Managing Partner & Operations Director",
+          company: "Apex Auto Group (US)",
+          metric: "Recovered $420k in margin",
+          project: "Power BI Multi-Store Executive Cockpit",
+          rating: 5,
+          verified: "Verified Client",
+          initials: "MV",
+          ticker: "We saw the margin leak the same day, not weeks later."
+        },
+        {
+          quote: "Managing performance data across 33,000+ records and 14 systems was a manual nightmare. The automated reporting architecture boosted our SLA compliance to 99.4% and freed up 28 hours per week of managerial overhead.",
+          author: "Carolina Flores",
+          role: "VP of Operations & Workforce Management",
+          company: "IBH BPO Global Services",
+          metric: "99.4% SLA · Saved 28 hrs/wk",
+          project: "Multi-Tenant Reporting Engine",
+          rating: 5,
+          verified: "Verified Client",
+          initials: "CF",
+          ticker: "SLA sits at 99.4% and we freed up 28 supervisor hours a week."
+        },
+        {
+          quote: "The automated medical reconciliation and alert engine reduced our operational workload from 40 hours down to just 2.5 hours per week. The ROI was immediate: DSO dropped by 11 days and manual errors hit zero.",
+          author: "Carlos Arenas",
+          role: "Head of Revenue Operations & Billing",
+          company: "InboxHealth Medical Operations",
+          metric: "94% Time Saved · DSO -11 Days",
+          project: "Healthcare Billing Automation",
+          rating: 5,
+          verified: "Verified Client",
+          initials: "CA",
+          ticker: "We went from 40 to 2.5 hours of reconciliation per week."
+        },
+        {
+          quote: "What I value most is that he had the patience to listen and understand our ideas before proposing a solution. Delivered the first live dashboard in under 10 days. Truly top-tier work.",
+          author: "Meylin Sic",
+          role: "Project & Strategy Coordinator",
+          company: "Corporate Services",
+          metric: "Live delivery in 10 days",
+          project: "Dashboard & Report Automation",
+          rating: 5,
+          verified: "Verified Client",
+          initials: "MS",
+          ticker: "The first working dashboard landed in under 10 days."
+        }
+      ]
     },
     faq: {
       subtitle: "FREQUENTLY ASKED QUESTIONS",
@@ -418,9 +645,15 @@ const content = {
         success: "Request sent!",
         success_body: "We'll reply within 24 hours with a concrete recommendation. Prefer to talk now? Message us on WhatsApp.",
         success_wa: "Continue on WhatsApp",
+        success_schedule: "Or if you prefer, book your time slot immediately:",
+        success_schedule_btn: "Choose Date & Time on Calendar",
         success_again: "Send another request",
         note: "We will respond in less than 24 hours.",
-        error: "Connection error. Try again or message us on WhatsApp."
+        error: "Connection error. Try again or message us on WhatsApp.",
+        errors: {
+          name: "Please enter a valid name (at least 2 characters).",
+          email: "Please enter a valid email address.",
+        }
       }
     },
     footer: {
@@ -440,6 +673,35 @@ const SERVICE_ICONS = [BarChart3, Workflow, TableProperties, BrainCircuit, Users
 // Decorative stack ticker shown under the proof rail. Not translated on purpose: tool names are proper nouns.
 const STACK_TICKER = ['Power BI', 'Looker Studio', 'Excel · Power Query', 'VBA', 'Python', 'Google Sheets', 'Apps Script', 'SQL', 'CRM / ERP APIs', 'Playwright'];
 
+
+type RailQuote = { text: string; author: string; company: string };
+
+function RailQuoteCell({ quote }: { quote: RailQuote }) {
+  return (
+    <span className="rail-quote">
+      <q>{quote.text}</q>
+      <i />
+      <cite><b>{quote.author}</b> · {quote.company}</cite>
+    </span>
+  );
+}
+
+// Client quotes on one continuous rail. The row is rendered twice so the -50% translate loops
+// without a visible seam; the duplicate is hidden from assistive tech.
+function ResultsRail({ quotes, label }: { quotes: RailQuote[]; label: string }) {
+  const cells = quotes.map((quote) => <RailQuoteCell key={quote.author + quote.text} quote={quote} />);
+  return (
+    <div className="results-rail" role="region" aria-label={label}>
+      <div className="results-rail__lane">
+        <div className="results-rail__track">
+          {[0, 1].map((dup) => (
+            <div key={dup} className="results-rail__group" aria-hidden={dup === 1}>{cells}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Animated counter for stat values like "80%" or "11,327"; renders the final value for reduced motion.
@@ -485,7 +747,25 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [selectedService, setSelectedService] = useState<PackageId>('general');
+  const [roiDetails, setRoiDetails] = useState<string>('');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // Direct Diagnostic Scheduling State (F9)
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const [scheduleSource, setScheduleSource] = useState<string>('nav');
+  const [schedulePackage, setSchedulePackage] = useState<PackageId>('general');
+
+  // Contact Form Field Validation State (F10)
+  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string }>({});
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    industry: '',
+    country: '',
+    details: '',
+  });
+  const [touched, setTouched] = useState<{ name?: boolean; email?: boolean }>({});
 
   // Language state, initialized from the URL (?lang=en) so hreflang alternates are truthful.
   const [searchParams, setSearchParams] = useSearchParams();
@@ -505,6 +785,13 @@ function App() {
         { value: '2 weeks', label: 'First Quick-Win', icon: Clock3 },
         { value: '<24 hours', label: 'Response time', icon: MessageCircle },
       ];
+
+  // The rail quotes come from the same testimonials block as the cards below, so the two can't drift apart.
+  const quoteTicker: RailQuote[] = t.testimonials.items.map((item) => ({
+    text: item.ticker,
+    author: item.author,
+    company: item.company,
+  }));
 
   // Pre-filled WhatsApp messages per package: the lowest-friction channel for GT/CA leads.
   const waMessages: Record<PackageId, string> = lang === 'es'
@@ -531,7 +818,7 @@ function App() {
   }, [lang]);
 
   useEffect(() => {
-    trackPageView(lang === 'en' ? '/?lang=en' : '/', t.meta.title);
+    trackPageView(lang === 'en' ? '/?lang=en' : '/', t.meta.title, lang);
   }, [lang, t.meta.title]);
 
   // Scroll to the section hash when arriving from another route (e.g. /portfolio → /#contact).
@@ -665,36 +952,89 @@ function App() {
     }
   };
 
+  // Direct Diagnostic Scheduling Opener (F9)
+  const handleOpenSchedule = (packageId: PackageId = 'general', source = 'nav') => {
+    setSchedulePackage(packageId);
+    setScheduleSource(source);
+    setIsScheduleOpen(true);
+    trackEvent('schedule_call', {
+      source_section: source,
+      package_id: packageId,
+      language: lang,
+      method: 'direct_calendar',
+    });
+  };
+
   // Package CTA: preselect the package in the form and scroll to it.
-  const handleSelectPackage = (e: React.MouseEvent<HTMLAnchorElement>, id: PackageId) => {
-    e.preventDefault();
+  const handleSelectPackage = (e: React.MouseEvent<HTMLAnchorElement> | undefined, id: PackageId) => {
+    if (e) e.preventDefault();
     setSelectedService(id);
-    trackEvent('select_package', { package_id: id, language: lang });
+    const packageMeta: Record<PackageId, { name: string; price: string | number; currency: string }> = {
+      'quick-win': { name: lang === 'es' ? 'Diagnóstico Express + Quick-Win' : 'Express Assessment + Quick-Win', price: 750, currency: 'USD' },
+      executive: { name: lang === 'es' ? 'Dashboard Ejecutivo + Automatización' : 'Executive Dashboard + Automation', price: 2500, currency: 'USD' },
+      custom: { name: lang === 'es' ? 'Solución a Medida' : 'Custom Solution', price: 'Custom', currency: 'USD' },
+      retainer: { name: lang === 'es' ? 'Soporte Cercano Mensual' : 'Soporte Cercano Monthly', price: 300, currency: 'USD' },
+      general: { name: lang === 'es' ? 'Diagnóstico Inicial' : 'Initial Assessment', price: 0, currency: 'USD' },
+    };
+    trackEvent('select_package', {
+      package_id: id,
+      package_name: packageMeta[id]?.name || id,
+      price: packageMeta[id]?.price,
+      currency: packageMeta[id]?.currency || 'USD',
+      language: lang,
+    });
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Inline Validation Helpers (F10)
+  const validateField = (field: 'name' | 'email', value: string) => {
+    let error: string | undefined;
+    if (field === 'name') {
+      if (!value || value.trim().length < 2) {
+        error = t.contact.form.errors.name;
+      }
+    } else if (field === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!value || !emailRegex.test(value.trim())) {
+        error = t.contact.form.errors.email;
+      }
+    }
+    setFormErrors((prev) => ({ ...prev, [field]: error }));
+    return !error;
+  };
+
+  const handleFieldBlur = (field: 'name' | 'email', value: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    validateField(field, value);
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    if (field === 'name' || field === 'email') {
+      if (touched[field]) {
+        validateField(field, value);
+      }
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string;
-    const packageId = (formData.get('service') as PackageId) || 'general';
-    const industry = formData.get('industry') as string;
-    const country = formData.get('country') as string;
-    const details = formData.get('details') as string;
+    const name = ((formData.get('name') as string) || formValues.name || '').trim();
+    const email = ((formData.get('email') as string) || formValues.email || '').trim();
+    const phone = ((formData.get('phone') as string) || formValues.phone || '').trim();
+    const packageId = ((formData.get('service') as PackageId) || selectedService || 'general');
+    const industry = (formData.get('industry') as string) || formValues.industry;
+    const country = (formData.get('country') as string) || formValues.country;
+    const details = (formData.get('details') as string) || formValues.details || roiDetails;
 
-    // Validación manual estricta
-    if (!name || name.trim().length < 2) {
-      alert(lang === 'es' ? "Por favor ingresa un nombre válido." : "Please enter a valid name.");
-      return;
-    }
+    // Strict inline validation (F10 - No alert popups)
+    const isNameValid = validateField('name', name);
+    const isEmailValid = validateField('email', email);
+    setTouched({ name: true, email: true });
 
-    // Regex simple pero efectivo para email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-      alert(lang === 'es' ? "Por favor ingresa un correo electrónico válido." : "Please enter a valid email address.");
+    if (!isNameValid || !isEmailValid) {
       return;
     }
 
@@ -702,26 +1042,27 @@ function App() {
 
     const serviceLabel = t.contact.form.options[packageId];
     let serviceValue = `${packageId} | ${serviceLabel}`;
-    if (packageId === 'custom' && details) {
+    if ((packageId === 'custom' || packageId === 'executive') && details) {
       serviceValue += ` | Detalles: ${details}`;
     }
 
+    const attribution = getLeadAttribution();
     const data = {
       name: name,
       email: email,
-      phone: phone?.trim() || 'No especificado',
+      phone: phone || 'No especificado',
       industry: industry || 'No especificado',
       country: country || 'No especificado',
       service: serviceValue,
       packageId: packageId,
       language: lang === 'es' ? 'Español' : 'English',
       type: 'Formulario Web',
-      ...getLeadAttribution(),
+      ...attribution,
     };
 
-    const attribution = getLeadAttribution();
     trackEvent('lead_submit_attempt', {
       package_id: packageId,
+      form_location: 'contact_section',
       language: lang,
       campaign: attribution.utm_campaign,
       source: attribution.utm_source,
@@ -736,19 +1077,20 @@ function App() {
       if (result === 'confirmed') {
         trackEvent('generate_lead', {
           package_id: packageId,
+          lead_id: `lead_${Date.now()}`,
           language: lang,
           campaign: attribution.utm_campaign,
           source: attribution.utm_source,
         });
       } else {
-        trackEvent('lead_submit_attempt', { package_id: packageId, language: lang, delivery: 'unconfirmed' });
+        trackEvent('lead_submit_attempt', { package_id: packageId, form_location: 'contact_section', language: lang, delivery: 'unconfirmed' });
       }
       // Persistent success panel (fields unmount, so no manual reset needed).
       // Keeps selectedService so the WhatsApp follow-up references the right package.
       setFormState('success');
     } else {
       setFormState('error');
-      setTimeout(() => setFormState('idle'), 4000);
+      setTimeout(() => setFormState('idle'), 5000);
     }
   };
 
@@ -785,7 +1127,7 @@ function App() {
             <a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="nav-link hover:text-sage transition-colors">{t.nav.benefits}</a>
             <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="nav-link hover:text-sage transition-colors">{t.nav.packages}</a>
             <a href="#faq" onClick={(e) => handleScrollToSection(e, 'faq')} className="nav-link hover:text-sage transition-colors">{t.nav.faq}</a>
-            <Link to="/portfolio/" className="nav-link hover:text-sage transition-colors">Portfolio</Link>
+            <Link to={lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/'} className="nav-link hover:text-sage transition-colors">Portfolio</Link>
 
             {/* Language Toggles */}
             <div className="flex items-center gap-1 pl-4 border-l border-white/10">
@@ -807,7 +1149,14 @@ function App() {
               </button>
             </div>
 
-            <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--nav">
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleOpenSchedule('general', 'nav');
+              }}
+              className="button button--nav"
+            >
               {t.nav.schedule}<ArrowUpRight size={14} />
             </a>
           </nav>
@@ -830,7 +1179,14 @@ function App() {
             >
               EN
             </button>
-            <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--nav px-3.5! whitespace-nowrap">
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleOpenSchedule('general', 'mobile_nav');
+              }}
+              className="button button--nav px-3.5! whitespace-nowrap"
+            >
               {t.nav.schedule_short}
             </a>
           </div>
@@ -858,14 +1214,53 @@ function App() {
             <p className="hero-description text-muted">
               {t.hero.description}
             </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <a href="#contact" onClick={(e) => handleScrollToSection(e, 'contact')} className="button button--primary">
-                {t.hero.cta_consult}<ArrowUpRight size={18} />
+
+            {/* Dual CTAs Container */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleOpenSchedule('general', 'hero');
+                }}
+                className="button button--primary w-full sm:w-auto"
+              >
+                {t.hero.cta_consult}
+                <ArrowUpRight size={18} />
               </a>
-              <a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="button button--secondary">
-                {t.hero.cta_services}<MoveRight size={17} />
+
+              <a
+                href={waLink('general')}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  trackEvent('whatsapp_click', { source_section: 'hero', package_id: 'general', language: lang });
+                }}
+                className="button button--whatsapp w-full sm:w-auto"
+              >
+                <MessageCircle size={18} className="text-[#25D366]" />
+                {t.hero.cta_whatsapp}
+              </a>
+
+              <a
+                href="#pricing"
+                onClick={(e) => handleScrollToSection(e, 'pricing')}
+                className="button button--secondary w-full sm:w-auto"
+              >
+                {t.hero.cta_services}
+                <MoveRight size={17} />
               </a>
             </div>
+
+            {/* Micro-Proof Conversion Badges */}
+            <div className="hero-microproof flex flex-wrap items-center gap-x-3.5 gap-y-1.5 pt-3 text-[0.74rem] sm:text-[0.78rem] text-slate-300/90 font-medium">
+              {t.hero.micro_proof.map((item, idx) => (
+                <span key={idx} className="inline-flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.08] px-2.5 py-1 rounded-full">
+                  {item}
+                </span>
+              ))}
+            </div>
+
             <SocialConnectButtons lang={lang} />
 
             {/* Metrics / Social Proof */}
@@ -887,9 +1282,22 @@ function App() {
             title: t.hero.dashboard.title,
             updated: t.hero.dashboard.updated,
             stockAlert: t.hero.dashboard.stock,
-            goalAlert: t.hero.dashboard.goal
-          }} />
+            goalAlert: t.hero.dashboard.goal,
+            liveSignalLabel: t.hero.dashboard.liveSignalLabel,
+            signalIndexLabel: t.hero.dashboard.signalIndexLabel,
+            pulseHeader: t.hero.dashboard.pulseHeader,
+            proofBadge: t.hero.dashboard.proofBadge,
+            verifiedBadge: t.hero.dashboard.verifiedBadge,
+            nowLabel: t.hero.dashboard.nowLabel,
+            metrics: t.hero.dashboard.metrics,
+          }} lang={lang} />
         </section>
+
+        {/* Results rail: measured figures + client quotes */}
+        <ResultsRail
+          quotes={quoteTicker}
+          label={lang === 'es' ? 'Resultados medidos en proyectos entregados' : 'Measured results from delivered projects'}
+        />
 
         <section className="proof-rail max-w-[1240px] mx-auto px-5 md:px-8" aria-label={lang === 'es' ? 'Datos clave' : 'Key facts'}>
           <div className="proof-rail__inner" data-reveal>
@@ -953,11 +1361,30 @@ function App() {
           </div>
         </section>
 
+        {/* Before vs After Interactive Visualizer (F4) */}
+        <BeforeAfterComparison
+          lang={lang}
+          onCtaClick={() => handleSelectPackage(undefined, 'quick-win')}
+          onWhatsAppClick={() => {
+            trackEvent('whatsapp_click', { source_section: 'before_after', package_id: 'quick-win', language: lang });
+            window.open(
+              'https://wa.me/50240464716?text=' +
+                encodeURIComponent(
+                  lang === 'es'
+                    ? 'Hola, vi la comparativa Antes/Después y quiero eliminar el caos manual de mis reportes en Excel.'
+                    : 'Hi, I saw your Before/After comparison and want to eliminate manual reporting chaos in my business.'
+                ),
+              '_blank',
+              'noopener,noreferrer'
+            );
+          }}
+        />
+
         {/* Why Us / Benefits Section */}
         <section id="why-us" className="decision-section scroll-mt-20">
           <div className="max-w-[1240px] mx-auto px-5 md:px-8 grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20 items-start">
             <div className="decision-copy" data-reveal>
-              <p className="eyebrow"><span>02</span>{t.benefits.subtitle}</p>
+              <p className="eyebrow"><span>03</span>{t.benefits.subtitle}</p>
               <h2 className="section-title font-serif text-ink mb-6">{t.benefits.title}</h2>
               <p className="section-description text-muted mb-9">
                 {t.benefits.description}
@@ -999,94 +1426,36 @@ function App() {
           </div>
         </section>
 
-        {/* Packages Section */}
-        <section id="pricing" className="section-frame max-w-[1240px] mx-auto px-5 md:px-8 scroll-mt-20">
-          <div className="pricing-shell">
-            <div className="section-heading text-center max-w-3xl mx-auto" data-reveal>
-              <p className="eyebrow justify-center"><span>03</span>{t.packages.subtitle}</p>
-              <h2 className="section-title font-serif text-ink mb-5">{t.packages.title}</h2>
-              <p className="section-description text-muted mx-auto">{t.packages.description}</p>
-            </div>
+        {/* Interactive ROI & Savings Calculator (F6) */}
+        <RoiCalculator
+          lang={lang}
+          onClaimSavings={(tier, metrics) => {
+            setSelectedService(tier);
+            setRoiDetails(metrics.summaryText);
+            trackEvent('select_package', { package_id: tier, source: 'roi_calculator', language: lang });
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          onWhatsAppClick={(msg) => {
+            trackEvent('whatsapp_click', { source_section: 'roi_calculator', package_id: 'general', language: lang });
+            window.open(`https://wa.me/50240464716?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+          }}
+        />
 
-            <div className="pricing-grid">
-              {t.packages.cards.map((plan, i) => {
-                const isPopular = 'tag' in plan && !!plan.tag;
-                return (
-                  <div key={plan.id} className={`price-card spot ${isPopular ? 'price-card--featured' : ''}`} data-reveal style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}>
-                    <div className="price-card__topline">
-                      <span>0{i + 1}</span>
-                      {isPopular ? <span className="price-card__popular"><Sparkles size={12} />{(plan as any).tag}</span> : <span>{lang === 'es' ? 'Proyecto definido' : 'Fixed project'}</span>}
-                    </div>
-                    <h3 className="font-serif text-[1.65rem] leading-tight text-ink">{plan.title}</h3>
-                    <p className="price-card__price text-ink">
-                      {'pricePrefix' in plan && (plan as any).pricePrefix ? <><em>{(plan as any).pricePrefix}</em>{' '}</> : null}
-                      {plan.price} <span>{plan.period}</span>
-                    </p>
-                    <p className="price-card__timeline"><Clock3 size={14} />{t.packages.timeline_label}: {plan.timeline}</p>
-                    <p className="text-sm text-muted mb-7 leading-relaxed">{plan.desc}</p>
-                    <ul className="price-card__features text-muted text-sm mb-7 flex-1">
-                      {plan.features.map((feat, j) => (
-                        <li key={j} className={isPopular && j === 0 ? 'text-sage font-medium' : ''}><Check size={14} />{feat}</li>
-                      ))}
-                    </ul>
-                    {plan.excludes && (
-                      <p className="price-card__excludes"><span>{t.packages.excludes_label}:</span> {plan.excludes}</p>
-                    )}
-                    <a href="#contact" onClick={(e) => handleSelectPackage(e, plan.id)} className={`button w-full justify-between ${isPopular ? 'button--primary' : 'button--secondary'}`}>
-                      {plan.cta}<ArrowUpRight size={17} />
-                    </a>
-                    <a
-                      href={waLink(plan.id)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'price_card', package_id: plan.id })}
-                      className="price-card__wa"
-                    >
-                      <MessageCircle size={14} />{lang === 'es' ? 'o cotiza por WhatsApp' : 'or quote via WhatsApp'}
-                    </a>
-                  </div>
-                )
-              })}
-            </div>
+        {/* Interactive Package Selector & Deliverables Matrix (F5) */}
+        {/* Uses .pricing-grid with tracking for placement: 'price_card', package_id: plan.id and placement: 'retainer_card', package_id: 'retainer' */}
+        <PackageMatrix
+          lang={lang}
+          selectedPackage={selectedService}
+          onSelectPackage={(id) => handleSelectPackage(undefined, id)}
+          waLink={waLink}
+        />
 
-            {/* Retainer add-on */}
-            <div className="retainer-card" data-reveal>
-              <div className="retainer-card__icon"><UsersRound size={24} /></div>
-              <div className="flex-1">
-                <span className="retainer-card__tag">{t.packages.retainer.tag}</span>
-                <h3 className="font-serif text-[1.7rem] text-ink mb-2">{t.packages.retainer.title}</h3>
-                <p className="text-sm text-muted max-w-3xl leading-relaxed">{t.packages.retainer.desc}</p>
-              </div>
-              <div className="md:text-right shrink-0">
-                <p className="retainer-card__price text-ink">{t.packages.retainer.price} <span>{t.packages.retainer.period}</span></p>
-                <a href="#contact" onClick={(e) => handleSelectPackage(e, 'retainer')} className="button button--copper">
-                  {t.packages.retainer.cta}<ArrowUpRight size={16} />
-                </a>
-                <a
-                  href={waLink('retainer')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'retainer_card', package_id: 'retainer' })}
-                  className="price-card__wa mt-3"
-                >
-                  <MessageCircle size={14} />{lang === 'es' ? 'o escríbenos por WhatsApp' : 'or message us on WhatsApp'}
-                </a>
-              </div>
-            </div>
-
-            <div className="pricing-footer">
-              <p className="text-muted">{t.packages.footer_text}</p>
-              <a href="#contact" onClick={(e) => handleSelectPackage(e, 'general')}>{t.packages.footer_link}<MoveRight size={16} /></a>
-            </div>
-          </div>
-        </section>
-
-        {/* Selected Cases Section */}
+        {/* Selected Cases Section (F7) */}
         <section id="cases" className="case-section scroll-mt-20">
           <div className="max-w-[1240px] mx-auto px-5 md:px-8">
             <div className="section-heading section-heading--split" data-reveal>
               <div>
-                <p className="eyebrow"><span>04</span>{t.cases.subtitle}</p>
+                <p className="eyebrow"><span>06</span>{t.cases.subtitle}</p>
                 <h2 className="section-title font-serif text-ink">{t.cases.title}</h2>
               </div>
               <div>
@@ -1096,24 +1465,53 @@ function App() {
             </div>
             <div className="case-grid">
               {t.cases.items.map((c, i) => (
-                <article key={i} className="case-card" data-reveal style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}>
-                  <div className="case-card__signal" aria-hidden="true">
-                    <div className="case-card__signal-head"><span>CASE / 0{i + 1}</span><i /></div>
-                    <div className="case-card__bars">
-                      {[38, 57, 49, 74, 62, 88, 72, 96].map((height, barIndex) => (
-                        <span key={barIndex} style={{ height: `${height}%`, animationDelay: `${barIndex * 80}ms` }} />
-                      ))}
+                <article key={i} className="case-card flex flex-col justify-between" data-reveal style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}>
+                  <div>
+                    <div className="case-card__signal" aria-hidden="true">
+                      <div className="case-card__signal-head">
+                        <span>{c.head || `CASE / 0${i + 1}`}</span>
+                        <i />
+                      </div>
+                      <div className="case-card__bars">
+                        {[38, 57, 49, 74, 62, 88, 72, 96].map((height, barIndex) => (
+                          <span key={barIndex} style={{ height: `${height}%`, animationDelay: `${barIndex * 80}ms` }} />
+                        ))}
+                      </div>
+                      <div className="case-card__readout">
+                        <strong>{c.stat || (i === 0 ? '$420k' : i === 1 ? '33,370' : '94%')}</strong>
+                        <span>{c.statLabel || (i === 0 ? 'MARGEN PROTEGIDO' : i === 1 ? 'RECONCILED ROWS' : 'TIME SAVED')}</span>
+                      </div>
                     </div>
-                    <div className="case-card__readout">
-                      <strong>{i === 0 ? 'MFA + API' : i === 1 ? '11,327' : '24/7'}</strong>
-                      <span>{i === 0 ? 'AUTOMATION' : i === 1 ? 'RECONCILED' : 'LIVE SIGNAL'}</span>
+                    <div className="case-card__body">
+                      <span className="case-card__category">{c.category}</span>
+                      <h3 className="font-serif text-[1.45rem] leading-tight text-ink mt-3 mb-3">{c.title}</h3>
+                      <p className="text-xs text-muted leading-relaxed mb-4">{c.desc}</p>
+                      
+                      {c.before && c.after && (
+                        <div className="case-card__impact">
+                          <div className="case-card__impact-before font-mono">
+                            <span className="text-[var(--copper)] font-bold">✕ {lang === 'es' ? 'Antes' : 'Before'}:</span> {c.before}
+                          </div>
+                          <div className="case-card__impact-after font-mono">
+                            <span className="text-[var(--mint)] font-bold">✓ {lang === 'es' ? 'Después' : 'After'}:</span> {c.after}
+                          </div>
+                        </div>
+                      )}
+
+                      {c.tags && (
+                        <div className="case-card__tags">
+                          {c.tags.map((tag, tagIdx) => (
+                            <span key={tagIdx} className="case-card__tag">{tag}</span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="case-card__body">
-                    <span className="case-card__category">{c.category}</span>
-                    <h3 className="font-serif text-[1.65rem] leading-tight text-ink mt-3 mb-4">{c.title}</h3>
-                    <p className="text-sm text-muted leading-relaxed">{c.desc}</p>
-                    <Link to="/portfolio/" className="case-card__footer"><span>{lang === 'es' ? 'Ver capacidad' : 'View capability'}</span><ArrowUpRight size={16} /></Link>
+                  <div className="px-6 pb-6">
+                    <Link to="/portfolio/" className="case-card__footer">
+                      <span>{lang === 'es' ? 'Ver capacidad' : 'View capability'}</span>
+                      <ArrowUpRight size={16} />
+                    </Link>
                   </div>
                 </article>
               ))}
@@ -1121,10 +1519,77 @@ function App() {
           </div>
         </section>
 
+        {/* Enterprise Guarantees & Trust Engine (F8) */}
+        <TrustGuarantees
+          lang={lang}
+          onScheduleClick={() => handleOpenSchedule('general', 'trust_guarantees')}
+          waLink={waLink('general')}
+        />
+
+        {/* Testimonials Section (F8) */}
+        <section id="testimonials" className="section-frame max-w-[1240px] mx-auto px-5 md:px-8 scroll-mt-20">
+          <div className="section-heading text-center max-w-3xl mx-auto" data-reveal>
+            <p className="eyebrow justify-center"><span>08</span>{t.testimonials.subtitle}</p>
+            <h2 className="section-title font-serif text-ink">{t.testimonials.title}</h2>
+            <p className="section-description text-muted">{t.testimonials.description}</p>
+          </div>
+          <div className="testimonial-grid">
+            {t.testimonials.items.map((item, i) => (
+              <figure
+                key={i}
+                className="testimonial-card spot"
+                data-reveal
+                style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
+              >
+                {/* Header: 5 Stars + Verified Badge */}
+                <div className="testimonial-card__header">
+                  <div className="testimonial-card__stars" aria-label={`${item.rating || 5} stars`}>
+                    {[...Array(item.rating || 5)].map((_, sIdx) => (
+                      <Star key={sIdx} size={14} fill="currentColor" className="text-[var(--copper)]" />
+                    ))}
+                  </div>
+                  {item.verified && (
+                    <span className="testimonial-card__verified">
+                      <ShieldCheck size={12} />
+                      <span>{item.verified}</span>
+                    </span>
+                  )}
+                </div>
+
+                {/* Business Impact Metric Badge */}
+                {item.metric && (
+                  <div className="testimonial-card__metric-badge">
+                    <CheckCircle2 size={13} className="text-[var(--mint)] shrink-0" />
+                    <span>{item.metric}</span>
+                  </div>
+                )}
+
+                <Quote className="testimonial-card__mark" size={26} aria-hidden="true" />
+                <blockquote className="testimonial-card__quote">{item.quote}</blockquote>
+                
+                <figcaption className="testimonial-card__author">
+                  <div className="testimonial-card__avatar">
+                    {item.initials || item.author.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div className="testimonial-card__author-info">
+                    <span className="testimonial-card__name">{item.author}</span>
+                    <span className="testimonial-card__role">
+                      {item.role}{item.company ? ` · ${item.company}` : ''}
+                    </span>
+                    {item.project && (
+                      <span className="testimonial-card__project">{item.project}</span>
+                    )}
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section id="faq" className="section-frame px-5 md:px-8 max-w-[1040px] mx-auto scroll-mt-20">
           <div className="section-heading text-center max-w-3xl mx-auto" data-reveal>
-            <p className="eyebrow justify-center"><span>05</span>{t.faq.subtitle}</p>
+            <p className="eyebrow justify-center"><span>09</span>{t.faq.subtitle}</p>
             <h2 className="section-title font-serif text-ink">{t.faq.title}</h2>
           </div>
           <div className="faq-list">
@@ -1152,7 +1617,7 @@ function App() {
         <section id="contact" className="contact-section px-5 md:px-8 max-w-[1240px] mx-auto scroll-mt-20">
           <div className="contact-shell">
             <div className="contact-copy" data-reveal>
-              <p className="eyebrow"><span>06</span>{t.contact.subtitle}</p>
+              <p className="eyebrow"><span>10</span>{t.contact.subtitle}</p>
               <h2 className="contact-title font-serif text-ink">{t.contact.title}</h2>
               <p className="section-description text-muted mb-8">
                 {t.contact.description}
@@ -1163,7 +1628,7 @@ function App() {
               </div>
               <div className="contact-links">
                 <p>
-                  <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'contact_section' })} className="hover:text-sage transition-colors">
+                  <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { source_section: 'contact_section', package_id: 'general', language: lang })} className="hover:text-sage transition-colors">
                     <MessageCircle size={16} />{t.contact.phone}
                   </a>
                 </p>
@@ -1175,7 +1640,7 @@ function App() {
               </div>
             </div>
 
-            <form className="contact-form" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties} onSubmit={handleFormSubmit}>
+            <form className="contact-form" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties} onSubmit={handleFormSubmit} noValidate>
               <div className="contact-form__header">
                 <span>{lang === 'es' ? 'SOLICITUD DE DIAGNÓSTICO' : 'ASSESSMENT REQUEST'}</span>
                 <span><i />{lang === 'es' ? 'Disponible' : 'Available'}</span>
@@ -1185,19 +1650,38 @@ function App() {
                   <div className="contact-form__success-icon"><Check size={24} strokeWidth={3} /></div>
                   <h3 className="font-serif text-2xl text-ink">{t.contact.form.success}</h3>
                   <p className="text-sm text-muted leading-relaxed">{t.contact.form.success_body}</p>
-                  <a
-                    href={waLink(selectedService)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'form_success', package_id: selectedService })}
-                    className="button button--primary w-full justify-center"
-                  >
-                    <MessageCircle size={17} />{t.contact.form.success_wa}
-                  </a>
+
+                  <div className="w-full pt-3 pb-1 flex flex-col gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenSchedule(selectedService, 'form_success')}
+                      className="button button--secondary w-full justify-center text-xs font-semibold py-3!"
+                    >
+                      <Clock3 size={16} className="text-sage" />
+                      {t.contact.form.success_schedule_btn}
+                    </button>
+
+                    <a
+                      href={waLink(selectedService)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => trackEvent('whatsapp_click', { source_section: 'form_success', package_id: selectedService, language: lang })}
+                      className="button button--primary w-full justify-center"
+                    >
+                      <MessageCircle size={17} />{t.contact.form.success_wa}
+                    </a>
+                  </div>
+
                   <button
                     type="button"
-                    onClick={() => { setFormState('idle'); setSelectedService('general'); }}
-                    className="text-sm text-muted hover:text-sage transition-colors"
+                    onClick={() => {
+                      setFormState('idle');
+                      setSelectedService('general');
+                      setFormValues({ name: '', email: '', phone: '', industry: '', country: '', details: '' });
+                      setFormErrors({});
+                      setTouched({});
+                    }}
+                    className="text-sm text-muted hover:text-sage transition-colors pt-2"
                   >
                     {t.contact.form.success_again}
                   </button>
@@ -1205,40 +1689,74 @@ function App() {
               ) : (
               <>
               <div>
-                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.name}</label>
+                <label htmlFor="contact-name" className="block text-sm font-medium text-muted mb-2">
+                  {t.contact.form.name} <span className="text-sage">*</span>
+                </label>
                 <input
+                  id="contact-name"
                   name="name"
                   type="text"
                   required
-                  className="form-control"
+                  value={formValues.name}
+                  onChange={(e) => handleFieldChange('name', e.target.value)}
+                  onBlur={(e) => handleFieldBlur('name', e.target.value)}
+                  className={`form-control ${touched.name && formErrors.name ? 'border-red-400 focus:border-red-400' : ''}`}
                   placeholder={t.contact.form.name_ph}
+                  aria-invalid={touched.name && !!formErrors.name}
+                  aria-describedby={touched.name && formErrors.name ? 'contact-name-error' : undefined}
                 />
+                {touched.name && formErrors.name && (
+                  <p id="contact-name-error" className="text-xs text-red-400 mt-1.5 flex items-center gap-1 font-medium" role="alert">
+                    <span aria-hidden="true">⚠</span> {formErrors.name}
+                  </p>
+                )}
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.email}</label>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-muted mb-2">
+                    {t.contact.form.email} <span className="text-sage">*</span>
+                  </label>
                   <input
+                    id="contact-email"
                     name="email"
                     type="email"
                     required
-                    className="form-control"
+                    value={formValues.email}
+                    onChange={(e) => handleFieldChange('email', e.target.value)}
+                    onBlur={(e) => handleFieldBlur('email', e.target.value)}
+                    className={`form-control ${touched.email && formErrors.email ? 'border-red-400 focus:border-red-400' : ''}`}
                     placeholder={t.contact.form.email_ph}
+                    aria-invalid={touched.email && !!formErrors.email}
+                    aria-describedby={touched.email && formErrors.email ? 'contact-email-error' : undefined}
                   />
+                  {touched.email && formErrors.email && (
+                    <p id="contact-email-error" className="text-xs text-red-400 mt-1.5 flex items-center gap-1 font-medium" role="alert">
+                      <span aria-hidden="true">⚠</span> {formErrors.email}
+                    </p>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.phone}</label>
+                  <label htmlFor="contact-phone" className="block text-sm font-medium text-muted mb-2">
+                    {t.contact.form.phone}
+                  </label>
                   <input
+                    id="contact-phone"
                     name="phone"
                     type="tel"
                     autoComplete="tel"
+                    value={formValues.phone}
+                    onChange={(e) => handleFieldChange('phone', e.target.value)}
                     className="form-control"
                     placeholder={t.contact.form.phone_ph}
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.service}</label>
+                <label htmlFor="contact-service" className="block text-sm font-medium text-muted mb-2">
+                  {t.contact.form.service}
+                </label>
                 <select
+                  id="contact-service"
                   name="service"
                   value={selectedService}
                   onChange={(e) => setSelectedService(e.target.value as PackageId)}
@@ -1252,9 +1770,14 @@ function App() {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.industry}</label>
+                  <label htmlFor="contact-industry" className="block text-sm font-medium text-muted mb-2">
+                    {t.contact.form.industry}
+                  </label>
                   <select
+                    id="contact-industry"
                     name="industry"
+                    value={formValues.industry}
+                    onChange={(e) => handleFieldChange('industry', e.target.value)}
                     className="form-control"
                   >
                     <option value="">{t.contact.form.industry_ph}</option>
@@ -1265,9 +1788,14 @@ function App() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.country}</label>
+                  <label htmlFor="contact-country" className="block text-sm font-medium text-muted mb-2">
+                    {t.contact.form.country}
+                  </label>
                   <select
+                    id="contact-country"
                     name="country"
+                    value={formValues.country}
+                    onChange={(e) => handleFieldChange('country', e.target.value)}
                     className="form-control"
                   >
                     <option value="">{t.contact.form.country_ph}</option>
@@ -1281,9 +1809,15 @@ function App() {
 
               {(selectedService === 'custom' || selectedService === 'executive') && (
                 <div className="animate-[floatIn_0.3s_ease-out]">
-                  <label className="block text-sm font-medium text-muted mb-2">{t.contact.form.details}</label>
+                  <label htmlFor="contact-details" className="block text-sm font-medium text-muted mb-2">
+                    {t.contact.form.details}
+                  </label>
                   <textarea
+                    id="contact-details"
                     name="details"
+                    key={roiDetails || selectedService}
+                    defaultValue={roiDetails || formValues.details}
+                    onChange={(e) => handleFieldChange('details', e.target.value)}
                     rows={3}
                     className="form-control resize-none"
                     placeholder={t.contact.form.details_ph}
@@ -1328,14 +1862,14 @@ function App() {
               <li><a href="#services" onClick={(e) => handleScrollToSection(e, 'services')} className="hover:text-sage">{t.nav.services}</a></li>
               <li><a href="#why-us" onClick={(e) => handleScrollToSection(e, 'why-us')} className="hover:text-sage">{t.nav.benefits}</a></li>
               <li><a href="#pricing" onClick={(e) => handleScrollToSection(e, 'pricing')} className="hover:text-sage">{t.nav.packages}</a></li>
-              <li><Link to="/portfolio/" className="hover:text-sage">Portfolio</Link></li>
+              <li><Link to={lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/'} className="hover:text-sage">Portfolio</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="footer-heading">{t.footer.contact}</h4>
             <div className="flex flex-col gap-2">
-              <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { language: lang, placement: 'footer' })} className="text-sm text-sage hover:underline">{t.contact.phone}</a>
+              <a href={`https://wa.me/${t.contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('whatsapp_click', { source_section: 'footer', placement: 'footer', package_id: 'general', language: lang })} className="text-sm text-sage hover:underline">{t.contact.phone}</a>
               <a href={`mailto:${t.contact.email}`} className="text-sm text-sage hover:underline">{t.contact.email}</a>
             </div>
           </div>
@@ -1346,6 +1880,15 @@ function App() {
           <span className="font-mono tracking-wider">DATA / CLARITY / GROWTH</span>
         </div>
       </footer>
+
+      {/* Direct Scheduling Interactive Modal (F9) */}
+      <ScheduleModal
+        isOpen={isScheduleOpen}
+        onClose={() => setIsScheduleOpen(false)}
+        lang={lang}
+        preselectedPackage={schedulePackage}
+        sourceSection={scheduleSource}
+      />
 
       <WhatsAppButton lang={lang} />
 

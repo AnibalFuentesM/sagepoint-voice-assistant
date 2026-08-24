@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Internal commercial material — must never reach this public repo
+sales-kit/
+.agents/
+
+# Local scratch & backups
+*.bak
+*.bak2
+*.bak3
+_to_delete/
+_qa/
+.playwright-cli/

@@ -1,0 +1,218 @@
+/* The hero `.stage` is `position: sticky`, which resolves against its nearest scroll container.
+   Leonardo's `body { overflow-x: hidden }` became `.leo { overflow-x: hidden }`, and the app's own
+   body carries the same -- and per spec, hiding one axis turns the box into a scroll container on
+   both axes. So the stage was sticking to a box that never scrolls, and the whole hero scrolled
+   away instead of holding under the camera. `clip` clips identically without creating a scroll
+   container, which hands the stage back to the viewport. The doubled class outranks the generated
+   .leo rule regardless of import order. */
+.leo.leo {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+body.leo-page {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* Booking modal for the Leonardo home. Hand-written and safe to edit: leonardo.css is
+   generated from the standalone preview and gets overwritten, this one does not.
+   Scoped under .leo like the rest of the page. */
+
+.leo .bk {
+  /* Tailwind's preflight zeroes margin on every element, which kills the UA `margin: auto`
+     that centres a native <dialog>. Put it back explicitly. */
+  margin: auto;
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(88dvh, 900px);
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 22px;
+  background: var(--card);
+  color: var(--bone);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.leo .bk::backdrop {
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(3px);
+}
+
+body.leo-modal-open {
+  overflow: hidden;
+}
+
+.leo .bk-form,
+.leo .bk-done {
+  padding: clamp(26px, 4vw, 40px);
+}
+
+.leo .bk-x {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  margin: 10px 10px 0 0;
+  border-radius: 999px;
+  color: var(--ash);
+  font-size: 13px;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.leo .bk-x:hover {
+  background: var(--card-hi);
+  color: var(--bone);
+}
+
+.leo .bk-eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.leo .bk-title {
+  margin: 0 0 10px;
+  font-family: var(--f-disp);
+  font-weight: 900;
+  font-variation-settings: 'wdth' 87;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.leo .bk-lede {
+  margin: 0 0 26px;
+  max-width: 48ch;
+  color: var(--ash);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+.leo .bk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 620px) {
+  .leo .bk-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leo .bk-f {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.leo .bk-f--wide {
+  grid-column: 1 / -1;
+}
+
+.leo .bk-f > span {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.leo .bk-f > span i {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.leo .bk-f input,
+.leo .bk-f select,
+.leo .bk-f textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--obsidian);
+  color: var(--bone);
+  font-family: var(--f-ui);
+  font-size: 15px;
+  line-height: 1.4;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leo .bk-f textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.leo .bk-f input:focus-visible,
+.leo .bk-f select:focus-visible,
+.leo .bk-f textarea:focus-visible {
+  outline: none;
+  border-color: var(--mint);
+  box-shadow: 0 0 0 3px rgba(99, 230, 190, 0.16);
+}
+
+.leo .bk-f input[aria-invalid='true'] {
+  border-color: var(--pink);
+}
+
+.leo .bk-f input::placeholder,
+.leo .bk-f textarea::placeholder {
+  color: var(--mute);
+}
+
+.leo .bk-err {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  color: var(--pink);
+}
+
+.leo .bk-fail {
+  margin: 20px 0 0;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 51, 134, 0.35);
+  border-radius: 12px;
+  background: rgba(255, 51, 134, 0.08);
+  font-size: 14px;
+  color: var(--bone);
+}
+
+.leo .bk-fail a {
+  color: var(--mint);
+  text-decoration: underline;
+}
+
+.leo .bk-act {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.leo .bk-act .pill[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.leo .bk-alt {
+  font-size: 13.5px;
+  color: var(--ash);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.leo .bk-alt:hover {
+  color: var(--bone);
+}

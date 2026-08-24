@@ -30,7 +30,7 @@ The technical SEO foundation is unusually good for a small-business site: canoni
 ### 5. Performance
 - Single JS chunk: 460 KB (146 KB gzip). `/portfolio` (incl. `motion` library) is bundled into the home page load — should be a lazy route.
 - `cobe` is a dead dependency (unused).
-- Local uncommitted change already removes the Spline 3D runtime. 
+- Local uncommitted change already removes the Spline 3D runtime.
 - Assets: `public/projects/dicoma.pdf` is 6 MB; `crm.jpg` 200 KB; `logo.png` 94 KB. Only loaded on demand — low priority.
 - Fonts: preconnect + display=swap already present. Fine.
 

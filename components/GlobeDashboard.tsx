@@ -1,12 +1,27 @@
 import { useEffect, useRef } from 'react';
 
-interface GlobeDashboardProps {
+export interface GlobeDashboardProps {
   texts: {
     title: string;
     updated: string;
     stockAlert: string;
     goalAlert: string;
+    systemName?: string;
+    liveSignalLabel?: string;
+    signalIndexLabel?: string;
+    pulseHeader?: string;
+    proofBadge?: string;
+    verifiedBadge?: string;
+    nowLabel?: string;
+    metrics?: Array<{
+      index: string;
+      value: string;
+      label: string;
+      width: string;
+      color: string;
+    }>;
   };
+  lang?: 'es' | 'en';
 }
 
 const canTilt = () =>
@@ -66,31 +81,55 @@ const SEED_MARKER_Y = SEED_YS[PULSE.markerIndex];
 const SEED_END_Y = SEED_YS[PULSE.n - 1];
 const MARKER_X = pulseX(PULSE.markerIndex);
 
-const proofMetrics = [
+const defaultProofMetricsEs = [
   {
     index: '01',
     value: '33,370',
-    label: 'ROWS / FILAS',
+    label: 'FILAS CONSOLIDADAS',
     width: '92%',
     color: '#63E6BE',
   },
   {
     index: '02',
     value: '11,327',
-    label: 'CALL UNITS / UNIDADES',
+    label: 'REGISTROS RECONCILIADOS',
     width: '72%',
     color: '#D79864',
   },
   {
     index: '03',
     value: '80%',
-    label: 'REPORT TIME / TIEMPO',
+    label: 'MENOS TIEMPO EN EXCEL',
     width: '80%',
     color: '#F4F1E8',
   },
-] as const;
+];
 
-export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
+const defaultProofMetricsEn = [
+  {
+    index: '01',
+    value: '33,370',
+    label: 'CONSOLIDATED ROWS',
+    width: '92%',
+    color: '#63E6BE',
+  },
+  {
+    index: '02',
+    value: '11,327',
+    label: 'RECONCILED RECORDS',
+    width: '72%',
+    color: '#D79864',
+  },
+  {
+    index: '03',
+    value: '80%',
+    label: 'LESS TIME IN EXCEL',
+    width: '80%',
+    color: '#F4F1E8',
+  },
+];
+
+export default function GlobeDashboard({ texts, lang = 'es' }: GlobeDashboardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const tiltRaf = useRef(0);
 
@@ -242,6 +281,15 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
     card.style.setProperty('--tilt-y', '0deg');
   };
 
+  const activeProofMetrics = texts.metrics || (lang === 'en' ? defaultProofMetricsEn : defaultProofMetricsEs);
+  const systemName = texts.systemName || 'SAGEPOINT // DECISION ROOM';
+  const liveSignalLabel = texts.liveSignalLabel || (lang === 'en' ? '06:42 GT / LIVE SIGNAL' : '06:42 GT / SEÑAL EN VIVO');
+  const signalIndexLabel = texts.signalIndexLabel || (lang === 'en' ? 'SIGNAL INDEX' : 'ÍNDICE DE SEÑAL');
+  const pulseHeader = texts.pulseHeader || (lang === 'en' ? 'OPERATING PULSE' : 'PULSO OPERATIVO');
+  const proofBadge = texts.proofBadge || (lang === 'en' ? 'PROOF' : 'DATOS');
+  const verifiedBadge = texts.verifiedBadge || (lang === 'en' ? 'HUMAN + AI VERIFIED' : 'VALIDADO POR EXPERTOS + IA');
+  const nowLabel = texts.nowLabel || (lang === 'en' ? 'NOW' : 'AHORA');
+
   return (
     <figure ref={figRef} className="relative isolate flex min-h-[590px] w-full items-center justify-center py-8 sm:min-h-[620px] md:h-[650px] md:py-0">
       <figcaption className="sr-only">
@@ -261,10 +309,10 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
         onPointerMove={handleTiltMove}
         onPointerLeave={handleTiltLeave}
       >
-        {/* Offset editorial frame */}
+        {/* Offset editorial frame - constrained on mobile to prevent 360px overflow */}
         <div
           aria-hidden="true"
-          className="absolute -inset-2 translate-x-3 translate-y-3 rounded-[32px] border border-[#D79864]/20 bg-[#0A1714]/50"
+          className="absolute -inset-1 translate-x-1.5 translate-y-1.5 sm:-inset-2 sm:translate-x-3 sm:translate-y-3 rounded-[28px] sm:rounded-[32px] border border-[#D79864]/20 bg-[#0A1714]/50 pointer-events-none"
         />
 
         {/* No backdrop-filter here: the 95%-opaque background hides it anyway, and re-blurring
@@ -285,7 +333,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
             <div className="flex min-w-0 items-center gap-3">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#63E6BE] shadow-[0_0_10px_rgba(99,230,190,0.9)] motion-safe:animate-pulse" />
               <span className="truncate font-mono text-[9px] font-semibold tracking-[0.22em] text-[#F4F1E8]/55 sm:text-[10px]">
-                SAGEPOINT // DECISION ROOM
+                {systemName}
               </span>
             </div>
             <span className="dashboard-live-pill shrink-0 rounded-full border border-[#63E6BE]/20 bg-[#63E6BE]/[0.06] px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#63E6BE]">
@@ -297,7 +345,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
             <div className="mb-5 flex items-end justify-between gap-4">
               <div>
                 <p className="mb-2 font-mono text-[9px] font-bold uppercase tracking-[0.22em] text-[#D79864]">
-                  06:42 GT / LIVE SIGNAL
+                  {liveSignalLabel}
                 </p>
                 <h3 className="max-w-[360px] font-serif text-2xl font-semibold leading-tight text-[#F4F1E8] sm:text-3xl">
                   {texts.title}
@@ -306,7 +354,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
               <div className="hidden text-right sm:block">
                 <span ref={signalRef} className="dash-signal-value block font-serif text-3xl leading-none text-[#63E6BE] tabular-nums">+18.4</span>
                 <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.18em] text-[#F4F1E8]/40">
-                  SIGNAL INDEX
+                  {signalIndexLabel}
                 </span>
               </div>
             </div>
@@ -315,7 +363,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
             <section className="overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#0A1714]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
               <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
                 <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#F4F1E8]/50">
-                  OPERATING PULSE / PULSO
+                  {pulseHeader}
                 </span>
                 <span className="flex items-center gap-2 font-mono text-[9px] text-[#63E6BE]">
                   <span className="h-px w-5 bg-[#63E6BE]" />
@@ -400,14 +448,14 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
                   <span>04</span>
                   <span>05</span>
                   <span>06</span>
-                  <span>NOW</span>
+                  <span>{nowLabel}</span>
                 </div>
               </div>
             </section>
 
             {/* Verified proof metrics */}
             <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
-              {proofMetrics.map((metric) => (
+              {activeProofMetrics.map((metric) => (
                 <div
                   key={metric.index}
                   className="proof-card group rounded-[16px] border border-white/[0.07] bg-[#0A1714]/80 p-3 transition-all duration-300 hover:border-[#63E6BE]/25 motion-reduce:transition-none sm:p-4"
@@ -415,7 +463,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
                 >
                   <div className="mb-3 flex items-center justify-between font-mono text-[8px] text-[#F4F1E8]/30">
                     <span>{metric.index}</span>
-                    <span className="hidden sm:inline">PROOF</span>
+                    <span className="hidden sm:inline">{proofBadge}</span>
                   </div>
                   <strong
                     ref={(node) => { metricValueRefs.current[Number(metric.index) - 1] = node; }}
@@ -457,7 +505,7 @@ export default function GlobeDashboard({ texts }: GlobeDashboardProps) {
           </div>
 
           <div className="relative flex items-center justify-between border-t border-white/[0.07] px-4 py-3 font-mono text-[8px] uppercase tracking-[0.18em] text-[#F4F1E8]/30 sm:px-5">
-            <span>HUMAN + AI VERIFIED</span>
+            <span>{verifiedBadge}</span>
             <span className="text-[#D79864]">GT / US</span>
           </div>
         </div>
