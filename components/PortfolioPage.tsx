@@ -73,14 +73,14 @@ export const portfolioContent = {
       {
         id: 7,
         categoryId: 'ai-automation' as CategoryId,
-        title: 'InboxHealth Admin Portal Automation',
+        title: 'Automatización de Portal Administrativo (Salud)',
         category: 'IA & Automatización',
         description:
           'Automatización operativa con Python y Playwright para búsquedas de integraciones API, enlaces de credenciales, capturas, exportación JSON y salida opcional a Google Sheets con manejo de MFA y sesiones persistentes.',
         image: '/projects/gravityclaw.jpg',
         alt: 'Automatización de portal administrativo con flujos de datos, sesiones persistentes y exportación estructurada',
         tall: true,
-        link: 'mailto:info@sagepoint-analytics.com?subject=InboxHealth%20Admin%20Portal%20Automation',
+        link: 'mailto:info@sagepoint-analytics.com?subject=Automatizacion%20Portal%20Administrativo%20Salud',
         linkLabel: 'Solicitar Caso',
       },
       {
@@ -99,14 +99,14 @@ export const portfolioContent = {
       {
         id: 9,
         categoryId: 'operations-bi' as CategoryId,
-        title: 'IBH BPO Production Reporting',
+        title: 'BPO Production Reporting',
         category: 'Operaciones & BI',
         description:
           'Actualización y estabilización de un workbook ejecutivo con 33,370 filas, 20 meses, 79 semanas de producción, 14 PM systems y sincronización de tablas y gráficos semanales para revisión gerencial.',
         image: '/projects/inmotion.jpg',
         alt: 'Workbook ejecutivo de producción BPO con métricas semanales y gráficos sincronizados',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=IBH%20BPO%20Production%20Reporting',
+        link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting',
         linkLabel: 'Solicitar Caso',
       },
       {
@@ -115,7 +115,7 @@ export const portfolioContent = {
         title: 'ECW Alert Automation',
         category: 'IA & Automatización',
         description:
-          'Workflow en progreso que conecta alertas de Slack, lookup de credenciales en Inbox Health, logging en Google Sheets y rotación asistida con Playwright para reducir trabajo manual en alertas críticas.',
+          'Workflow en progreso que conecta alertas de Slack, lookup de credenciales en el portal del cliente, logging en Google Sheets y rotación asistida con Playwright para reducir trabajo manual en alertas críticas.',
         image: '/projects/gravityclaw.jpg',
         alt: 'Workflow de alertas con Slack, Google Sheets y automatización asistida por navegador',
         tall: false,
@@ -279,14 +279,14 @@ export const portfolioContent = {
       {
         id: 7,
         categoryId: 'ai-automation' as CategoryId,
-        title: 'InboxHealth Admin Portal Automation',
+        title: 'Automatización de Portal Administrativo (Salud)',
         category: 'AI & Automation',
         description:
           'Operational automation using Python and Playwright for API integration lookups, credential link validation, automated screenshots, JSON exports, and Google Sheets sync with MFA session handling.',
         image: '/projects/gravityclaw.jpg',
         alt: 'Admin portal automation with data flows, persistent sessions, and structured export',
         tall: true,
-        link: 'mailto:info@sagepoint-analytics.com?subject=InboxHealth%20Admin%20Portal%20Automation%20Case%20Study',
+        link: 'mailto:info@sagepoint-analytics.com?subject=Medical%20Billing%20Portal%20Automation%20Case%20Study',
         linkLabel: 'Request Case Study',
       },
       {
@@ -305,14 +305,14 @@ export const portfolioContent = {
       {
         id: 9,
         categoryId: 'operations-bi' as CategoryId,
-        title: 'IBH BPO Production Reporting',
+        title: 'BPO Production Reporting',
         category: 'Operations & BI',
         description:
           'Stabilization and overhaul of an executive master workbook with 33,370 rows, 20 months, 79 production weeks, and 14 PM systems with synchronized weekly management KPI charts.',
         image: '/projects/inmotion.jpg',
         alt: 'Executive BPO production workbook with weekly metrics and synchronized charts',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=IBH%20BPO%20Production%20Reporting%20Case%20Study',
+        link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting%20Case%20Study',
         linkLabel: 'Request Case Study',
       },
       {
@@ -321,7 +321,7 @@ export const portfolioContent = {
         title: 'ECW Alert Automation',
         category: 'AI & Automation',
         description:
-          'Workflow connecting Slack alerts, InboxHealth credential lookups, Google Sheets audit logging, and Playwright-assisted rotation to eliminate manual intervention in critical billing alerts.',
+          'Workflow connecting Slack alerts, client portal credential lookups, Google Sheets audit logging, and Playwright-assisted rotation to eliminate manual intervention in critical billing alerts.',
         image: '/projects/gravityclaw.jpg',
         alt: 'Alert workflow with Slack, Google Sheets, and browser-assisted automation',
         tall: false,

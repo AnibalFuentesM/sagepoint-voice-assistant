@@ -189,8 +189,8 @@ const content = {
           tags: ["Power BI", "SQL & DAX", "Python ETL", "85+ DMS Feeds"]
         },
         {
-          id: 'ibh',
-          title: "IBH BPO Operations | Motor de Reportería Multi-Tenant",
+          id: 'bpo',
+          title: "Operaciones BPO | Motor de Reportería Multi-Tenant",
           category: "Operaciones & BI",
           desc: "Motor de reportería multi-tenant procesando 33,370+ registros de rendimiento activo de agentes a través de 14 sistemas de telefonía y CRM. Elevó el cumplimiento de SLAs del 81.2% al 99.4% y ahorró 28 hrs/semana en consolidación gerencial.",
           stat: "33,370",
@@ -201,8 +201,8 @@ const content = {
           tags: ["Google Apps Script", "SQL Warehousing", "Looker Studio", "14 PM APIs"]
         },
         {
-          id: 'inboxhealth',
-          title: "InboxHealth Automation | Conciliación de Facturación Médica",
+          id: 'medical-billing-recon',
+          title: "Automatización de Conciliación | Facturación Médica",
           category: "IA & Automatización",
           desc: "Automatización operativa con Python y Playwright para portal administrativo, lookup de integraciones API, gestión de credenciales MFA y conciliación de facturación médica. Redujo el tiempo de conciliación en un 94% (de 40 a 2.5 hrs/semana) y recortó el DSO en 11 días.",
           stat: "94%",
@@ -236,7 +236,7 @@ const content = {
           quote: "Gestionar el rendimiento de más de 33,000 registros y 14 sistemas era una pesadilla manual. La arquitectura de reportería automatizada elevó nuestro cumplimiento de SLA al 99.4% y liberó 28 horas semanales de supervisores.",
           author: "Carolina Flores",
           role: "VP de Operaciones & Workforce Management",
-          company: "IBH BPO Global Services",
+          company: "Operador BPO multi-cliente",
           metric: "99.4% SLA · Ahorro 28 hrs/sem",
           project: "Motor de Reportería Multi-Tenant",
           rating: 5,
@@ -248,7 +248,7 @@ const content = {
           quote: "La automatización de conciliación y alertas médicas redujo nuestro tiempo operativo de 40 a solo 2.5 horas semanales. El retorno fue inmediato: recortamos 11 días de DSO y eliminamos errores de tipeo al 100%.",
           author: "Carlos Arenas",
           role: "Director de Operaciones de Facturación",
-          company: "InboxHealth Medical Operations",
+          company: "Operador de facturación médica (EE. UU.)",
           metric: "94% Reducción · DSO -11 Días",
           project: "Automatización de Facturación Médica",
           rating: 5,
@@ -501,8 +501,8 @@ const content = {
           tags: ["Power BI", "SQL & DAX", "Python ETL", "85+ DMS Feeds"]
         },
         {
-          id: 'ibh',
-          title: "IBH BPO Operations | Multi-Tenant Reporting Engine",
+          id: 'bpo',
+          title: "BPO Operations | Multi-Tenant Reporting Engine",
           category: "Operations & BI",
           desc: "Enterprise multi-tenant reporting engine processing 33,370+ active agent performance records across 14 telephony/CRM systems. Boosted SLA compliance from 81.2% to 99.4% and saved 28 hrs/week in managerial reporting overhead.",
           stat: "33,370",
@@ -513,8 +513,8 @@ const content = {
           tags: ["Google Apps Script", "SQL Warehousing", "Looker Studio", "14 PM APIs"]
         },
         {
-          id: 'inboxhealth',
-          title: "InboxHealth Automation | Medical Billing Reconciliation",
+          id: 'medical-billing-recon',
+          title: "Reconciliation Automation | Medical Billing",
           category: "AI & Automation",
           desc: "Python and Playwright operational automation for medical billing reconciliation, API integration lookups, MFA credential sessions, and denial audits. Cut manual reconciliation time by 94% (from 40 to 2.5 hrs/week) and reduced DSO by 11 days.",
           stat: "94%",
@@ -548,7 +548,7 @@ const content = {
           quote: "Managing performance data across 33,000+ records and 14 systems was a manual nightmare. The automated reporting architecture boosted our SLA compliance to 99.4% and freed up 28 hours per week of managerial overhead.",
           author: "Carolina Flores",
           role: "VP of Operations & Workforce Management",
-          company: "IBH BPO Global Services",
+          company: "Multi-client BPO operator",
           metric: "99.4% SLA · Saved 28 hrs/wk",
           project: "Multi-Tenant Reporting Engine",
           rating: 5,
@@ -560,7 +560,7 @@ const content = {
           quote: "The automated medical reconciliation and alert engine reduced our operational workload from 40 hours down to just 2.5 hours per week. The ROI was immediate: DSO dropped by 11 days and manual errors hit zero.",
           author: "Carlos Arenas",
           role: "Head of Revenue Operations & Billing",
-          company: "InboxHealth Medical Operations",
+          company: "Operador de facturación médica (EE. UU.)",
           metric: "94% Time Saved · DSO -11 Days",
           project: "Healthcare Billing Automation",
           rating: 5,

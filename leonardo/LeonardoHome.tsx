@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import {
   trackPageView,
@@ -8,6 +8,7 @@ import {
   trackWhatsAppClick,
 } from '../utils/analytics';
 import BookingModal from './BookingModal';
+import { translateLeo, type LeoLanguage } from './leonardoEnglish';
 import { CATCOLOR, CATNAME, CATRGB, PROJECTS, SAY, TILES, type LeoCat } from './leonardoData';
 import './leonardo.css';
 
@@ -58,7 +59,38 @@ const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const smooth = (v: number) => v * v * (3 - 2 * v);
 
 export default function LeonardoHome() {
-  useDocumentMeta(META_TITLE, META_DESCRIPTION, '/');
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const lang: LeoLanguage = searchParams.get('lang') === 'en' ? 'en' : 'es';
+  const t = (text: string) => translateLeo(lang, text);
+  const title = lang === 'en'
+    ? 'Fractional BI & Executive Dashboards for SMBs | Sagepoint Analytics'
+    : META_TITLE;
+  const description = lang === 'en'
+    ? 'Your external business intelligence and automation department. Results in 14 days, executive dashboards and 80% less reporting time without hiring expensive analysts.'
+    : META_DESCRIPTION;
+  useDocumentMeta(title, description, lang === 'en' ? '/?lang=en' : '/');
+
+  const switchLanguage = (next: LeoLanguage) => {
+    const params = new URLSearchParams(searchParams);
+    if (next === 'en') params.set('lang', 'en');
+    else params.delete('lang');
+    navigate({ pathname: location.pathname, search: params.toString(), hash: location.hash }, { preventScrollReset: true });
+  };
+  const portfolioPath = lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/';
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  // React Router navigation from the portfolio must also honor section links.
+  useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash === '#contact' ? 'agendar' : location.hash.slice(1);
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
+    return () => cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
 
   const [filter, setFilter] = useState<Filter>('all');
   /** Package the visitor last showed interest in, by id. Drives the closer echo and the modal. */
@@ -104,8 +136,8 @@ export default function LeonardoHome() {
   );
 
   useEffect(() => {
-    trackPageView('/', META_TITLE, 'es');
-  }, []);
+    trackPageView(lang === 'en' ? '/?lang=en' : '/', title, lang);
+  }, [lang, title]);
 
   /** The page is pure black; keep the overscroll gutter from flashing the app's dark green. */
   useEffect(() => {
@@ -252,15 +284,15 @@ export default function LeonardoHome() {
         const depth = window.innerHeight * 1.25;
         boxRef.current.style.transform = `translateZ(${(Math.pow(q, 1.55) * depth * 0.92).toFixed(1)}px)`;
       }
-      if (roomRef.current) roomRef.current.style.opacity = (1 - clamp01((p - 0.15) / 0.09)).toFixed(3);
+      if (roomRef.current) roomRef.current.style.opacity = (0.12 * (1 - clamp01((p - 0.15) / 0.09))).toFixed(3);
       if (glowRef.current) {
         glowRef.current.style.opacity = cinema ? clamp01((p - 0.13) / 0.12).toFixed(3) : '1';
       }
 
-      // The plate rises as the room clears, and fades again on the way out.
+      // Keep the offer and CTA visible from the first frame; only fade on exit.
       const out = cinema ? 1 - smooth(clamp01((p - 0.94) / 0.06)) : 1;
       if (plateRef.current) {
-        const f = (cinema ? smooth(clamp01((p - 0.11) / 0.12)) : 1) * out;
+        const f = out;
         plateRef.current.style.opacity = f.toFixed(3);
         plateRef.current.style.transform = `translateY(${((1 - f) * 24).toFixed(1)}px)`;
       }
@@ -337,7 +369,7 @@ export default function LeonardoHome() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     };
-  }, [cinema, fieldReady, cards]);
+  }, [cinema, fieldReady, cards, lang]);
 
   const pickPackage = (id: string, name: string) => {
     try {
@@ -346,13 +378,13 @@ export default function LeonardoHome() {
       // Private browsing: the pick just does not survive a reload.
     }
     setPickedId(id);
-    trackSelectPackage({ package_id: id, package_name: name, language: 'es' });
+    trackSelectPackage({ package_id: id, package_name: t(name), language: lang });
   };
 
   const openBooking = (e: React.MouseEvent, pkg: string, source: string) => {
     e.preventDefault();
     setBooking({ open: true, pkg, source });
-    trackScheduleCall({ source_section: source, package_id: pkg, language: 'es' });
+    trackScheduleCall({ source_section: source, package_id: pkg, language: lang });
   };
 
   const packageCta = (id: string, className: string) => (
@@ -364,14 +396,14 @@ export default function LeonardoHome() {
         openBooking(e, id, `paquete:${id}`);
       }}
     >
-      Agendar diagnóstico
+      {t("Agendar diagnóstico")}
     </a>
   );
 
   return (
     <div className="leo" ref={rootRef}>
       <a className="skip" href="#top">
-        Saltar al contenido
+        {t("Saltar al contenido")}
       </a>
 
       <header className="nav" id="nav" ref={navRef}>
@@ -380,23 +412,27 @@ export default function LeonardoHome() {
             <i />
             SAGEPOINT
           </a>
-          <nav className="nav-links" aria-label="Secciones del sitio">
-            <a href="#trabajo">Trabajo</a>
-            <a href="#casos">Casos</a>
-            <a href="#sistema">Sistema</a>
-            <a href="#paquetes">Paquetes</a>
+          <nav className="nav-links" aria-label={t("Secciones del sitio")}>
+            <a href="#trabajo">{t("Trabajo")}</a>
+            <a href="#casos">{t("Casos")}</a>
+            <a href="#sistema">{t("Sistema")}</a>
+            <a href="#paquetes">{t("Paquetes")}</a>
             <a href="#faq">FAQ</a>
           </nav>
           <div className="nav-act">
+            <div className="language-switch" role="group" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
+              <button type="button" lang="es" aria-label="Español" aria-pressed={lang === 'es'} onClick={() => switchLanguage('es')}>ES</button>
+              <button type="button" lang="en" aria-label="English" aria-pressed={lang === 'en'} onClick={() => switchLanguage('en')}>EN</button>
+            </div>
             <a className="pill pill--ghost pill--sm" href="#paquetes">
-              Paquetes
+              {t("Paquetes")}
             </a>
             <a
               className="pill pill--fill pill--sm"
               href="#agendar"
               onClick={(e) => openBooking(e, pickedId ?? 'general', 'nav')}
             >
-              Agendar
+              {t("Agendar")}
             </a>
           </div>
         </div>
@@ -413,18 +449,18 @@ export default function LeonardoHome() {
                 </div>
                 <div className="face face--left">
                   <span className="stack2">
-                    <b data-fit="d-sm">Tus</b>
-                    <b data-fit="d">Datos</b>
+                    <b data-fit="d-sm">{t("Tus")}</b>
+                    <b data-fit="d">{t("Datos")}</b>
                   </span>
                 </div>
                 <div className="face face--right">
                   <span className="stack2">
-                    <b data-fit="d-sm">Tu</b>
-                    <b data-fit="d">Contexto</b>
+                    <b data-fit="d-sm">{t("Tu")}</b>
+                    <b data-fit="d">{t("Contexto")}</b>
                   </span>
                 </div>
                 <div className="face face--bot">
-                  <span data-fit="w-sm">Tú decides</span>
+                  <span data-fit="w-sm">{t("Tú decides")}</span>
                 </div>
               </div>
             </div>
@@ -455,13 +491,12 @@ export default function LeonardoHome() {
             </div>
 
             <div className="plate" id="plate" ref={plateRef}>
-              <p className="eyebrow">BI fraccional · Guatemala &amp; Estados Unidos</p>
+              <p className="eyebrow">{t("BI fraccional · Guatemala & Estados Unidos")}</p>
               <h1 className="hero-h1">
-                De datos dispersos a <em>decisiones que venden</em>
+                {t("De datos dispersos a")} <em>{t("decisiones que venden")}</em>
               </h1>
               <p className="hero-sub">
-                Tu departamento de inteligencia de negocios y automatización por una fracción de lo
-                que cuesta un analista interno. Resultados desde la semana dos.
+                {t("Tu departamento de inteligencia de negocios y automatización por una fracción de lo que cuesta un analista interno. Resultados desde la semana dos.")}
               </p>
               <div className="hero-cta">
                 <a
@@ -469,34 +504,34 @@ export default function LeonardoHome() {
                   href="#agendar"
                   onClick={(e) => openBooking(e, 'general', 'hero')}
                 >
-                  Agendar diagnóstico gratuito
+                  {t("Agendar diagnóstico gratuito")}
                 </a>
                 <a className="pill pill--ghost" href="#paquetes">
-                  Ver paquetes
+                  {t("Ver paquetes")}
                 </a>
               </div>
               <div className="micro">
                 <span>
-                  <b>14</b> días al primer dashboard
+                  <b>14</b> {t("días al primer dashboard")}
                 </span>
                 <span>
-                  <b>100%</b> propiedad de tus datos
+                  <b>100%</b> {t("propiedad de tus datos")}
                 </span>
                 <span>
-                  <b>0</b> contratos forzosos
+                  <b>0</b> {t("contratos forzosos")}
                 </span>
               </div>
             </div>
 
             <div className="cue" id="cue" ref={cueRef}>
-              <span>Baja</span>
+              <span>{t("Baja")}</span>
               <i />
             </div>
           </div>
         </section>
 
         {/* TICKER / CITAS */}
-        <div className="ticker ticker--say" aria-label="Lo que dicen los clientes">
+        <div className="ticker ticker--say" aria-label={t("Lo que dicen los clientes")}>
           {/* The row is rendered twice so the -50% translate loops seamlessly. Fragments, not a
               wrapper div: the spans have to stay direct flex children of .ticker-track. */}
           <div className="ticker-track">
@@ -504,10 +539,10 @@ export default function LeonardoHome() {
               <React.Fragment key={dup}>
                 {SAY.map((q) => (
                   <span className="tq" key={q.author + q.text} aria-hidden={dup === 1}>
-                    <q>{q.text}</q>
+                    <q>{t(q.text)}</q>
                     <i />
                     <cite>
-                      <b>{q.author}</b> · {q.role}
+                      <b>{q.author}</b> · {t(q.role)}
                     </cite>
                   </span>
                 ))}
@@ -521,21 +556,19 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">Portafolio</p>
+                <p className="eyebrow">{t("Portafolio")}</p>
                 <h2 className="sec-title">
-                  Lo que ya
+                  {t("Lo que ya")}
                   <br />
-                  está corriendo
+                  {t("está corriendo")}
                 </h2>
               </div>
               <p className="sec-lede">
-                Once proyectos en producción: cockpits ejecutivos, motores de reportería,
-                automatizaciones y sitios. Capturas reales — y donde el cliente no permite compartir
-                pantalla, va la cifra en vez de una imagen prestada.
+                {t("Once proyectos en producción: cockpits ejecutivos, motores de reportería, automatizaciones y sitios. Capturas reales — y donde el cliente no permite compartir pantalla, va la cifra en vez de una imagen prestada.")}
               </p>
             </div>
 
-            <div className="filters" role="group" aria-label="Filtrar por tipo de trabajo" data-rv>
+            <div className="filters" role="group" aria-label={t("Filtrar por tipo de trabajo")} data-rv>
               {FILTERS.map((f) => (
                 <button
                   className="fb"
@@ -544,7 +577,7 @@ export default function LeonardoHome() {
                   onClick={() => setFilter(f.id)}
                   style={{ '--c': f.color } as React.CSSProperties}
                 >
-                  {f.label}
+                  {t(f.label)}
                 </button>
               ))}
             </div>
@@ -564,10 +597,10 @@ export default function LeonardoHome() {
                       data-cat={p.cat}
                       style={style}
                     >
-                      <img src={p.src} alt={p.alt} loading="lazy" width={900} height={p.h} />
+                      <img src={p.src} alt={t(p.alt)} loading="lazy" width={900} height={p.h} />
                       <figcaption className="tile-bar">
                         <i />
-                        <b>{p.title}</b>
+                        <b>{t(p.title)}</b>
                       </figcaption>
                     </figure>
                   );
@@ -581,14 +614,14 @@ export default function LeonardoHome() {
                   >
                     <div className="p-chip">
                       <span className="tag" style={{ background: CATCOLOR[p.cat] }}>
-                        {CATNAME[p.cat]}
+                        {t(CATNAME[p.cat])}
                       </span>
                     </div>
-                    <p className="p-eyebrow">{p.client}</p>
+                    <p className="p-eyebrow">{t(p.client)}</p>
                     <p className="p-num">{p.num}</p>
-                    <p className="p-numl">{p.numl}</p>
-                    <h3>{p.title}</h3>
-                    <p>{p.desc}</p>
+                    <p className="p-numl">{t(p.numl)}</p>
+                    <h3>{t(p.title)}</h3>
+                    <p>{t(p.desc)}</p>
                     <div className="chips">
                       {p.stack.map((t) => (
                         <span className="chip" key={t}>
@@ -601,8 +634,8 @@ export default function LeonardoHome() {
               })}
             </div>
             <div className="gal-foot" data-rv>
-              <Link className="pill pill--ghost" to="/portfolio/">
-                Ver el portafolio completo
+              <Link className="pill pill--ghost" to={portfolioPath}>
+                {t("Ver el portafolio completo")}
               </Link>
             </div>
           </div>
@@ -613,16 +646,15 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">Casos seleccionados</p>
+                <p className="eyebrow">{t("Casos seleccionados")}</p>
                 <h2 className="sec-title">
-                  Números que
+                  {t("Números que")}
                   <br />
-                  cambiaron de mano
+                  {t("cambiaron de mano")}
                 </h2>
               </div>
               <p className="sec-lede">
-                Impacto cuantificado en producción. Cada cifra salió de un sistema que sigue
-                corriendo hoy.
+                {t("Impacto cuantificado en producción. Cada cifra salió de un sistema que sigue corriendo hoy.")}
               </p>
             </div>
             <div className="cases">
@@ -632,25 +664,24 @@ export default function LeonardoHome() {
                     <div className="case-stat" style={{ color: 'var(--amber)' }}>
                       $420k
                     </div>
-                    <div className="case-statl">Margen protegido / año</div>
+                    <div className="case-statl">{t("Margen protegido / año")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--amber)' }}>
-                    Automoción
+                    {t("Automoción")}
                   </span>
                 </div>
-                <h3>Apex Auto Group — cockpit ejecutivo multi-tienda</h3>
+                <h3>{t("Apex Auto Group — cockpit ejecutivo multi-tienda")}</h3>
                 <p>
-                  Doce concesionarios y 85+ feeds DMS unificados en un solo Power BI con refresco
-                  sub-segundo.
+                  {t("Doce concesionarios y 85+ feeds DMS unificados en un solo Power BI con refresco sub-segundo.")}
                 </p>
                 <div className="ba">
                   <div className="b">
                     <i>✕</i>
-                    <span>85 reportes aislados, 5–7 días de retraso</span>
+                    <span>{t("85 reportes aislados, 5–7 días de retraso")}</span>
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>Un cockpit único, fuga visible el mismo día</span>
+                    <span>{t("Un cockpit único, fuga visible el mismo día")}</span>
                   </div>
                 </div>
                 <div className="chips">
@@ -666,25 +697,24 @@ export default function LeonardoHome() {
                     <div className="case-stat" style={{ color: 'var(--arc)' }}>
                       99.4%
                     </div>
-                    <div className="case-statl">SLA · antes 81.2%</div>
+                    <div className="case-statl">{t("SLA · antes 81.2%")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--arc)' }}>
-                    Operaciones
+                    {t("Operaciones")}
                   </span>
                 </div>
-                <h3>IBH BPO — motor de reportería multi-tenant</h3>
+                <h3>{t("Operador BPO — motor de reportería multi-tenant")}</h3>
                 <p>
-                  33,370 registros de rendimiento a través de 14 sistemas de telefonía y CRM,
-                  reconciliados a diario.
+                  {t("33,370 registros de rendimiento a través de 14 sistemas de telefonía y CRM, reconciliados a diario.")}
                 </p>
                 <div className="ba">
                   <div className="b">
                     <i>✕</i>
-                    <span>35 h/semana consolidando a mano</span>
+                    <span>{t("35 h/semana consolidando a mano")}</span>
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>28 h/semana devueltas a los supervisores</span>
+                    <span>{t("28 h/semana devueltas a los supervisores")}</span>
                   </div>
                 </div>
                 <div className="chips">
@@ -700,25 +730,24 @@ export default function LeonardoHome() {
                     <div className="case-stat" style={{ color: 'var(--violet)' }}>
                       94%
                     </div>
-                    <div className="case-statl">Menos tiempo · DSO −11 días</div>
+                    <div className="case-statl">{t("Menos tiempo · DSO −11 días")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--violet)' }}>
-                    IA &amp; Automatización
+                    {t("IA & Automatización")}
                   </span>
                 </div>
-                <h3>InboxHealth — conciliación de facturación médica</h3>
+                <h3>{t("Conciliación de facturación médica")}</h3>
                 <p>
-                  Python y Playwright recorren el portal con MFA, concilian contra el ledger y avisan
-                  por Slack.
+                  {t("Python y Playwright recorren el portal con MFA, concilian contra el ledger y avisan por Slack.")}
                 </p>
                 <div className="ba">
                   <div className="b">
                     <i>✕</i>
-                    <span>40 h/semana de conciliación manual</span>
+                    <span>{t("40 h/semana de conciliación manual")}</span>
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>2.5 h/semana supervisadas, cero errores de tipeo</span>
+                    <span>{t("2.5 h/semana supervisadas, cero errores de tipeo")}</span>
                   </div>
                 </div>
                 <div className="chips">
@@ -736,47 +765,43 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">El sistema Sagepoint</p>
+                <p className="eyebrow">{t("El sistema Sagepoint")}</p>
                 <h2 className="sec-title">
-                  Tres pasos,
+                  {t("Tres pasos,")}
                   <br />
-                  cero TI interno
+                  {t("cero TI interno")}
                 </h2>
               </div>
               <p className="sec-lede">
-                La IA sola alucina y no conoce tu contexto local. Cada métrica que sale de aquí pasó
-                por un consultor antes de llegar a tu pantalla.
+                {t("La IA sola alucina y no conoce tu contexto local. Cada métrica que sale de aquí pasó por un consultor antes de llegar a tu pantalla.")}
               </p>
             </div>
             <div className="steps">
               <article className="step" data-rv>
                 <div className="step-n" style={{ '--c': 'var(--mint)' } as React.CSSProperties}>
-                  PASO 01
+                  {t("PASO 01")}
                 </div>
-                <h3>Levantamos la señal</h3>
+                <h3>{t("Levantamos la señal")}</h3>
                 <p>
-                  Auditamos tus fuentes reales —DMS, CRM, ERP, telefonía, las hojas de cálculo que
-                  nadie quiere abrir— y mapeamos dónde se pierde la información.
+                  {t("Auditamos tus fuentes reales —DMS, CRM, ERP, telefonía, las hojas de cálculo que nadie quiere abrir— y mapeamos dónde se pierde la información.")}
                 </p>
               </article>
               <article className="step" data-rv>
                 <div className="step-n" style={{ '--c': 'var(--arc)' } as React.CSSProperties}>
-                  PASO 02
+                  {t("PASO 02")}
                 </div>
-                <h3>Conectamos y validamos</h3>
+                <h3>{t("Conectamos y validamos")}</h3>
                 <p>
-                  Ingesta automatizada con Python, Playwright y Apps Script. Cada regla de validación
-                  corre a diario y un humano revisa lo que la máquina marca.
+                  {t("Ingesta automatizada con Python, Playwright y Apps Script. Cada regla de validación corre a diario y un humano revisa lo que la máquina marca.")}
                 </p>
               </article>
               <article className="step" data-rv>
                 <div className="step-n" style={{ '--c': 'var(--amber)' } as React.CSSProperties}>
-                  PASO 03
+                  {t("PASO 03")}
                 </div>
-                <h3>Entregamos la decisión</h3>
+                <h3>{t("Entregamos la decisión")}</h3>
                 <p>
-                  Dashboards que tu equipo entiende sin capacitación de tres semanas, con alertas que
-                  llegan a Slack o WhatsApp antes de que el problema crezca.
+                  {t("Dashboards que tu equipo entiende sin capacitación de tres semanas, con alertas que llegan a Slack o WhatsApp antes de que el problema crezca.")}
                 </p>
               </article>
             </div>
@@ -788,73 +813,66 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">Cómo se empieza</p>
+                <p className="eyebrow">{t("Cómo se empieza")}</p>
                 <h2 className="sec-title">
-                  Primero una
+                  {t("Primero una")}
                   <br />
-                  prueba pequeña
+                  {t("prueba pequeña")}
                 </h2>
               </div>
               <p className="sec-lede">
-                No tienes que decidir hoy el proyecto completo. Se empieza por una radiografía de dos
-                semanas, y de ahí se ve si hay con qué seguir. Todo con entregable, plazo y precio por
-                escrito.
+                {t("No tienes que decidir hoy el proyecto completo. Se empieza por una radiografía de dos semanas, y de ahí se ve si hay con qué seguir. Todo con entregable, plazo y precio por escrito.")}
               </p>
             </div>
 
             <div className="plist">
               <p className="lstep">
-                <span>Etapa 1</span> Por aquí se entra
+                <span>{t("Etapa 1")}</span> {t("Por aquí se entra")}
               </p>
               <article className="prow prow--lead" data-rv>
                 <div className="prow-price">
                   <b>$750</b>
-                  <span>pago único</span>
+                  <span>{t("pago único")}</span>
                 </div>
                 <div className="prow-body">
-                  <h3>Radiografía de Datos</h3>
+                  <h3>{t("Radiografía de Datos")}</h3>
                   <p className="prow-facts">
-                    <em>14 días</em> · <em>90 minutos</em> de tu equipo · NDA antes de tocar un
-                    archivo
+                    <em>{t("14 días")}</em> · <em>{t("90 minutos")}</em> {t("de tu equipo · NDA antes de tocar un archivo")}
                   </p>
                   <p className="prow-scope">
-                    Auditamos dos de tus fuentes y te dejamos un dashboard vivo con hasta ocho KPIs,
-                    más un informe de oportunidades priorizadas y una ronda de revisiones. En catorce
-                    días sabes qué se puede automatizar y qué no.
+                    {t("Auditamos dos de tus fuentes y te dejamos un dashboard vivo con hasta ocho KPIs, más un informe de oportunidades priorizadas y una ronda de revisiones. En catorce días sabes qué se puede automatizar y qué no.")}
                   </p>
                   <div className="prow-act">
                     {packageCta('quick-win', 'pill pill--mint')}
                     <span className="prow-note">
-                      Se acredita completo al proyecto si contratas en 30 días
+                      {t("Se acredita completo al proyecto si contratas en 30 días")}
                     </span>
                   </div>
                 </div>
               </article>
 
               <p className="lstep lstep--mid" data-rv>
-                <span>Etapa 2</span> Si la radiografía muestra que vale la pena
+                <span>{t("Etapa 2")}</span> {t("Si la radiografía muestra que vale la pena")}
               </p>
               <article className="prow" data-rv>
                 <div className="prow-price">
                   <b>$2,500</b>
-                  <span>desde · por proyecto</span>
+                  <span>{t("desde · por proyecto")}</span>
                 </div>
                 <div className="prow-body">
                   <h3>
-                    Cockpit Ejecutivo <i className="prow-tag">Más elegido</i>
+                    {t("Cockpit Ejecutivo")} <i className="prow-tag">{t("Más elegido")}</i>
                   </h3>
                   <p className="prow-facts">
-                    <em>4–6 semanas</em> · <em>4 horas</em> de tu equipo
+                    <em>{t("4–6 semanas")}</em> · <em>{t("4 horas")}</em> {t("de tu equipo")}
                   </p>
                   <p className="prow-scope">
-                    Hasta cuatro fuentes integradas, hasta tres dashboards ejecutivos y un flujo de
-                    reportes automatizado que se lleva el 80% del tiempo manual. Incluye dos sesiones
-                    de capacitación, documentación y dos rondas de revisiones.
+                    {t("Hasta cuatro fuentes integradas, hasta tres dashboards ejecutivos y un flujo de reportes automatizado que se lleva el 80% del tiempo manual. Incluye dos sesiones de capacitación, documentación y dos rondas de revisiones.")}
                   </p>
                   <div className="prow-act">
                     {packageCta('executive', 'pill pill--ghost')}
                     <span className="prow-note">
-                      No incluye data warehouse ni modelos a medida
+                      {t("No incluye data warehouse ni modelos a medida")}
                     </span>
                   </div>
                 </div>
@@ -863,36 +881,32 @@ export default function LeonardoHome() {
               <article className="prow" data-rv>
                 <div className="prow-price">
                   <b>$12,000</b>
-                  <span>desde · por proyecto</span>
+                  <span>{t("desde · por proyecto")}</span>
                 </div>
                 <div className="prow-body">
-                  <h3>Sala de Control</h3>
+                  <h3>{t("Sala de Control")}</h3>
                   <p className="prow-facts">
-                    <em>10–14 semanas</em> · alcance cerrado por escrito
+                    <em>{t("10–14 semanas")}</em> {t("· alcance cerrado por escrito")}
                   </p>
                   <p className="prow-scope">
-                    Para operaciones multi-sistema donde el dato hay que construirlo antes de
-                    graficarlo. Data warehouse propio, portal a medida con usuarios y permisos,
-                    modelos predictivos dedicados e integraciones con tu CRM o ERP.
+                    {t("Para operaciones multi-sistema donde el dato hay que construirlo antes de graficarlo. Data warehouse propio, portal a medida con usuarios y permisos, modelos predictivos dedicados e integraciones con tu CRM o ERP.")}
                   </p>
                   <div className="prow-act">{packageCta('custom', 'pill pill--ghost')}</div>
                 </div>
               </article>
 
               <p className="lstep lstep--mid" data-rv>
-                <span>Etapa 3</span> Cuando el proyecto termina
+                <span>{t("Etapa 3")}</span> {t("Cuando el proyecto termina")}
               </p>
               <article className="prow prow--sm" data-rv>
                 <div className="prow-price">
                   <b>$300+</b>
-                  <span>al mes · tres niveles</span>
+                  <span>{t("al mes · tres niveles")}</span>
                 </div>
                 <div className="prow-body">
-                  <h3>Soporte Cercano</h3>
+                  <h3>{t("Soporte Cercano")}</h3>
                   <p className="prow-scope">
-                    Tus dashboards siguen vivos: mantenimiento, ajustes, coaching y WhatsApp
-                    prioritario. Prepago anual con dos meses de cortesía. Tres niveles según
-                    intensidad; cada uno define sus horas mensuales y no se acumulan.
+                    {t("Tus dashboards siguen vivos: mantenimiento, ajustes, coaching y WhatsApp prioritario. Prepago anual con dos meses de cortesía. Tres niveles según intensidad; cada uno define sus horas mensuales y no se acumulan.")}
                   </p>
                   <div className="prow-act">{packageCta('retainer', 'pill pill--ghost')}</div>
                 </div>
@@ -900,8 +914,7 @@ export default function LeonardoHome() {
             </div>
 
             <p className="aside" data-rv>
-              ¿Buscas solo un sitio web o una aplicación, sin la parte de datos? También lo hacemos,
-              aparte de esta escalera — <Link to="/portfolio/">mira el portafolio</Link>.
+              {t("¿Buscas solo un sitio web o una aplicación, sin la parte de datos? También lo hacemos, aparte de esta escalera —")} <Link to={portfolioPath}>{t("mira el portafolio")}</Link>.
             </p>
           </div>
         </section>
@@ -911,22 +924,21 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">Testimonios</p>
+                <p className="eyebrow">{t("Testimonios")}</p>
                 <h2 className="sec-title">
-                  Lo dicen
+                  {t("Lo dicen")}
                   <br />
-                  quienes firman
+                  {t("quienes firman")}
                 </h2>
               </div>
               <p className="sec-lede">
-                Citas de proyectos entregados, con la métrica que quedó del otro lado.
+                {t("Citas de proyectos entregados, con la métrica que quedó del otro lado.")}
               </p>
             </div>
             <div className="quotes">
               <figure className="quote" data-rv>
                 <blockquote>
-                  “Ver la fuga de margen en repuestos el mismo día, no semanas después. Recuperamos
-                  más de $420,000 en el primer año.”
+                  {t("“Ver la fuga de margen en repuestos el mismo día, no semanas después. Recuperamos más de $420,000 en el primer año.”")}
                 </blockquote>
                 <figcaption>
                   <span className="av">MV</span>
@@ -936,19 +948,18 @@ export default function LeonardoHome() {
                   <span className="kpi">
                     $420k
                     <br />
-                    recuperados
+                    {t("recuperados")}
                   </span>
                 </figcaption>
               </figure>
               <figure className="quote" data-rv>
                 <blockquote>
-                  “Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está
-                  en 99.4% y liberamos 28 horas de supervisores por semana.”
+                  {t("“Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.”")}
                 </blockquote>
                 <figcaption>
                   <span className="av b">CF</span>
                   <span className="who">
-                    Carolina Flores<span>VP Operaciones · IBH BPO</span>
+                    Carolina Flores<span>{t("VP Operaciones · operador BPO multi-cliente")}</span>
                   </span>
                   <span className="kpi">
                     99.4%
@@ -959,18 +970,17 @@ export default function LeonardoHome() {
               </figure>
               <figure className="quote" data-rv>
                 <blockquote>
-                  “Tuvo la paciencia de entender nuestras ideas antes de proponer nada. El primer
-                  dashboard funcional llegó en menos de 10 días.”
+                  {t("“Tuvo la paciencia de entender nuestras ideas antes de proponer nada. El primer dashboard funcional llegó en menos de 10 días.”")}
                 </blockquote>
                 <figcaption>
                   <span className="av c">MS</span>
                   <span className="who">
-                    Meylin Sic<span>Coordinadora de Proyecto</span>
+                    Meylin Sic<span>{t("Coordinadora de Proyecto")}</span>
                   </span>
                   <span className="kpi">
-                    10 días
+                    {t("10 días")}
                     <br />
-                    a producción
+                    {t("a producción")}
                   </span>
                 </figcaption>
               </figure>
@@ -983,45 +993,37 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">Preguntas frecuentes</p>
+                <p className="eyebrow">{t("Preguntas frecuentes")}</p>
                 <h2 className="sec-title">
-                  Lo que
+                  {t("Lo que")}
                   <br />
-                  más preguntan
+                  {t("más preguntan")}
                 </h2>
               </div>
             </div>
             <div className="faq" data-rv>
               <details>
-                <summary>¿El diagnóstico inicial realmente es gratuito?</summary>
+                <summary>{t("¿El diagnóstico inicial realmente es gratuito?")}</summary>
                 <p>
-                  Sí. Es una videollamada de 30 a 45 minutos donde revisamos tus fuentes de datos y te
-                  decimos qué se puede automatizar y qué no. Sales con un diagnóstico escrito aunque
-                  no contrates nada.
+                  {t("Sí. Es una videollamada de 30 a 45 minutos donde revisamos tus fuentes de datos y te decimos qué se puede automatizar y qué no. Sales con un diagnóstico escrito aunque no contrates nada.")}
                 </p>
               </details>
               <details>
-                <summary>¿Necesito un departamento de TI para esto?</summary>
+                <summary>{t("¿Necesito un departamento de TI para esto?")}</summary>
                 <p>
-                  No. Trabajamos con las herramientas que ya tienes —Excel, Google Sheets, tu CRM, tu
-                  ERP— y nos integramos como tu equipo de datos externo. Si hace falta infraestructura
-                  nueva, lo decimos antes de empezar y va cotizado aparte.
+                  {t("No. Trabajamos con las herramientas que ya tienes —Excel, Google Sheets, tu CRM, tu ERP— y nos integramos como tu equipo de datos externo. Si hace falta infraestructura nueva, lo decimos antes de empezar y va cotizado aparte.")}
                 </p>
               </details>
               <details>
-                <summary>¿De quién son los datos y los dashboards?</summary>
+                <summary>{t("¿De quién son los datos y los dashboards?")}</summary>
                 <p>
-                  Tuyos, al 100%. Todo se construye en tus cuentas, con tus licencias. Firmamos NDA
-                  antes de tocar cualquier archivo y te entregamos la documentación completa al cierre
-                  del proyecto.
+                  {t("Tuyos, al 100%. Todo se construye en tus cuentas, con tus licencias. Firmamos NDA antes de tocar cualquier archivo y te entregamos la documentación completa al cierre del proyecto.")}
                 </p>
               </details>
               <details>
-                <summary>¿Qué pasa si el alcance crece a mitad del proyecto?</summary>
+                <summary>{t("¿Qué pasa si el alcance crece a mitad del proyecto?")}</summary>
                 <p>
-                  Cada paquete define entregables, plazos y exclusiones por escrito antes de arrancar.
-                  Si aparece algo fuera de alcance, se cotiza como adición y decides tú — nunca se
-                  factura una sorpresa.
+                  {t("Cada paquete define entregables, plazos y exclusiones por escrito antes de arrancar. Si aparece algo fuera de alcance, se cotiza como adición y decides tú — nunca se factura una sorpresa.")}
                 </p>
               </details>
             </div>
@@ -1032,18 +1034,17 @@ export default function LeonardoHome() {
         <section className="closer" id="agendar">
           <div className="wrap">
             <h2 className="disp closer-disp" data-rv>
-              Hablemos <em>de tus datos</em>
+              {t("Hablemos")} <em>{t("de tus datos")}</em>
             </h2>
             <p
               className="sec-lede"
               style={{ marginInline: 'auto', textAlign: 'center' }}
               data-rv
             >
-              Treinta minutos, sin compromiso. Traes tus fuentes y te decimos qué se puede automatizar
-              esta misma quincena.
+              {t("Treinta minutos, sin compromiso. Traes tus fuentes y te decimos qué se puede automatizar esta misma quincena.")}
             </p>
             <p className="pkg-echo" id="pkgEcho" hidden={!pickedId}>
-              {pickedId ? `Diagnóstico para: ${PACKAGE_NAMES[pickedId]}` : null}
+              {pickedId ? `${t('Diagnóstico para:')} ${t(PACKAGE_NAMES[pickedId])}` : null}
             </p>
             <div className="hero-cta" style={{ marginTop: 30 }} data-rv>
               <a
@@ -1051,21 +1052,21 @@ export default function LeonardoHome() {
                 href="#agendar"
                 onClick={(e) => openBooking(e, pickedId ?? 'general', 'closer')}
               >
-                Agendar diagnóstico gratuito
+                {t("Agendar diagnóstico gratuito")}
               </a>
               <a
                 className="pill pill--ghost"
                 href={WA}
-                onClick={() => trackWhatsAppClick({ source_section: 'closer', language: 'es' })}
+                onClick={() => trackWhatsAppClick({ source_section: 'closer', language: lang })}
               >
-                Escribir por WhatsApp
+                {t("Escribir por WhatsApp")}
               </a>
             </div>
             <ul className="guarantees" data-rv>
-              <li>Videollamada de 30–45 min</li>
-              <li>Diagnóstico escrito aunque no contrates</li>
-              <li>NDA antes de tocar un archivo</li>
-              <li>Sin contratos forzosos</li>
+              <li>{t("Videollamada de 30–45 min")}</li>
+              <li>{t("Diagnóstico escrito aunque no contrates")}</li>
+              <li>{t("NDA antes de tocar un archivo")}</li>
+              <li>{t("Sin contratos forzosos")}</li>
             </ul>
           </div>
         </section>
@@ -1080,26 +1081,25 @@ export default function LeonardoHome() {
                 SAGEPOINT
               </a>
               <p>
-                Inteligencia de negocios y automatización para empresas en crecimiento. Guatemala y
-                Estados Unidos.
+                {t("Inteligencia de negocios y automatización para empresas en crecimiento. Guatemala y Estados Unidos.")}
               </p>
             </div>
             <nav className="f-col" aria-labelledby="f-servicios">
               <h2 className="f-h" id="f-servicios">
-                Servicios
+                {t("Servicios")}
               </h2>
               <ul>
                 <li>
                   <a href="#trabajo">Dashboards &amp; BI</a>
                 </li>
                 <li>
-                  <a href="#trabajo">Automatización web</a>
+                  <a href="#trabajo">{t("Automatización web")}</a>
                 </li>
                 <li>
-                  <a href="#trabajo">Automatización en Excel</a>
+                  <a href="#trabajo">{t("Automatización en Excel")}</a>
                 </li>
                 <li>
-                  <a href="#trabajo">Modelos predictivos</a>
+                  <a href="#trabajo">{t("Modelos predictivos")}</a>
                 </li>
                 <li>
                   <a href="#trabajo">Data coaching</a>
@@ -1108,17 +1108,17 @@ export default function LeonardoHome() {
             </nav>
             <nav className="f-col" aria-labelledby="f-compania">
               <h2 className="f-h" id="f-compania">
-                Compañía
+                {t("Compañía")}
               </h2>
               <ul>
                 <li>
-                  <a href="#casos">Casos</a>
+                  <a href="#casos">{t("Casos")}</a>
                 </li>
                 <li>
-                  <Link to="/portfolio/">Portfolio</Link>
+                  <Link to={portfolioPath}>Portfolio</Link>
                 </li>
                 <li>
-                  <a href="#paquetes">Paquetes</a>
+                  <a href="#paquetes">{t("Paquetes")}</a>
                 </li>
                 <li>
                   <a href="#faq">FAQ</a>
@@ -1127,18 +1127,18 @@ export default function LeonardoHome() {
             </nav>
             <nav className="f-col" aria-labelledby="f-contacto">
               <h2 className="f-h" id="f-contacto">
-                Contacto
+                {t("Contacto")}
               </h2>
               <ul>
                 <li>
                   <a href="#agendar" onClick={(e) => openBooking(e, pickedId ?? 'general', 'footer')}>
-                    Agendar diagnóstico
+                    {t("Agendar diagnóstico")}
                   </a>
                 </li>
                 <li>
                   <a
                     href={WA}
-                    onClick={() => trackWhatsAppClick({ source_section: 'footer', language: 'es' })}
+                    onClick={() => trackWhatsAppClick({ source_section: 'footer', language: lang })}
                   >
                     WhatsApp +502 4046 4716
                   </a>
@@ -1148,12 +1148,13 @@ export default function LeonardoHome() {
           </div>
           <div className="f-bot">
             <p>© 2026 Sagepoint Analytics</p>
-            <p>Guatemala &amp; Estados Unidos</p>
+            <p>{t("Guatemala & Estados Unidos")}</p>
           </div>
         </div>
       </footer>
 
       <BookingModal
+        lang={lang}
         open={booking.open}
         packageId={booking.pkg}
         source={booking.source}

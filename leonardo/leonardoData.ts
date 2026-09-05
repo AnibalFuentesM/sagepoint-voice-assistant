@@ -53,17 +53,17 @@ export const TILES: LeoTile[] = [
   },
   {
     "cat": "ops",
-    "title": "IBH BPO — SLA por sistema",
-    "alt": "IBH BPO — SLA por sistema",
+    "title": "Operador BPO — SLA por sistema",
+    "alt": "Operador BPO — SLA por sistema",
     "h": 1069,
-    "src": "/assets/img/dash-ibh-sla-engine.webp"
+    "src": "/assets/img/dash-bpo-sla-engine.webp"
   },
   {
     "cat": "auto",
-    "title": "InboxHealth — pipeline de conciliación",
-    "alt": "InboxHealth — pipeline de conciliación",
+    "title": "Pipeline de conciliación — facturación médica",
+    "alt": "Pipeline de conciliación — facturación médica",
     "h": 928,
-    "src": "/assets/img/dash-inboxhealth-recon.webp"
+    "src": "/assets/img/dash-medical-billing-recon.webp"
   },
   {
     "cat": "ia",
@@ -173,7 +173,7 @@ export const PROJECTS: LeoProject[] = [
   {
     "kind": "type",
     "cat": "bi",
-    "client": "IBH BPO Global Services",
+    "client": "Operador BPO multi-cliente",
     "num": "33,370",
     "numl": "filas reconciliadas · 79 semanas",
     "title": "Motor de reportería multi-tenant",
@@ -206,7 +206,7 @@ export const PROJECTS: LeoProject[] = [
   {
     "kind": "type",
     "cat": "auto",
-    "client": "InboxHealth Medical Operations",
+    "client": "Operador de facturación médica (EE. UU.)",
     "num": "94%",
     "numl": "menos tiempo · DSO −11 días",
     "title": "Conciliación de facturación médica",
@@ -253,7 +253,7 @@ export const PROJECTS: LeoProject[] = [
   {
     "kind": "type",
     "cat": "auto",
-    "client": "Inbox Health",
+    "client": "Portal de facturación médica",
     "num": "ECW",
     "numl": "eClinicalWorks · sin métricas aún",
     "title": "Automatización de alertas eClinicalWorks",
@@ -284,7 +284,7 @@ export const SAY: LeoQuote[] = [
   {
     "text": "Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.",
     "author": "Carolina Flores",
-    "role": "VP Operaciones · IBH BPO"
+    "role": "VP Operaciones · operador BPO multi-cliente"
   },
   {
     "text": "Tuvo la paciencia de entender nuestras ideas antes de proponer nada.",
@@ -294,7 +294,7 @@ export const SAY: LeoQuote[] = [
   {
     "text": "Pasamos de 40 a 2.5 horas semanales de conciliación.",
     "author": "Carlos Arenas",
-    "role": "Dir. Facturación · InboxHealth"
+    "role": "Dir. de Facturación · operador de facturación médica (EE. UU.)"
   },
   {
     "text": "Un solo cockpit para 12 concesionarios y 85 feeds de DMS.",
@@ -304,12 +304,12 @@ export const SAY: LeoQuote[] = [
   {
     "text": "Gestionar 33,000 registros y 14 sistemas era una pesadilla manual.",
     "author": "Carolina Flores",
-    "role": "VP Operaciones · IBH BPO"
+    "role": "VP Operaciones · operador BPO multi-cliente"
   },
   {
     "text": "Recortamos 11 días de DSO y eliminamos los errores de tipeo.",
     "author": "Carlos Arenas",
-    "role": "Dir. Facturación · InboxHealth"
+    "role": "Dir. de Facturación · operador de facturación médica (EE. UU.)"
   },
   {
     "text": "El primer dashboard funcional llegó en menos de 10 días.",

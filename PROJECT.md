@@ -17,7 +17,7 @@
 | F4 | Interactive Before/After Visualizer | "Antes vs Después con Sagepoint" interactive operational comparison | M2 | Survey / R2 |
 | F5 | Interactive Package Selector & Matrix | Clear 3-tier package comparison with deliverables, profiles, and pricing | M2 | Survey / R2 |
 | F6 | Interactive ROI & Savings Calculator | Interactive tool for estimating hours/money saved based on team size/reports | M2 | Survey / R4 |
-| F7 | Enterprise Case Studies & Metrics | 3 high-impact quantified cases (Apex Auto Group, IBH BPO, InboxHealth) | M3 | Survey / R3 |
+| F7 | Enterprise Case Studies & Metrics | 3 high-impact quantified cases (Apex Auto Group, BPO operations, medical billing) | M3 | Survey / R3 |
 | F8 | Trust Engine & Guarantees | 3+ structured testimonials, 14-day guarantee, 100% data ownership, NDA security badge | M3 | Survey / R3 |
 | F9 | Direct Diagnostic Scheduling | Instant calendar booking integration alongside contact form | M4 | Survey / R4 |
 | F10 | Frictionless Accessible Contact Form | Inline validation (no alert popups), htmlFor/id accessibility, autofill support | M4 | Survey / R4 |

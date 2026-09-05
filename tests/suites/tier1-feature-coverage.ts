@@ -120,9 +120,9 @@ export function registerTier1Suites() {
       expect(portfolioFile).toContain('corporate-sites');
       expect(portfolioFile).toContain('health-wellness');
       expect(portfolioFile).toContain('gastronomy');
-      expect(portfolioFile).toContain('InboxHealth Admin Portal Automation');
+      expect(portfolioFile).toContain('Automatización de Portal Administrativo (Salud)');
       expect(portfolioFile).toContain('Zendesk Talk API Reporting');
-      expect(portfolioFile).toContain('IBH BPO Production Reporting');
+      expect(portfolioFile).toContain('BPO Production Reporting');
       expect(portfolioFile).toContain('ECW Alert Automation');
       expect(portfolioFile).toContain('Apex Auto Group | Executive Dashboard');
       expect(portfolioFile).toContain('GravityClaw');
@@ -382,17 +382,17 @@ export function registerTier1Suites() {
       expect(appFile).toContain('Power BI');
     });
 
-    it('F7.2: Case study 2 documents IBH BPO Operations with 33,370 rows & 14 systems', () => {
+    it('F7.2: Case study 2 documents BPO Operations with 33,370 rows & 14 systems', () => {
       const appFile = fs.readFileSync(path.resolve(__dirname, '../../App.tsx'), 'utf8');
-      expect(appFile).toContain('IBH BPO Operations');
+      expect(appFile).toContain('BPO Operations');
       expect(appFile).toContain('33,370');
       expect(appFile).toContain('14 sistemas');
       expect(appFile).toContain('99.4%');
     });
 
-    it('F7.3: Case study 3 documents InboxHealth billing automation with 94% time reduction', () => {
+    it('F7.3: Case study 3 documents medical billing automation with 94% time reduction', () => {
       const appFile = fs.readFileSync(path.resolve(__dirname, '../../App.tsx'), 'utf8');
-      expect(appFile).toContain('InboxHealth Automation');
+      expect(appFile).toContain('Automatización de Conciliación');
       expect(appFile).toContain('Python y Playwright');
       expect(appFile).toContain('94%');
       expect(appFile).toContain('11 días');

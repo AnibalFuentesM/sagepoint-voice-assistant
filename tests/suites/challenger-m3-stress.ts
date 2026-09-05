@@ -45,8 +45,8 @@ console.log('--- SUITE 1: F7 Enterprise Case Studies Bilingual Parity & Data Str
 // Extract case studies objects or verify via string analysis
 assert(
   appContent.includes('Apex Auto Group') &&
-  appContent.includes('IBH BPO Operations') &&
-  appContent.includes('InboxHealth Automation'),
+  appContent.includes('BPO Operations') &&
+  appContent.includes('Automatización de Conciliación'),
   'Case studies define all 3 required enterprise clients in ES dictionary'
 );
 
@@ -60,8 +60,8 @@ assert(
 // 1.1 Quantified signals in Case Studies
 const requiredCaseMetrics = [
   { id: 'apex', stat: '$420k', esLabel: 'MARGEN PROTEGIDO', enLabel: 'LEAKAGE STOPPED' },
-  { id: 'ibh', stat: '33,370', esLabel: 'FILAS RECONCILIADAS', enLabel: 'RECONCILED ROWS' },
-  { id: 'inboxhealth', stat: '94%', esLabel: 'TIEMPO AHORRADO', enLabel: 'TIME SAVED' },
+  { id: 'bpo', stat: '33,370', esLabel: 'FILAS RECONCILIADAS', enLabel: 'RECONCILED ROWS' },
+  { id: 'medical-billing-recon', stat: '94%', esLabel: 'TIEMPO AHORRADO', enLabel: 'TIME SAVED' },
 ];
 
 for (const cm of requiredCaseMetrics) {
@@ -103,12 +103,12 @@ assert(
 
 assert(
   appContent.includes('tags: ["Google Apps Script", "SQL Warehousing", "Looker Studio", "14 PM APIs"]'),
-  'IBH case includes complete 4-item technical stack tags'
+  'BPO case includes complete 4-item technical stack tags'
 );
 
 assert(
   appContent.includes('tags: ["Python", "Playwright", "Google Sheets API", "Healthcare Billing"]'),
-  'InboxHealth case includes complete 4-item technical stack tags'
+  'Medical billing case includes complete 4-item technical stack tags'
 );
 
 // 1.4 Deep link to portfolio
@@ -138,8 +138,8 @@ const expectedTestimonials = [
     author: 'Carolina Flores',
     roleEs: 'VP de Operaciones & Workforce Management',
     roleEn: 'VP of Operations & Workforce Management',
-    companyEs: 'IBH BPO Global Services',
-    companyEn: 'IBH BPO Global Services',
+    companyEs: 'Operador BPO multi-cliente',
+    companyEn: 'Multi-client BPO operator',
     metricEs: '99.4% SLA · Ahorro 28 hrs/sem',
     metricEn: '99.4% SLA · Saved 28 hrs/wk',
     initials: 'CF',
@@ -148,8 +148,8 @@ const expectedTestimonials = [
     author: 'Carlos Arenas',
     roleEs: 'Director de Operaciones de Facturación',
     roleEn: 'Head of Revenue Operations & Billing',
-    companyEs: 'InboxHealth Medical Operations',
-    companyEn: 'InboxHealth Medical Operations',
+    companyEs: 'Operador de facturación médica (EE. UU.)',
+    companyEn: 'Operador de facturación médica (EE. UU.)',
     metricEs: '94% Reducción · DSO -11 Días',
     metricEn: '94% Time Saved · DSO -11 Days',
     initials: 'CA',
@@ -324,24 +324,24 @@ assert(
   'Proof 1 ($420k): Apex Auto Group case study, Marcus Vance testimonial, and Guarantees banner are 100% cohesive'
 );
 
-// 2. IBH 33,370 rows & 99.4% SLA
+// 2. BPO 33,370 rows & 99.4% SLA
 assert(
-  appContent.includes('IBH BPO Operations') &&
+  appContent.includes('BPO Operations') &&
   appContent.includes('33,370') &&
   appContent.includes('Carolina Flores') &&
   appContent.includes('99.4% SLA') &&
   trustGuaranteesContentStr.includes('33,370+'),
-  'Proof 2 (33,370 rows / 99.4% SLA): IBH case study, Carolina Flores testimonial, and Guarantees banner are 100% cohesive'
+  'Proof 2 (33,370 rows / 99.4% SLA): BPO case study, Carolina Flores testimonial, and Guarantees banner are 100% cohesive'
 );
 
-// 3. InboxHealth 94% time savings & 11 DSO
+// 3. Facturación médica: 94% time savings & 11 DSO
 assert(
-  appContent.includes('InboxHealth Automation') &&
+  appContent.includes('Automatización de Conciliación') &&
   appContent.includes('94%') &&
   appContent.includes('Carlos Arenas') &&
   appContent.includes('DSO -11 Días') &&
   trustGuaranteesContentStr.includes('94%'),
-  'Proof 3 (94% time / -11 DSO): InboxHealth case study, Carlos Arenas testimonial, and Guarantees banner are 100% cohesive'
+  'Proof 3 (94% time / -11 DSO): medical billing case study, Carlos Arenas testimonial, and Guarantees banner are 100% cohesive'
 );
 
 // 4. Rapid 10-14 day delivery

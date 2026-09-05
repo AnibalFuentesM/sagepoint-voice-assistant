@@ -89,7 +89,7 @@ El número +502 4046 4716 recibe los clics del botón flotante y del pie de pág
 ## 6. Testimonios reales (impacto: alto, continuo)
 
 El sitio muestra casos reales pero no tiene citas de clientes. **No se deben
-inventar.** Pide a 2–3 clientes pasados (InboxHealth, proyectos BPO, etc.) una
+inventar.** Pide a 2–3 clientes pasados (proyectos BPO y de facturación médica, etc.) una
 frase corta con nombre y cargo, o una reseña en LinkedIn. Cuando existan,
 agregarlos como sección de testimonios en la página principal.
 

@@ -18,10 +18,10 @@ The portfolio includes hands-on AI and operations automation experience using Py
 
 ## Portfolio proof points
 
-- **InboxHealth Admin Portal Automation**: Python and Playwright workflow for API integration lookup, credential-link retrieval, screenshots, structured JSON output and optional Google Sheets export, with MFA-aware session handling.
+- **Medical Billing Portal Automation (US healthcare client)**: Python and Playwright workflow for API integration lookup, credential-link retrieval, screenshots, structured JSON output and optional Google Sheets export, with MFA-aware session handling.
 - **Zendesk Talk API Reporting**: Google Apps Script and Google Sheets workflow connected to Zendesk Talk, replacing manual exports and validating 11,327 Explore call units against API data.
-- **IBH BPO Production Reporting**: Executive reporting refresh with 33,370 rows across 20 months, 79 production weeks, 14 PM systems and 22 source files.
-- **ECW Alert Automation**: In-progress workflow connecting Slack alerts, Inbox Health credential lookup, Google Sheets logging and Playwright-assisted password rotation.
+- **BPO Production Reporting**: Executive reporting refresh with 33,370 rows across 20 months, 79 production weeks, 14 PM systems and 22 source files.
+- **ECW Alert Automation**: In-progress workflow connecting Slack alerts, client portal credential lookup, Google Sheets logging and Playwright-assisted password rotation.
 
 ## Spanish Search Context
 Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, dashboards ejecutivos, automatizacion de reportes, automatizacion de Excel con Power Query/VBA, modelos predictivos, integraciones CRM/ERP y acompanamiento humano para equipos en Guatemala, Centroamerica y Estados Unidos.

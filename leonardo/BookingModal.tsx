@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getLeadAttribution, trackEvent } from '../utils/analytics';
 import { submitToGoogleSheet } from '../utils/sheetUtils';
 import './leonardoForm.css';
+import { translateLeo, type LeoLanguage } from './leonardoEnglish';
 
 /**
  * Package ids are the ones the Google Sheet already keys on, so they must not change.
@@ -31,6 +32,7 @@ const WA = 'https://wa.me/50240464716';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type Props = {
+  lang: LeoLanguage;
   open: boolean;
   packageId: string;
   /** Where the visitor clicked from, so the funnel can be read in GA4. */
@@ -38,7 +40,8 @@ type Props = {
   onClose: () => void;
 };
 
-export default function BookingModal({ open, packageId, source, onClose }: Props) {
+export default function BookingModal({ lang, open, packageId, source, onClose }: Props) {
+  const t = (text: string) => translateLeo(lang, text);
   const ref = useRef<HTMLDialogElement>(null);
   const [state, setState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [values, setValues] = useState({
@@ -146,7 +149,7 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
       country: COUNTRIES.find((c) => c.id === values.country)?.label || 'No especificado',
       service,
       packageId: pkg,
-      language: 'Español',
+      language: lang === 'en' ? 'English' : 'Español',
       type: 'Formulario Web',
       ...attribution,
     };
@@ -155,7 +158,7 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
       package_id: pkg,
       form_location: 'booking_modal',
       source_section: source,
-      language: 'es',
+      language: lang,
       campaign: attribution.utm_campaign,
       source: attribution.utm_source,
     });
@@ -172,7 +175,7 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
       trackEvent('generate_lead', {
         package_id: pkg,
         lead_id: `lead_${Date.now()}`,
-        language: 'es',
+        language: lang,
         campaign: attribution.utm_campaign,
         source: attribution.utm_source,
       });
@@ -180,7 +183,7 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
       trackEvent('lead_submit_attempt', {
         package_id: pkg,
         form_location: 'booking_modal',
-        language: 'es',
+        language: lang,
         delivery: 'unconfirmed',
       });
     }
@@ -191,43 +194,42 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
 
   return (
     <dialog className="bk" ref={ref} aria-labelledby="bk-title">
-      <button className="bk-x" type="button" onClick={handleClose} aria-label="Cerrar">
+      <button className="bk-x" type="button" onClick={handleClose} aria-label={t("Cerrar")}>
         ✕
       </button>
 
       {state === 'success' ? (
         <div className="bk-done">
-          <p className="bk-eyebrow">Solicitud enviada</p>
+          <p className="bk-eyebrow">{t("Solicitud enviada")}</p>
           <h2 id="bk-title" className="bk-title">
-            Listo. Te escribimos en menos de 24 horas.
+            {t("Listo. Te escribimos en menos de 24 horas.")}
           </h2>
           <p className="bk-lede">
-            Revisamos lo que nos contaste y llegamos con una recomendación concreta. Si prefieres
-            adelantar, escríbenos por WhatsApp y seguimos ahí.
+            {t("Revisamos lo que nos contaste y llegamos con una recomendación concreta. Si prefieres adelantar, escríbenos por WhatsApp y seguimos ahí.")}
           </p>
           <div className="bk-act">
             <a className="pill pill--fill" href={WA}>
-              Escribir por WhatsApp
+              {t("Escribir por WhatsApp")}
             </a>
             <button className="pill pill--ghost" type="button" onClick={handleClose}>
-              Cerrar
+              {t("Cerrar")}
             </button>
           </div>
         </div>
       ) : (
         <form className="bk-form" onSubmit={submit} noValidate>
-          <p className="bk-eyebrow">Diagnóstico gratuito</p>
+          <p className="bk-eyebrow">{t("Diagnóstico gratuito")}</p>
           <h2 id="bk-title" className="bk-title">
-            Treinta minutos, sin compromiso
+            {t("Treinta minutos, sin compromiso")}
           </h2>
           <p className="bk-lede">
-            Déjanos cómo contactarte y qué quieres resolver. NDA antes de tocar un archivo.
+            {t("Déjanos cómo contactarte y qué quieres resolver. NDA antes de tocar un archivo.")}
           </p>
 
           <div className="bk-grid">
             <label className="bk-f">
               <span>
-                Nombre <i>*</i>
+                {t("Nombre")} <i>*</i>
               </span>
               <input
                 name="name"
@@ -241,12 +243,12 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
                 autoComplete="name"
                 required
               />
-              {errors.name ? <em className="bk-err">{errors.name}</em> : null}
+              {errors.name ? <em className="bk-err">{t(errors.name)}</em> : null}
             </label>
 
             <label className="bk-f">
               <span>
-                Correo de trabajo <i>*</i>
+                {t("Correo de trabajo")} <i>*</i>
               </span>
               <input
                 name="email"
@@ -261,7 +263,7 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
                 autoComplete="email"
                 required
               />
-              {errors.email ? <em className="bk-err">{errors.email}</em> : null}
+              {errors.email ? <em className="bk-err">{t(errors.email)}</em> : null}
             </label>
 
             <label className="bk-f">
@@ -277,23 +279,23 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
             </label>
 
             <label className="bk-f">
-              <span>País</span>
+              <span>{t("País")}</span>
               <select
                 name="country"
                 value={values.country}
                 onChange={(e) => set('country', e.target.value)}
               >
-                <option value="">Selecciona</option>
+                <option value="">{t("Selecciona")}</option>
                 {COUNTRIES.map((c) => (
                   <option value={c.id} key={c.id}>
-                    {c.label}
+                    {t(c.label)}
                   </option>
                 ))}
               </select>
             </label>
 
             <label className="bk-f bk-f--wide">
-              <span>Me interesa</span>
+              <span>{t("Me interesa")}</span>
               <select
                 name="service"
                 value={values.service}
@@ -301,37 +303,37 @@ export default function BookingModal({ open, packageId, source, onClose }: Props
               >
                 {BOOKING_PACKAGES.map((p) => (
                   <option value={p.id} key={p.id}>
-                    {p.label}
+                    {t(p.label)}
                   </option>
                 ))}
               </select>
             </label>
 
             <label className="bk-f bk-f--wide">
-              <span>Cuéntanos el contexto</span>
+              <span>{t("Cuéntanos el contexto")}</span>
               <textarea
                 name="details"
                 rows={3}
                 value={values.details}
                 onChange={(e) => set('details', e.target.value)}
-                placeholder="Qué fuentes tienes, qué reporte te está costando tiempo, qué te gustaría ver."
+                placeholder={t("Qué fuentes tienes, qué reporte te está costando tiempo, qué te gustaría ver.")}
               />
             </label>
           </div>
 
           {state === 'error' ? (
             <p className="bk-fail" role="alert">
-              No se pudo enviar. Intenta de nuevo o escríbenos por{' '}
+              {t("No se pudo enviar. Intenta de nuevo o escríbenos por")}{' '}
               <a href={WA}>WhatsApp</a>.
             </p>
           ) : null}
 
           <div className="bk-act">
             <button className="pill pill--fill" type="submit" disabled={sending}>
-              {sending ? 'Enviando…' : 'Agendar mi diagnóstico'}
+              {t(sending ? 'Enviando…' : 'Agendar mi diagnóstico')}
             </button>
             <a className="bk-alt" href={WA}>
-              o escríbenos por WhatsApp
+              {t("o escríbenos por WhatsApp")}
             </a>
           </div>
         </form>

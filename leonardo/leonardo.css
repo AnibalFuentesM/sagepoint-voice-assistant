@@ -97,7 +97,7 @@ html{scroll-behavior:smooth}
 .leo .flight[data-cinema="off"] .glow{opacity:1}
 .leo .flight[data-cinema="off"] .cue{display:none}
 .leo .stage{
-  position:sticky;top:0;height:100svh;overflow:hidden;
+  position:sticky;top:0;height:100svh;overflow:hidden;padding-top:70px;
   display:grid;place-items:center;isolation:isolate;
   background:var(--black);
 }
@@ -418,3 +418,21 @@ html{scroll-behavior:smooth}
 .leo .f-grid{grid-template-columns:1fr}
 .leo .nav-act .pill--ghost{display:none}
 .leo .gal{columns:1}}
+
+/* Keep the language choice available on desktop and compact mobile headers. */
+.leo .language-switch{display:flex;gap:2px;border:1px solid var(--rule);border-radius:999px;padding:3px}
+.leo .language-switch button{border:0;border-radius:999px;background:transparent;color:var(--bone);font:inherit;font-size:12px;font-weight:700;padding:7px 8px;cursor:pointer}
+.leo .language-switch button[aria-pressed="true"]{background:var(--bone);color:var(--black)}
+.leo .language-switch button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.leo .nav-act{margin-left:auto}
+/* The offer must remain legible over the decorative room and flying cards. */
+.leo .plate{border-radius:24px;background:radial-gradient(ellipse,rgba(4,6,6,.94) 25%,rgba(4,6,6,.78) 65%,transparent);padding-block:24px}
+@media (max-width:1100px){.leo .nav-links{display:none}}
+@media (max-width:560px){
+  .leo .nav-in{gap:10px}
+  .leo .mark{font-size:13px;gap:6px}
+  .leo .nav-act{gap:6px}
+  .leo .nav-act .pill--sm{padding:8px 11px;font-size:12px}
+  .leo .language-switch button{padding:7px 6px}
+  .leo .plate{gap:16px}
+}
