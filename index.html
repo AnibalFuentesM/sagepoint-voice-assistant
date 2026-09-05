@@ -100,21 +100,21 @@
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Diagnostico Express + Dashboard Quick-Win",
-            "description": "Auditoria de hasta 2 fuentes de datos, 1 dashboard con hasta 8 KPIs e informe de oportunidades. Entrega en 2 semanas.",
+            "name": "Radiografia de Datos",
+            "description": "Auditoria de hasta 2 fuentes de datos, un dashboard vivo con hasta 8 KPIs, informe de oportunidades priorizadas y una ronda de revisiones. Entrega en 14 dias. Se acredita al proyecto si contratas en 30 dias.",
             "price": "750",
             "priceCurrency": "USD",
             "url": "https://www.sagepoint-analytics.com/#pricing",
             "itemOffered": {
               "@type": "Service",
-              "name": "Dashboard Quick-Win",
+              "name": "Radiografia de Datos",
               "serviceType": "Business intelligence dashboard"
             }
           },
           {
             "@type": "Offer",
-            "name": "Dashboard Ejecutivo + Automatizacion",
-            "description": "Hasta 4 fuentes de datos, hasta 3 dashboards ejecutivos, automatizacion de 1 flujo de reportes, capacitacion y documentacion. Entrega en 4 a 6 semanas.",
+            "name": "Cockpit Ejecutivo",
+            "description": "Hasta 4 fuentes integradas, hasta 3 dashboards ejecutivos y un flujo de reportes automatizado. Incluye dos sesiones de capacitacion, documentacion y dos rondas de revisiones. Entrega en 4 a 6 semanas.",
             "priceSpecification": {
               "@type": "UnitPriceSpecification",
               "price": "2500",
@@ -124,25 +124,31 @@
             "url": "https://www.sagepoint-analytics.com/#pricing",
             "itemOffered": {
               "@type": "Service",
-              "name": "Dashboard Ejecutivo + Automatizacion",
+              "name": "Cockpit Ejecutivo",
               "serviceType": "Business intelligence consulting"
             }
           },
           {
             "@type": "Offer",
-            "name": "Solucion a Medida",
-            "description": "Modelos predictivos dedicados, integraciones CRM/ERP y data warehouse. Alcance definido en cotizacion formal.",
+            "name": "Sala de Control",
+            "description": "Para operaciones multi-sistema: data warehouse propio, portal a medida con usuarios y permisos, modelos predictivos dedicados e integraciones con CRM o ERP. Entrega en 10 a 14 semanas con alcance cerrado por escrito.",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "12000",
+              "priceCurrency": "USD",
+              "description": "Precio inicial por proyecto"
+            },
             "url": "https://www.sagepoint-analytics.com/#pricing",
             "itemOffered": {
               "@type": "Service",
-              "name": "Solucion de datos a medida",
+              "name": "Sala de Control",
               "serviceType": "Predictive analytics and data integration"
             }
           },
           {
             "@type": "Offer",
-            "name": "Soporte Cercano Mensual",
-            "description": "Add-on mensual de mantenimiento, ajustes, coaching y WhatsApp prioritario despues de tu proyecto. Tiers de $300, $600 y $1,000 segun intensidad de soporte.",
+            "name": "Soporte Cercano",
+            "description": "Add-on mensual de mantenimiento, ajustes, coaching y WhatsApp prioritario despues de tu proyecto. Tres niveles segun intensidad; prepago anual con dos meses de cortesia.",
             "priceSpecification": {
               "@type": "UnitPriceSpecification",
               "minPrice": "300",
@@ -153,7 +159,7 @@
             "url": "https://www.sagepoint-analytics.com/#pricing",
             "itemOffered": {
               "@type": "Service",
-              "name": "Soporte Cercano Mensual",
+              "name": "Soporte Cercano",
               "serviceType": "Data coaching and dashboard support"
             }
           }
@@ -165,25 +171,9 @@
       "@id": "https://www.sagepoint-analytics.com/#webpage",
       "url": "https://www.sagepoint-analytics.com/",
       "name": "Sagepoint Analytics - Dashboards e Inteligencia de Negocios",
-      "description": "Paquetes de inteligencia de negocios con entregables claros: diagnostico de datos, dashboards ejecutivos y automatizacion de reportes para PYMEs en Guatemala y EE. UU.",
+      "description": "Paquetes de inteligencia de negocios con entregables claros: radiografia de datos, cockpits ejecutivos y automatizacion de reportes para PYMEs en Guatemala y EE. UU.",
       "isPartOf": { "@id": "https://www.sagepoint-analytics.com/#website" },
       "about": { "@id": "https://www.sagepoint-analytics.com/#organization" },
-      "inLanguage": "es-GT"
-    },
-    {
-      "@type": "Review",
-      "@id": "https://www.sagepoint-analytics.com/#review-saludable",
-      "itemReviewed": { "@id": "https://www.sagepoint-analytics.com/#organization" },
-      "reviewBody": "Lo que mas valoro es que tuvo la paciencia de escuchar y entender nuestras ideas antes de proponer una solucion. Un trabajo muy top.",
-      "author": { "@type": "Person", "name": "Meylin Sic", "jobTitle": "Coordinadora de proyecto" },
-      "inLanguage": "es-GT"
-    },
-    {
-      "@type": "Review",
-      "@id": "https://www.sagepoint-analytics.com/#review-ecw",
-      "itemReviewed": { "@id": "https://www.sagepoint-analytics.com/#organization" },
-      "reviewBody": "Presento la automatizacion de alertas de ECW al equipo y la reaccion fue unanime: un trabajo excelente y muy proactivo.",
-      "author": { "@type": "Organization", "name": "Equipo de operaciones de billing" },
       "inLanguage": "es-GT"
     }
   ]
@@ -196,33 +186,23 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "¿Qué incluye el diagnóstico gratuito?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Una videollamada de 30–45 minutos donde revisamos tus fuentes de datos, tus reportes actuales y tus objetivos. Sales con una recomendación concreta del paquete que te conviene." }
+      "name": "¿El diagnóstico inicial realmente es gratuito?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sí. Es una videollamada de 30 a 45 minutos donde revisamos tus fuentes de datos y te decimos qué se puede automatizar y qué no. Sales con un diagnóstico escrito aunque no contrates nada." }
     },
     {
       "@type": "Question",
-      "name": "¿En cuánto tiempo veo resultados?",
-      "acceptedAnswer": { "@type": "Answer", "text": "El paquete Quick-Win entrega un dashboard funcionando en 2 semanas. El Dashboard Ejecutivo + Automatización toma de 4 a 6 semanas según las fuentes de datos." }
+      "name": "¿Necesito un departamento de TI para esto?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Trabajamos con las herramientas que ya tienes —Excel, Google Sheets, tu CRM, tu ERP— y nos integramos como tu equipo de datos externo. Si hace falta infraestructura nueva, lo decimos antes de empezar y va cotizado aparte." }
     },
     {
       "@type": "Question",
-      "name": "¿Qué pasa cuando termina el proyecto?",
-      "acceptedAnswer": { "@type": "Answer", "text": "El entregable es tuyo: dashboards, automatizaciones y documentación. Si quieres continuidad, el add-on de Soporte Cercano Mensual cubre mantenimiento, ajustes y coaching." }
+      "name": "¿De quién son los datos y los dashboards?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tuyos, al 100%. Todo se construye en tus cuentas, con tus licencias. Firmamos NDA antes de tocar cualquier archivo y te entregamos la documentación completa al cierre del proyecto." }
     },
     {
       "@type": "Question",
-      "name": "¿Con qué herramientas trabajan?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Power BI, Looker Studio, Excel (Power Query/VBA), Google Sheets y desarrollos a medida en la nube. Nos adaptamos a las herramientas que tu equipo ya usa." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Trabajan fuera de Guatemala?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Sí. Atendemos empresas en Guatemala, Centroamérica, México y Estados Unidos, en español o inglés, de forma remota." }
-    },
-    {
-      "@type": "Question",
-      "name": "¿Necesito tener mis datos ordenados antes de empezar?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Parte del diagnóstico es precisamente evaluar el estado de tus datos. Trabajamos con lo que tengas: Excel dispersos, sistemas contables, CRM o bases de datos." }
+      "name": "¿Qué pasa si el alcance crece a mitad del proyecto?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Cada paquete define entregables, plazos y exclusiones por escrito antes de arrancar. Si aparece algo fuera de alcance, se cotiza como adición y decides tú — nunca se factura una sorpresa." }
     }
   ]
 }
@@ -235,13 +215,14 @@
         <p>
           Sagepoint Analytics ayuda a PYMEs en Guatemala, Centroamerica y Estados Unidos a convertir datos dispersos en decisiones claras mediante dashboards ejecutivos, automatizacion de reportes, Excel Power Query, Looker Studio, Power BI, modelos predictivos y data coaching.
         </p>
-        <h2>Paquetes principales</h2>
+        <h2>Como se empieza</h2>
         <ul>
-          <li>Diagnostico Express + Dashboard Quick-Win: auditoria de hasta 2 fuentes de datos y 1 dashboard en 2 semanas por $750 USD (pago unico).</li>
-          <li>Dashboard Ejecutivo + Automatizacion: hasta 4 fuentes de datos, hasta 3 dashboards y automatizacion de 1 flujo de reportes desde $2,500 USD.</li>
-          <li>Solucion a Medida: modelos predictivos, integraciones CRM/ERP y data warehouse con alcance definido por cotizacion.</li>
-          <li>Soporte Cercano Mensual: mantenimiento, ajustes, coaching y WhatsApp prioritario desde $300 USD al mes.</li>
+          <li>Radiografia de Datos: auditoria de hasta 2 fuentes y un dashboard vivo con hasta 8 KPIs en 14 dias por $750 USD (pago unico, se acredita al proyecto si contratas en 30 dias).</li>
+          <li>Cockpit Ejecutivo: hasta 4 fuentes, hasta 3 dashboards ejecutivos y un flujo de reportes automatizado, desde $2,500 USD (4 a 6 semanas).</li>
+          <li>Sala de Control: data warehouse propio, portal a medida, modelos predictivos e integraciones CRM/ERP, desde $12,000 USD (10 a 14 semanas).</li>
+          <li>Soporte Cercano: mantenimiento, ajustes, coaching y WhatsApp prioritario despues del proyecto, desde $300 USD al mes.</li>
         </ul>
+        <p>El diagnostico inicial es una videollamada gratuita de 30 a 45 minutos, con diagnostico escrito aunque no contrates.</p>
         <h2>Contacto</h2>
         <p>Correo: <a href="mailto:info@sagepoint-analytics.com">info@sagepoint-analytics.com</a>. WhatsApp: <a href="https://wa.me/50240464716">+502 4046 4716</a>.</p>
       </main>

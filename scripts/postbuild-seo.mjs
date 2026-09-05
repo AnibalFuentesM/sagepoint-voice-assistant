@@ -235,3 +235,49 @@ renderRoute(baseHtml, {
     ],
   }),
 });
+
+
+// -------------------------------------------------------------- sitemap.xml
+/**
+ * Regenerates dist/sitemap.xml on every build so <lastmod> reflects the deploy
+ * date instead of a hand-edited constant that silently goes stale, and so every
+ * URL carries the same hreflang alternates the pages themselves emit.
+ */
+function generateSitemap() {
+  const lastmod = new Date().toISOString().slice(0, 10);
+
+  const entries = [
+    { loc: `${siteUrl}/`, alt: `${siteUrl}/`, changefreq: 'weekly', priority: '1.0' },
+    { loc: `${siteUrl}/?lang=en`, alt: `${siteUrl}/`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${siteUrl}/web/`, alt: `${siteUrl}/web/`, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${siteUrl}/portfolio/`, alt: `${siteUrl}/portfolio/`, changefreq: 'monthly', priority: '0.8' },
+  ];
+
+  const body = entries
+    .map(
+      ({ loc, alt, changefreq, priority }) => `  <url>
+    <loc>${loc}</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="${alt}" />
+    <xhtml:link rel="alternate" hreflang="en" href="${alt}?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${alt}" />
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`,
+    )
+    .join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+${body}
+</urlset>
+`;
+
+  writeFileSync(join(distDir, 'sitemap.xml'), xml);
+  console.log(`SEO postbuild: generated dist/sitemap.xml (lastmod ${lastmod})`);
+}
+
+generateSitemap();
