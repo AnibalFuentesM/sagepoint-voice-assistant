@@ -220,7 +220,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
         <form className="bk-form" onSubmit={submit} noValidate>
           <p className="bk-eyebrow">{t("Diagnóstico gratuito")}</p>
           <h2 id="bk-title" className="bk-title">
-            {t("Treinta minutos, sin compromiso")}
+            {t("De 30 a 45 minutos, sin compromiso")}
           </h2>
           <p className="bk-lede">
             {t("Déjanos cómo contactarte y qué quieres resolver. NDA antes de tocar un archivo.")}

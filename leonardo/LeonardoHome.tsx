@@ -1041,7 +1041,7 @@ export default function LeonardoHome() {
               style={{ marginInline: 'auto', textAlign: 'center' }}
               data-rv
             >
-              {t("Treinta minutos, sin compromiso. Traes tus fuentes y te decimos qué se puede automatizar esta misma quincena.")}
+              {t("De 30 a 45 minutos, sin compromiso. Traes tus fuentes y te decimos qué se puede automatizar esta misma quincena.")}
             </p>
             <p className="pkg-echo" id="pkgEcho" hidden={!pickedId}>
               {pickedId ? `${t('Diagnóstico para:')} ${t(PACKAGE_NAMES[pickedId])}` : null}
