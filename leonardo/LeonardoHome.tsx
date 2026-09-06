@@ -665,7 +665,7 @@ export default function LeonardoHome() {
                     <div className="case-stat" style={{ color: 'var(--amber)' }}>
                       $420k
                     </div>
-                    <div className="case-statl">{t("Margen protegido / año")}</div>
+                    <div className="case-statl">{t("Margen recuperado / año")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--amber)' }}>
                     {t("Automoción")}

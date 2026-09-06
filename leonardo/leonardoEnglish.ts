@@ -28,7 +28,7 @@ export const ENGLISH: Record<string, string> = {
   'Ver el portafolio completo': 'View the full portfolio', 'Casos seleccionados': 'Selected case studies',
   'Números que': 'Numbers that', 'cambiaron de mano': 'made a difference',
   'Impacto cuantificado en producción. Cada cifra salió de un sistema que sigue corriendo hoy.': 'Measured impact in production. Every figure comes from a system that is still running today.',
-  'Margen protegido / año': 'Margin protected / year', 'Automoción': 'Automotive',
+  'Margen recuperado / año': 'Margin recovered / year', 'Automoción': 'Automotive',
   'Apex Auto Group — cockpit ejecutivo multi-tienda': 'Apex Auto Group — multi-location executive cockpit',
   'Doce concesionarios y 85+ feeds DMS unificados en un solo Power BI con refresco sub-segundo.': 'Twelve dealerships and 85+ DMS feeds unified in one Power BI dashboard with sub-second refresh.',
   '85 reportes aislados, 5–7 días de retraso': '85 isolated reports, 5–7 days of delay',

@@ -44,7 +44,7 @@ export const webContent = {
       title_lead: 'Ya tienes Facebook.',
       title_sub: 'Te falta lo que cierra la venta.',
       description:
-        'En Guatemala, 61% de las compras se cierran hoy en una página web y solo 14% en redes sociales. Te armamos el sitio —con dominio, hosting y WhatsApp— y te dejamos un panel donde ves cuántos clientes entraron y de dónde vinieron.',
+        'En Guatemala, 61% de los compradores en línea cerró su última compra en una página web y solo 14% en redes sociales. Te armamos el sitio —con dominio, hosting y WhatsApp— y te dejamos un panel donde ves cuántos clientes entraron y de dónde vinieron.',
       cta_primary: 'Ver paquetes y precios',
       cta_whatsapp: 'Escríbenos por WhatsApp',
       proof: [
@@ -295,7 +295,7 @@ export const webContent = {
       title_lead: 'You already have Facebook.',
       title_sub: "What's missing is what closes the sale.",
       description:
-        'In Guatemala, 61% of purchases now close on a website and only 14% on social media. We build the site —domain, hosting and WhatsApp included— and hand you a dashboard showing how many customers came in and where from.',
+        'In Guatemala, 61% of online buyers closed their last purchase on a website and only 14% on social media. We build the site —domain, hosting and WhatsApp included— and hand you a dashboard showing how many customers came in and where from.',
       cta_primary: 'See packages and pricing',
       cta_whatsapp: 'Message us on WhatsApp',
       proof: ['Delivered in 7 business days', 'Fixed price in quetzales', 'The domain stays in your name'],
