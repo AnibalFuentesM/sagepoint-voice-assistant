@@ -18,28 +18,26 @@ The portfolio includes hands-on AI and operations automation experience using Py
 
 ## Portfolio proof points
 
-- **Medical Billing Portal Automation (US healthcare client)**: Python and Playwright workflow for API integration lookup, credential-link retrieval, screenshots, structured JSON output and optional Google Sheets export, with MFA-aware session handling.
 - **Zendesk Talk API Reporting**: Google Apps Script and Google Sheets workflow connected to Zendesk Talk, replacing manual exports and validating 11,327 Explore call units against API data.
 - **BPO Production Reporting**: Executive reporting refresh with 33,370 rows across 20 months, 79 production weeks, 14 PM systems and 22 source files.
-- **ECW Alert Automation**: In-progress workflow connecting Slack alerts, client portal credential lookup, Google Sheets logging and Playwright-assisted password rotation.
 
 ## Spanish Search Context
 Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, dashboards ejecutivos, automatizacion de reportes, automatizacion de Excel con Power Query/VBA, modelos predictivos, integraciones CRM/ERP y acompanamiento humano para equipos en Guatemala, Centroamerica y Estados Unidos.
 
 ## Packages (fixed-scope projects)
 
-### Express Assessment + Quick-Win Dashboard
+### Data Assessment (Radiografía de Datos)
 - **Price**: $750 USD one-time | **Timeline**: 2 weeks
 - **Includes**: Audit of up to 2 data sources, 1 dashboard with up to 8 key KPIs, prioritized opportunity report, 1 revision round.
 - **Not included**: Automation, integrations, predictive models.
 
-### Executive Dashboard + Automation (Most Popular)
+### Executive Cockpit (Cockpit Ejecutivo)
 - **Price**: from $2,500 USD per project | **Timeline**: 4–6 weeks
 - **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated reporting flow (−80% time), 2 training sessions, documentation, 2 revision rounds.
 - **Not included**: Data warehouse, custom AI models.
 
-### Custom Solution
-- **Price**: formal quote | **Timeline**: to be defined
+### Control Room (Sala de Control)
+- **Price**: from $12,000 USD | **Timeline**: 10–14 weeks
 - **Includes**: Dedicated predictive models, CRM/ERP integrations, data warehouse. Scope defined in a formal quote.
 
 ### Soporte Cercano Monthly (add-on)
@@ -84,7 +82,6 @@ Sagepoint Analytics disena y desarrolla paginas web para PYMEs en Guatemala con 
 Quotes used with permission from delivered projects.
 
 - "What I value most is that he had the patience to listen and understand our ideas before proposing a solution. Really top-tier work." — Meylin Sic, project coordinator (dashboard and report automation project).
-- "He showed the ECW alert automation working to the team and the reaction was unanimous: excellent work, and genuinely proactive." — Billing operations team, medical billing platform (US), on the ECW Alert Automation project.
 
 ## Getting Started
-The initial assessment (30–45 minute video call) is free. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com
+The initial consultation (30–45 minute video call) is free. The two-week Data Assessment is a separate paid project ($750), credited toward a project contracted within 30 days. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com

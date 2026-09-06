@@ -42,8 +42,9 @@ type Props = {
 
 export default function BookingModal({ lang, open, packageId, source, onClose }: Props) {
   const t = (text: string) => translateLeo(lang, text);
+  const submitting = useRef(false);
   const ref = useRef<HTMLDialogElement>(null);
-  const [state, setState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [state, setState] = useState<'idle' | 'sending' | 'success' | 'pending' | 'error'>('idle');
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -123,19 +124,24 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting.current) return;
     const name = values.name.trim();
     const email = values.email.trim();
     const okName = validate('name', name);
     const okEmail = validate('email', email);
     setTouched({ name: true, email: true });
-    if (!okName || !okEmail) return;
+    if (!okName || !okEmail) {
+      e.currentTarget.querySelector<HTMLInputElement>(`[name="${!okName ? 'name' : 'email'}"]`)?.focus();
+      return;
+    }
 
+    submitting.current = true;
     setState('sending');
 
     const pkg = values.service || 'general';
     const label = BOOKING_PACKAGES.find((p) => p.id === pkg)?.label ?? pkg;
     let service = `${pkg} | ${label}`;
-    if ((pkg === 'custom' || pkg === 'executive') && values.details.trim()) {
+    if (values.details.trim()) {
       service += ` | Detalles: ${values.details.trim()}`;
     }
 
@@ -148,6 +154,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
       industry: 'No especificado',
       country: COUNTRIES.find((c) => c.id === values.country)?.label || 'No especificado',
       service,
+      details: values.details.trim(),
       packageId: pkg,
       language: lang === 'en' ? 'English' : 'Español',
       type: 'Formulario Web',
@@ -164,8 +171,10 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
     });
 
     const result = await submitToGoogleSheet(data);
+    submitting.current = false;
 
     if (!result) {
+      trackEvent('lead_submit_failed', { package_id: pkg, form_location: 'booking_modal', language: lang });
       setState('error');
       return;
     }
@@ -180,14 +189,14 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
         source: attribution.utm_source,
       });
     } else {
-      trackEvent('lead_submit_attempt', {
+      trackEvent('lead_delivery_unconfirmed', {
         package_id: pkg,
         form_location: 'booking_modal',
         language: lang,
         delivery: 'unconfirmed',
       });
     }
-    setState('success');
+    setState(result === 'confirmed' ? 'success' : 'pending');
   };
 
   const sending = state === 'sending';
@@ -198,17 +207,17 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
         ✕
       </button>
 
-      {state === 'success' ? (
-        <div className="bk-done">
-          <p className="bk-eyebrow">{t("Solicitud enviada")}</p>
+      {state === 'success' || state === 'pending' ? (
+        <div className="bk-done" role="status">
+          <p className="bk-eyebrow">{t(state === 'pending' ? 'Recepción no confirmada' : 'Solicitud recibida')}</p>
           <h2 id="bk-title" className="bk-title">
-            {t("Listo. Te escribimos en menos de 24 horas.")}
+            {t(state === 'pending' ? 'No pudimos confirmar la recepción.' : 'Listo. Te escribimos en menos de 24 horas.')}
           </h2>
           <p className="bk-lede">
-            {t("Revisamos lo que nos contaste y llegamos con una recomendación concreta. Si prefieres adelantar, escríbenos por WhatsApp y seguimos ahí.")}
+            {t(state === 'pending' ? 'Tu solicitud puede haber llegado. Para evitar duplicarla, no la reenviamos automáticamente. Escríbenos por WhatsApp para confirmar antes de intentar de nuevo.' : 'Revisamos lo que nos contaste y llegamos con una recomendación concreta. Si prefieres adelantar, escríbenos por WhatsApp y seguimos ahí.')}
           </p>
           <div className="bk-act">
-            <a className="pill pill--fill" href={WA}>
+            <a className="pill pill--fill" href={WA} onClick={() => trackEvent('whatsapp_click', { source_section: `booking_modal_${state}`, package_id: values.service, language: lang })}>
               {t("Escribir por WhatsApp")}
             </a>
             <button className="pill pill--ghost" type="button" onClick={handleClose}>
@@ -240,10 +249,11 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                   validate('name', e.target.value);
                 }}
                 aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'bk-name-error' : undefined}
                 autoComplete="name"
                 required
               />
-              {errors.name ? <em className="bk-err">{t(errors.name)}</em> : null}
+              {errors.name ? <em id="bk-name-error" className="bk-err" role="alert">{t(errors.name)}</em> : null}
             </label>
 
             <label className="bk-f">
@@ -260,10 +270,11 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                   validate('email', e.target.value);
                 }}
                 aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'bk-email-error' : undefined}
                 autoComplete="email"
                 required
               />
-              {errors.email ? <em className="bk-err">{t(errors.email)}</em> : null}
+              {errors.email ? <em id="bk-email-error" className="bk-err" role="alert">{t(errors.email)}</em> : null}
             </label>
 
             <label className="bk-f">
@@ -324,15 +335,15 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
           {state === 'error' ? (
             <p className="bk-fail" role="alert">
               {t("No se pudo enviar. Intenta de nuevo o escríbenos por")}{' '}
-              <a href={WA}>WhatsApp</a>.
+              <a href={WA} onClick={() => trackEvent('whatsapp_click', { source_section: `booking_modal_${state}`, package_id: values.service, language: lang })}>WhatsApp</a>.
             </p>
           ) : null}
 
           <div className="bk-act">
             <button className="pill pill--fill" type="submit" disabled={sending}>
-              {t(sending ? 'Enviando…' : 'Agendar mi diagnóstico')}
+              {t(sending ? 'Enviando…' : 'Solicitar mi diagnóstico')}
             </button>
-            <a className="bk-alt" href={WA}>
+            <a className="bk-alt" href={WA} onClick={() => trackEvent('whatsapp_click', { source_section: `booking_modal_${state}`, package_id: values.service, language: lang })}>
               {t("o escríbenos por WhatsApp")}
             </a>
           </div>

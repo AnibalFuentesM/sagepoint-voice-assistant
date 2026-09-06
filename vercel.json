@@ -1,37 +1,101 @@
 {
-  "redirects": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "routes": [
     {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "sagepoint-analytics.com" }],
-      "destination": "https://www.sagepoint-analytics.com/:path*",
-      "permanent": true
+      "src": "^/(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "sagepoint-analytics.com"
+        }
+      ],
+      "headers": {
+        "Location": "https://www.sagepoint-analytics.com/$1"
+      },
+      "status": 308
     },
     {
-      "source": "/web",
-      "destination": "/web/",
-      "permanent": true
+      "src": "^/(web|portfolio)$",
+      "headers": {
+        "Location": "/$1/"
+      },
+      "status": 308
     },
     {
-      "source": "/portfolio",
-      "destination": "/portfolio/",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
-    { "source": "/((?!assets/|projects/|favicon.png|logo.png|og-image.png|robots.txt|sitemap.xml|llms.txt).*)", "destination": "/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+      "src": "^/assets/[^/]+-[A-Za-z0-9_-]{8}\\.(js|css)$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     },
     {
-      "source": "/(favicon.png|logo.png|og-image.png)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
-      ]
+      "src": "^/assets/img/(.*)$",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/(favicon|logo|og-image)\\.png$",
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "dest": "/_localized/en/index.html"
+    },
+    {
+      "src": "^/portfolio/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "dest": "/_localized/en/portfolio/index.html"
+    },
+    {
+      "src": "^/web/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "dest": "/_localized/en/web/index.html"
+    },
+    {
+      "src": "^/$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/portfolio/$",
+      "dest": "/portfolio/index.html"
+    },
+    {
+      "src": "^/web/$",
+      "dest": "/web/index.html"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/.*$",
+      "status": 404
     }
   ]
 }

@@ -1,0 +1,8 @@
+private/
+docs/
+tests/
+_qa/
+sales-kit/
+.agents/
+*.tgz
+*.zip

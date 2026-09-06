@@ -71,19 +71,6 @@ export const portfolioContent = {
     } as Record<CategoryId, string>,
     projects: [
       {
-        id: 7,
-        categoryId: 'ai-automation' as CategoryId,
-        title: 'Automatización de Portal Administrativo (Salud)',
-        category: 'IA & Automatización',
-        description:
-          'Automatización operativa con Python y Playwright para búsquedas de integraciones API, enlaces de credenciales, capturas, exportación JSON y salida opcional a Google Sheets con manejo de MFA y sesiones persistentes.',
-        image: '/projects/gravityclaw.jpg',
-        alt: 'Automatización de portal administrativo con flujos de datos, sesiones persistentes y exportación estructurada',
-        tall: true,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Automatizacion%20Portal%20Administrativo%20Salud',
-        linkLabel: 'Solicitar Caso',
-      },
-      {
         id: 8,
         categoryId: 'operations-bi' as CategoryId,
         title: 'Zendesk Talk API Reporting',
@@ -107,19 +94,6 @@ export const portfolioContent = {
         alt: 'Workbook ejecutivo de producción BPO con métricas semanales y gráficos sincronizados',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting',
-        linkLabel: 'Solicitar Caso',
-      },
-      {
-        id: 10,
-        categoryId: 'ai-automation' as CategoryId,
-        title: 'ECW Alert Automation',
-        category: 'IA & Automatización',
-        description:
-          'Workflow en progreso que conecta alertas de Slack, lookup de credenciales en el portal del cliente, logging en Google Sheets y rotación asistida con Playwright para reducir trabajo manual en alertas críticas.',
-        image: '/projects/gravityclaw.jpg',
-        alt: 'Workflow de alertas con Slack, Google Sheets y automatización asistida por navegador',
-        tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=ECW%20Alert%20Automation',
         linkLabel: 'Solicitar Caso',
       },
       {
@@ -277,19 +251,6 @@ export const portfolioContent = {
     } as Record<CategoryId, string>,
     projects: [
       {
-        id: 7,
-        categoryId: 'ai-automation' as CategoryId,
-        title: 'Automatización de Portal Administrativo (Salud)',
-        category: 'AI & Automation',
-        description:
-          'Operational automation using Python and Playwright for API integration lookups, credential link validation, automated screenshots, JSON exports, and Google Sheets sync with MFA session handling.',
-        image: '/projects/gravityclaw.jpg',
-        alt: 'Admin portal automation with data flows, persistent sessions, and structured export',
-        tall: true,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Medical%20Billing%20Portal%20Automation%20Case%20Study',
-        linkLabel: 'Request Case Study',
-      },
-      {
         id: 8,
         categoryId: 'operations-bi' as CategoryId,
         title: 'Zendesk Talk API Reporting',
@@ -313,19 +274,6 @@ export const portfolioContent = {
         alt: 'Executive BPO production workbook with weekly metrics and synchronized charts',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting%20Case%20Study',
-        linkLabel: 'Request Case Study',
-      },
-      {
-        id: 10,
-        categoryId: 'ai-automation' as CategoryId,
-        title: 'ECW Alert Automation',
-        category: 'AI & Automation',
-        description:
-          'Workflow connecting Slack alerts, client portal credential lookups, Google Sheets audit logging, and Playwright-assisted rotation to eliminate manual intervention in critical billing alerts.',
-        image: '/projects/gravityclaw.jpg',
-        alt: 'Alert workflow with Slack, Google Sheets, and browser-assisted automation',
-        tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=ECW%20Alert%20Automation%20Case%20Study',
         linkLabel: 'Request Case Study',
       },
       {

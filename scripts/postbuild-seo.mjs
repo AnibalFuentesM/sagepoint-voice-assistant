@@ -1,283 +1,57 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
+import { createServer } from 'vite';
 
-const distDir = new URL('../dist/', import.meta.url).pathname;
-const indexPath = join(distDir, 'index.html');
-const siteUrl = 'https://www.sagepoint-analytics.com';
-
-function setMeta(html, selector, content) {
-  const attrPattern = selector.startsWith('property=') ? 'property' : 'name';
-  const key = selector.replace(/^(property|name)=/, '');
-  const pattern = new RegExp(`<meta\\s+${attrPattern}="${key}"[\\s\\S]*?content="[^"]*"\\s*\\/>`);
-
-  if (pattern.test(html)) {
-    return html.replace(pattern, `<meta ${attrPattern}="${key}" content="${content}" />`);
+const dist = new URL('../dist/', import.meta.url).pathname;
+const site = 'https://www.sagepoint-analytics.com';
+const template = readFileSync(join(dist, 'index.html'), 'utf8');
+const blocks = [...template.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+const org = blocks[0]['@graph'].find(item => item['@id'] === `${site}/#organization`);
+// Page copy already carries full scope and pricing. Keep a single consistent organization identity.
+const { hasOfferCatalog, ...organization } = org;
+const faq = blocks.find(item => item['@type'] === 'FAQPage');
+const paths = ['/', '/portfolio/', '/web/'];
+const escape = text => text.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+const vite = await createServer({ server: { middlewareMode: true, hmr: false }, appType: 'custom', ssr: { resolve: { externalConditions: ['module-sync', 'node'] } } });
+try {
+  const { renderPage, translateLeo } = await vite.ssrLoadModule('/scripts/render-pages.tsx');
+  for (const path of paths) for (const language of ['es', 'en']) {
+    const url = `${site}${path}${language === 'en' ? '?lang=en' : ''}`;
+    const { markup, meta } = renderPage(path, language);
+    const graph = [
+      organization,
+      { '@type': 'WebSite', '@id': `${site}/#website`, url: `${site}/`, name: 'Sagepoint Analytics', publisher: { '@id': `${site}/#organization` } },
+      { '@type': path === '/portfolio/' ? 'CollectionPage' : 'WebPage', '@id': `${url}#webpage`, url, name: meta.title, description: meta.description, inLanguage: language, isPartOf: { '@id': `${site}/#website` }, about: { '@id': `${site}/#organization` } },
+    ];
+    if (path === '/') graph.push({ ...faq, mainEntity: faq.mainEntity.map(q => ({ ...q, name: translateLeo(language, q.name), acceptedAnswer: { ...q.acceptedAnswer, text: translateLeo(language, q.acceptedAnswer.text) } })) });
+    let html = template
+      .replace(/<html lang="[^"]+"/, `<html lang="${language}"`)
+      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escape(meta.title)}</title>`)
+      .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
+      .replace(/<noscript>[\s\S]*?<\/noscript>/g, '')
+      .replace(/<link rel="(?:canonical|alternate)"[^>]*>/g, '');
+    for (const [attr, key, value] of [
+      ['name', 'description', meta.description], ['property', 'og:title', meta.title],
+      ['property', 'og:description', meta.description], ['property', 'og:url', url],
+      ['property', 'og:locale', language === 'en' ? 'en_US' : 'es_GT'],
+      ['property', 'og:locale:alternate', language === 'en' ? 'es_GT' : 'en_US'],
+      ['name', 'twitter:title', meta.title], ['name', 'twitter:description', meta.description],
+    ]) html = html.replace(new RegExp(`<meta\\s+${attr}="${key}"[\\s\\S]*?\\/>`), `<meta ${attr}="${key}" content="${escape(value)}" />`);
+    const head = `<link rel="canonical" href="${url}" />
+<link rel="alternate" hreflang="es" href="${site}${path}" />
+<link rel="alternate" hreflang="en" href="${site}${path}?lang=en" />
+<link rel="alternate" hreflang="x-default" href="${site}${path}" />
+<script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c')}</script>
+<noscript><style>.leo [data-rv],#root [style*="opacity:0"]{opacity:1!important;transform:none!important}</style></noscript>`;
+    html = html.replace('</head>', `${head}\n</head>`).replace('<div id="root"></div>', () => `<div id="root">${markup}</div>`);
+    const dir = language === 'en' ? join(dist, '_localized', 'en', path) : join(dist, path);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'index.html'), html);
+    console.log(`SEO: rendered ${path} (${language}) from React components`);
   }
-
-  return html.replace('</head>', `    <meta ${attrPattern}="${key}" content="${content}" />\n</head>`);
+} finally {
+  await vite.close();
 }
-
-function setTitle(html, title) {
-  return html.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);
-}
-
-function setCanonical(html, href) {
-  return html.replace(/<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${href}" />`);
-}
-
-function stripJsonLd(html) {
-  return html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
-}
-
-function stripAlternateLinks(html) {
-  return html.replace(/\s*<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/>\n/g, '\n');
-}
-
-function insertAlternateLinks(html, url) {
-  const alternates = `    <link rel="alternate" hreflang="es" href="${url}" />\n    <link rel="alternate" hreflang="en" href="${url}?lang=en" />\n    <link rel="alternate" hreflang="x-default" href="${url}" />\n</head>`;
-  return html.replace('</head>', alternates);
-}
-
-function insertJsonLd(html, graph) {
-  const json = JSON.stringify(graph, null, 2).replace(/</g, '\\u003c');
-  return html.replace('</head>', `<script type="application/ld+json">\n${json}\n</script>\n</head>`);
-}
-
-/**
- * Renders one prerendered HTML shell per SPA route so crawlers and social
- * previews get route-specific metadata instead of the home page's.
- */
-function renderRoute(baseHtml, { dir, title, description, graph }) {
-  const url = `${siteUrl}/${dir}/`;
-
-  let html = baseHtml;
-  html = setTitle(html, title);
-  html = setMeta(html, 'name=description', description);
-  html = setMeta(html, 'property=og:title', title);
-  html = setMeta(html, 'property=og:description', description);
-  html = setMeta(html, 'property=og:url', url);
-  html = setMeta(html, 'name=twitter:title', title);
-  html = setMeta(html, 'name=twitter:description', description);
-  html = setCanonical(html, url);
-  html = stripAlternateLinks(html);
-  html = insertAlternateLinks(html, url);
-  html = stripJsonLd(html);
-  html = insertJsonLd(html, graph(url));
-
-  const outPath = join(distDir, dir, 'index.html');
-  mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(outPath, html);
-
-  console.log(`SEO postbuild: generated dist/${dir}/index.html`);
-}
-
-const baseHtml = readFileSync(indexPath, 'utf8');
-
-// ---------------------------------------------------------------- /portfolio/
-const portfolioTitle = 'Portfolio — Sagepoint Analytics | Proyectos de BI, IA y Desarrollo Web';
-const portfolioDescription =
-  'Proyectos reales de Sagepoint Analytics: IA aplicada, automatizacion operativa, dashboards, CRMs, APIs y reportes ejecutivos para empresas en Guatemala y EE. UU.';
-
-renderRoute(baseHtml, {
-  dir: 'portfolio',
-  title: portfolioTitle,
-  description: portfolioDescription,
-  graph: (url) => ({
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'CollectionPage',
-        '@id': `${url}#webpage`,
-        url,
-        name: portfolioTitle,
-        description: portfolioDescription,
-        inLanguage: ['es-GT', 'en-US'],
-        isPartOf: { '@id': `${siteUrl}/#website` },
-        about: { '@id': `${siteUrl}/#organization` },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `${url}#breadcrumb`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
-          { '@type': 'ListItem', position: 2, name: 'Portfolio', item: url },
-        ],
-      },
-    ],
-  }),
-});
-
-// ---------------------------------------------------------------------- /web/
-const webTitle = 'Páginas Web con Panel de Clientes en Guatemala | Sagepoint Analytics';
-const webDescription =
-  'Tu pagina web con dominio, hosting y WhatsApp incluidos, mas un panel que te dice cuantos clientes entraron y de donde vinieron. Precio cerrado en quetzales y plazo definido.';
-
-// Keep these in sync with the package cards in components/WebPage.tsx.
-const WEB_OFFERS = [
-  {
-    name: 'Esencial',
-    description:
-      'Sitio de 1 a 3 paginas con diseno a medida, dominio y hosting del primer ano, WhatsApp y formulario conectados, panel basico de visitas y mensajes. Entrega en 7 dias habiles.',
-    price: '4500',
-    serviceType: 'Website design and development',
-  },
-  {
-    name: 'Sitio + Panel de Clientes',
-    description:
-      'Sitio de 4 a 6 paginas, panel de clientes completo con visitas, origen, conversaciones y conversion por pagina, Perfil de Empresa en Google configurado, catalogo de hasta 30 productos y capacitacion. Entrega en 14 dias habiles.',
-    price: '8500',
-    serviceType: 'Website development with analytics dashboard',
-  },
-  {
-    name: 'Tienda o A Medida',
-    description:
-      'Tienda en linea con pagos, integraciones con facturacion, inventario o CRM, sitio bilingue espanol e ingles y panel conectado a datos de venta. Alcance definido en cotizacion formal.',
-    price: '15000',
-    minPrice: true,
-    serviceType: 'E-commerce and custom web development',
-  },
-];
-
-const WEB_FAQ = [
-  {
-    q: '¿Por que Q8,500 si hay quien lo hace en Q1,350?',
-    a: 'Porque no es el mismo producto. En Q1,350 recibes una plantilla con tu logo encima, y en muchos casos el dominio queda a nombre del proveedor. Nuestro precio incluye diseno a medida, SEO local configurado y el panel de clientes.',
-  },
-  {
-    q: '¿El dominio y el hosting quedan a mi nombre?',
-    a: 'Si, siempre. La cuenta del dominio y la del hosting se crean con tu correo y tu nombre. Si quieres cambiar de proveedor, te llevas todo sin pedir permiso.',
-  },
-  {
-    q: '¿Cuanto cuesta mantenerlo despues del primer ano?',
-    a: 'Alrededor de Q1,200 al ano entre dominio y hosting si lo administras tu. El add-on de Mantenimiento arranca en Q450 al mes e incluye respaldos, cambios de contenido y el reporte del panel.',
-  },
-  {
-    q: '¿Trabajan fuera de la capital?',
-    a: 'Si. Todo el proceso es remoto, asi que atendemos igual en Quetzaltenango, Antigua, Escuintla, Coban o Peten, y tambien clientes en Estados Unidos en espanol o ingles.',
-  },
-  {
-    q: '¿Tengo que dejar Facebook?',
-    a: 'No. Facebook te sigue trayendo gente; el sitio es donde esa gente encuentra precio, catalogo y un boton para escribirte. El panel te muestra cuanto de tu trafico viene de tus redes.',
-  },
-  {
-    q: '¿Puedo pagar en partes?',
-    a: 'Si: 50% para arrancar y 50% contra entrega, sin intereses y sin contrato de permanencia.',
-  },
-];
-
-renderRoute(baseHtml, {
-  dir: 'web',
-  title: webTitle,
-  description: webDescription,
-  graph: (url) => ({
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        '@id': `${url}#webpage`,
-        url,
-        name: webTitle,
-        description: webDescription,
-        inLanguage: ['es-GT', 'en-US'],
-        isPartOf: { '@id': `${siteUrl}/#website` },
-        about: { '@id': `${siteUrl}/#organization` },
-      },
-      {
-        '@type': 'Service',
-        '@id': `${url}#service`,
-        name: 'Diseno y desarrollo de paginas web con panel de clientes',
-        serviceType: 'Website design and development',
-        description: webDescription,
-        provider: { '@id': `${siteUrl}/#organization` },
-        areaServed: [
-          { '@type': 'Country', name: 'Guatemala' },
-          { '@type': 'Country', name: 'United States' },
-        ],
-        availableLanguage: ['Spanish', 'English'],
-        hasOfferCatalog: {
-          '@type': 'OfferCatalog',
-          name: 'Paquetes de paginas web',
-          itemListElement: WEB_OFFERS.map((offer) => ({
-            '@type': 'Offer',
-            name: offer.name,
-            description: offer.description,
-            url,
-            priceSpecification: {
-              '@type': 'UnitPriceSpecification',
-              priceCurrency: 'GTQ',
-              ...(offer.minPrice ? { minPrice: offer.price } : { price: offer.price }),
-            },
-            itemOffered: {
-              '@type': 'Service',
-              name: offer.name,
-              serviceType: offer.serviceType,
-            },
-          })),
-        },
-      },
-      {
-        '@type': 'FAQPage',
-        '@id': `${url}#faq`,
-        mainEntity: WEB_FAQ.map((item) => ({
-          '@type': 'Question',
-          name: item.q,
-          acceptedAnswer: { '@type': 'Answer', text: item.a },
-        })),
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `${url}#breadcrumb`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
-          { '@type': 'ListItem', position: 2, name: 'Paginas web', item: url },
-        ],
-      },
-    ],
-  }),
-});
-
-
-// -------------------------------------------------------------- sitemap.xml
-/**
- * Regenerates dist/sitemap.xml on every build so <lastmod> reflects the deploy
- * date instead of a hand-edited constant that silently goes stale, and so every
- * URL carries the same hreflang alternates the pages themselves emit.
- */
-function generateSitemap() {
-  const lastmod = new Date().toISOString().slice(0, 10);
-
-  const entries = [
-    { loc: `${siteUrl}/`, alt: `${siteUrl}/`, changefreq: 'weekly', priority: '1.0' },
-    { loc: `${siteUrl}/?lang=en`, alt: `${siteUrl}/`, changefreq: 'weekly', priority: '0.9' },
-    { loc: `${siteUrl}/web/`, alt: `${siteUrl}/web/`, changefreq: 'weekly', priority: '0.9' },
-    { loc: `${siteUrl}/portfolio/`, alt: `${siteUrl}/portfolio/`, changefreq: 'monthly', priority: '0.8' },
-  ];
-
-  const body = entries
-    .map(
-      ({ loc, alt, changefreq, priority }) => `  <url>
-    <loc>${loc}</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="${alt}" />
-    <xhtml:link rel="alternate" hreflang="en" href="${alt}?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${alt}" />
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`,
-    )
-    .join('\n');
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"
->
-${body}
-</urlset>
-`;
-
-  writeFileSync(join(distDir, 'sitemap.xml'), xml);
-  console.log(`SEO postbuild: generated dist/sitemap.xml (lastmod ${lastmod})`);
-}
-
-generateSitemap();
+// Do not fabricate lastmod on each build: changes to content, not build time, determine freshness.
+const entries = paths.flatMap(path => ['es', 'en'].map(language => `<url><loc>${site}${path}${language === 'en' ? '?lang=en' : ''}</loc><xhtml:link rel="alternate" hreflang="es" href="${site}${path}"/><xhtml:link rel="alternate" hreflang="en" href="${site}${path}?lang=en"/><xhtml:link rel="alternate" hreflang="x-default" href="${site}${path}"/></url>`));
+writeFileSync(join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries.join('\n')}</urlset>`);

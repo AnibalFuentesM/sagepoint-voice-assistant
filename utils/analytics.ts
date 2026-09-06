@@ -38,7 +38,8 @@ export function initializeAnalytics() {
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer?.push(args);
+    // gtag consumes Arguments objects, as in the official bootstrap snippet.
+    window.dataLayer?.push(arguments);
   };
 
   const script = document.createElement('script');

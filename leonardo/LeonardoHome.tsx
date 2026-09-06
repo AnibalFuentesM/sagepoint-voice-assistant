@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-do
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import {
   trackPageView,
-  trackScheduleCall,
+  trackEvent,
   trackSelectPackage,
   trackWhatsAppClick,
 } from '../utils/analytics';
@@ -14,10 +14,16 @@ import './leonardo.css';
 
 const WA = 'https://wa.me/50240464716';
 
-const META_TITLE = 'BI Fraccional y Dashboards Ejecutivos para PYMEs | Sagepoint Analytics';
-const META_DESCRIPTION =
-  'Tu departamento externo de Inteligencia de Negocios y Automatización. Resultados en 14 días, ' +
-  'dashboards ejecutivos y 80% de ahorro en reportes sin contratar analistas costosos.';
+export const HOME_META = {
+  es: {
+    title: 'BI Fraccional y Dashboards Ejecutivos para PYMEs | Sagepoint Analytics',
+    description: 'Dashboards ejecutivos y automatización de reportes para PYMEs en Guatemala y Estados Unidos. Diagnóstico inicial gratuito y proyectos con alcance, precio y plazo definidos.',
+  },
+  en: {
+    title: 'Fractional BI & Executive Dashboards for SMBs | Sagepoint Analytics',
+    description: 'Executive dashboards and report automation for SMBs in Guatemala and the United States. Free initial consultation and projects with defined scope, pricing and timelines.',
+  },
+};
 
 type Filter = 'all' | LeoCat;
 
@@ -64,12 +70,7 @@ export default function LeonardoHome() {
   const location = useLocation();
   const lang: LeoLanguage = searchParams.get('lang') === 'en' ? 'en' : 'es';
   const t = (text: string) => translateLeo(lang, text);
-  const title = lang === 'en'
-    ? 'Fractional BI & Executive Dashboards for SMBs | Sagepoint Analytics'
-    : META_TITLE;
-  const description = lang === 'en'
-    ? 'Your external business intelligence and automation department. Results in 14 days, executive dashboards and 80% less reporting time without hiring expensive analysts.'
-    : META_DESCRIPTION;
+  const { title, description } = HOME_META[lang];
   useDocumentMeta(title, description, lang === 'en' ? '/?lang=en' : '/');
 
   const switchLanguage = (next: LeoLanguage) => {
@@ -384,7 +385,7 @@ export default function LeonardoHome() {
   const openBooking = (e: React.MouseEvent, pkg: string, source: string) => {
     e.preventDefault();
     setBooking({ open: true, pkg, source });
-    trackScheduleCall({ source_section: source, package_id: pkg, language: lang });
+    trackEvent('lead_form_open', { source_section: source, package_id: pkg, language: lang });
   };
 
   const packageCta = (id: string, className: string) => (
@@ -396,7 +397,7 @@ export default function LeonardoHome() {
         openBooking(e, id, `paquete:${id}`);
       }}
     >
-      {t("Agendar diagnóstico")}
+      {t("Solicitar diagnóstico")}
     </a>
   );
 
@@ -432,7 +433,7 @@ export default function LeonardoHome() {
               href="#agendar"
               onClick={(e) => openBooking(e, pickedId ?? 'general', 'nav')}
             >
-              {t("Agendar")}
+              {t("Contactar")}
             </a>
           </div>
         </div>
@@ -504,7 +505,7 @@ export default function LeonardoHome() {
                   href="#agendar"
                   onClick={(e) => openBooking(e, 'general', 'hero')}
                 >
-                  {t("Agendar diagnóstico gratuito")}
+                  {t("Solicitar diagnóstico gratuito")}
                 </a>
                 <a className="pill pill--ghost" href="#paquetes">
                   {t("Ver paquetes")}
@@ -564,7 +565,7 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Once proyectos en producción: cockpits ejecutivos, motores de reportería, automatizaciones y sitios. Capturas reales — y donde el cliente no permite compartir pantalla, va la cifra en vez de una imagen prestada.")}
+                {t("Proyectos de dashboards ejecutivos, reportería, automatización y sitios web. Incluimos trabajos entregados y proyectos en desarrollo; cada ficha indica su contexto.")}
               </p>
             </div>
 
@@ -724,38 +725,7 @@ export default function LeonardoHome() {
                 </div>
               </article>
 
-              <article className="case" data-rv>
-                <div className="case-top">
-                  <div>
-                    <div className="case-stat" style={{ color: 'var(--violet)' }}>
-                      94%
-                    </div>
-                    <div className="case-statl">{t("Menos tiempo · DSO −11 días")}</div>
-                  </div>
-                  <span className="tag" style={{ background: 'var(--violet)' }}>
-                    {t("IA & Automatización")}
-                  </span>
-                </div>
-                <h3>{t("Conciliación de facturación médica")}</h3>
-                <p>
-                  {t("Python y Playwright recorren el portal con MFA, concilian contra el ledger y avisan por Slack.")}
-                </p>
-                <div className="ba">
-                  <div className="b">
-                    <i>✕</i>
-                    <span>{t("40 h/semana de conciliación manual")}</span>
-                  </div>
-                  <div className="a">
-                    <i>✓</i>
-                    <span>{t("2.5 h/semana supervisadas, cero errores de tipeo")}</span>
-                  </div>
-                </div>
-                <div className="chips">
-                  <span className="chip">Python</span>
-                  <span className="chip">Playwright</span>
-                  <span className="chip">Sheets API</span>
-                </div>
-              </article>
+
             </div>
           </div>
         </section>
@@ -1052,7 +1022,7 @@ export default function LeonardoHome() {
                 href="#agendar"
                 onClick={(e) => openBooking(e, pickedId ?? 'general', 'closer')}
               >
-                {t("Agendar diagnóstico gratuito")}
+                {t("Solicitar diagnóstico gratuito")}
               </a>
               <a
                 className="pill pill--ghost"
@@ -1132,7 +1102,7 @@ export default function LeonardoHome() {
               <ul>
                 <li>
                   <a href="#agendar" onClick={(e) => openBooking(e, pickedId ?? 'general', 'footer')}>
-                    {t("Agendar diagnóstico")}
+                    {t("Solicitar diagnóstico")}
                   </a>
                 </li>
                 <li>

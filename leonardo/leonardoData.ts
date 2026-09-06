@@ -59,13 +59,6 @@ export const TILES: LeoTile[] = [
     "src": "/assets/img/dash-bpo-sla-engine.webp"
   },
   {
-    "cat": "auto",
-    "title": "Pipeline de conciliación — facturación médica",
-    "alt": "Pipeline de conciliación — facturación médica",
-    "h": 928,
-    "src": "/assets/img/dash-medical-billing-recon.webp"
-  },
-  {
     "cat": "ia",
     "title": "Modelo predictivo de ventas a 12 semanas",
     "alt": "Modelo predictivo de ventas a 12 semanas",
@@ -204,21 +197,6 @@ export const PROJECTS: LeoProject[] = [
     "src": "/assets/img/work-mission-control.webp"
   },
   {
-    "kind": "type",
-    "cat": "auto",
-    "client": "Operador de facturación médica (EE. UU.)",
-    "num": "94%",
-    "numl": "menos tiempo · DSO −11 días",
-    "title": "Conciliación de facturación médica",
-    "desc": "Python y Playwright recorren el portal con MFA, concilian contra el ledger y avisan por Slack. De 40 a 2.5 horas por semana, sin errores de tipeo.",
-    "stack": [
-      "Python",
-      "Playwright",
-      "Google Sheets API",
-      "Slack"
-    ]
-  },
-  {
     "kind": "shot",
     "file": "saludable",
     "cat": "web",
@@ -251,20 +229,6 @@ export const PROJECTS: LeoProject[] = [
     "src": "/assets/img/work-jens-desserts.webp"
   },
   {
-    "kind": "type",
-    "cat": "auto",
-    "client": "Portal de facturación médica",
-    "num": "ECW",
-    "numl": "eClinicalWorks · sin métricas aún",
-    "title": "Automatización de alertas eClinicalWorks",
-    "desc": "Seguimiento de alertas desde Slack, lookup de credenciales en el portal y rotación asistida de contraseñas. En construcción; sin métricas todavía.",
-    "stack": [
-      "Slack",
-      "Playwright",
-      "Google Sheets"
-    ]
-  },
-  {
     "kind": "shot",
     "file": "inmotion",
     "cat": "web",
@@ -292,11 +256,6 @@ export const SAY: LeoQuote[] = [
     "role": "Coordinadora de Proyecto"
   },
   {
-    "text": "Pasamos de 40 a 2.5 horas semanales de conciliación.",
-    "author": "Carlos Arenas",
-    "role": "Dir. de Facturación · operador de facturación médica (EE. UU.)"
-  },
-  {
     "text": "Un solo cockpit para 12 concesionarios y 85 feeds de DMS.",
     "author": "Marcus Vance",
     "role": "Managing Partner · Apex Auto"
@@ -305,11 +264,6 @@ export const SAY: LeoQuote[] = [
     "text": "Gestionar 33,000 registros y 14 sistemas era una pesadilla manual.",
     "author": "Carolina Flores",
     "role": "VP Operaciones · operador BPO multi-cliente"
-  },
-  {
-    "text": "Recortamos 11 días de DSO y eliminamos los errores de tipeo.",
-    "author": "Carlos Arenas",
-    "role": "Dir. de Facturación · operador de facturación médica (EE. UU.)"
   },
   {
     "text": "El primer dashboard funcional llegó en menos de 10 días.",

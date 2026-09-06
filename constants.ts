@@ -17,7 +17,6 @@ Experiencia comprobable:
 - Automatización de portal administrativo (cliente de salud, EE. UU.): automatización con Python y Playwright para lookup de integraciones API, enlaces de credenciales, capturas, JSON y exportación opcional a Google Sheets.
 - Zendesk Talk API Reporting: workflow con Google Apps Script y Google Sheets que redujo exportaciones manuales y validó 11,327 call units entre Explore y la API.
 - BPO Production Reporting: consolidación de 33,370 filas, 20 meses, 79 semanas de producción, 14 PM systems y 22 archivos fuente en un workbook ejecutivo.
-- ECW Alert Automation: flujo en progreso con Slack, el portal del cliente, Google Sheets y Playwright para seguimiento y rotación asistida de contraseñas.
 
 Paquetes (proyectos con entregable, plazo y precio claros):
 - Diagnóstico Express + Dashboard Quick-Win ($750 USD, pago único, 2 semanas): Auditoría de hasta 2 fuentes de datos, 1 dashboard con hasta 8 KPIs e informe de oportunidades. 1 ronda de revisiones.

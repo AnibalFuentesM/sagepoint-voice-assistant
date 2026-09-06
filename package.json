@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && node scripts/postbuild-seo.mjs",
-    "preview": "vite preview"
+    "build": "tsc && vite build && node scripts/postbuild-seo.mjs && node scripts/check-public-output.mjs",
+    "preview": "vite preview",
+    "test": "node --test tests/sales-regressions.test.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",

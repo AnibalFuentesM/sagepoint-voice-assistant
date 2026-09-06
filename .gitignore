@@ -34,3 +34,6 @@ sales-kit/
 _to_delete/
 _qa/
 .playwright-cli/
+
+# Excluded client materials
+private/

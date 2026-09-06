@@ -1,123 +1,62 @@
-# Plan de marketing y medición — Sagepoint Analytics
+# Plan comercial — Sagepoint Analytics
 
-Pasos manuales que solo el dueño puede hacer, ordenados por impacto. Los pasos 1–3
-son los que desbloquean todo lo demás: hoy el sitio en producción es una versión
-vieja y no mide absolutamente nada.
+Actualizado: 5 de septiembre de 2026. Propuesta de piloto, sin horarios activados ni publicaciones o mensajes enviados.
 
----
+## Decisión inicial
 
-## 1. Desplegar la versión nueva del sitio (impacto: crítico, 10 min)
+Priorizar dashboards ejecutivos y automatización de reportes para PYMEs en Guatemala que consolidan ventas, margen u operación manualmente en Excel, Sheets o un CRM. Comprador inicial: dueño, gerente general, operaciones o finanzas. Es una hipótesis comercial elegida para concentrar el esfuerzo; no representa demanda o conversión ya demostrada.
 
-Lo que está en producción (www.sagepoint-analytics.com) es una versión anterior:
-sin paquetes con precios, sin FAQ, sin datos estructurados, con `/portfolio/` dando
-404 y con Tailwind por CDN. Todo lo bueno ya está en este repo, solo falta publicarlo.
+Oferta de entrada: llamada gratuita de 30–45 minutos para evaluar encaje. Luego, cuando corresponda, Radiografía de Datos de $750: dos fuentes, dashboard de hasta ocho KPIs y dos semanas. Separar la llamada gratis del proyecto pagado. No cambiar precios ni prometer descuentos nuevos.
 
-```bash
-cd ~/Desktop/Projects/NewWebpage/sagepoint-web
-npm run build          # verifica que el build pasa (ya probado el 2026-07-02)
-git add -A
-git commit -m "Nueva versión: paquetes, FAQ, SEO, analytics y Tailwind compilado"
-git push origin main   # Vercel despliega automáticamente
-```
+## Piloto de diez días hábiles
 
-Después del deploy, verificar en el navegador:
-- https://www.sagepoint-analytics.com/ muestra la sección "Paquetes y Precios".
-- https://www.sagepoint-analytics.com/portfolio/ ya no da 404.
-- https://sagepoint-analytics.com/ redirige a www con 308 (permanente).
+1. Investigar hasta cinco empresas por día con fuentes públicas. Registrar empresa, dominio, URL de evidencia, fecha, sector, rol comprador y señal concreta de necesidad. Señales útiles: varias sucursales, contratación de personal de reportería, crecimiento operativo o uso explícito de varias herramientas. Una señal es una hipótesis, no prueba de un problema interno.
+2. Puntuar cada empresa de 0 a 2 en encaje, señal reciente y claridad del comprador. Revisar las dos o tres mejor justificadas. Deduplicar por dominio; descartar señales sin fuente o fuera del segmento.
+3. Preparar un borrador personalizado que conecte la señal con una pregunta, sin afirmar conocer datos internos. Si no existe un prospecto bien sustentado, preparar una publicación educativa. No fabricar contactos, correos ni métricas.
+4. Revisión humana de exactitud y tono. Los borradores quedan pendientes de autorización de envío/publicación; esta rutina no ejecuta esas acciones.
+5. Al cerrar cada semana, comparar señales y sectores que producen conversaciones útiles una vez que se autorice contactar. Ajustar una variable cada vez. No declarar ganador con una muestra mínima.
 
-## 2. Crear la propiedad de Google Analytics 4 (impacto: crítico, 15 min)
+Búsquedas iniciales sugeridas: empresas con sucursales y equipos comerciales en Guatemala; vacantes públicas relacionadas con Excel, reportes de ventas o control operativo; noticias públicas de expansión. Elegir fuentes antes de registrar contactos. No asumir que una vacante equivale a intención de compra.
 
-El sitio ya tiene todos los eventos instrumentados (`select_package`,
-`lead_submit_attempt`, `generate_lead`, `whatsapp_click`, `page_view`), pero el ID
-de medición está vacío, así que hoy no se registra nada.
+## Registro mínimo
 
-1. Entra a https://analytics.google.com con la cuenta de Google del negocio.
-2. Admin → Crear propiedad → nombre "Sagepoint Analytics", zona horaria Guatemala, moneda USD.
-3. Crea un flujo de datos Web con la URL `https://www.sagepoint-analytics.com`.
-4. Copia el ID de medición (formato `G-XXXXXXXXXX`).
-5. En Vercel, abre Project Settings → Environment Variables y crea
-   `VITE_GA_MEASUREMENT_ID` con ese ID para Production, Preview y Development.
-6. Haz un nuevo deploy (paso 1). Para desarrollo local puedes copiar
-   [`.env.example`](../.env.example) a `.env.local` y reemplazar el valor.
-7. En GA4, marca `generate_lead` como conversión (Admin → Eventos → marcar como conversión).
+Empresa | Dominio | Fuente/fecha | Señal | Rol comprador | Encaje (0–6) | Estado | Próximo paso | Responsable | Campaña | Valor de propuesta | Venta confirmada.
 
-### Bloqueo detectado en el formulario (2026-07-11)
+Estados: investigada, calificada, borrador, aprobada, contactada, respondió, reunión solicitada, reunión confirmada, reunión realizada, propuesta, ganada/perdida. No avanzar por un clic del sitio.
 
-La prueba end-to-end del Apps Script devolvió:
-`No cuentas con el permiso para llamar a MailApp.sendEmail`.
+## Métricas y denominadores
 
-Antes de usar campañas:
+- Calificación: empresas calificadas / empresas investigadas.
+- Respuesta positiva: respuestas positivas / contactos enviados (solo cuando se autoricen envíos).
+- Asistencia: reuniones realizadas / reuniones confirmadas.
+- Propuesta: propuestas / reuniones realizadas.
+- Cierre: ventas ganadas / propuestas decididas; reportar aparte las pendientes.
+- Ingresos: ventas confirmadas por fuente y período; definir con el dueño si el registro usa facturado o cobrado antes de comparar.
+- Eficiencia: tiempo invertido / conversaciones calificadas. No dividir por cero.
+- Sitio: sesiones → `lead_form_open` → `lead_submit_attempt` → `generate_lead` confirmado. Reportar `lead_delivery_unconfirmed` y `lead_submit_failed` aparte. `whatsapp_click` mide intención, no conversación ni venta.
 
-1. Abre el proyecto de Apps Script asociado a `GOOGLE_SCRIPT_URL`.
-2. Ejecuta manualmente la función que envía el correo y acepta el permiso
-   `script.send_mail` para la cuenta propietaria.
-3. Crea una nueva implementación como aplicación web y actualiza
-   `GOOGLE_SCRIPT_URL` si Google genera una URL distinta.
-4. Envía un lead llamado `TEST - DELETE`, confirma que llega a la hoja y al correo,
-   y elimina las filas de prueba. La web ahora detecta cuerpos de respuesta con
-   `Error`, `Exception` o errores de permiso y no los registra como `generate_lead`.
+Establecer una línea base antes de fijar objetivos de conversión. Revisar calidad y tiempo invertido, no solo volumen. No hay datos de tráfico, ventas ni ROI disponibles para proyectar resultados.
 
-## 3. Google Search Console (impacto: alto, 15 min)
+## Medición existente y pendiente
 
-1. Entra a https://search.google.com/search-console y agrega la propiedad
-   de dominio `sagepoint-analytics.com` (verificación por DNS; el registrador
-   del dominio te da la opción de pegar el registro TXT).
-2. Envía el sitemap: `https://www.sagepoint-analytics.com/sitemap.xml`.
-3. En "Inspección de URLs", pide indexación de `/` y `/portfolio/`.
-4. Revisa una vez por semana: consultas que traen impresiones, y errores de indexación.
+El código ya incluye GA4 (G-F296ZSRJ2Z); no crear otra propiedad sin comprobar la existente. Falta verificar acceso, recepción de eventos y configuración de eventos clave en la cuenta. Revisar `generate_lead` como evento clave; una apertura de formulario no es una cita. Excluir pruebas internas de los informes.
 
-## 4. Perfil de LinkedIn de empresa (impacto: alto para B2B, 30 min)
+Usar enlaces con UTM consistentes, por ejemplo `utm_source=linkedin&utm_medium=organic_social&utm_campaign=reportes_piloto&utm_content=post_01`. Registrar esas mismas etiquetas al calificar y cerrar el lead; un clic no demuestra atribución de ingresos.
 
-El cliente objetivo (PYMEs y gerentes en Guatemala/EE. UU.) busca proveedores B2B
-en LinkedIn más que en cualquier otra red.
+Después de una publicación autorizada del sitio: revisar dominio canónico, variantes ES/EN, sitemap y recepción real de un lead de prueba coordinado. Search Console debe confirmar indexación; tener HTML renderizado no garantiza posicionamiento. No se comprobó acceso a GA4, Search Console ni la hoja de leads durante esta tarea.
 
-1. Crea la página de empresa "Sagepoint Analytics" con el logo y la descripción del sitio.
-2. Enlaza el sitio web y agrega los servicios (Business Intelligence, dashboards, automatización).
-3. Publica 1 vez por semana: un caso del portfolio, un tip de datos, o un resultado medible.
-4. Verifica que los botones sociales del sitio apunten a los perfiles reales
-   (revisar `components/SocialConnectButtons.tsx`).
+## Prueba social
 
-## 5. WhatsApp Business (impacto: medio, 20 min)
+El propietario confirmó autorización para todos los casos excepto Inbox Health. Se retiraron los casos, imágenes y testimonios asociados de la salida pública local; retirarlos de producción exige un despliegue posterior. La autorización no verifica por sí sola los cálculos.
 
-El número +502 4046 4716 recibe los clics del botón flotante y del pie de página.
+Para Apex Auto e IBH BPO, reunir fuente, período, fórmula, antes/después y atribución del resultado. No convertir margen protegido en ingreso cobrado ni horas liberadas en ahorro de nómina sin demostrarlo. Las cifras existentes no fueron auditadas contra sistemas del cliente. El siguiente documento contiene el registro pendiente y borradores listos para revisar.
 
-1. Instala WhatsApp Business en ese número.
-2. Configura el perfil de negocio: nombre, logo, sitio web, horario.
-3. Crea un mensaje de bienvenida y respuestas rápidas para las preguntas del FAQ
-   (qué incluye el diagnóstico, precios, tiempos).
+## Backend del formulario
 
-## 6. Testimonios reales (impacto: alto, continuo)
+El cliente espera JSON explícito `{"success":true}` o `{"status":"success"}` solo después de guardar el lead. Un error de escritura debe responder `{"success":false,"error":"write_failed"}`. Una respuesta ambigua, error HTTP, CORS o timeout queda como recepción no confirmada; no se reenvía automáticamente para evitar duplicados.
 
-El sitio muestra casos reales pero no tiene citas de clientes. **No se deben
-inventar.** Pide a 2–3 clientes pasados (proyectos BPO y de facturación médica, etc.) una
-frase corta con nombre y cargo, o una reseña en LinkedIn. Cuando existan,
-agregarlos como sección de testimonios en la página principal.
+No se encontró el código de Apps Script en este proyecto. Su contrato y la escritura real deben verificarse en la implementación remota. Si hoy devuelve texto libre, el sitio mostrará pendiente hasta adaptar esa respuesta. No se desplegó ni modificó Apps Script.
 
-## 7. Google Business Profile (impacto: medio si hay presencia local)
+## Verificación reproducible
 
-Si el negocio atiende clientes en Guatemala con área de servicio definida:
-https://business.google.com → crear perfil "Sagepoint Analytics", categoría
-"Consultor de datos" / "Consultoría informática", área de servicio Guatemala,
-enlazar el sitio y el WhatsApp.
-
----
-
-## Checklist de seguimiento (una vez por semana, 10 min)
-
-| Métrica | Dónde verla | Qué buscar |
-|---|---|---|
-| Leads del formulario | Google Sheet de leads + evento `generate_lead` en GA4 | ¿Cuántos por semana? ¿De qué paquete? |
-| Clics a WhatsApp | GA4 → evento `whatsapp_click` | ¿Crece al publicar en redes? |
-| Paquete más consultado | GA4 → evento `select_package` | Ajustar el orden/precio de paquetes |
-| Impresiones y clics en Google | Search Console → Rendimiento | Qué búsquedas traen tráfico |
-| Visitas por página | GA4 → Informes → Páginas | ¿El portfolio convence o se van? |
-
-## Notas técnicas
-
-- El PDF del caso Dicoma se comprimió de 14.3 MB a 6.3 MB (2026-07-02). El original
-  está en el historial de git.
-- Cada vez que cambien los paquetes o precios: actualizar `App.tsx` (contenido ES/EN),
-  el JSON-LD de `index.html` (OfferCatalog), el bloque `<noscript>` de `index.html`
-  y `public/llms.txt`. Luego `npm run build` y deploy.
-- Tailwind ahora se compila en el build (`index.css` con `@theme`); no volver a
-  agregar el `<script src="https://cdn.tailwindcss.com">`.
+Ejecutar `npm run build` y luego `node --test tests/sales-regressions.test.mjs`. El build genera HTML desde los componentes React para `/`, `/portfolio/` y `/web/`, en ES y EN, y genera el sitemap. `vercel.json` selecciona el HTML inglés con `?lang=en`. Estas reglas requieren verificación en Vercel después de un despliegue autorizado.
