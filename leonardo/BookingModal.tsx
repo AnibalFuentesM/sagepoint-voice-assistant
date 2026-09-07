@@ -188,6 +188,12 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
         campaign: attribution.utm_campaign,
         source: attribution.utm_source,
       });
+    } else if (result === 'duplicate') {
+      trackEvent('lead_duplicate', {
+        package_id: pkg,
+        form_location: 'booking_modal',
+        language: lang,
+      });
     } else {
       trackEvent('lead_delivery_unconfirmed', {
         package_id: pkg,
@@ -196,7 +202,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
         delivery: 'unconfirmed',
       });
     }
-    setState(result === 'confirmed' ? 'success' : 'pending');
+    setState(result === 'confirmed' || result === 'duplicate' ? 'success' : 'pending');
   };
 
   const sending = state === 'sending';

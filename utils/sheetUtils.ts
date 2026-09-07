@@ -1,6 +1,6 @@
 import { GOOGLE_SCRIPT_URL } from '../constants';
 
-export type SubmitResult = 'confirmed' | 'unconfirmed' | false;
+export type SubmitResult = 'confirmed' | 'duplicate' | 'unconfirmed' | false;
 
 /** Only an explicit acknowledgement is evidence of receipt. HTML/empty 200s are not. */
 export function interpretLeadResponse(body: string): SubmitResult {
@@ -8,7 +8,11 @@ export function interpretLeadResponse(body: string): SubmitResult {
     const reply = JSON.parse(body);
     if (!reply || typeof reply !== 'object' || Array.isArray(reply)) return 'unconfirmed';
     if (reply.error || reply.success === false || reply.status === 'error') return false;
-    if (reply.success === true || reply.status === 'success') return 'confirmed';
+    // 'duplicate' significa que el backend reconocio el lead pero NO escribio una
+    // segunda fila: para el visitante es exito, para analitica no es una conversion nueva.
+    if (reply.success === true || reply.status === 'success') {
+      return reply.duplicate === true ? 'duplicate' : 'confirmed';
+    }
   } catch {
     // Apps Script can return an HTML login/error page with HTTP 200.
   }

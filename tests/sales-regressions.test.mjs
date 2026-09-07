@@ -14,6 +14,9 @@ after(async () => { globalThis.fetch = originalFetch; await vite?.close(); });
 
 test('only an explicit successful acknowledgement confirms receipt', () => {
   for (const body of ['{"success":true}', '{"status":"success"}']) assert.equal(interpret(body), 'confirmed');
+  // Un duplicado es exito para el visitante pero NO una conversion nueva: el backend
+  // no escribio una segunda fila, asi que generate_lead no debe volver a dispararse.
+  assert.equal(interpret('{"success":true,"duplicate":true}'), 'duplicate');
   for (const body of ['', '<html>Sign in</html>', 'OK', 'null', '[]', '{}', '{"status":"pending"}']) assert.equal(interpret(body), 'unconfirmed');
   for (const body of ['{"success":false}', '{"success":true,"error":"write failed"}', '{"status":"error"}']) assert.equal(interpret(body), false);
 });
