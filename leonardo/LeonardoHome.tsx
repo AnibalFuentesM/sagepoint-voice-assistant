@@ -4,10 +4,12 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import {
   trackPageView,
   trackEvent,
+  trackScheduleCall,
   trackSelectPackage,
   trackWhatsAppClick,
 } from '../utils/analytics';
 import BookingModal from './BookingModal';
+import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
 import { CATCOLOR, CATNAME, CATRGB, PROJECTS, SAY, TILES, type LeoCat } from './leonardoData';
 import './leonardo.css';
@@ -80,6 +82,7 @@ export default function LeonardoHome() {
     navigate({ pathname: location.pathname, search: params.toString(), hash: location.hash }, { preventScrollReset: true });
   };
   const portfolioPath = lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/';
+  const externalBookingUrl = getEnglishBookingUrl(lang);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -388,6 +391,19 @@ export default function LeonardoHome() {
     trackEvent('lead_form_open', { source_section: source, package_id: pkg, language: lang });
   };
 
+  const handlePrimaryBooking = (e: React.MouseEvent, pkg: string, source: string) => {
+    if (!externalBookingUrl) {
+      openBooking(e, pkg, source);
+      return;
+    }
+    trackScheduleCall({
+      source_section: source,
+      package_id: pkg,
+      method: 'booking_link',
+      language: lang,
+    });
+  };
+
   const packageCta = (id: string, className: string) => (
     <a
       className={className}
@@ -430,8 +446,10 @@ export default function LeonardoHome() {
             </a>
             <a
               className="pill pill--fill pill--sm"
-              href="#agendar"
-              onClick={(e) => openBooking(e, pickedId ?? 'general', 'nav')}
+              href={externalBookingUrl ?? '#agendar'}
+              target={externalBookingUrl ? '_blank' : undefined}
+              rel={externalBookingUrl ? 'noopener noreferrer' : undefined}
+              onClick={(e) => handlePrimaryBooking(e, pickedId ?? 'general', 'nav')}
             >
               {t("Contactar")}
             </a>
@@ -497,13 +515,15 @@ export default function LeonardoHome() {
                 {t("De datos dispersos a")} <em>{t("decisiones que venden")}</em>
               </h1>
               <p className="hero-sub">
-                {t("Tu departamento de inteligencia de negocios y automatización por una fracción de lo que cuesta un analista interno. Resultados desde la semana dos.")}
+                {t("Tu departamento de inteligencia de negocios y automatización por una fracción de lo que cuesta un analista interno. Primer dashboard en 14 días.")}
               </p>
               <div className="hero-cta">
                 <a
                   className="pill pill--fill"
-                  href="#agendar"
-                  onClick={(e) => openBooking(e, 'general', 'hero')}
+                  href={externalBookingUrl ?? '#agendar'}
+                  target={externalBookingUrl ? '_blank' : undefined}
+                  rel={externalBookingUrl ? 'noopener noreferrer' : undefined}
+                  onClick={(e) => handlePrimaryBooking(e, 'general', 'hero')}
                 >
                   {t("Solicitar diagnóstico gratuito")}
                 </a>
@@ -543,7 +563,7 @@ export default function LeonardoHome() {
                     <q>{t(q.text)}</q>
                     <i />
                     <cite>
-                      <b>{q.author}</b> · {t(q.role)}
+                      <b>{t(q.author)}</b> · {t(q.role)}
                     </cite>
                   </span>
                 ))}
@@ -565,7 +585,7 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Proyectos de dashboards ejecutivos, reportería, automatización y sitios web. Incluimos trabajos entregados y proyectos en desarrollo; cada ficha indica su contexto.")}
+                {t("Proyectos entregados y en desarrollo: cockpits ejecutivos, motores de reportería, automatizaciones y sitios. Capturas reales — y donde el cliente no permite compartir pantalla, va la cifra en vez de una imagen prestada.")}
               </p>
             </div>
 
@@ -655,7 +675,7 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Impacto cuantificado en producción. Cada cifra salió de un sistema que sigue corriendo hoy.")}
+                {t("Resultados de proyectos entregados. Donde hay acuerdo de confidencialidad, omitimos el nombre del cliente.")}
               </p>
             </div>
             <div className="cases">
@@ -831,7 +851,7 @@ export default function LeonardoHome() {
                 </div>
                 <div className="prow-body">
                   <h3>
-                    {t("Cockpit Ejecutivo")} <i className="prow-tag">{t("Más elegido")}</i>
+                    {t("Cockpit Ejecutivo")}
                   </h3>
                   <p className="prow-facts">
                     <em>{t("4–6 semanas")}</em> · <em>{t("4 horas")}</em> {t("de tu equipo")}
@@ -889,6 +909,31 @@ export default function LeonardoHome() {
           </div>
         </section>
 
+        {/* FOUNDER */}
+        <section id="fundador">
+          <div className="wrap">
+            <div className="founder-card" data-rv>
+              <div className="founder-identity">
+                {/* // TODO(Aníbal): foto real en public/assets/img/anibal.jpg */}
+                <div className="founder-monogram" aria-hidden="true">AF</div>
+                <div>
+                  <p className="eyebrow">{t("Quién está detrás")}</p>
+                  <h2>Aníbal Fuentes</h2>
+                  <p className="founder-role">{t("Fundador")}</p>
+                  {/* // TODO(Aníbal): 1 línea de trayectoria verificable */}
+                </div>
+              </div>
+              <ul className="founder-facts">
+                <li>{t("Está en Ciudad de Guatemala y trabaja durante el horario laboral de la zona central de Estados Unidos.")}</li>
+                <li>{t("Bilingüe en inglés y español.")}</li>
+                <li>{t("Construye personalmente los dashboards y las automatizaciones con Power BI, Python, Playwright y Google Apps Script.")}</li>
+                <li>{t("Trabaja dentro de las cuentas y licencias del cliente.")}</li>
+                <li>{t("Firma un NDA antes de tocar cualquier archivo.")}</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {/* QUOTES */}
         <section id="testimonios">
           <div className="wrap">
@@ -927,10 +972,8 @@ export default function LeonardoHome() {
                   {t("“Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.”")}
                 </blockquote>
                 <figcaption>
-                  <span className="av b">CF</span>
-                  <span className="who">
-                    Carolina Flores<span>{t("VP Operaciones · operador BPO multi-cliente")}</span>
-                  </span>
+                  <span className="av b">BPO</span>
+                  <span className="who">{t("VP Operaciones · operador BPO multi-cliente")}</span>
                   <span className="kpi">
                     99.4%
                     <br />
@@ -1019,11 +1062,18 @@ export default function LeonardoHome() {
             <div className="hero-cta" style={{ marginTop: 30 }} data-rv>
               <a
                 className="pill pill--fill"
-                href="#agendar"
-                onClick={(e) => openBooking(e, pickedId ?? 'general', 'closer')}
+                href={externalBookingUrl ?? '#agendar'}
+                target={externalBookingUrl ? '_blank' : undefined}
+                rel={externalBookingUrl ? 'noopener noreferrer' : undefined}
+                onClick={(e) => handlePrimaryBooking(e, pickedId ?? 'general', 'closer')}
               >
                 {t("Solicitar diagnóstico gratuito")}
               </a>
+              {lang === 'en' ? (
+                <a className="pill pill--ghost" href="mailto:info@sagepoint-analytics.com">
+                  info@sagepoint-analytics.com
+                </a>
+              ) : null}
               <a
                 className="pill pill--ghost"
                 href={WA}
@@ -1031,6 +1081,11 @@ export default function LeonardoHome() {
               >
                 {t("Escribir por WhatsApp")}
               </a>
+              {lang === 'es' ? (
+                <a className="pill pill--ghost" href="mailto:info@sagepoint-analytics.com">
+                  info@sagepoint-analytics.com
+                </a>
+              ) : null}
             </div>
             <ul className="guarantees" data-rv>
               <li>{t("Videollamada de 30–45 min")}</li>
@@ -1105,6 +1160,11 @@ export default function LeonardoHome() {
                     {t("Solicitar diagnóstico")}
                   </a>
                 </li>
+                {lang === 'en' ? (
+                  <li>
+                    <a href="mailto:info@sagepoint-analytics.com">info@sagepoint-analytics.com</a>
+                  </li>
+                ) : null}
                 <li>
                   <a
                     href={WA}
@@ -1113,6 +1173,11 @@ export default function LeonardoHome() {
                     WhatsApp +502 4046 4716
                   </a>
                 </li>
+                {lang === 'es' ? (
+                  <li>
+                    <a href="mailto:info@sagepoint-analytics.com">info@sagepoint-analytics.com</a>
+                  </li>
+                ) : null}
               </ul>
             </nav>
           </div>

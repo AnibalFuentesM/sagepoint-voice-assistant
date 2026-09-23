@@ -18,6 +18,13 @@
       "status": 308
     },
     {
+      "src": "^/en/?$",
+      "headers": {
+        "Location": "/?lang=en"
+      },
+      "status": 308
+    },
+    {
       "src": "^/(web|portfolio)$",
       "headers": {
         "Location": "/$1/"

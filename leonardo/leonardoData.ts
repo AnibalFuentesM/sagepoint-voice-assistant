@@ -247,8 +247,8 @@ export const SAY: LeoQuote[] = [
   },
   {
     "text": "Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.",
-    "author": "Carolina Flores",
-    "role": "VP Operaciones · operador BPO multi-cliente"
+    "author": "VP Operaciones",
+    "role": "operador BPO multi-cliente"
   },
   {
     "text": "Tuvo la paciencia de entender nuestras ideas antes de proponer nada.",
@@ -262,8 +262,8 @@ export const SAY: LeoQuote[] = [
   },
   {
     "text": "Gestionar 33,000 registros y 14 sistemas era una pesadilla manual.",
-    "author": "Carolina Flores",
-    "role": "VP Operaciones · operador BPO multi-cliente"
+    "author": "VP Operaciones",
+    "role": "operador BPO multi-cliente"
   },
   {
     "text": "El primer dashboard funcional llegó en menos de 10 días.",
