@@ -3,9 +3,9 @@
 Sagepoint Analytics is a Business Intelligence consulting firm serving SMEs in Guatemala (GT), Central America and the United States (US). We deliver productized, fixed-scope BI projects through our "Soporte Cercano" (Close Support) human-in-the-loop framework.
 The portfolio includes hands-on AI and operations automation experience using Python, Playwright, Google Apps Script, Google Sheets, Slack workflows, APIs and dashboard/reporting systems.
 
-## Core Metrics and Achievements
-- **Reporting Efficiency**: 80% average reduction in manual reporting time via Excel Automation (Power Query and VBA).
-- **Sales Optimization**: 20% average sales increase for our retail clients utilizing our AI Predictive Models.
+## Core Capabilities
+- **Reporting Automation**: Recurring Excel and Google Sheets reports automated with Power Query, VBA, Python and Apps Script.
+- **Predictive Models**: Sales and demand forecasting models built on the client's own historical data.
 - **Human-in-the-loop Data Coaching**: Practitioner-led consulting, acting as a fully integrated external data department for our clients.
 
 ## Services Overview
@@ -33,7 +33,7 @@ Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, d
 
 ### Executive Cockpit (Cockpit Ejecutivo)
 - **Price**: from $2,500 USD per project | **Timeline**: 4–6 weeks
-- **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated reporting flow (−80% time), 2 training sessions, documentation, 2 revision rounds.
+- **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated reporting flow (over 75% less manual time), 2 training sessions, documentation, 2 revision rounds.
 - **Not included**: Data warehouse, custom AI models.
 
 ### Control Room (Sala de Control)

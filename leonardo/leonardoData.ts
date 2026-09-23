@@ -170,7 +170,7 @@ export const PROJECTS: LeoProject[] = [
     "num": "33,370",
     "numl": "filas reconciliadas · 79 semanas",
     "title": "Motor de reportería multi-tenant",
-    "desc": "Catorce sistemas de telefonía y CRM consolidados a diario. El cumplimiento de SLA pasó de 81.2% a 99.4% y liberó 28 horas de supervisión por semana.",
+    "desc": "Catorce sistemas de telefonía y CRM consolidados a diario. El cumplimiento de SLA pasó de ~81% a más de 99% y liberó más de 25 horas de supervisión por semana.",
     "stack": [
       "Apps Script",
       "SQL Warehousing",
@@ -210,7 +210,7 @@ export const PROJECTS: LeoProject[] = [
     "cat": "bi",
     "client": "Zendesk Talk · reportería",
     "num": "11,327",
-    "numl": "call units · 0 diferencias",
+    "numl": "call units · sin diferencias detectadas",
     "title": "Cuadre entre Explore y la API",
     "desc": "Un workflow en Apps Script sustituyó la exportación manual y validó cada unidad contra las dos fuentes. El cierre pasó de horas a una corrida diaria.",
     "stack": [
@@ -246,7 +246,7 @@ export const SAY: LeoQuote[] = [
     "role": "Managing Partner · Apex Auto"
   },
   {
-    "text": "Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.",
+    "text": "Hoy el SLA está en más de 99% y liberamos más de 25 horas de supervisores por semana.",
     "author": "VP Operaciones",
     "role": "operador BPO multi-cliente"
   },

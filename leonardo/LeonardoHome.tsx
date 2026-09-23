@@ -683,7 +683,7 @@ export default function LeonardoHome() {
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--amber)' }}>
-                      $420k
+                      {t("6 cifras")}
                     </div>
                     <div className="case-statl">{t("Margen recuperado / año")}</div>
                   </div>
@@ -716,9 +716,9 @@ export default function LeonardoHome() {
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--arc)' }}>
-                      99.4%
+                      {t(">99%")}
                     </div>
-                    <div className="case-statl">{t("SLA · antes 81.2%")}</div>
+                    <div className="case-statl">{t("SLA · antes ~81%")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--arc)' }}>
                     {t("Operaciones")}
@@ -735,7 +735,7 @@ export default function LeonardoHome() {
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>{t("28 h/semana devueltas a los supervisores")}</span>
+                    <span>{t("más de 25 h/semana devueltas a los supervisores")}</span>
                   </div>
                 </div>
                 <div className="chips">
@@ -857,7 +857,7 @@ export default function LeonardoHome() {
                     <em>{t("4–6 semanas")}</em> · <em>{t("4 horas")}</em> {t("de tu equipo")}
                   </p>
                   <p className="prow-scope">
-                    {t("Hasta cuatro fuentes integradas, hasta tres dashboards ejecutivos y un flujo de reportes automatizado que se lleva el 80% del tiempo manual. Incluye dos sesiones de capacitación, documentación y dos rondas de revisiones.")}
+                    {t("Hasta cuatro fuentes integradas, hasta tres dashboards ejecutivos y un flujo de reportes automatizado que se lleva más del 75% del tiempo manual. Incluye dos sesiones de capacitación, documentación y dos rondas de revisiones.")}
                   </p>
                   <div className="prow-act">
                     {packageCta('executive', 'pill pill--ghost')}
@@ -953,7 +953,7 @@ export default function LeonardoHome() {
             <div className="quotes">
               <figure className="quote" data-rv>
                 <blockquote>
-                  {t("“Ver la fuga de margen en repuestos el mismo día, no semanas después. Recuperamos más de $420,000 en el primer año.”")}
+                  {t("“Ver la fuga de margen en repuestos el mismo día, no semanas después. Recuperamos un margen de seis cifras en el primer año.”")}
                 </blockquote>
                 <figcaption>
                   <span className="av">MV</span>
@@ -961,7 +961,7 @@ export default function LeonardoHome() {
                     Marcus Vance<span>Managing Partner · Apex Auto</span>
                   </span>
                   <span className="kpi">
-                    $420k
+                    {t("6 cifras")}
                     <br />
                     {t("recuperados")}
                   </span>
@@ -969,13 +969,13 @@ export default function LeonardoHome() {
               </figure>
               <figure className="quote" data-rv>
                 <blockquote>
-                  {t("“Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está en 99.4% y liberamos 28 horas de supervisores por semana.”")}
+                  {t("“Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está en más de 99% y liberamos más de 25 horas de supervisores por semana.”")}
                 </blockquote>
                 <figcaption>
                   <span className="av b">BPO</span>
                   <span className="who">{t("VP Operaciones · operador BPO multi-cliente")}</span>
                   <span className="kpi">
-                    99.4%
+                    {t(">99%")}
                     <br />
                     SLA
                   </span>

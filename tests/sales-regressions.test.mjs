@@ -63,6 +63,20 @@ test('all six built pages contain React-rendered content and matching language m
   }
 });
 
+test('built home keeps conservative case results and phone examples in the selected language', () => {
+  const spanish = readFileSync('dist/index.html', 'utf8');
+  const english = readFileSync('dist/_localized/en/index.html', 'utf8');
+  for (const text of ['6 cifras', '&gt;99%', '~81%', 'más de 25 h/semana', 'un margen de seis cifras', '+502 5555 5555']) {
+    assert.ok(spanish.includes(text), `Spanish home: ${text}`);
+  }
+  for (const text of ['Six figures', '&gt;99%', '~81%', '25+ hours/week', 'a six-figure margin', '+1 (555) 555-5555']) {
+    assert.ok(english.includes(text), `English home: ${text}`);
+  }
+  for (const [language, html] of [['es', spanish], ['en', english]]) {
+    assert.doesNotMatch(html, /\$420(?:,000|k)|99\.4%|81\.2%|28 (?:h\/semana|horas|hours)/, `${language} home`);
+  }
+});
+
 test('excluded client material is absent from published text and asset names', () => {
   function inspect(dir) {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {

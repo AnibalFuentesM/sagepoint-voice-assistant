@@ -291,7 +291,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                 value={values.phone}
                 onChange={(e) => set('phone', e.target.value)}
                 autoComplete="tel"
-                placeholder="+502 5555 5555"
+                placeholder={t("+502 5555 5555")}
               />
             </label>
 
