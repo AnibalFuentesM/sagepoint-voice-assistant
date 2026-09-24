@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ArrowRight, BarChart3, Mail } from 'lucide-react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import WhatsAppButton from './WhatsAppButton';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 import { trackPageView } from '../utils/analytics';
 
 export type CategoryId = 'all' | 'ai-automation' | 'operations-bi' | 'web-apps' | 'corporate-sites' | 'health-wellness' | 'gastronomy';
@@ -24,8 +25,8 @@ export type Project = {
 export const portfolioContent = {
   es: {
     meta: {
-      title: 'Portfolio — Sagepoint Analytics | Proyectos de BI, IA y Desarrollo Web',
-      description: 'Proyectos reales de Sagepoint Analytics: IA aplicada, automatización operativa, dashboards, CRMs, APIs y reportes ejecutivos para empresas en Guatemala y EE. UU.',
+      title: 'Portfolio de BI y automatización | Sagepoint',
+      description: 'Casos y proyectos de dashboards, automatización, IA aplicada y desarrollo web para empresas en Guatemala y Estados Unidos.',
     },
     nav: {
       home: 'Inicio',
@@ -204,8 +205,8 @@ export const portfolioContent = {
 
   en: {
     meta: {
-      title: 'Portfolio — Sagepoint Analytics | BI, AI & Web Development Projects',
-      description: 'Real projects by Sagepoint Analytics: applied AI, operational automation, dashboards, CRMs, APIs, and executive reporting for SMEs in Guatemala & the US.',
+      title: 'BI and Automation Portfolio | Sagepoint',
+      description: 'Explore dashboard, automation, applied AI and web projects for companies in Guatemala and the United States.',
     },
     nav: {
       home: 'Home',
@@ -384,14 +385,16 @@ export const portfolioContent = {
 };
 
 export default function PortfolioPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lang: 'es' | 'en' = searchParams.get('lang') === 'en' ? 'en' : 'es';
+  const location = useLocation();
+  const navigate = useNavigate();
+  const lang: 'es' | 'en' = getLangFromPath(location.pathname);
   const t = portfolioContent[lang];
 
   useDocumentMeta(
     t.meta.title,
     t.meta.description,
-    lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/'
+    localizedPath('/portfolio/', lang),
+    pairedAlternates('/portfolio/')
   );
 
   useEffect(() => {
@@ -399,18 +402,10 @@ export default function PortfolioPage() {
   }, [lang]);
 
   useEffect(() => {
-    trackPageView(lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/', t.meta.title, lang);
+    trackPageView(localizedPath('/portfolio/', lang), t.meta.title, lang);
   }, [lang, t.meta.title]);
 
-  const switchLang = (next: 'es' | 'en') => {
-    const params = new URLSearchParams(searchParams);
-    if (next === 'en') {
-      params.set('lang', 'en');
-    } else {
-      params.delete('lang');
-    }
-    setSearchParams(params, { replace: true });
-  };
+  const switchLang = (next: 'es' | 'en') => navigate(localizedPath('/portfolio/', next));
 
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-hidden bg-[#071012] font-sans text-slate-300 selection:bg-sage/30 selection:text-sage">
@@ -431,9 +426,9 @@ export default function PortfolioPage() {
 
 function Navbar({ lang, onSwitchLang }: { lang: 'es' | 'en'; onSwitchLang: (next: 'es' | 'en') => void }) {
   const t = portfolioContent[lang];
-  const homeLink = lang === 'en' ? '/?lang=en' : '/';
-  const portfolioLink = lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/';
-  const contactLink = lang === 'en' ? '/?lang=en#contact' : '/#contact';
+  const homeLink = localizedPath('/', lang);
+  const portfolioLink = localizedPath('/portfolio/', lang);
+  const contactLink = localizedPath('/#contact', lang);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#071012]/80 backdrop-blur-xl">
@@ -507,7 +502,7 @@ function PortfolioSection({ lang }: { lang: 'es' | 'en' }) {
       : projects.filter((p) => p.categoryId === activeFilterId);
 
   const sectorCount = new Set(projects.map((project) => project.categoryId)).size;
-  const contactLink = lang === 'en' ? '/?lang=en#contact' : '/#contact';
+  const contactLink = localizedPath('/#contact', lang);
 
   return (
     <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -721,8 +716,8 @@ function PortfolioSection({ lang }: { lang: 'es' | 'en' }) {
 
 function Footer({ lang }: { lang: 'es' | 'en' }) {
   const t = portfolioContent[lang];
-  const homeLink = lang === 'en' ? '/?lang=en' : '/';
-  const portfolioLink = lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/';
+  const homeLink = localizedPath('/', lang);
+  const portfolioLink = localizedPath('/portfolio/', lang);
 
   return (
     <footer className="relative z-10 border-t border-white/10 bg-[#050b0d] px-5 py-12 sm:px-6 lg:px-8">
@@ -741,6 +736,7 @@ function Footer({ lang }: { lang: 'es' | 'en' }) {
         <nav className="flex gap-6 text-sm font-semibold" aria-label={lang === 'es' ? 'Navegación del pie de página' : 'Footer navigation'}>
           <Link to={homeLink} className="text-muted transition-colors hover:text-sage">{t.footer.home}</Link>
           <Link to={portfolioLink} className="text-sage">{t.footer.portfolio}</Link>
+          <Link to={localizedPath('/servicios/', lang)}>{lang === 'en' ? 'Services' : 'Servicios'}</Link>
         </nav>
         <a href="mailto:info@sagepoint-analytics.com" className="text-sm font-semibold text-muted transition-colors hover:text-sage">
           info@sagepoint-analytics.com

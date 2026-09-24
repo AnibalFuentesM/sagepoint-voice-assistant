@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import {
   trackPageView,
@@ -13,17 +13,18 @@ import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
 import { CATCOLOR, CATNAME, CATRGB, PROJECTS, SAY, TILES, type LeoCat } from './leonardoData';
 import './leonardo.css';
+import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 
 const WA = 'https://wa.me/50240464716';
 
 export const HOME_META = {
   es: {
-    title: 'BI Fraccional y Dashboards Ejecutivos para PYMEs | Sagepoint Analytics',
-    description: 'Dashboards ejecutivos y automatización de reportes para PYMEs en Guatemala y Estados Unidos. Diagnóstico inicial gratuito y proyectos con alcance, precio y plazo definidos.',
+    title: 'Dashboards y automatización para PYMEs | Sagepoint',
+    description: 'Dashboards ejecutivos y reportes automatizados para PYMEs en Guatemala. Diagnóstico gratuito y proyectos con alcance, precio y plazo definidos.',
   },
   en: {
-    title: 'Fractional BI & Executive Dashboards for SMBs | Sagepoint Analytics',
-    description: 'Executive dashboards and report automation for SMBs in Guatemala and the United States. Free initial consultation and projects with defined scope, pricing and timelines.',
+    title: 'BI Dashboards and Report Automation | Sagepoint',
+    description: 'Executive dashboards and automated reports for growing teams in Guatemala and the US. Book a free assessment with a defined project scope.',
   },
 };
 
@@ -67,21 +68,18 @@ const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const smooth = (v: number) => v * v * (3 - 2 * v);
 
 export default function LeonardoHome() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const lang: LeoLanguage = searchParams.get('lang') === 'en' ? 'en' : 'es';
+  const lang: LeoLanguage = getLangFromPath(location.pathname);
   const t = (text: string) => translateLeo(lang, text);
   const { title, description } = HOME_META[lang];
-  useDocumentMeta(title, description, lang === 'en' ? '/?lang=en' : '/');
+  useDocumentMeta(title, description, localizedPath('/', lang), pairedAlternates('/'));
 
   const switchLanguage = (next: LeoLanguage) => {
-    const params = new URLSearchParams(searchParams);
-    if (next === 'en') params.set('lang', 'en');
-    else params.delete('lang');
-    navigate({ pathname: location.pathname, search: params.toString(), hash: location.hash }, { preventScrollReset: true });
+    navigate(`${localizedPath('/', next)}${location.hash}`, { preventScrollReset: true });
   };
-  const portfolioPath = lang === 'en' ? '/portfolio/?lang=en' : '/portfolio/';
+  const portfolioPath = localizedPath('/portfolio/', lang);
+  const servicesPath = localizedPath('/servicios/', lang);
   const externalBookingUrl = getEnglishBookingUrl(lang);
 
   useEffect(() => {
@@ -140,7 +138,7 @@ export default function LeonardoHome() {
   );
 
   useEffect(() => {
-    trackPageView(lang === 'en' ? '/?lang=en' : '/', title, lang);
+    trackPageView(localizedPath('/', lang), title, lang);
   }, [lang, title]);
 
   /** The page is pure black; keep the overscroll gutter from flashing the app's dark green. */
@@ -431,6 +429,7 @@ export default function LeonardoHome() {
           </a>
           <nav className="nav-links" aria-label={t("Secciones del sitio")}>
             <a href="#trabajo">{t("Trabajo")}</a>
+            <Link to={servicesPath}>{t("Servicios")}</Link>
             <a href="#casos">{t("Casos")}</a>
             <a href="#sistema">{t("Sistema")}</a>
             <a href="#paquetes">{t("Paquetes")}</a>
@@ -1115,13 +1114,13 @@ export default function LeonardoHome() {
               </h2>
               <ul>
                 <li>
-                  <a href="#trabajo">Dashboards &amp; BI</a>
+                  <Link to={lang === 'en' ? '/en/services/call-center-kpi-dashboards/' : '/servicios/dashboards-power-bi-guatemala/'}>Dashboards &amp; BI</Link>
                 </li>
                 <li>
-                  <a href="#trabajo">{t("Automatización web")}</a>
+                  <Link to={localizedPath('/web/', lang)}>{t("Automatización web")}</Link>
                 </li>
                 <li>
-                  <a href="#trabajo">{t("Automatización en Excel")}</a>
+                  <Link to={lang === 'en' ? '/en/services/bpo-client-reporting-automation/' : '/servicios/automatizar-reportes-excel-sheets/'}>{t("Automatización en Excel")}</Link>
                 </li>
                 <li>
                   <a href="#trabajo">{t("Modelos predictivos")}</a>
@@ -1129,6 +1128,7 @@ export default function LeonardoHome() {
                 <li>
                   <a href="#trabajo">Data coaching</a>
                 </li>
+              <li><Link to={servicesPath}>{lang === 'en' ? 'All services' : 'Todos los servicios'}</Link></li>
               </ul>
             </nav>
             <nav className="f-col" aria-labelledby="f-compania">

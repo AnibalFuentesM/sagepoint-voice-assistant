@@ -4,13 +4,19 @@ import { StaticRouter } from 'react-router-dom';
 import LeonardoHome, { HOME_META } from '../leonardo/LeonardoHome';
 import PortfolioPage, { portfolioContent } from '../components/PortfolioPage';
 import WebPage, { webContent } from '../components/WebPage';
+import ServicesHub from '../leonardo/ServicesHub';
+import { ServiceContent } from '../leonardo/ServicePage';
+import { ALL_ROUTES, HUBS, SERVICES } from '../leonardo/servicesData';
+import { getLangFromPath } from '../utils/i18nRoutes';
 import { translateLeo } from '../leonardo/leonardoEnglish';
 
 /** Build-time rendering uses the same components, copy and routing as the browser. */
-export function renderPage(path: string, language: 'es' | 'en') {
-  const url = path + (language === 'en' ? '?lang=en' : '');
-  const Component = path === '/' ? LeonardoHome : path === '/portfolio/' ? PortfolioPage : WebPage;
-  const meta = path === '/' ? HOME_META[language] : path === '/portfolio/' ? portfolioContent[language].meta : webContent[language].meta;
-  return { markup: renderToString(<StaticRouter location={url}><Component /></StaticRouter>), meta };
+export function renderPage(path: string) {
+  const language = getLangFromPath(path);
+  const plainPath = path.replace(/^\/en(?=\/|$)/, '') || '/';
+  const service = SERVICES.find(item => item.path === path);
+  const Component = service ? <ServiceContent service={service} /> : plainPath === '/' ? <LeonardoHome /> : plainPath === '/portfolio/' ? <PortfolioPage /> : plainPath === '/web/' ? <WebPage /> : <ServicesHub />;
+  const meta = service ?? (plainPath === '/' ? HOME_META[language] : plainPath === '/portfolio/' ? portfolioContent[language].meta : plainPath === '/web/' ? webContent[language].meta : HUBS[language]);
+  return { markup: renderToString(<StaticRouter location={path}>{Component}</StaticRouter>), meta, service };
 }
-export { translateLeo };
+export { translateLeo, ALL_ROUTES };

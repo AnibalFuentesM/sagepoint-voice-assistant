@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   BarChart3,
@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import WhatsAppButton from './WhatsAppButton';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 import { trackPageView, trackSelectPackage, trackWhatsAppClick } from '../utils/analytics';
 
 const WHATSAPP_PHONE = '50240464716';
@@ -29,9 +30,9 @@ export type WebPackageId = 'web-esencial' | 'web-panel' | 'web-custom' | 'web-ca
 export const webContent = {
   es: {
     meta: {
-      title: 'Páginas Web con Panel de Clientes en Guatemala | Sagepoint Analytics',
+      title: 'Páginas web con panel de clientes | Sagepoint',
       description:
-        'Tu página web con dominio, hosting y WhatsApp incluidos, más un panel que te dice cuántos clientes entraron y de dónde vinieron. Precio cerrado en quetzales y plazo definido.',
+        'Páginas web para negocios en Guatemala con dominio, hosting, WhatsApp y un panel para medir visitas y contactos. Precio y plazo definidos.',
     },
     nav: {
       home: 'Inicio',
@@ -280,9 +281,9 @@ export const webContent = {
 
   en: {
     meta: {
-      title: 'Websites with a Customer Dashboard in Guatemala | Sagepoint Analytics',
+      title: 'Business Websites with Analytics | Sagepoint',
       description:
-        'Your website with domain, hosting and WhatsApp included, plus a dashboard that tells you how many customers came in and where they came from. Fixed price, defined timeline.',
+        'Websites for Guatemala businesses with domain, hosting, WhatsApp and a dashboard for visits and leads. Defined price and timeline.',
     },
     nav: {
       home: 'Home',
@@ -534,12 +535,13 @@ function waHref(lang: Lang, pkg: WebPackageId) {
 }
 
 export default function WebPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lang: Lang = searchParams.get('lang') === 'en' ? 'en' : 'es';
+  const location = useLocation();
+  const navigate = useNavigate();
+  const lang: Lang = getLangFromPath(location.pathname);
   const t = webContent[lang];
-  const path = lang === 'en' ? '/web/?lang=en' : '/web/';
+  const path = localizedPath('/web/', lang);
 
-  useDocumentMeta(t.meta.title, t.meta.description, path);
+  useDocumentMeta(t.meta.title, t.meta.description, path, pairedAlternates('/web/'));
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -549,15 +551,7 @@ export default function WebPage() {
     trackPageView(path, t.meta.title, lang);
   }, [path, t.meta.title, lang]);
 
-  const switchLang = (next: Lang) => {
-    const params = new URLSearchParams(searchParams);
-    if (next === 'en') {
-      params.set('lang', 'en');
-    } else {
-      params.delete('lang');
-    }
-    setSearchParams(params, { replace: true });
-  };
+  const switchLang = (next: Lang) => navigate(localizedPath('/web/', next));
 
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-hidden bg-[#071012] font-sans text-slate-300 selection:bg-sage/30 selection:text-sage">
@@ -590,8 +584,7 @@ export default function WebPage() {
 
 function Navbar({ lang, onSwitchLang }: { lang: Lang; onSwitchLang: (next: Lang) => void }) {
   const t = webContent[lang];
-  const suffix = lang === 'en' ? '?lang=en' : '';
-  const homeLink = lang === 'en' ? '/?lang=en' : '/';
+  const homeLink = localizedPath('/', lang);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#071012]/80 backdrop-blur-xl">
@@ -613,10 +606,10 @@ function Navbar({ lang, onSwitchLang }: { lang: Lang; onSwitchLang: (next: Lang)
           <Link to={homeLink} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
             {t.nav.home}
           </Link>
-          <Link to={`/web/${suffix}`} aria-current="page" className="rounded-full bg-sage/10 px-5 py-2 text-sm font-semibold text-sage">
+          <Link to={localizedPath('/web/', lang)} aria-current="page" className="rounded-full bg-sage/10 px-5 py-2 text-sm font-semibold text-sage">
             {t.nav.web}
           </Link>
-          <Link to={`/portfolio/${suffix}`} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
+          <Link to={localizedPath('/portfolio/', lang)} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
             {t.nav.portfolio}
           </Link>
         </nav>
@@ -1125,8 +1118,7 @@ function FinalCta({ lang }: { lang: Lang }) {
 
 function Footer({ lang }: { lang: Lang }) {
   const t = webContent[lang].footer;
-  const suffix = lang === 'en' ? '?lang=en' : '';
-  const homeLink = lang === 'en' ? '/?lang=en' : '/';
+  const homeLink = localizedPath('/', lang);
 
   return (
     <footer className="relative z-10 border-t border-white/10 bg-[#050b0d] px-5 py-12 sm:px-6 lg:px-8">
@@ -1144,12 +1136,13 @@ function Footer({ lang }: { lang: Lang }) {
           <Link to={homeLink} className="text-muted transition-colors hover:text-sage">
             {t.home}
           </Link>
-          <Link to={`/web/${suffix}`} className="text-sage">
+          <Link to={localizedPath('/web/', lang)} className="text-sage">
             {t.web}
           </Link>
-          <Link to={`/portfolio/${suffix}`} className="text-muted transition-colors hover:text-sage">
+          <Link to={localizedPath('/portfolio/', lang)} className="text-muted transition-colors hover:text-sage">
             {t.portfolio}
           </Link>
+          <Link to={localizedPath('/servicios/', lang)}>{lang === 'en' ? 'Services' : 'Servicios'}</Link>
         </nav>
         <a href="mailto:info@sagepoint-analytics.com" className="text-sm font-semibold text-muted transition-colors hover:text-sage">
           info@sagepoint-analytics.com

@@ -1,0 +1,5 @@
+# SEO route migration
+
+The first service wave has 13 canonical URLs: three existing pages in each language, one services hub in each language, three Spanish service details, and two English service details. The brief's “14 URLs (7 ES + 7 EN)” conflicts with its explicit list of two English service details. The sitemap follows the listed pages: seven Spanish URLs and six English URLs.
+
+`vercel.json` retains the apex-to-www redirect as the first route. Legacy `?lang=en` URLs redirect with 308 to the corresponding `/en/` paths; the client router also replaces them if the SPA receives one. With the current `routes` format, a fixed `Location` can remove `lang`, but it cannot selectively forward arbitrary other query parameters. Vercel's `preserveQueryParams` option applies to the entire query string, so using it would also retain `lang`. A legacy server-side redirect may therefore drop `utm_*`; attribution should be measured on the new paths. No Vercel deployment was run here, so edge behavior still needs a live smoke check after release.

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { getLangFromPath } from '../utils/i18nRoutes';
 
 const SITE_URL = 'https://www.sagepoint-analytics.com';
 
@@ -13,7 +14,7 @@ function upsertMeta(selector: string, attr: 'name' | 'property', key: string, co
 }
 
 // Per-route document metadata for the SPA: title, meta description, canonical and social previews.
-export function useDocumentMeta(title: string, description: string, path: string) {
+export function useDocumentMeta(title: string, description: string, path: string, alternates: {lang: string; path: string}[] = [{ lang: getLangFromPath(path), path }], extraGraph: Record<string, unknown>[] = []) {
   useEffect(() => {
     const url = `${SITE_URL}${path}`;
 
@@ -34,17 +35,14 @@ export function useDocumentMeta(title: string, description: string, path: string
     }
     canonical.href = url;
 
-    const language = new URL(url).searchParams.get('lang') === 'en' ? 'en' : 'es';
-    const route = new URL(url).pathname;
-    for (const lang of ['es', 'en', 'x-default']) {
-      let alternate = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${lang}"]`);
-      if (!alternate) {
-        alternate = document.createElement('link');
-        alternate.rel = 'alternate';
-        alternate.hreflang = lang;
-        document.head.appendChild(alternate);
-      }
-      alternate.href = `${SITE_URL}${route}${lang === 'en' ? '?lang=en' : ''}`;
+    const language = getLangFromPath(path);
+    document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => link.remove());
+    for (const alternate of alternates) {
+      const link = document.createElement('link');
+      link.rel = 'alternate';
+      link.hreflang = alternate.lang;
+      link.href = `${SITE_URL}${alternate.path}`;
+      document.head.appendChild(link);
     }
 
     upsertMeta('meta[property="og:locale"]', 'property', 'og:locale', language === 'en' ? 'en_US' : 'es_GT');
@@ -71,9 +69,10 @@ export function useDocumentMeta(title: string, description: string, path: string
       '@graph': [
         ...(organization ? [organization] : []),
         { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: 'Sagepoint Analytics' },
-        { '@type': path.startsWith('/portfolio') ? 'CollectionPage' : 'WebPage', '@id': `${url}#webpage`, url, name: title, description, inLanguage: language, isPartOf: { '@id': `${SITE_URL}/#website` } },
+        { '@type': path.includes('/portfolio/') ? 'CollectionPage' : 'WebPage', '@id': `${url}#webpage`, url, name: title, description, inLanguage: language, isPartOf: { '@id': `${SITE_URL}/#website` } },
+        ...extraGraph,
       ],
     });
     document.head.appendChild(structured);
-  }, [title, description, path]);
+  }, [title, description, path, JSON.stringify(alternates), JSON.stringify(extraGraph)]);
 }

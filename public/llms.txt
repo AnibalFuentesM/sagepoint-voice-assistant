@@ -46,7 +46,7 @@ Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, d
 
 ## Website Design and Development (Guatemala) — /web/
 
-Landing page: https://www.sagepoint-analytics.com/web/ (Spanish) and https://www.sagepoint-analytics.com/web/?lang=en
+Landing page: https://www.sagepoint-analytics.com/web/ (Spanish) and https://www.sagepoint-analytics.com/en/web/
 
 Websites built by an analytics consultancy, with a customer dashboard included. Positioning: every provider sells a website; we also tell you whether it is working. Prices are quoted in Guatemalan quetzales (GTQ) because the offer targets Guatemalan SMBs; the BI packages above stay in USD.
 
@@ -85,3 +85,14 @@ Quotes used with permission from delivered projects.
 
 ## Getting Started
 The initial consultation (30–45 minute video call) is free. The two-week Data Assessment is a separate paid project ($750), credited toward a project contracted within 30 days. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com
+
+## Service landing pages
+Spanish services hub: https://www.sagepoint-analytics.com/servicios/
+- https://www.sagepoint-analytics.com/servicios/dashboards-power-bi-guatemala/
+- https://www.sagepoint-analytics.com/servicios/automatizar-reportes-excel-sheets/
+- https://www.sagepoint-analytics.com/servicios/automatizacion-procesos-pymes/
+English services hub: https://www.sagepoint-analytics.com/en/services/
+- https://www.sagepoint-analytics.com/en/services/call-center-kpi-dashboards/
+- https://www.sagepoint-analytics.com/en/services/bpo-client-reporting-automation/
+English home: https://www.sagepoint-analytics.com/en/
+English portfolio: https://www.sagepoint-analytics.com/en/portfolio/

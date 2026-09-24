@@ -18,16 +18,156 @@
       "status": 308
     },
     {
-      "src": "^/en/?$",
+      "src": "^/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
       "headers": {
-        "Location": "/?lang=en"
+        "Location": "/en/"
       },
       "status": 308
     },
     {
-      "src": "^/(web|portfolio)$",
+      "src": "^/portfolio/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
       "headers": {
-        "Location": "/$1/"
+        "Location": "/en/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/web/$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "headers": {
+        "Location": "/en/web/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/portfolio$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "headers": {
+        "Location": "/en/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/web$",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "en"
+        }
+      ],
+      "headers": {
+        "Location": "/en/web/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/portfolio$",
+      "headers": {
+        "Location": "/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/web$",
+      "headers": {
+        "Location": "/web/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/servicios$",
+      "headers": {
+        "Location": "/servicios/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/servicios/dashboards-power-bi-guatemala$",
+      "headers": {
+        "Location": "/servicios/dashboards-power-bi-guatemala/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/servicios/automatizar-reportes-excel-sheets$",
+      "headers": {
+        "Location": "/servicios/automatizar-reportes-excel-sheets/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/servicios/automatizacion-procesos-pymes$",
+      "headers": {
+        "Location": "/servicios/automatizacion-procesos-pymes/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en$",
+      "headers": {
+        "Location": "/en/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/portfolio$",
+      "headers": {
+        "Location": "/en/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/web$",
+      "headers": {
+        "Location": "/en/web/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services$",
+      "headers": {
+        "Location": "/en/services/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/call-center-kpi-dashboards$",
+      "headers": {
+        "Location": "/en/services/call-center-kpi-dashboards/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/bpo-client-reporting-automation$",
+      "headers": {
+        "Location": "/en/services/bpo-client-reporting-automation/"
       },
       "status": 308
     },
@@ -54,39 +194,6 @@
     },
     {
       "src": "^/$",
-      "has": [
-        {
-          "type": "query",
-          "key": "lang",
-          "value": "en"
-        }
-      ],
-      "dest": "/_localized/en/index.html"
-    },
-    {
-      "src": "^/portfolio/$",
-      "has": [
-        {
-          "type": "query",
-          "key": "lang",
-          "value": "en"
-        }
-      ],
-      "dest": "/_localized/en/portfolio/index.html"
-    },
-    {
-      "src": "^/web/$",
-      "has": [
-        {
-          "type": "query",
-          "key": "lang",
-          "value": "en"
-        }
-      ],
-      "dest": "/_localized/en/web/index.html"
-    },
-    {
-      "src": "^/$",
       "dest": "/index.html"
     },
     {
@@ -96,6 +203,46 @@
     {
       "src": "^/web/$",
       "dest": "/web/index.html"
+    },
+    {
+      "src": "^/servicios/$",
+      "dest": "/servicios/index.html"
+    },
+    {
+      "src": "^/servicios/dashboards-power-bi-guatemala/$",
+      "dest": "/servicios/dashboards-power-bi-guatemala/index.html"
+    },
+    {
+      "src": "^/servicios/automatizar-reportes-excel-sheets/$",
+      "dest": "/servicios/automatizar-reportes-excel-sheets/index.html"
+    },
+    {
+      "src": "^/servicios/automatizacion-procesos-pymes/$",
+      "dest": "/servicios/automatizacion-procesos-pymes/index.html"
+    },
+    {
+      "src": "^/en/$",
+      "dest": "/en/index.html"
+    },
+    {
+      "src": "^/en/portfolio/$",
+      "dest": "/en/portfolio/index.html"
+    },
+    {
+      "src": "^/en/web/$",
+      "dest": "/en/web/index.html"
+    },
+    {
+      "src": "^/en/services/$",
+      "dest": "/en/services/index.html"
+    },
+    {
+      "src": "^/en/services/call-center-kpi-dashboards/$",
+      "dest": "/en/services/call-center-kpi-dashboards/index.html"
+    },
+    {
+      "src": "^/en/services/bpo-client-reporting-automation/$",
+      "dest": "/en/services/bpo-client-reporting-automation/index.html"
     },
     {
       "handle": "filesystem"

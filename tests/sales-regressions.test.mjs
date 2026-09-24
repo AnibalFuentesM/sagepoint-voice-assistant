@@ -50,22 +50,90 @@ test('submission preserves context, attribution and selected package without sen
   }
 });
 
-test('all six built pages contain React-rendered content and matching language metadata', () => {
-  for (const path of ['', 'portfolio/', 'web/']) for (const lang of ['es', 'en']) {
-    const html = readFileSync(join('dist', lang === 'en' ? '_localized/en' : '', path, 'index.html'), 'utf8');
+const routes = [
+  ['/', 'es'], ['/en/', 'en'], ['/portfolio/', 'es'], ['/en/portfolio/', 'en'],
+  ['/web/', 'es'], ['/en/web/', 'en'], ['/servicios/', 'es'], ['/en/services/', 'en'],
+  ['/servicios/dashboards-power-bi-guatemala/', 'es'],
+  ['/servicios/automatizar-reportes-excel-sheets/', 'es'],
+  ['/servicios/automatizacion-procesos-pymes/', 'es'],
+  ['/en/services/call-center-kpi-dashboards/', 'en'],
+  ['/en/services/bpo-client-reporting-automation/', 'en'],
+];
+const site = 'https://www.sagepoint-analytics.com';
+const built = path => readFileSync(join('dist', path, 'index.html'), 'utf8');
+const graph = html => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].flatMap(match => {
+  const data = JSON.parse(match[1]);
+  return data['@graph'] ?? [data];
+});
+
+test('every built route has its own canonical, language, and one h1', () => {
+  for (const [path, lang] of routes) {
+    const html = built(path);
     assert.match(html, new RegExp(`<html lang="${lang}"`));
     assert.match(html, /<div id="root"><[^>]+/);
-    assert.match(html, /<h1[ >]/);
-    const canonical = `https://www.sagepoint-analytics.com/${path}${lang === 'en' ? '?lang=en' : ''}`;
-    assert.ok(html.includes(`<link rel="canonical" href="${canonical}"`));
+    assert.equal([...html.matchAll(/<h1(?:\s|>)/g)].length, 1, path);
+    assert.ok(html.includes(`<link rel="canonical" href="${site}${path}"`), path);
+    const title = html.match(/<title>(.*?)<\/title>/)?.[1];
+    const description = html.match(/<meta name="description" content="([^"]+)"/s)?.[1];
+    assert.ok(title && title.length <= 60, `${path}: title ${title?.length}`);
+    assert.ok(description && description.length <= 155, `${path}: description ${description?.length}`);
     for (const block of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(block[1]);
-    if (!path) assert.ok(html.includes(lang === 'en' ? 'Request a free consultation' : 'Solicitar diagnóstico gratuito'));
+    if (path === '/' || path === '/en/') assert.ok(html.includes(lang === 'en' ? 'Request a free consultation' : 'Solicitar diagnóstico gratuito'));
   }
+});
+
+test('new landing pages have short metadata and matching structured data', () => {
+  for (const [path, lang] of routes.filter(([path]) => path.includes('/servicios/') || path.includes('/services/'))) {
+    const html = built(path);
+    const title = html.match(/<title>(.*?)<\/title>/)?.[1];
+    const description = html.match(/<meta name="description" content="([^"]+)"/s)?.[1];
+    assert.ok(title && title.length <= 60, `${path}: title ${title?.length}`);
+    assert.ok(description && description.length <= 155, `${path}: description ${description?.length}`);
+    const items = graph(html);
+    assert.ok(items.some(item => item['@type'] === 'BreadcrumbList'), path);
+    if (path !== '/servicios/' && path !== '/en/services/') {
+      const service = items.find(item => item['@type'] === 'Service');
+      const faq = items.find(item => item['@type'] === 'FAQPage');
+      assert.equal(service?.url, `${site}${path}`);
+      assert.equal(service?.areaServed?.name, lang === 'es' ? 'Guatemala' : 'United States');
+      const visible = [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]);
+      assert.deepEqual(faq?.mainEntity.map(item => item.name), visible, path);
+      assert.equal(visible.length, 5, path);
+      for (const entry of faq.mainEntity) assert.ok(html.includes(`<p>${entry.acceptedAnswer.text}</p>`), `${path}: ${entry.name}`);
+    }
+  }
+});
+
+test('sitemap has all first-wave canonical URLs and paired alternates only', () => {
+  const sitemap = readFileSync('dist/sitemap.xml', 'utf8');
+  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+  assert.deepEqual(urls, routes.map(([path]) => `${site}${path}`));
+  assert.doesNotMatch(sitemap, /\?lang=|_localized/);
+  for (const [path] of routes.filter(([path]) => path.includes('/servicios/') && path !== '/servicios/')) {
+    const item = sitemap.match(new RegExp(`<url><loc>${site}${path}</loc>(.*?)<\/url>`))?.[1];
+    assert.ok(item?.includes(`hreflang="es" href="${site}${path}"`));
+    assert.doesNotMatch(item, /hreflang="en"|x-default/);
+  }
+});
+
+test('built HTML and JS use path language links', () => {
+  for (const [path] of routes) assert.doesNotMatch(built(path), /\?lang=en|_localized/, path);
+  for (const entry of readdirSync('dist/assets')) if (entry.endsWith('.js')) {
+    assert.doesNotMatch(readFileSync(join('dist/assets', entry), 'utf8'), /\?lang=en|_localized/, entry);
+  }
+  assert.ok(built('/').includes('/servicios/dashboards-power-bi-guatemala/'));
+  for (const path of ['/', '/en/']) {
+    const html = built(path);
+    const faq = graph(html).find(item => item['@type'] === 'FAQPage');
+    const visible = [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]);
+    assert.deepEqual(faq.mainEntity.map(item => item.name), visible, path);
+  }
+  assert.ok(built('/en/').includes('/en/services/call-center-kpi-dashboards/'));
 });
 
 test('built home keeps conservative case results and phone examples in the selected language', () => {
   const spanish = readFileSync('dist/index.html', 'utf8');
-  const english = readFileSync('dist/_localized/en/index.html', 'utf8');
+  const english = readFileSync('dist/en/index.html', 'utf8');
   for (const text of ['6 cifras', '&gt;99%', '~81%', 'más de 25 h/semana', 'un margen de seis cifras', '+502 5555 5555']) {
     assert.ok(spanish.includes(text), `Spanish home: ${text}`);
   }
@@ -83,31 +151,29 @@ test('excluded client material is absent from published text and asset names', (
       const path = join(dir, entry.name);
       assert.doesNotMatch(path, /inboxhealth|medical-billing/i);
       if (entry.isDirectory()) inspect(path);
-      else if (/\.(html|js|txt)$/.test(path)) assert.doesNotMatch(readFileSync(path, 'utf8'), /Inbox\s?Health|eClinicalWorks|Carlos Arenas|medical billing|facturación médica/i, path);
+      else if (/\.(html|js|txt)$/.test(path)) assert.doesNotMatch(readFileSync(path, 'utf8'), /Inbox\s?Health|eClinicalWorks|ECW\b|IBH BPO|Carlos Arenas|medical billing|facturación médica/i, path);
     }
   }
   inspect('dist');
 });
 
 
-test('local production preview serves the matching initial HTML for each language URL', async () => {
+test('local production preview serves the matching initial HTML', async () => {
   let server;
   try {
     server = await preview({ preview: { host: '127.0.0.1', port: 4186, strictPort: true } });
   } catch (error) {
     if (error?.code !== 'EPERM') throw error;
-    // Sandboxed runners may prohibit listening sockets. The normal path above still exercises
-    // Vite preview; this fallback verifies the same prerendered language payloads in place.
-    for (const path of ['', 'portfolio/', 'web/']) for (const language of ['es', 'en']) {
-      const html = readFileSync(join('dist', language === 'en' ? '_localized/en' : '', path, 'index.html'), 'utf8');
+    for (const [path, language] of routes) {
+      const html = built(path);
       assert.ok(html.includes(`<html lang="${language}"`));
       assert.match(html, /<h1[ >]/);
     }
     return;
   }
   try {
-    for (const path of ['/', '/portfolio/', '/web/']) for (const language of ['es', 'en']) {
-      const response = await originalFetch(`http://127.0.0.1:4186${path}${language === 'en' ? '?lang=en' : ''}`);
+    for (const [path, language] of routes) {
+      const response = await originalFetch(`http://127.0.0.1:4186${path}`);
       assert.equal(response.status, 200);
       const html = await response.text();
       assert.ok(html.includes(`<html lang="${language}"`));
@@ -146,21 +212,32 @@ test('external booking URL is opt-in, English-only and wired to all three primar
   assert.equal(home.match(/onClick=\{\(e\) => handlePrimaryBooking\(/g)?.length, 3);
 });
 
-test('deployment config resolves language before static files and keeps unknown paths as 404', () => {
+test('deployment config redirects legacy URLs and serves each prerendered route', () => {
   const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
   assert.equal(config.framework, null);
   assert.equal(config.outputDirectory, 'dist');
   assert.equal(config.buildCommand, 'npm run build');
+  assert.equal(config.routes[0].status, 308);
+  assert.equal(config.routes[0].has[0].type, 'host');
+  assert.equal(config.routes[0].has[0].value, 'sagepoint-analytics.com');
   const fileIndex = config.routes.findIndex(r => r.handle === 'filesystem');
-  const enRedirectIndex = config.routes.findIndex(r => r.src === '^/en/?$');
-  assert.ok(enRedirectIndex > -1 && enRedirectIndex < fileIndex);
-  assert.equal(config.routes[enRedirectIndex].status, 308);
-  assert.equal(config.routes[enRedirectIndex].headers.Location, '/?lang=en');
-  for (const path of ['/', '/portfolio/', '/web/']) for (const lang of ['es', 'en']) {
-    const route = config.routes.slice(0, fileIndex).find(r => r.dest && new RegExp(r.src).test(path) && (!r.has || r.has.every(h => h.type === 'query' && h.key === 'lang' && h.value === lang)));
-    const target = `${lang === 'en' ? '/_localized/en' : ''}${path}index.html`;
-    assert.equal(route?.dest, target);
-    assert.match(readFileSync(join('dist', target), 'utf8'), new RegExp(`<html lang="${lang}"`));
+  for (const [source, target] of [['/', '/en/'], ['/portfolio/', '/en/portfolio/'], ['/web/', '/en/web/']]) {
+    const route = config.routes.find(r => r.src === `^${source}$` && r.has?.some(h => h.type === 'query' && h.key === 'lang' && h.value === 'en'));
+    assert.equal(route?.status, 308);
+    assert.equal(route?.headers.Location, target);
+  }
+  for (const [source, target] of [['/portfolio', '/en/portfolio/'], ['/web', '/en/web/']]) {
+    const route = config.routes.find(r => r.src === `^${source}$` && r.has?.some(h => h.key === 'lang' && h.value === 'en'));
+    assert.equal(route?.headers.Location, target);
+  }
+  for (const [path, lang] of routes) {
+    const route = config.routes.slice(0, fileIndex).find(r => r.src === `^${path}$` && r.dest);
+    assert.equal(route?.dest, `${path}index.html`, path);
+    assert.match(built(path), new RegExp(`<html lang="${lang}"`));
+    if (path !== '/') {
+      const redirect = config.routes.slice(0, fileIndex).find(r => r.src === `^${path.slice(0, -1)}$` && r.status === 308 && !r.has);
+      assert.equal(redirect?.headers.Location, path, path);
+    }
   }
   assert.equal(config.routes.at(-1).status, 404);
   const cache = path => config.routes.find(r => r.headers?.['Cache-Control'] && new RegExp(r.src).test(path))?.headers['Cache-Control'];

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { getLeadAttribution, trackEvent } from '../utils/analytics';
 import { submitToGoogleSheet } from '../utils/sheetUtils';
 import './leonardoForm.css';
@@ -42,6 +42,7 @@ type Props = {
 
 export default function BookingModal({ lang, open, packageId, source, onClose }: Props) {
   const t = (text: string) => translateLeo(lang, text);
+  const dialogId = useId();
   const submitting = useRef(false);
   const ref = useRef<HTMLDialogElement>(null);
   const [state, setState] = useState<'idle' | 'sending' | 'success' | 'pending' | 'error'>('idle');
@@ -208,7 +209,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
   const sending = state === 'sending';
 
   return (
-    <dialog className="bk" ref={ref} aria-labelledby="bk-title">
+    <dialog className="bk" ref={ref} aria-labelledby={`${dialogId}-title`}>
       <button className="bk-x" type="button" onClick={handleClose} aria-label={t("Cerrar")}>
         ✕
       </button>
@@ -216,7 +217,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
       {state === 'success' || state === 'pending' ? (
         <div className="bk-done" role="status">
           <p className="bk-eyebrow">{t(state === 'pending' ? 'Recepción no confirmada' : 'Solicitud recibida')}</p>
-          <h2 id="bk-title" className="bk-title">
+          <h2 id={`${dialogId}-title`} className="bk-title">
             {t(state === 'pending' ? 'No pudimos confirmar la recepción.' : 'Listo. Te escribimos en menos de 24 horas.')}
           </h2>
           <p className="bk-lede">
@@ -234,7 +235,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
       ) : (
         <form className="bk-form" onSubmit={submit} noValidate>
           <p className="bk-eyebrow">{t("Diagnóstico gratuito")}</p>
-          <h2 id="bk-title" className="bk-title">
+          <h2 id={`${dialogId}-title`} className="bk-title">
             {t("De 30 a 45 minutos, sin compromiso")}
           </h2>
           <p className="bk-lede">
@@ -255,11 +256,11 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                   validate('name', e.target.value);
                 }}
                 aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? 'bk-name-error' : undefined}
+                aria-describedby={errors.name ? `${dialogId}-name-error` : undefined}
                 autoComplete="name"
                 required
               />
-              {errors.name ? <em id="bk-name-error" className="bk-err" role="alert">{t(errors.name)}</em> : null}
+              {errors.name ? <em id={`${dialogId}-name-error`} className="bk-err" role="alert">{t(errors.name)}</em> : null}
             </label>
 
             <label className="bk-f">
@@ -276,11 +277,11 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                   validate('email', e.target.value);
                 }}
                 aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? 'bk-email-error' : undefined}
+                aria-describedby={errors.email ? `${dialogId}-email-error` : undefined}
                 autoComplete="email"
                 required
               />
-              {errors.email ? <em id="bk-email-error" className="bk-err" role="alert">{t(errors.email)}</em> : null}
+              {errors.email ? <em id={`${dialogId}-email-error`} className="bk-err" role="alert">{t(errors.email)}</em> : null}
             </label>
 
             <label className="bk-f">

@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 // Fail closed before deployment if excluded material returns to the public build.
-const forbidden = /Inbox\s?Health|eClinicalWorks|Carlos Arenas|medical[- ]billing|facturación médica/i;
+const forbidden = /Inbox\s?Health|eClinicalWorks|ECW\b|IBH BPO|Carlos Arenas|medical[- ]billing|facturación médica/i;
 function inspect(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const path = join(dir, entry.name);
