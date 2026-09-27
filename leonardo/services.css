@@ -31,3 +31,6 @@
 @media(max-width:540px){.service-site .nav-in{gap:12px}.service-site .nav-act{margin-left:auto}.service-site .nav-act>.pill{display:none}.service-site .service-breadcrumb{margin-bottom:32px}.service-site .service-hero{padding-top:42px}.service-site .service-actions .pill{width:100%;justify-content:center;text-align:center}}
 /* .service-card also exists in the /web/ stylesheet (min-height:25rem, space-between); reset it here so service pages size to content. */
 .service-site .service-card { min-height:0; justify-content:flex-start; gap:10px; }
+/* Guides are long-form: readable measure and space between paragraphs. */
+.service-site .guide-copy>p:not(.eyebrow) { max-width:70ch; }
+.service-site .guide-copy>p+p { margin-top:1.1em; }

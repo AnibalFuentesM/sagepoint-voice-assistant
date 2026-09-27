@@ -19,7 +19,7 @@ export const POWER_BI_COST_GUIDE: Guide = {
       ]
     },
     {
-      heading: 'Las fuentes y su estado suelen mover más trabajo que el diseño',
+      heading: 'El estado de las fuentes suele pesar más en el costo que el diseño',
       paragraphs: [
         'Un archivo de Excel con columnas estables es diferente de varios archivos que cambian de formato, o de un CRM y un ERP con identificadores que no coinciden. Hay que comprobar permisos, frecuencia de exportación, fechas, duplicados y campos faltantes. Cuando las fuentes no comparten claves confiables, una parte importante del proyecto consiste en acordar cómo relacionarlas y qué excepciones debe revisar tu equipo.',
         'La limpieza y el modelado también afectan el alcance. Un total de ventas puede necesitar reglas para devoluciones, impuestos, monedas o pedidos cancelados. Si dos áreas usan fórmulas distintas para el mismo KPI, hay que resolver esa diferencia antes de publicar una cifra. Una propuesta seria debe indicar qué transformaciones se incluyen y cómo se validarán los resultados contra los sistemas de origen.'
@@ -42,8 +42,8 @@ export const POWER_BI_COST_GUIDE: Guide = {
     {
       heading: 'Nuestros paquetes publicados como puntos de referencia',
       paragraphs: [
-        'Radiografía de Datos cuesta US$750 y dura 2 semanas. Sirve para revisar fuentes, preguntas y viabilidad cuando aún no está claro qué construir. Cockpit Ejecutivo empieza en US$2,500 y dura 4–6 semanas; es la referencia para un dashboard ejecutivo con alcance definido. Sala de Control empieza en US$12,000 y dura 10–14 semanas para trabajo de integración más amplio. Estos son paquetes de Sagepoint, no precios promedio del mercado ni una cotización automática para tu proyecto.',
-        'Soporte Cercano empieza en US$300/mes cuando necesitas acompañamiento después de la entrega. La llamada de diagnóstico es gratuita y dura 30–45 minutos. En ella revisamos un ejemplo de tus datos y la decisión que quieres mejorar; después podemos indicar qué paquete encaja, qué queda fuera y qué información falta para cotizar con precisión.'
+        'Radiografía de Datos cuesta US$750, pago único: en 14 días y con 90 minutos de tu equipo auditamos dos fuentes y te dejamos un dashboard vivo con hasta ocho KPIs y un informe de oportunidades priorizadas; se acredita completa al proyecto si contratas en 30 días. Cockpit Ejecutivo empieza en US$2,500 y dura 4–6 semanas: hasta cuatro fuentes, hasta tres dashboards ejecutivos y un flujo de reportes automatizado, con dos capacitaciones y dos rondas de revisiones (no incluye data warehouse ni modelos a medida). Sala de Control empieza en US$12,000 y dura 10–14 semanas para trabajo de integración más amplio. Estos son paquetes de Sagepoint, no precios promedio del mercado ni una cotización automática para tu proyecto.',
+        'Soporte Cercano tiene tres niveles desde US$300/mes, con dos meses de cortesía si prepagas el año. La llamada de diagnóstico es gratuita, dura 30–45 minutos y te llevas un diagnóstico escrito aunque no contrates. En ella revisamos un ejemplo de tus datos y la decisión que quieres mejorar; después podemos indicar qué paquete encaja, qué queda fuera y qué información falta para cotizar con precisión.'
       ]
     },
     {

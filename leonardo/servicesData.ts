@@ -118,9 +118,9 @@ export const SERVICES: Service[] = [
   {
     lang: 'es', slug: 'integracion-crm-erp-apis', path: '/servicios/integracion-crm-erp-apis/',
     title: 'Integración de CRM y ERP en Guatemala | Sagepoint',
-    description: 'Conecta CRM, ERP y otras aplicaciones mediante APIs o intercambios de datos. Evita duplicar capturas y mantén información consistente.',
+    description: 'Conecta CRM, ERP y otras aplicaciones mediante APIs o intercambios de datos. Evita la doble digitación y mantén la información consistente.',
     h1: 'Integración de CRM, ERP y aplicaciones para empresas',
-    subhead: 'Cuando ventas y operación trabajan con registros distintos, el mismo cliente o pedido cambia de significado entre sistemas. Diseñamos integraciones para compartir los datos necesarios con reglas claras y trazabilidad.',
+    subhead: 'Cuando ventas y operaciones trabajan con registros distintos, el mismo cliente o pedido cambia de significado entre sistemas. Diseñamos integraciones para compartir los datos necesarios con reglas claras y trazabilidad.',
     problemIntro: 'Conectar un CRM con un ERP exige decidir qué sistema gobierna cada campo, cuándo se actualiza y qué hacer ante un conflicto. Una copia automática sin esas reglas puede multiplicar duplicados.',
     symptoms: [
       'Mi equipo registra un pedido en el CRM y vuelve a capturarlo en el ERP.',
@@ -142,7 +142,7 @@ export const SERVICES: Service[] = [
       'Entregamos la integración documentada. Soporte Cercano desde US$300/mes puede cubrir cambios posteriores.'
     ],
     validation: { title: 'Cómo verificamos la integración', detail: 'Probamos altas, cambios y errores con registros de muestra de ambos sistemas. Comparamos identificadores y campos de origen y destino, comprobamos que una repetición no cree duplicados y revisamos cómo se alerta y corrige una sincronización fallida. La prueba de aceptación se acuerda con tu equipo.' },
-    packageFit: 'Radiografía de Datos (US$750, 2 semanas) permite aclarar entidades y reglas. Sala de Control, desde US$12,000 y con un plazo de 10–14 semanas, es una referencia para integraciones amplias. El alcance de cada conexión se cotiza tras revisar los sistemas.',
+    packageFit: 'Radiografía de Datos (US$750, 14 días, NDA antes de tocar un archivo) audita dos fuentes y aclara entidades y reglas; se acredita completa al proyecto si contratas en 30 días. Para integraciones amplias con tu CRM o ERP, la referencia es Sala de Control, desde US$12,000 y 10–14 semanas. El alcance de cada conexión se cotiza tras revisar los sistemas.',
     faq: [
       { question: '¿Qué datos conviene sincronizar entre el CRM y el ERP?', answer: 'Solo los registros que sostienen un proceso concreto, como clientes, pedidos o estados. Definimos campos, propietario de cada dato y momento de actualización antes de conectar sistemas.' },
       { question: '¿Se puede integrar un sistema antiguo que no tiene API?', answer: 'Puede ser posible mediante exportaciones e importaciones autorizadas. Revisamos formatos, frecuencia y controles; si el sistema no ofrece una vía confiable, lo explicamos antes de cotizar.' },
@@ -178,7 +178,7 @@ export const SERVICES: Service[] = [
       'Entregamos resultados, límites, guía de uso y una propuesta de actualización si el modelo demuestra utilidad.'
     ],
     validation: { title: 'Cómo validamos un pronóstico', detail: 'Reservamos periodos históricos para comparar lo pronosticado con lo que realmente ocurrió. Medimos el error por segmento y temporada, contrastamos con una referencia simple y revisamos si la precisión alcanza para la decisión que quieres tomar. Si el historial no permite una estimación confiable, lo decimos.' },
-    packageFit: 'Radiografía de Datos (US$750, 2 semanas) sirve para evaluar si el historial permite modelar. Un proyecto posterior requiere alcance propio; Cockpit Ejecutivo desde US$2,500 y 4–6 semanas solo aplica si además se acuerda una vista ejecutiva. No asignamos un precio fijo al pronóstico antes de evaluar datos.',
+    packageFit: 'Radiografía de Datos (US$750, 14 días) evalúa primero si tu historial permite modelar, y se acredita completa al proyecto si contratas en 30 días. Los modelos predictivos dedicados son parte de Sala de Control (desde US$12,000, 10–14 semanas); Cockpit Ejecutivo no incluye modelos a medida. No asignamos un precio fijo al pronóstico antes de evaluar tus datos.',
     faq: [
       { question: '¿Cuántos meses de ventas históricas se necesitan para un pronóstico?', answer: 'Depende del horizonte, la estacionalidad y el nivel de detalle. Revisamos si hay suficientes ciclos comparables; un historial corto puede permitir una estimación limitada, pero no una validación sólida de temporadas.' },
       { question: '¿Se puede pronosticar por producto, sucursal o canal?', answer: 'Sí, cuando cada segmento tiene registros suficientes y consistentes. Si un producto vende de forma esporádica, quizá convenga agruparlo o usar un método diferente.' },
@@ -282,11 +282,11 @@ export const SERVICES: Service[] = [
     process: [
       'A free 30–45 minute assessment reviews sample scorecards, exports, rubric changes, and coaching decisions.',
       'We agree on data access, comparable groups, metrics, review rounds, and a scoped deliverable.',
-      'We reconcile sample evaluations, build views, and review surprising trends with QA leads.',
+      'We reconcile sample evaluations, build views, and review score variances and outliers with QA leads.',
       'We hand over definitions, reporting instructions, and training. Ongoing Support starts at US$300/month for later changes.'
     ],
     validation: { title: 'How we validate QA data', detail: 'We compare report counts and score calculations with source evaluations, check rubric version and weighting, and flag missing evaluator or program identifiers. Calibration comparisons are shown only when the same work was reviewed by multiple evaluators under a comparable rubric.' },
-    packageFit: 'Data Assessment (US$750, 2 weeks) helps clarify scorecards and source quality. Executive Cockpit starts at US$2,500 for a scoped reporting view over 4–6 weeks. The proposal depends on forms, history, and review needs.',
+    packageFit: 'Data Assessment (US$750, 14 days, NDA before we touch a file) audits two sources, clarifies scorecards and source quality, and is credited in full toward the project if you sign within 30 days. Executive Cockpit starts at US$2,500 over 4–6 weeks: up to four sources and up to three dashboards. The proposal depends on forms, history, and review needs.',
     faq: [
       { question: 'Can reports compare QA scores by agent, team and rubric item?', answer: 'Yes, if the evaluations include consistent agent, team, and item identifiers. We preserve rubric versions and show when a comparison would be misleading.' },
       { question: 'How do you handle different scorecards across client programs?', answer: 'We document each program’s items and weights, report them separately by default, and combine only measures that have an agreed common meaning.' },
@@ -304,7 +304,7 @@ export const SERVICES: Service[] = [
     problemIntro: 'Occupancy and adherence are easy to misread when systems use different intervals, state codes, or exclusions. Before charting a gap, we agree on the calculation and the source that supports it.',
     symptoms: [
       'Scheduled staffing and actual agent states live in separate exports.',
-      'An occupancy number rises, but supervisors cannot see which intervals or queues drove it.',
+      'Occupancy spikes, but supervisors cannot pinpoint which intervals or queues drove it.',
       'Program managers debate adherence because breaks, offline work, and time zones are handled differently.'
     ],
     approach: 'We build reporting from the WFM, ACD, and spreadsheet data you already have. The work covers metric definitions, reconciliation, and interval views. It does not create schedules or replace your WFM software.',
@@ -321,7 +321,7 @@ export const SERVICES: Service[] = [
       'We reconcile records and test formulas with supervisors before finalizing the reporting views.',
       'We provide documentation and training. Ongoing Support starts at US$300/month if later changes are needed.'
     ],
-    proof: 'Multi-client BPO operator: the published case consolidated data from fourteen telephony and CRM systems daily, with SLA compliance moving from about 81% to over 99%. It demonstrates cross-system operational reporting; the published case does not describe a WFM software implementation or prove an occupancy outcome.',
+    proof: 'Multi-client BPO operator: the published case reconciled 33,370 rows over 79 weeks from fourteen telephony and CRM systems, moving SLA compliance from about 81% to over 99% and freeing 25+ supervisor hours per week. It shows cross-system operational reporting, not a WFM software implementation.',
     packageFit: 'Data Assessment (US$750, 2 weeks) can clarify states and definitions. Executive Cockpit starts at US$2,500 for a scoped reporting view over 4–6 weeks. Control Room starts at US$12,000 over 10–14 weeks when broader data integration is required. Scope determines fit.',
     faq: [
       { question: 'How is occupancy calculated from our available data?', answer: 'We agree on which handling and available states count and inspect what your ACD exports provide. The report documents numerator, denominator, exclusions, and interval rules.' },

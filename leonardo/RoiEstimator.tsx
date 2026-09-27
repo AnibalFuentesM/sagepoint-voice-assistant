@@ -31,7 +31,8 @@ const copy = {
     assessment: 'Radiografía de Datos',
     cockpit: 'Cockpit Ejecutivo',
     from: 'desde',
-    payback: 'Recuperación estimada del precio de entrada',
+    payback: 'Recuperación estimada de un Cockpit Ejecutivo (desde US$2,500)',
+    credit: 'Si empiezas por la Radiografía, sus US$750 se acreditan completos al proyecto si contratas en 30 días.',
     weeks: 'semanas',
     longPayback: 'más de 2 años',
     complex: 'Si tu operación conecta varios sistemas, podría necesitar Sala de Control (desde US$12,000). Lo definimos en el diagnóstico.',
@@ -45,9 +46,9 @@ const copy = {
     teamUnit: 'people',
     hours: 'Hours per person each week',
     hoursUnit: 'hours',
-    rate: 'Loaded hourly cost',
+    rate: 'Fully loaded hourly rate',
     rateUnit: 'per hour',
-    rateHint: 'Salary + benefits ÷ hours worked.',
+    rateHint: 'Wages + benefits and payroll taxes ÷ hours worked.',
     results: 'Your annual estimate',
     annualHours: 'Hours spent on manual reporting',
     annualCost: 'Cost of that time',
@@ -57,7 +58,8 @@ const copy = {
     assessment: 'Data Assessment',
     cockpit: 'Executive Cockpit',
     from: 'from',
-    payback: 'Estimated payback on the entry price',
+    payback: 'Estimated payback on an Executive Cockpit (from US$2,500)',
+    credit: 'If you start with the Data Assessment, its US$750 is credited in full toward the project if you sign within 30 days.',
     weeks: 'weeks',
     longPayback: 'over 2 years',
     complex: 'Operations spanning multiple systems may need Control Room (from US$12,000). We will confirm that in the diagnostic.',
@@ -79,7 +81,8 @@ export default function RoiEstimator({ lang, onBook }: Props) {
   const estimatedSavings = annualCost * 0.75;
   const packageId: PackageId = estimatedSavings < 10000 ? 'quick-win' : 'executive';
   const entryPrice = packageId === 'quick-win' ? 750 : 2500;
-  const paybackWeeks = entryPrice / (estimatedSavings / 52);
+  // The 75% automation is what an Executive Cockpit delivers, so payback is measured against it.
+  const paybackWeeks = 2500 / (estimatedSavings / 52);
   const number = new Intl.NumberFormat(lang === 'es' ? 'es-GT' : 'en-US');
   const decimal = new Intl.NumberFormat(lang === 'es' ? 'es-GT' : 'en-US', {
     minimumFractionDigits: 1,
@@ -172,6 +175,7 @@ export default function RoiEstimator({ lang, onBook }: Props) {
           <div className="roi-recommendation">
             <p className="roi-kicker">{t.recommended}</p>
             <p className="roi-package">{packageId === 'quick-win' ? t.assessment : t.cockpit} <span>· {packageId === 'quick-win' ? dollars(entryPrice) : `${t.from} ${dollars(entryPrice)}`}</span></p>
+            {packageId === 'quick-win' && <p className="roi-complex">{t.credit}</p>}
             <p className="roi-payback">{t.payback}: <strong>{paybackWeeks > 104 ? t.longPayback : `${decimal.format(paybackWeeks)} ${t.weeks}`}</strong></p>
           </div>
           <p className="roi-complex">{t.complex}</p>
