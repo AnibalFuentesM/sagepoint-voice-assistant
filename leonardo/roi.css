@@ -1,0 +1,32 @@
+.leo #calculadora{background:#080d0b;border-block:1px solid var(--rule)}
+.leo .roi-estimator{display:block}
+.leo .roi-heading{max-width:850px}
+.leo .roi-heading .sec-title{max-width:14ch}
+.leo .roi-heading .sec-lede{margin-top:22px}
+.leo .roi-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);margin-top:clamp(36px,5vw,72px)}
+.leo .roi-inputs,.leo .roi-results{min-width:0;border:1px solid var(--rule);border-radius:var(--r-card);padding:clamp(22px,3vw,42px);background:var(--card)}
+.leo .roi-inputs{display:flex;flex-direction:column;gap:38px;justify-content:center}
+.leo .roi-field-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.leo .roi-field label{font-size:14px;font-weight:600;color:var(--bone)}
+.leo .roi-field output{font-family:var(--f-mono);font-size:18px;color:var(--mint);white-space:nowrap}
+.leo .roi-field output span{font-size:10px;color:var(--ash)}
+.leo .roi-field input[type=range]{display:block;width:100%;min-height:36px;margin:12px 0 0;accent-color:var(--mint);cursor:pointer;touch-action:auto}
+.leo .roi-hint{margin:3px 0 0;color:var(--ash);font-size:12px}
+.leo .roi-kicker{font-family:var(--f-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ash);margin:0 0 18px}
+.leo .roi-metrics{margin:0}
+.leo .roi-metrics>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:15px 0;border-bottom:1px solid var(--rule)}
+.leo .roi-metrics dt{color:var(--ash);font-size:13px;max-width:25ch}
+.leo .roi-metrics dd{margin:0;font-family:var(--f-mono);font-size:clamp(17px,2vw,25px);font-weight:600;white-space:nowrap}
+.leo .roi-metrics .roi-metric-main{display:block;border:0;padding:26px 0 8px}
+.leo .roi-metric-main dt{color:var(--bone);max-width:none}
+.leo .roi-metric-main dd{font-family:var(--f-disp);font-size:clamp(35px,4.4vw,65px);line-height:1.15;letter-spacing:-.035em;color:var(--mint);white-space:normal;overflow-wrap:anywhere}
+.leo .roi-method,.leo .roi-complex{font-size:12px;color:var(--ash);line-height:1.6;margin:14px 0 0}
+.leo .roi-recommendation{border-top:1px solid var(--rule);margin-top:26px;padding-top:25px}
+.leo .roi-recommendation .roi-kicker{margin-bottom:8px}
+.leo .roi-package{font-weight:700;font-size:18px;margin:0}
+.leo .roi-package span{font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--mint)}
+.leo .roi-payback{margin:10px 0 0;color:var(--ash);font-size:13px}
+.leo .roi-payback strong{color:var(--bone);font-weight:600}
+.leo .roi-cta{margin-top:25px;max-width:100%;white-space:normal;text-align:center;justify-content:center;line-height:1.3}
+@media(max-width:800px){.leo .roi-grid{grid-template-columns:1fr}.leo .roi-inputs{gap:25px}}
+@media(max-width:420px){.leo .roi-inputs,.leo .roi-results{padding:20px}.leo .roi-metrics>div{align-items:start;flex-direction:column;gap:2px}.leo .roi-metrics .roi-metric-main{gap:5px}.leo .roi-cta{width:100%;padding-inline:15px}}

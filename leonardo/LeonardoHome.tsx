@@ -9,6 +9,7 @@ import {
   trackWhatsAppClick,
 } from '../utils/analytics';
 import BookingModal from './BookingModal';
+import RoiEstimator from './RoiEstimator';
 import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
 import { CATCOLOR, CATNAME, CATRGB, PROJECTS, SAY, TILES, type LeoCat } from './leonardoData';
@@ -795,6 +796,10 @@ export default function LeonardoHome() {
               </article>
             </div>
           </div>
+        </section>
+
+        <section id="calculadora">
+          <RoiEstimator lang={lang} onBook={(event, packageId) => openBooking(event, packageId, 'roi_calculator')} />
         </section>
 
         {/* PACKAGES */}
