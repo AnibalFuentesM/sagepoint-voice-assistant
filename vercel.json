@@ -172,6 +172,41 @@
       "status": 308
     },
     {
+      "src": "^/servicios/integracion-crm-erp-apis$",
+      "headers": {
+        "Location": "/servicios/integracion-crm-erp-apis/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/servicios/pronosticos-ventas-demanda$",
+      "headers": {
+        "Location": "/servicios/pronosticos-ventas-demanda/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/contact-center-qa-reporting$",
+      "headers": {
+        "Location": "/en/services/contact-center-qa-reporting/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/contact-center-wfm-reporting$",
+      "headers": {
+        "Location": "/en/services/contact-center-wfm-reporting/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/guias/cuanto-cuesta-dashboard-power-bi-guatemala$",
+      "headers": {
+        "Location": "/guias/cuanto-cuesta-dashboard-power-bi-guatemala/"
+      },
+      "status": 308
+    },
+    {
       "src": "^/assets/[^/]+-[A-Za-z0-9_-]{8}\\.(js|css)$",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
@@ -243,6 +278,26 @@
     {
       "src": "^/en/services/bpo-client-reporting-automation/$",
       "dest": "/en/services/bpo-client-reporting-automation/index.html"
+    },
+    {
+      "src": "^/servicios/integracion-crm-erp-apis/$",
+      "dest": "/servicios/integracion-crm-erp-apis/index.html"
+    },
+    {
+      "src": "^/servicios/pronosticos-ventas-demanda/$",
+      "dest": "/servicios/pronosticos-ventas-demanda/index.html"
+    },
+    {
+      "src": "^/en/services/contact-center-qa-reporting/$",
+      "dest": "/en/services/contact-center-qa-reporting/index.html"
+    },
+    {
+      "src": "^/en/services/contact-center-wfm-reporting/$",
+      "dest": "/en/services/contact-center-wfm-reporting/index.html"
+    },
+    {
+      "src": "^/guias/cuanto-cuesta-dashboard-power-bi-guatemala/$",
+      "dest": "/guias/cuanto-cuesta-dashboard-power-bi-guatemala/index.html"
     },
     {
       "handle": "filesystem"
