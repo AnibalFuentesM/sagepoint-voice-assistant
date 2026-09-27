@@ -252,7 +252,7 @@ export const SAY: LeoQuote[] = [
   },
   {
     "text": "Tuvo la paciencia de entender nuestras ideas antes de proponer nada.",
-    "author": "Meylin Sic",
+    "author": "Maylin Sic",
     "role": "Coordinadora de Proyecto"
   },
   {
@@ -267,7 +267,7 @@ export const SAY: LeoQuote[] = [
   },
   {
     "text": "El primer dashboard funcional llegó en menos de 10 días.",
-    "author": "Meylin Sic",
+    "author": "Maylin Sic",
     "role": "Coordinadora de Proyecto"
   }
 ];
@@ -290,3 +290,15 @@ export const CATRGB: Record<LeoCat, string> = {
   auto: '139,125,255',
   web: '51,208,255',
 };
+
+/** Tools strip under the hero. Only tools actually used in delivered work. */
+export const STACK: { tool: string; use: string }[] = [
+  { tool: 'Power BI', use: 'cockpits ejecutivos multi-sucursal' },
+  { tool: 'Looker Studio', use: 'dashboards sobre Google Sheets' },
+  { tool: 'Google Apps Script', use: 'reportes que se arman y se envían solos' },
+  { tool: 'Python', use: 'ingesta y limpieza de datos' },
+  { tool: 'SQL & DAX', use: 'modelos que cuadran con la fuente' },
+  { tool: 'Playwright', use: 'datos de portales sin API' },
+  { tool: 'Excel · Power Query', use: 'consolidación de archivos repetidos' },
+  { tool: 'APIs de CRM y telefonía', use: 'el dato directo del sistema' },
+];

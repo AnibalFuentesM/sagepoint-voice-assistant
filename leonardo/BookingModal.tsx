@@ -216,6 +216,9 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
 
       {state === 'success' || state === 'pending' ? (
         <div className="bk-done" role="status">
+          {state === 'success' && (
+            <img className="bk-mago" src="/assets/img/mago-ok.webp" width={102} height={120} alt="" aria-hidden="true" />
+          )}
           <p className="bk-eyebrow">{t(state === 'pending' ? 'Recepción no confirmada' : 'Solicitud recibida')}</p>
           <h2 id={`${dialogId}-title`} className="bk-title">
             {t(state === 'pending' ? 'No pudimos confirmar la recepción.' : 'Listo. Te escribimos en menos de 24 horas.')}

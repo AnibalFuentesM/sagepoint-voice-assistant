@@ -11,7 +11,9 @@ import {
 import BookingModal from './BookingModal';
 import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
-import { CATCOLOR, CATNAME, CATRGB, PROJECTS, SAY, TILES, type LeoCat } from './leonardoData';
+import { CATCOLOR, CATNAME, CATRGB, PROJECTS, STACK, TILES, type LeoCat } from './leonardoData';
+import WhatsAppButton from '../components/WhatsAppButton';
+import { FOUNDER_LINKEDIN, FOUNDER_PHOTO } from './booking';
 import './leonardo.css';
 import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 
@@ -65,7 +67,6 @@ function seeded(i: number) {
 type FlyCard = { ang: number; rad: number; birth: number; spin: number; sz: number; src: string; h: number };
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-const smooth = (v: number) => v * v * (3 - 2 * v);
 
 export default function LeonardoHome() {
   const navigate = useNavigate();
@@ -291,8 +292,9 @@ export default function LeonardoHome() {
         glowRef.current.style.opacity = cinema ? clamp01((p - 0.13) / 0.12).toFixed(3) : '1';
       }
 
-      // Keep the offer and CTA visible from the first frame; only fade on exit.
-      const out = cinema ? 1 - smooth(clamp01((p - 0.94) / 0.06)) : 1;
+      // Keep the offer and CTA visible from the first frame to the last. No exit fade: once the
+      // stage unpins it scrolls away with its content, instead of leaving a blank black screen.
+      const out = 1;
       if (plateRef.current) {
         const f = out;
         plateRef.current.style.opacity = f.toFixed(3);
@@ -550,20 +552,20 @@ export default function LeonardoHome() {
           </div>
         </section>
 
-        {/* TICKER / CITAS */}
-        <div className="ticker ticker--say" aria-label={t("Lo que dicen los clientes")}>
+        {/* TICKER / HERRAMIENTAS */}
+        <div className="ticker ticker--say" aria-label={t("Herramientas con las que trabajamos")}>
           {/* The row is rendered twice so the -50% translate loops seamlessly. Fragments, not a
               wrapper div: the spans have to stay direct flex children of .ticker-track. */}
           <div className="ticker-track">
             {[0, 1].map((dup) => (
               <React.Fragment key={dup}>
-                {SAY.map((q) => (
-                  <span className="tq" key={q.author + q.text} aria-hidden={dup === 1}>
-                    <q>{t(q.text)}</q>
-                    <i />
+                {STACK.map((item) => (
+                  <span className="tq tq--tool" key={item.tool} aria-hidden={dup === 1}>
                     <cite>
-                      <b>{t(q.author)}</b> · {t(q.role)}
+                      <b>{t(item.tool)}</b>
                     </cite>
+                    <i />
+                    <span>{t(item.use)}</span>
                   </span>
                 ))}
               </React.Fragment>
@@ -913,17 +915,37 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="founder-card" data-rv>
               <div className="founder-identity">
-                {/* // TODO(Aníbal): foto real en public/assets/img/anibal.jpg */}
-                <div className="founder-monogram" aria-hidden="true">AF</div>
+                {FOUNDER_PHOTO ? (
+                  <img
+                    className="founder-photo"
+                    src={FOUNDER_PHOTO}
+                    alt={t("Aníbal Fuentes, fundador de Sagepoint Analytics")}
+                    width={128}
+                    height={128}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="founder-monogram" aria-hidden="true">AF</div>
+                )}
                 <div>
                   <p className="eyebrow">{t("Quién está detrás")}</p>
                   <h2>Aníbal Fuentes</h2>
                   <p className="founder-role">{t("Fundador")}</p>
+                  <a
+                    className="founder-link"
+                    href={FOUNDER_LINKEDIN}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('linkedin_click', { source_section: 'founder', language: lang })}
+                  >
+                    {t("Sagepoint en LinkedIn")} <span aria-hidden="true">↗</span>
+                  </a>
                   {/* // TODO(Aníbal): 1 línea de trayectoria verificable */}
                 </div>
               </div>
               <ul className="founder-facts">
-                <li>{t("Está en Ciudad de Guatemala y trabaja durante el horario laboral de la zona central de Estados Unidos.")}</li>
+                <li>{t("Está en Ciudad de Guatemala y atiende en horario de oficina de Guatemala.")}</li>
                 <li>{t("Bilingüe en inglés y español.")}</li>
                 <li>{t("Construye personalmente los dashboards y las automatizaciones con Power BI, Python, Playwright y Google Apps Script.")}</li>
                 <li>{t("Trabaja dentro de las cuentas y licencias del cliente.")}</li>
@@ -987,7 +1009,7 @@ export default function LeonardoHome() {
                 <figcaption>
                   <span className="av c">MS</span>
                   <span className="who">
-                    Meylin Sic<span>{t("Coordinadora de Proyecto")}</span>
+                    Maylin Sic<span>{t("Coordinadora de Proyecto")}</span>
                   </span>
                   <span className="kpi">
                     {t("10 días")}
@@ -1195,6 +1217,7 @@ export default function LeonardoHome() {
         source={booking.source}
         onClose={() => setBooking((b) => ({ ...b, open: false }))}
       />
+      {!booking.open && <WhatsAppButton lang={lang} />}
     </div>
   );
 }

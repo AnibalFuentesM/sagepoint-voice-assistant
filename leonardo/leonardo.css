@@ -92,7 +92,7 @@ html{scroll-behavior:smooth}
 .leo .pill--mint{background:var(--mint);color:#04120d}
 .leo .pill--mint:hover{background:#7cf0cd}
 .leo .flight{position:relative;height:100svh;padding:0}
-.leo .flight[data-cinema="on"]{height:440vh}
+.leo .flight[data-cinema="on"]{height:250vh}
 .leo .flight[data-cinema="off"] .room{opacity:.42}
 .leo .flight[data-cinema="off"] .glow{opacity:1}
 .leo .flight[data-cinema="off"] .cue{display:none}
@@ -183,6 +183,7 @@ html{scroll-behavior:smooth}
 .leo .tq i{flex:0 0 auto;width:16px;height:1px;background:var(--rule)}
 .leo .tq cite{font-family:var(--f-mono);font-size:10px;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .leo .tq cite b{color:var(--mint);font-weight:500}
+.leo .tq--tool > span{font-family:var(--f-ui);font-size:14px;line-height:1.1;letter-spacing:-.008em;color:var(--ash)}
 @media (max-width:900px){.leo .tq{padding:13px 22px;gap:10px}
 .leo .tq q{font-size:13px}
 .leo .tq cite{font-size:9px}}
@@ -376,6 +377,12 @@ html{scroll-behavior:smooth}
 }
 .leo .founder-role{margin:9px 0 0;color:var(--mute);font-family:var(--f-mono);font-size:10px;
   letter-spacing:.16em;text-transform:uppercase}
+.leo .founder-photo{width:128px;height:128px;border-radius:50%;object-fit:cover;flex:none;
+  box-shadow:0 0 0 1px rgba(99,230,190,.35),0 0 42px rgba(99,230,190,.18)}
+.leo .founder-link{display:inline-flex;gap:6px;margin-top:14px;color:var(--mint);font-family:var(--f-mono);
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  border-bottom:1px solid rgba(99,230,190,.35);padding-bottom:3px}
+.leo .founder-link:hover,.leo .founder-link:focus-visible{border-bottom-color:var(--mint)}
 .leo .founder-facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
 .leo .founder-facts li{display:flex;gap:11px;color:var(--ash);font-size:14.5px;line-height:1.5}
 .leo .founder-facts li::before{content:'';width:6px;height:6px;margin-top:.55em;border-radius:50%;
@@ -383,7 +390,8 @@ html{scroll-behavior:smooth}
 @media (max-width:800px){.leo .founder-card{grid-template-columns:1fr}
 .leo .founder-identity{align-items:flex-start}}
 @media (max-width:480px){.leo .founder-identity{flex-direction:column}
-.leo .founder-monogram{width:76px;height:76px;font-size:32px}}
+.leo .founder-monogram{width:76px;height:76px;font-size:32px}
+.leo .founder-photo{width:96px;height:96px}}
 .leo .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:38px}
 .leo .quote{background:var(--card);border-radius:20px;padding:26px 24px;display:flex;flex-direction:column;gap:18px;
   box-shadow:0 0 0 1px rgba(243,240,232,.06)}
