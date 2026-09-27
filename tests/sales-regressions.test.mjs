@@ -223,8 +223,10 @@ test('analytics bootstrap queues gtag Arguments, preserving event name and param
 
 test('external booking URL is opt-in, English-only and wired to all three primary CTAs', async () => {
   const { BOOKING_URL, getEnglishBookingUrl } = await vite.ssrLoadModule('/leonardo/booking.ts');
-  assert.equal(BOOKING_URL, '');
-  assert.equal(getEnglishBookingUrl('en'), null);
+  // Either unset, or a Google Calendar booking page; never anything else.
+  assert.match(BOOKING_URL, /^(|https:\/\/calendar\.google\.com\/calendar\/appointments\/schedules\/[A-Za-z0-9_-]+)$/);
+  assert.equal(getEnglishBookingUrl('en'), BOOKING_URL || null);
+  assert.equal(getEnglishBookingUrl('es'), null);
   assert.equal(getEnglishBookingUrl('es', 'https://example.com/book'), null);
   assert.equal(getEnglishBookingUrl('en', ' https://example.com/book '), 'https://example.com/book');
 
