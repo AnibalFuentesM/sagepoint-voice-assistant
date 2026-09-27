@@ -15,6 +15,7 @@ const PortfolioPage = lazy(() => import('./components/PortfolioPage'));
 const WebPage = lazy(() => import('./components/WebPage'));
 const ServicesHub = lazy(() => import('./leonardo/ServicesHub'));
 const ServicePage = lazy(() => import('./leonardo/ServicePage'));
+const GuidePage = lazy(() => import('./leonardo/GuidePage'));
 
 initializeAnalytics();
 captureLeadAttribution();
@@ -62,6 +63,8 @@ root.render(
           <Route path="/servicios/:slug/" element={<ServicePage />} />
           <Route path="/en/services/:slug" element={<ServicePage />} />
           <Route path="/en/services/:slug/" element={<ServicePage />} />
+          <Route path="/guias/:slug" element={<GuidePage />} />
+          <Route path="/guias/:slug/" element={<GuidePage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -21,11 +21,12 @@ let paths;
 try {
   const { renderPage, translateLeo, ALL_ROUTES } = await vite.ssrLoadModule('/scripts/render-pages.tsx');
   const { serviceGraph } = await vite.ssrLoadModule('/leonardo/ServicePage.tsx');
+  const { guideGraph } = await vite.ssrLoadModule('/leonardo/GuidePage.tsx');
   paths = ALL_ROUTES;
   for (const path of paths) {
     const language = path.startsWith('/en/') ? 'en' : 'es';
     const url = `${site}${path}`;
-    const { markup, meta, service } = renderPage(path);
+    const { markup, meta, service, guide } = renderPage(path);
     const graph = [
       organization,
       { '@type': 'WebSite', '@id': `${site}/#website`, url: `${site}/`, name: 'Sagepoint Analytics', publisher: { '@id': `${site}/#organization` } },
@@ -33,6 +34,7 @@ try {
     ];
     if (path === '/' || path === '/en/') graph.push({ ...homeFaq, mainEntity: homeFaq.mainEntity.map(q => ({ ...q, name: translateLeo(language, q.name), acceptedAnswer: { ...q.acceptedAnswer, text: translateLeo(language, q.acceptedAnswer.text) } })) });
     if (service) graph.push(...serviceGraph(service));
+    if (guide) graph.push(...guideGraph(guide));
     if (path === '/servicios/' || path === '/en/services/') graph.push({ '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: language === 'es' ? 'Inicio' : 'Home', item: `${site}${language === 'es' ? '/' : '/en/'}` },
       { '@type': 'ListItem', position: 2, name: language === 'es' ? 'Servicios' : 'Services', item: url },

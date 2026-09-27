@@ -56,8 +56,13 @@ const routes = [
   ['/servicios/dashboards-power-bi-guatemala/', 'es'],
   ['/servicios/automatizar-reportes-excel-sheets/', 'es'],
   ['/servicios/automatizacion-procesos-pymes/', 'es'],
+  ['/servicios/integracion-crm-erp-apis/', 'es'],
+  ['/servicios/pronosticos-ventas-demanda/', 'es'],
   ['/en/services/call-center-kpi-dashboards/', 'en'],
   ['/en/services/bpo-client-reporting-automation/', 'en'],
+  ['/en/services/contact-center-qa-reporting/', 'en'],
+  ['/en/services/contact-center-wfm-reporting/', 'en'],
+  ['/guias/cuanto-cuesta-dashboard-power-bi-guatemala/', 'es'],
 ];
 const site = 'https://www.sagepoint-analytics.com';
 const built = path => readFileSync(join('dist', path, 'index.html'), 'utf8');
@@ -114,6 +119,22 @@ test('sitemap has all first-wave canonical URLs and paired alternates only', () 
     assert.ok(item?.includes(`hreflang="es" href="${site}${path}"`));
     assert.doesNotMatch(item, /hreflang="en"|x-default/);
   }
+});
+
+test('guide has matching visible FAQ and Article, BreadcrumbList, FAQPage schema', () => {
+  const path = '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/';
+  const html = built(path);
+  const items = graph(html);
+  for (const type of ['Article', 'BreadcrumbList', 'FAQPage']) assert.ok(items.some(item => item['@type'] === type), type);
+  const breadcrumb = items.find(item => item['@type'] === 'BreadcrumbList');
+  assert.deepEqual(breadcrumb.itemListElement.map(item => item.name).slice(0, 3), ['Inicio', 'Servicios', 'Dashboards Power BI']);
+  const faq = items.find(item => item['@type'] === 'FAQPage');
+  assert.deepEqual(faq.mainEntity.map(item => item.name), [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]));
+  for (const entry of faq.mainEntity) assert.ok(html.includes(`<p>${entry.acceptedAnswer.text}</p>`), entry.name);
+  assert.ok(html.includes(`<link rel="alternate" hreflang="es" href="${site}${path}"`));
+  assert.doesNotMatch(html, /<link rel="alternate" hreflang="en"/);
+  assert.ok(built('/servicios/').includes(path));
+  assert.ok(built('/servicios/dashboards-power-bi-guatemala/').includes(path));
 });
 
 test('built HTML and JS use path language links', () => {
@@ -243,4 +264,13 @@ test('deployment config redirects legacy URLs and serves each prerendered route'
   const cache = path => config.routes.find(r => r.headers?.['Cache-Control'] && new RegExp(r.src).test(path))?.headers['Cache-Control'];
   assert.match(cache('/assets/index-12345678.js'), /immutable/);
   assert.doesNotMatch(cache('/assets/img/project.webp'), /immutable/);
+});
+
+test('every ALL_ROUTES path has a Vercel destination rule', async () => {
+  const { ALL_ROUTES } = await vite.ssrLoadModule('/leonardo/servicesData.ts');
+  const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
+  for (const path of ALL_ROUTES) {
+    const rule = config.routes.find(route => route.src === `^${path}$` && route.dest);
+    assert.equal(rule?.dest, `${path}index.html`, path);
+  }
 });

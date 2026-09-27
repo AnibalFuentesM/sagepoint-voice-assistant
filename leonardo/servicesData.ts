@@ -1,7 +1,8 @@
 export type Service = {
   lang: 'es' | 'en'; slug: string; path: string; title: string; description: string; h1: string;
   subhead: string; problemIntro: string; symptoms: string[]; approach: string;
-  deliverables: { title: string; detail: string }[]; process: string[]; proof: string;
+  deliverables: { title: string; detail: string }[]; process: string[]; proof?: string;
+  validation?: { title: string; detail: string };
   packageFit: string; faq: { question: string; answer: string }[];
 };
 
@@ -35,7 +36,7 @@ export const SERVICES: Service[] = [
     proof: 'Apex Auto Group — cockpit ejecutivo en Power BI: un solo cockpit para 12 concesionarios y 85 feeds de DMS. El caso publicado muestra cómo una vista compartida ayudó a ver la fuga de margen en repuestos el mismo día, no semanas después.',
     packageFit: 'Si todavía hay que validar fuentes y preguntas, Radiografía de Datos (US$750, 2 semanas) suele ser el punto de partida. Para construir un dashboard ejecutivo, Cockpit Ejecutivo empieza en US$2,500. Sala de Control, desde US$12,000, corresponde a una integración más amplia; el paquete final depende del alcance.',
     faq: [
-      { question: '¿Cuánto cuesta desarrollar un dashboard de Power BI en Guatemala?', answer: 'Depende de las fuentes, la limpieza necesaria, la cantidad de vistas y quién debe acceder. Cockpit Ejecutivo empieza en US$2,500, pero primero revisamos un ejemplo de tus datos y definimos el alcance en una propuesta. Radiografía de Datos (US$750) puede servir si aún hay que aclarar el problema.' },
+      { question: '¿Cuánto cuesta desarrollar un dashboard de Power BI en Guatemala?', answer: 'Depende de las fuentes, la limpieza necesaria, la cantidad de vistas y quién debe acceder. Cockpit Ejecutivo empieza en US$2,500, pero primero revisamos un ejemplo de tus datos y definimos el alcance en una propuesta. Radiografía de Datos (US$750) puede servir si aún hay que aclarar el problema. Lee nuestra guía de costos para comparar alcances.' },
       { question: '¿Pueden usar mis archivos de Excel y los datos de mi sistema actual?', answer: 'Sí, si podemos acceder a ellos de forma autorizada y entender sus campos. Revisamos si el sistema permite exportación, API o conexión directa, y validamos que los totales coincidan antes de publicar la vista.' },
       { question: '¿Qué KPIs debería mostrar un dashboard para gerencia?', answer: 'Los que explican una decisión: por ejemplo, ventas, margen y desviaciones por unidad de negocio. En el diagnóstico preguntamos qué acciones toma gerencia, qué definiciones utiliza y qué datos están disponibles. Evitamos llenar la pantalla de métricas sin dueño.' },
       { question: '¿Cada cuánto se actualizan los datos del dashboard?', answer: 'Depende del origen, los permisos y la herramienta elegida. Podemos diseñar una carga programada o un proceso de actualización controlado; la propuesta especifica la frecuencia posible y qué ocurre si una fuente no llega.' },
@@ -115,6 +116,78 @@ export const SERVICES: Service[] = [
     ]
   },
   {
+    lang: 'es', slug: 'integracion-crm-erp-apis', path: '/servicios/integracion-crm-erp-apis/',
+    title: 'Integración de CRM y ERP en Guatemala | Sagepoint',
+    description: 'Conecta CRM, ERP y otras aplicaciones mediante APIs o intercambios de datos. Evita duplicar capturas y mantén información consistente.',
+    h1: 'Integración de CRM, ERP y aplicaciones para empresas',
+    subhead: 'Cuando ventas y operación trabajan con registros distintos, el mismo cliente o pedido cambia de significado entre sistemas. Diseñamos integraciones para compartir los datos necesarios con reglas claras y trazabilidad.',
+    problemIntro: 'Conectar un CRM con un ERP exige decidir qué sistema gobierna cada campo, cuándo se actualiza y qué hacer ante un conflicto. Una copia automática sin esas reglas puede multiplicar duplicados.',
+    symptoms: [
+      'Mi equipo registra un pedido en el CRM y vuelve a capturarlo en el ERP.',
+      'El estado de un cliente cambia en un sistema, pero otro equipo sigue viendo la versión anterior.',
+      'Los errores de sincronización se descubren cuando alguien ya tomó una decisión con datos incompletos.'
+    ],
+    approach: 'Revisamos APIs, exportaciones y permisos de tus sistemas actuales. Definimos identificadores, dirección del intercambio, frecuencia y manejo de errores antes de construir una conexión. Esta página cubre integración de registros entre sistemas; los reportes de Excel y las tareas administrativas tienen servicios propios.',
+    deliverables: [
+      { title: 'Mapa de entidades', detail: 'Identificamos clientes, productos, pedidos u otras entidades que necesitan cruzar entre aplicaciones y sus campos clave.' },
+      { title: 'Reglas de sincronización', detail: 'Documentamos sistema de origen, transformaciones, identificadores, frecuencia y resolución de conflictos.' },
+      { title: 'Conexión acotada', detail: 'Implementamos intercambio por API o archivos cuando la plataforma y los accesos lo permiten.' },
+      { title: 'Controles de calidad', detail: 'Detectamos duplicados, rechazos y registros incompletos, con una ruta de revisión para tu equipo.' },
+      { title: 'Entrega documentada', detail: 'Dejamos instrucciones de operación, permisos y pruebas para cambios futuros.' }
+    ],
+    process: [
+      'La llamada gratuita de 30–45 min identifica sistemas, registros compartidos y un ejemplo de discrepancia.',
+      'Revisamos documentación y accesos autorizados; proponemos alcance, campos, reglas y pruebas de aceptación.',
+      'Construimos y probamos con casos normales, duplicados y errores; comparamos resultados con ambos sistemas.',
+      'Entregamos la integración documentada. Soporte Cercano desde US$300/mes puede cubrir cambios posteriores.'
+    ],
+    validation: { title: 'Cómo verificamos la integración', detail: 'Probamos altas, cambios y errores con registros de muestra de ambos sistemas. Comparamos identificadores y campos de origen y destino, comprobamos que una repetición no cree duplicados y revisamos cómo se alerta y corrige una sincronización fallida. La prueba de aceptación se acuerda con tu equipo.' },
+    packageFit: 'Radiografía de Datos (US$750, 2 semanas) permite aclarar entidades y reglas. Sala de Control, desde US$12,000 y con un plazo de 10–14 semanas, es una referencia para integraciones amplias. El alcance de cada conexión se cotiza tras revisar los sistemas.',
+    faq: [
+      { question: '¿Qué datos conviene sincronizar entre el CRM y el ERP?', answer: 'Solo los registros que sostienen un proceso concreto, como clientes, pedidos o estados. Definimos campos, propietario de cada dato y momento de actualización antes de conectar sistemas.' },
+      { question: '¿Se puede integrar un sistema antiguo que no tiene API?', answer: 'Puede ser posible mediante exportaciones e importaciones autorizadas. Revisamos formatos, frecuencia y controles; si el sistema no ofrece una vía confiable, lo explicamos antes de cotizar.' },
+      { question: '¿Cómo se evitan los clientes o pedidos duplicados?', answer: 'Acordamos identificadores y reglas para buscar coincidencias antes de crear registros. Los casos ambiguos se marcan para revisión en lugar de unirlos automáticamente.' },
+      { question: '¿La integración puede actualizar datos en ambas direcciones?', answer: 'Sí, si los sistemas lo permiten y existe una regla clara sobre cuál prevalece en cada campo. Una sincronización bidireccional requiere resolver conflictos y probar cambios simultáneos.' },
+      { question: '¿Quién corrige los errores si una sincronización falla?', answer: 'Definimos responsables, alertas y un registro de fallos en el alcance. Tu equipo puede revisar excepciones; un acuerdo de soporte puede cubrir ajustes técnicos posteriores.' }
+    ]
+  },
+  {
+    lang: 'es', slug: 'pronosticos-ventas-demanda', path: '/servicios/pronosticos-ventas-demanda/',
+    title: 'Pronósticos de ventas y demanda | Sagepoint',
+    description: 'Modelos de pronóstico de ventas y demanda para planificar compras, inventario y metas. Partimos de tus datos y validamos la precisión.',
+    h1: 'Pronósticos de ventas y demanda para tu empresa',
+    subhead: 'Un pronóstico útil muestra qué podría venderse, a qué nivel de detalle y con cuánta incertidumbre. Trabajamos con tu historial para apoyar compras, inventario y metas sin presentar una predicción como certeza.',
+    problemIntro: 'Una cifra proyectada pierde utilidad si mezcla productos discontinuados, cambios de precio o temporadas distintas. Primero evaluamos la calidad y el alcance del historial disponible.',
+    symptoms: [
+      'Planifico compras con la venta del último mes aunque sé que hay temporadas muy distintas.',
+      'Cada sucursal envía su estimación y no puedo comparar el error con un criterio común.',
+      'No sé si el modelo mejora una referencia simple basada en periodos anteriores.'
+    ],
+    approach: 'Definimos el horizonte y la unidad de pronóstico según la decisión: producto, sucursal o canal cuando el historial lo permite. Preparamos datos, comparamos métodos sencillos y modelos más elaborados, y explicamos el error observado. El entregable es un proceso de pronóstico y revisión, no un dashboard de ventas genérico.',
+    deliverables: [
+      { title: 'Diagnóstico del historial', detail: 'Revisamos periodos, faltantes, cambios de catálogo, devoluciones y posibles factores estacionales.' },
+      { title: 'Definición del pronóstico', detail: 'Acordamos nivel de detalle, horizonte, frecuencia y decisiones que usarán la estimación.' },
+      { title: 'Modelo y comparación', detail: 'Probamos una referencia simple y alternativas apropiadas para el volumen y estabilidad de tus datos.' },
+      { title: 'Medición del error', detail: 'Separamos periodos pasados para probar predicciones y mostramos dónde falla el modelo.' },
+      { title: 'Guía de actualización', detail: 'Documentamos datos requeridos, supuestos y revisión periódica cuando entren ventas nuevas.' }
+    ],
+    process: [
+      'En una llamada gratuita de 30–45 min revisamos la decisión comercial y una muestra de ventas históricas.',
+      'Acordamos fuentes, nivel de detalle, periodos de evaluación y entregables antes de estimar el proyecto.',
+      'Limpiamos el historial, entrenamos y contrastamos alternativas con periodos que no se usaron para ajustarlas.',
+      'Entregamos resultados, límites, guía de uso y una propuesta de actualización si el modelo demuestra utilidad.'
+    ],
+    validation: { title: 'Cómo validamos un pronóstico', detail: 'Reservamos periodos históricos para comparar lo pronosticado con lo que realmente ocurrió. Medimos el error por segmento y temporada, contrastamos con una referencia simple y revisamos si la precisión alcanza para la decisión que quieres tomar. Si el historial no permite una estimación confiable, lo decimos.' },
+    packageFit: 'Radiografía de Datos (US$750, 2 semanas) sirve para evaluar si el historial permite modelar. Un proyecto posterior requiere alcance propio; Cockpit Ejecutivo desde US$2,500 y 4–6 semanas solo aplica si además se acuerda una vista ejecutiva. No asignamos un precio fijo al pronóstico antes de evaluar datos.',
+    faq: [
+      { question: '¿Cuántos meses de ventas históricas se necesitan para un pronóstico?', answer: 'Depende del horizonte, la estacionalidad y el nivel de detalle. Revisamos si hay suficientes ciclos comparables; un historial corto puede permitir una estimación limitada, pero no una validación sólida de temporadas.' },
+      { question: '¿Se puede pronosticar por producto, sucursal o canal?', answer: 'Sí, cuando cada segmento tiene registros suficientes y consistentes. Si un producto vende de forma esporádica, quizá convenga agruparlo o usar un método diferente.' },
+      { question: '¿Cómo se mide si el pronóstico está funcionando?', answer: 'Comparamos predicciones con periodos reales que el modelo no usó para ajustarse. Mostramos el error por segmento y horizonte, y verificamos si supera una referencia sencilla.' },
+      { question: '¿Qué hacemos si las ventas tienen mucha estacionalidad?', answer: 'Identificamos ciclos y eventos conocidos, y probamos el modelo en temporadas anteriores. Si faltan ciclos comparables, comunicamos esa incertidumbre en lugar de ocultarla.' },
+      { question: '¿Puede empezar el modelo con datos que hoy están en Excel?', answer: 'Sí. Revisamos fechas, productos, unidades, devoluciones y cambios de formato. Primero ordenamos el historial y evaluamos si permite comparar periodos.' }
+    ]
+  },
+  {
     lang: 'en', slug: 'call-center-kpi-dashboards', path: '/en/services/call-center-kpi-dashboards/',
     title: 'Call Center KPI Dashboards | Sagepoint',
     description: 'Custom dashboards for call center leaders. Bring SLA, AHT, queue volume, abandonment and agent performance into one operational view.',
@@ -185,6 +258,78 @@ export const SERVICES: Service[] = [
       { question: 'Can the report show the source and calculation behind each KPI?', answer: 'That is part of the design. We document source fields and formulas and retain enough traceability for your team to investigate a disputed number, subject to the data your systems expose.' },
       { question: 'What happens when a source file is late or incomplete?', answer: 'The workflow should flag the issue and hold or label the affected output under an agreed rule. We decide with your team who reviews the exception and how a corrected report is issued.' }
     ]
+  },
+  {
+    lang: 'en', slug: 'contact-center-qa-reporting', path: '/en/services/contact-center-qa-reporting/',
+    title: 'Contact Center QA Reporting | Sagepoint',
+    description: 'Turn QA scorecards into clear reporting on agent trends, rubric items, calibration and coaching. Built for contact center teams.',
+    h1: 'Contact center QA scorecard reporting',
+    subhead: 'Your evaluations contain useful patterns, but scattered scorecards make it hard to see which behaviors need coaching. We turn existing QA results into reporting that teams can inspect and discuss.',
+    problemIntro: 'An average QA score can hide changes in the rubric, evaluator differences, and uneven sampling. We define the comparison rules before using score trends to guide coaching.',
+    symptoms: [
+      'I cannot see whether a low score comes from one rubric item or a broader agent trend.',
+      'Different client programs use different forms, making a combined average misleading.',
+      'Coaching notes and follow-up are disconnected from the evaluations that prompted them.'
+    ],
+    approach: 'We work with evaluations from your current QA platform or spreadsheets. We map rubric versions, score weights, evaluator and program identifiers, and agreed coaching outcomes. This is reporting on existing evaluations; call recording, automatic scoring, and QA platform replacement are outside this service.',
+    deliverables: [
+      { title: 'Scorecard inventory', detail: 'Map programs, rubric items, weights, versions, evaluators, and available coaching fields.' },
+      { title: 'Comparable measures', detail: 'Define when agent, team, and rubric scores can be compared and where forms must remain separate.' },
+      { title: 'QA reporting views', detail: 'Show trends and item-level patterns with filters for team, program, evaluator, and time where data allows.' },
+      { title: 'Calibration checks', detail: 'Surface differences between evaluators when shared samples and identifiers support a comparison.' },
+      { title: 'Coaching handoff', detail: 'Document measures and provide a way to review whether follow-up was recorded after an evaluation.' }
+    ],
+    process: [
+      'A free 30–45 minute assessment reviews sample scorecards, exports, rubric changes, and coaching decisions.',
+      'We agree on data access, comparable groups, metrics, review rounds, and a scoped deliverable.',
+      'We reconcile sample evaluations, build views, and review surprising trends with QA leads.',
+      'We hand over definitions, reporting instructions, and training. Ongoing Support starts at US$300/month for later changes.'
+    ],
+    validation: { title: 'How we validate QA data', detail: 'We compare report counts and score calculations with source evaluations, check rubric version and weighting, and flag missing evaluator or program identifiers. Calibration comparisons are shown only when the same work was reviewed by multiple evaluators under a comparable rubric.' },
+    packageFit: 'Data Assessment (US$750, 2 weeks) helps clarify scorecards and source quality. Executive Cockpit starts at US$2,500 for a scoped reporting view over 4–6 weeks. The proposal depends on forms, history, and review needs.',
+    faq: [
+      { question: 'Can reports compare QA scores by agent, team and rubric item?', answer: 'Yes, if the evaluations include consistent agent, team, and item identifiers. We preserve rubric versions and show when a comparison would be misleading.' },
+      { question: 'How do you handle different scorecards across client programs?', answer: 'We document each program’s items and weights, report them separately by default, and combine only measures that have an agreed common meaning.' },
+      { question: 'Can we track calibration differences between evaluators?', answer: 'If evaluators scored shared samples under a comparable rubric, we can show differences by item or score. Without shared samples, we avoid treating score gaps as calibration evidence.' },
+      { question: 'How can QA trends be linked to coaching follow-up?', answer: 'When coaching actions are recorded with agent and date fields, we can relate them to evaluation trends. The report shows follow-up status; it does not claim that a score change was caused by one coaching session.' },
+      { question: 'Can existing spreadsheet evaluations be used as a data source?', answer: 'Yes. We inspect sample files for stable columns, IDs, dates, and rubric versions, then define a repeatable import and checks for missing or changed fields.' }
+    ]
+  },
+  {
+    lang: 'en', slug: 'contact-center-wfm-reporting', path: '/en/services/contact-center-wfm-reporting/',
+    title: 'Contact Center WFM Reporting | Sagepoint',
+    description: 'Track occupancy, schedule adherence, staffing gaps and interval performance with reports built from your contact center and WFM data.',
+    h1: 'Contact center WFM and occupancy reporting',
+    subhead: 'Staffing decisions need a shared view of scheduled time, actual states, and workload by interval. We connect your existing WFM and ACD outputs into reporting managers can verify.',
+    problemIntro: 'Occupancy and adherence are easy to misread when systems use different intervals, state codes, or exclusions. Before charting a gap, we agree on the calculation and the source that supports it.',
+    symptoms: [
+      'Scheduled staffing and actual agent states live in separate exports.',
+      'An occupancy number rises, but supervisors cannot see which intervals or queues drove it.',
+      'Program managers debate adherence because breaks, offline work, and time zones are handled differently.'
+    ],
+    approach: 'We build reporting from the WFM, ACD, and spreadsheet data you already have. The work covers metric definitions, reconciliation, and interval views. It does not create schedules or replace your WFM software.',
+    deliverables: [
+      { title: 'Source and state map', detail: 'Document schedules, actual agent states, contact workload, intervals, time zones, and exclusions.' },
+      { title: 'Metric definitions', detail: 'Agree on occupancy, adherence, and staffing gap formulas for each program and reporting period.' },
+      { title: 'Interval reporting', detail: 'Show scheduled versus actual staffing and workload by interval where source granularity allows.' },
+      { title: 'Reconciliation checks', detail: 'Flag missing schedules, state gaps, and late ACD data before managers use the report.' },
+      { title: 'Operating guide', detail: 'Hand over calculation notes, refresh steps, and review guidance for supervisors.' }
+    ],
+    process: [
+      'A free 30–45 minute assessment reviews current staffing decisions and sample WFM and ACD exports.',
+      'We scope intervals, program mappings, measures, access, review rounds, and refresh needs.',
+      'We reconcile records and test formulas with supervisors before finalizing the reporting views.',
+      'We provide documentation and training. Ongoing Support starts at US$300/month if later changes are needed.'
+    ],
+    proof: 'Multi-client BPO operator: the published case consolidated data from fourteen telephony and CRM systems daily, with SLA compliance moving from about 81% to over 99%. It demonstrates cross-system operational reporting; the published case does not describe a WFM software implementation or prove an occupancy outcome.',
+    packageFit: 'Data Assessment (US$750, 2 weeks) can clarify states and definitions. Executive Cockpit starts at US$2,500 for a scoped reporting view over 4–6 weeks. Control Room starts at US$12,000 over 10–14 weeks when broader data integration is required. Scope determines fit.',
+    faq: [
+      { question: 'How is occupancy calculated from our available data?', answer: 'We agree on which handling and available states count and inspect what your ACD exports provide. The report documents numerator, denominator, exclusions, and interval rules.' },
+      { question: 'Can the report compare scheduled and actual staffing by interval?', answer: 'Yes, when schedule and actual-state data share reliable agent IDs, timestamps, and interval detail. We show gaps and flag missing records.' },
+      { question: 'Can we report adherence across more than one program?', answer: 'Yes, if schedules, states, and program assignments can be mapped consistently. We retain program-specific rules rather than combining incompatible definitions.' },
+      { question: 'How often can WFM and ACD data be refreshed?', answer: 'It depends on export or API access and source latency. We specify a feasible cadence and show when one feed is incomplete or late.' },
+      { question: 'Can this work with our current WFM tool and spreadsheets?', answer: 'Usually, if the tool provides usable exports or API access and spreadsheets contain stable schedules or mappings. We assess those sources before committing to a build.' }
+    ]
   }
 ];
 
@@ -193,4 +338,4 @@ export const HUBS = {
   en: { path: '/en/services/', title: 'Reporting Services for Contact Centers | Sagepoint', description: 'Operational KPI dashboards and client reporting automation for US contact centers and BPOs. Built on your existing data and systems.', h1: 'Reporting services for contact centers and BPOs', intro: 'Your operations already generate data. We help turn existing ACD, CRM, and spreadsheet outputs into useful dashboards and repeatable client reporting, with agreed metric definitions and a documented handoff.' }
 };
 
-export const ALL_ROUTES = ['/', '/en/', '/portfolio/', '/en/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path)];
+export const ALL_ROUTES = ['/', '/en/', '/portfolio/', '/en/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'];
