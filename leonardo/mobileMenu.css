@@ -1,0 +1,152 @@
+.leo .mm-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--bone);
+  margin-left: 8px;
+}
+
+@media (max-width: 1100px) {
+  .leo .mm-toggle {
+    display: flex;
+  }
+}
+
+.leo .mm-icon {
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.leo .mm-icon::before,
+.leo .mm-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+}
+
+.leo .mm-icon::before { top: -6px; }
+.leo .mm-icon::after { top: 6px; }
+
+.leo .leo-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--black);
+  animation: mmFadeIn 0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@keyframes mmFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leo .leo-mobile-menu { animation: none; }
+}
+
+.leo .mm-sheet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px var(--gutter);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  position: relative;
+}
+
+.leo .mm-close {
+  align-self: flex-end;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--ash);
+  border-radius: 50%;
+  margin-right: -12px;
+  margin-top: -12px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.leo .mm-close:focus-visible {
+  color: var(--mint);
+  outline: 2px solid var(--mint);
+}
+
+.leo .mm-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.leo .mm-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--f-ui);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  text-decoration: none;
+  transition: color 0.2s;
+  animation: mmLinkIn 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(0.1s + (var(--i, 0) * 0.05s));
+}
+
+.leo .mm-num {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mute);
+  letter-spacing: 0.1em;
+}
+
+@keyframes mmLinkIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leo .mm-link { animation: none; }
+}
+
+.leo .mm-link:focus-visible,
+.leo .mm-link:active {
+  color: var(--mint);
+}
+
+.leo .mm-act {
+  margin-top: auto;
+  padding-bottom: 30px;
+  padding-top: 40px;
+  animation: mmLinkIn 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: 0.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leo .mm-act { animation: none; }
+}
+
+.leo .mm-act .pill {
+  width: 100%;
+  justify-content: center;
+  padding: 16px;
+  font-size: 16px;
+}

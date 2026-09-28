@@ -12,9 +12,18 @@ import BookingModal from './BookingModal';
 import RoiEstimator from './RoiEstimator';
 import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
-import { CATCOLOR, CATNAME, CATRGB, PROJECTS, STACK, TILES, type LeoCat } from './leonardoData';
+import { CATCOLOR, CATNAME, CATRGB, HOME_PROJECTS, STACK, TILES, type LeoCat } from './leonardoData';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { FOUNDER_LINKEDIN, FOUNDER_PHOTO } from './booking';
+import HeroCockpit from './HeroCockpit';
+import BeforeAfter from './BeforeAfter';
+import DataFlow from './DataFlow';
+import MobileMenu from './MobileMenu';
+import TrustGrid from './TrustGrid';
+import CtaReassure from './CtaReassure';
+import { useHashScroll } from './useHashScroll';
+import { useSpotlight } from './useSpotlight';
+import './spotlight.css';
 import './leonardo.css';
 import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 
@@ -49,7 +58,8 @@ const PACKAGE_NAMES: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------- flythrough geometry
-const FLY_N = 22; // cards in the air
+const FLY_TILES = TILES.slice(0, 14); // strongest dashboard and automation views
+const FLY_N = FLY_TILES.length;
 const START = 0.24; // progress where the flight begins
 const ZFAR = 2400; // spawn depth
 const FOCAL = 820; // camera focal length
@@ -88,13 +98,8 @@ export default function LeonardoHome() {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  // React Router navigation from the portfolio must also honor section links.
-  useEffect(() => {
-    if (!location.hash) return;
-    const id = location.hash === '#contact' ? 'agendar' : location.hash.slice(1);
-    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
-    return () => cancelAnimationFrame(frame);
-  }, [location.pathname, location.hash]);
+  useHashScroll();
+  useSpotlight();
 
   const [filter, setFilter] = useState<Filter>('all');
   /** Package the visitor last showed interest in, by id. Drives the closer echo and the modal. */
@@ -102,7 +107,7 @@ export default function LeonardoHome() {
   const [booking, setBooking] = useState({ open: false, pkg: 'general', source: 'nav' });
   /** 'on' only on screens with room for the flythrough, and never under reduced-motion. */
   const [cinema, setCinema] = useState(false);
-  /** The 22 hero cards are held back until the browser is idle: they must not race the headline. */
+  /** Decorative cards wait until the browser is idle so the headline renders first. */
   const [fieldReady, setFieldReady] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -113,6 +118,7 @@ export default function LeonardoHome() {
   const glowRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const plateRef = useRef<HTMLDivElement>(null);
+  const landingRef = useRef<HTMLDivElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
   const cardEls = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -120,7 +126,7 @@ export default function LeonardoHome() {
     () =>
       Array.from({ length: FLY_N }, (_, i) => {
         const r = seeded(i + 3);
-        const t = TILES[i % TILES.length];
+        const t = FLY_TILES[i];
         return {
           ang: i * 2.39996 + r() * 0.55, // golden angle keeps them evenly scattered
           rad: 0.36 + Math.pow(r(), 0.7) * 0.92, // leave a corridor around the headline
@@ -135,7 +141,7 @@ export default function LeonardoHome() {
   );
 
   const shown = useMemo(
-    () => PROJECTS.map((p) => filter === 'all' || p.cat === filter),
+    () => HOME_PROJECTS.map((p) => filter === 'all' ? p.cat !== 'web' : p.cat === filter),
     [filter],
   );
 
@@ -239,7 +245,7 @@ export default function LeonardoHome() {
   }, [cinema]);
 
   /**
-   * The flythrough itself. This stays imperative on purpose: it writes transforms for up to 22
+   * The flythrough itself. This stays imperative on purpose: it writes transforms for the
    * elements on every animation frame, and routing that through React state would drop frames.
    */
   useEffect(() => {
@@ -281,6 +287,8 @@ export default function LeonardoHome() {
       const rect = flight.getBoundingClientRect();
       const span = rect.height - window.innerHeight;
       const p = cinema && span > 0 ? clamp01(-rect.top / span) : 0;
+      flight.style.setProperty('--flight-p', p.toFixed(3));
+      if (landingRef.current) landingRef.current.style.pointerEvents = 'none';
 
       // The camera dollies down the room, then the walls sweep past the lens.
       if (boxRef.current) {
@@ -299,9 +307,15 @@ export default function LeonardoHome() {
       if (plateRef.current) {
         const f = out;
         plateRef.current.style.opacity = f.toFixed(3);
-        plateRef.current.style.transform = `translateY(${((1 - f) * 24).toFixed(1)}px)`;
+        plateRef.current.style.transform = cinema ? `translateY(${(-220 * clamp01((p - 0.64) / 0.32)).toFixed(1)}px)` : '';
+        
+        const fadeElements = plateRef.current.querySelectorAll<HTMLElement>('.ctareassure, .micro');
+        fadeElements.forEach((el) => {
+          el.style.opacity = cinema ? (1 - clamp01((p - 0.7) / 0.15)).toFixed(3) : '1';
+          el.style.pointerEvents = cinema && p > 0.8 ? 'none' : 'auto';
+        });
       }
-      if (fieldRef.current) fieldRef.current.style.opacity = out.toFixed(3);
+      if (fieldRef.current) fieldRef.current.style.opacity = (1 - clamp01((p - 0.68) / 0.22)).toFixed(3);
       if (cueRef.current) cueRef.current.style.opacity = (1 - clamp01(p / 0.05)).toFixed(2);
 
       // The field: cards surface at the vanishing point and sail past the camera.
@@ -388,6 +402,11 @@ export default function LeonardoHome() {
 
   const openBooking = (e: React.MouseEvent, pkg: string, source: string) => {
     e.preventDefault();
+    if (externalBookingUrl) {
+      trackScheduleCall({ source_section: source, package_id: pkg, method: 'booking_link', language: lang });
+      window.open(externalBookingUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
     setBooking({ open: true, pkg, source });
     trackEvent('lead_form_open', { source_section: source, package_id: pkg, language: lang });
   };
@@ -408,10 +427,12 @@ export default function LeonardoHome() {
   const packageCta = (id: string, className: string) => (
     <a
       className={className}
-      href="#agendar"
+      href={externalBookingUrl ?? '#agendar'}
+      target={externalBookingUrl ? '_blank' : undefined}
+      rel={externalBookingUrl ? 'noopener noreferrer' : undefined}
       onClick={(e) => {
         pickPackage(id, PACKAGE_NAMES[id]);
-        openBooking(e, id, `paquete:${id}`);
+        handlePrimaryBooking(e, id, `paquete:${id}`);
       }}
     >
       {t("Solicitar diagnóstico")}
@@ -431,6 +452,7 @@ export default function LeonardoHome() {
             SAGEPOINT
           </a>
           <nav className="nav-links" aria-label={t("Secciones del sitio")}>
+            <a href="#transformador">{t("Transformación")}</a>
             <a href="#trabajo">{t("Trabajo")}</a>
             <Link to={servicesPath}>{t("Servicios")}</Link>
             <a href="#casos">{t("Casos")}</a>
@@ -456,6 +478,31 @@ export default function LeonardoHome() {
               {t("Contactar")}
             </a>
           </div>
+          <MobileMenu
+            lang={lang}
+            items={[
+              { href: '#transformador', label: t('Transformación') },
+              { href: '#trabajo', label: t('Trabajo') },
+              { href: servicesPath, label: t('Servicios') },
+              { href: '#casos', label: t('Casos') },
+              { href: '#sistema', label: t('Sistema') },
+              { href: '#paquetes', label: t('Paquetes') },
+              { href: '#faq', label: 'FAQ' },
+            ]}
+            cta={{
+              label: t('Contactar'),
+              onClick: () => {
+                const pkg = pickedId ?? 'general';
+                if (externalBookingUrl) {
+                  trackScheduleCall({ source_section: 'mobile_nav', package_id: pkg, method: 'booking_link', language: lang });
+                  window.open(externalBookingUrl, '_blank', 'noopener,noreferrer');
+                } else {
+                  setBooking({ open: true, pkg, source: 'mobile_nav' });
+                  trackEvent('lead_form_open', { source_section: 'mobile_nav', package_id: pkg, language: lang });
+                }
+              },
+            }}
+          />
         </div>
       </header>
 
@@ -533,6 +580,7 @@ export default function LeonardoHome() {
                   {t("Ver paquetes")}
                 </a>
               </div>
+              <CtaReassure lang={lang} />
               <div className="micro">
                 <span>
                   <b>14</b> {t("días al primer dashboard")}
@@ -545,6 +593,8 @@ export default function LeonardoHome() {
                 </span>
               </div>
             </div>
+
+            <div className="cockpit-landing" ref={landingRef}><HeroCockpit lang={lang} /></div>
 
             <div className="cue" id="cue" ref={cueRef}>
               <span>{t("Baja")}</span>
@@ -573,6 +623,8 @@ export default function LeonardoHome() {
             ))}
           </div>
         </div>
+
+        <BeforeAfter lang={lang} />
 
         {/* GALLERY */}
         <section id="trabajo">
@@ -606,7 +658,7 @@ export default function LeonardoHome() {
             </div>
 
             <div className="gal" id="gal">
-              {PROJECTS.map((p, i) => {
+              {HOME_PROJECTS.map((p, i) => {
                 const style = {
                   '--c': CATCOLOR[p.cat],
                   '--crgb': CATRGB[p.cat],
@@ -681,7 +733,7 @@ export default function LeonardoHome() {
               </p>
             </div>
             <div className="cases">
-              <article className="case" data-rv>
+              <article className="case spot" data-rv>
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--amber)' }}>
@@ -714,7 +766,7 @@ export default function LeonardoHome() {
                 </div>
               </article>
 
-              <article className="case" data-rv>
+              <article className="case spot" data-rv>
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--arc)' }}>
@@ -768,6 +820,7 @@ export default function LeonardoHome() {
                 {t("La IA sola alucina y no conoce tu contexto local. Cada métrica que sale de aquí pasó por un consultor antes de llegar a tu pantalla.")}
               </p>
             </div>
+            <DataFlow lang={lang} />
             <div className="steps">
               <article className="step" data-rv>
                 <div className="step-n" style={{ '--c': 'var(--mint)' } as React.CSSProperties}>
@@ -825,7 +878,7 @@ export default function LeonardoHome() {
               <p className="lstep">
                 <span>{t("Etapa 1")}</span> {t("Por aquí se entra")}
               </p>
-              <article className="prow prow--lead" data-rv>
+              <article className="prow prow--lead spot" data-rv>
                 <div className="prow-price">
                   <b>$750</b>
                   <span>{t("pago único")}</span>
@@ -850,7 +903,7 @@ export default function LeonardoHome() {
               <p className="lstep lstep--mid" data-rv>
                 <span>{t("Etapa 2")}</span> {t("Si la radiografía muestra que vale la pena")}
               </p>
-              <article className="prow" data-rv>
+              <article className="prow spot" data-rv>
                 <div className="prow-price">
                   <b>$2,500</b>
                   <span>{t("desde · por proyecto")}</span>
@@ -874,7 +927,7 @@ export default function LeonardoHome() {
                 </div>
               </article>
 
-              <article className="prow" data-rv>
+              <article className="prow spot" data-rv>
                 <div className="prow-price">
                   <b>$12,000</b>
                   <span>{t("desde · por proyecto")}</span>
@@ -894,7 +947,7 @@ export default function LeonardoHome() {
               <p className="lstep lstep--mid" data-rv>
                 <span>{t("Etapa 3")}</span> {t("Cuando el proyecto termina")}
               </p>
-              <article className="prow prow--sm" data-rv>
+              <article className="prow prow--sm spot" data-rv>
                 <div className="prow-price">
                   <b>$300+</b>
                   <span>{t("al mes · tres niveles")}</span>
@@ -959,6 +1012,8 @@ export default function LeonardoHome() {
             </div>
           </div>
         </section>
+
+        <TrustGrid lang={lang} />
 
         {/* QUOTES */}
         <section id="testimonios">
@@ -1183,7 +1238,7 @@ export default function LeonardoHome() {
               </h2>
               <ul>
                 <li>
-                  <a href="#agendar" onClick={(e) => openBooking(e, pickedId ?? 'general', 'footer')}>
+                  <a href={externalBookingUrl ?? '#agendar'} target={externalBookingUrl ? '_blank' : undefined} rel={externalBookingUrl ? 'noopener noreferrer' : undefined} onClick={(e) => handlePrimaryBooking(e, pickedId ?? 'general', 'footer')}>
                     {t("Solicitar diagnóstico")}
                   </a>
                 </li>

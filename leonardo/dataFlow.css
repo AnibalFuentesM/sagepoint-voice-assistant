@@ -1,0 +1,260 @@
+.leo .df-wrapper {
+  margin: 48px 0 0;
+  width: 100%;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: 0 0 0 1px rgba(243,240,232,.06);
+  padding: 0;
+  position: relative;
+  z-index: 5;
+  height: 480px;
+}
+
+.leo .df-container {
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 560px) {
+  .leo .df-wrapper {
+    height: 640px;
+  }
+}
+
+.leo .df-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 20px;
+}
+
+.leo .df-nodes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.leo .df-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.leo .df-node-btn {
+  background: var(--card-hi);
+  border: 1px solid var(--rule);
+  color: var(--bone);
+  border-radius: var(--r-card);
+  padding: 12px 18px;
+  font-family: var(--f-ui);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.leo .df-node-btn:hover,
+.leo .df-node.is-active .df-node-btn {
+  border-color: var(--mint);
+  box-shadow: 0 0 16px rgba(99,230,190,0.12);
+  transform: translateY(-2px);
+}
+
+.leo .df-node-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+  flex: none;
+}
+
+@media (max-width: 560px) {
+  .leo .df-node-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+    max-width: 120px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.35;
+    gap: 6px;
+  }
+}
+
+/* Counter Widget */
+.leo .df-counter-widget {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid var(--rule);
+  padding: 12px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+.leo .df-cw-num {
+  font-family: var(--f-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--mint);
+  line-height: 1;
+}
+.leo .df-cw-label {
+  font-size: 11px;
+  font-family: var(--f-ui);
+  color: var(--mute);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.leo .df-cw-tag {
+  background: var(--mint);
+  color: var(--black);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 560px) {
+  .leo .df-counter-widget {
+    top: 76%;
+    right: 50%;
+    transform: translateX(50%);
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* Icons Animation */
+.leo .df-val-catch {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.leo .df-val-catch svg {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+}
+
+.leo .df-icon-alert {
+  animation: df-alert-anim 3.5s infinite;
+}
+
+.leo .df-icon-check {
+  animation: df-check-anim 3.5s infinite;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leo .df-icon-alert {
+    display: none;
+    animation: none;
+  }
+  .leo .df-icon-check {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@keyframes df-alert-anim {
+  0%, 20% { transform: scale(1); opacity: 1; }
+  30%, 100% { transform: scale(0.5); opacity: 0; }
+}
+
+@keyframes df-check-anim {
+  0%, 20% { transform: scale(0.5); opacity: 0; }
+  30%, 80% { transform: scale(1); opacity: 1; }
+  90%, 100% { transform: scale(0.5); opacity: 0; }
+}
+
+/* Tooltips */
+.leo .df-tooltip {
+  position: absolute;
+  width: max-content;
+  max-width: 220px;
+  background: var(--card-hi);
+  border: 1px solid var(--rule);
+  color: var(--bone);
+  padding: 11px 15px;
+  border-radius: var(--r-card);
+  font-size: 13px;
+  font-family: var(--f-ui);
+  line-height: 1.45;
+  font-weight: 400;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.7);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1), visibility 0.2s;
+  z-index: 10;
+  white-space: normal;
+  text-align: left;
+}
+
+.leo .df-node:hover .df-tooltip,
+.leo .df-tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.leo .df-tip--right {
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+}
+.leo .df-node:hover .df-tip--right, 
+.leo .df-tip--right.is-visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+.leo .df-tip--left {
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+}
+.leo .df-node:hover .df-tip--left, 
+.leo .df-tip--left.is-visible {
+  transform: translateY(-50%) translateX(0);
+}
+
+.leo .df-tip--top {
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+}
+.leo .df-node:hover .df-tip--top, 
+.leo .df-tip--top.is-visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.leo .df-tip--bottom {
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+}
+.leo .df-node:hover .df-tip--bottom, 
+.leo .df-tip--bottom.is-visible {
+  transform: translateX(-50%) translateY(0);
+}

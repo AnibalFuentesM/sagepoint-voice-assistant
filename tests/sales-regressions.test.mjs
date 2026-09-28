@@ -221,7 +221,7 @@ test('analytics bootstrap queues gtag Arguments, preserving event name and param
   assert.equal(command[2].language, 'en');
 });
 
-test('external booking URL is opt-in, English-only and wired to all three primary CTAs', async () => {
+test('external booking URL is opt-in, English-only and wired to booking CTAs', async () => {
   const { BOOKING_URL, getEnglishBookingUrl } = await vite.ssrLoadModule('/leonardo/booking.ts');
   // Either unset, or a Google Calendar booking page; never anything else.
   assert.match(BOOKING_URL, /^(|https:\/\/calendar\.google\.com\/calendar\/appointments\/schedules\/[A-Za-z0-9_-]+)$/);
@@ -232,7 +232,9 @@ test('external booking URL is opt-in, English-only and wired to all three primar
 
   const home = readFileSync('leonardo/LeonardoHome.tsx', 'utf8');
   assert.match(home, /trackScheduleCall\(\{/);
-  assert.equal(home.match(/onClick=\{\(e\) => handlePrimaryBooking\(/g)?.length, 3);
+  assert.equal(home.match(/onClick=\{\(e\) => handlePrimaryBooking\(/g)?.length, 4);
+  assert.match(home, /href=\{externalBookingUrl \?\? '#agendar'\}[\s\S]*?pickPackage\(id, PACKAGE_NAMES\[id\]\)/);
+  assert.match(home, /if \(externalBookingUrl\) \{[\s\S]*?window\.open\(externalBookingUrl/);
 });
 
 test('deployment config redirects legacy URLs and serves each prerendered route', () => {

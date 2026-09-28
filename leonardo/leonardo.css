@@ -92,7 +92,7 @@ html{scroll-behavior:smooth}
 .leo .pill--mint{background:var(--mint);color:#04120d}
 .leo .pill--mint:hover{background:#7cf0cd}
 .leo .flight{position:relative;height:100svh;padding:0}
-.leo .flight[data-cinema="on"]{height:250vh}
+.leo .flight[data-cinema="on"]{height:180vh}
 .leo .flight[data-cinema="off"] .room{opacity:.42}
 .leo .flight[data-cinema="off"] .glow{opacity:1}
 .leo .flight[data-cinema="off"] .cue{display:none}
@@ -461,7 +461,22 @@ html{scroll-behavior:smooth}
 .leo .nav-act{margin-left:auto}
 /* The offer must remain legible over the decorative room and flying cards. */
 .leo .plate{border-radius:24px;background:radial-gradient(ellipse,rgba(4,6,6,.94) 25%,rgba(4,6,6,.78) 65%,transparent);padding-block:24px}
+.leo .cockpit-landing{position:absolute;left:var(--gutter);right:var(--gutter);bottom:0;z-index:6;pointer-events:none}
+.leo .cockpit-landing .leo-cockpit{margin:0 auto}
+.leo .flight[data-cinema="off"]{height:auto}
+.leo .flight[data-cinema="off"] .stage{position:relative;min-height:100svh;height:auto;overflow:visible;display:flex;flex-direction:column;justify-content:center;padding:125px var(--gutter) 70px}
+.leo .flight[data-cinema="off"] .plate{padding-inline:0}
+.leo .flight[data-cinema="off"] .cockpit-landing{position:relative;left:auto;right:auto;bottom:auto;width:100%;margin-top:18px}
+.leo .flight[data-cinema="off"] .cockpit-landing .leo-cockpit{margin:0 auto}
+.leo .plate .ctareassure{margin-top:0!important}
+@media (max-height:760px) and (min-width:860px){.leo .flight[data-cinema="on"] .cockpit-landing{bottom:0;max-width:700px;left:50%;right:auto;width:calc(100% - 40px);transform:translateX(-50%);pointer-events:none}}
 @media (max-width:1100px){.leo .nav-links{display:none}}
+@media (max-width:1100px){.leo .nav-act .pill--fill{display:none}}
+@media (min-width:1101px) and (max-width:1260px){
+  .leo .nav-links{gap:12px}
+  .leo .nav-links a{font-size:12px}
+  .leo .nav-act .pill--ghost{display:none}
+}
 @media (max-width:560px){
   .leo .nav-in{gap:10px}
   .leo .mark{font-size:13px;gap:6px}

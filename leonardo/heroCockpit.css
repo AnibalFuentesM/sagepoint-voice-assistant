@@ -1,0 +1,368 @@
+.leo .leo-cockpit {
+  background: var(--card-hi);
+  border: 1px solid rgba(243, 240, 232, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 840px;
+  margin: 40px auto 0;
+  text-align: left;
+  box-shadow: 0 12px 42px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.leo .flight[data-cinema="on"] .leo-cockpit {
+  --p: var(--flight-p, 0);
+  opacity: max(0, calc((var(--p) - 0.7) * 3.333));
+  transform: translateY(calc((1 - var(--p)) * 40px)) scale(calc(0.95 + var(--p) * 0.05));
+  will-change: transform, opacity;
+}
+
+.leo .flight[data-cinema="off"] .leo-cockpit {
+  opacity: 1;
+  transform: none;
+}
+
+.leo .leo-cockpit-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.leo .leo-cockpit-title-grp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leo .leo-cockpit-title {
+  font-family: var(--f-ui);
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--bone);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.leo .leo-cockpit-badge {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(99, 230, 190, 0.15);
+  color: var(--mint);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.leo .leo-cockpit-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.leo .leo-cockpit-tabs, .leo .leo-cockpit-branch {
+  flex: 0 0 auto;
+}
+
+.leo .leo-cockpit-tabs {
+  display: flex;
+  background: var(--obsidian);
+  border-radius: 6px;
+  padding: 4px;
+  border: 1px solid var(--rule);
+}
+
+.leo .leo-cockpit-tabs button {
+  font-family: var(--f-ui);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ash);
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.leo .leo-cockpit-tabs button:hover {
+  color: var(--bone);
+}
+
+.leo .leo-cockpit-tabs button[aria-pressed="true"] {
+  background: rgba(243, 240, 232, 0.1);
+  color: var(--bone);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.leo .leo-cockpit-branch select {
+  background: var(--obsidian);
+  color: var(--bone);
+  border: 1px solid var(--rule);
+  font-family: var(--f-ui);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 28px 6px 12px;
+  border-radius: 6px;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237d8f8a'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px;
+}
+
+.leo .leo-cockpit-branch select:focus-visible {
+  border-color: var(--mint);
+}
+
+.leo .leo-cockpit-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.leo .leo-cockpit-kpi {
+  background: var(--obsidian);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.leo .leo-cockpit-kpi-lbl {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ash);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.leo .leo-cockpit-kpi-val {
+  font-family: var(--f-ui);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.leo .leo-cockpit-kpi-bot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 10px;
+  flex: 1;
+}
+
+.leo .leo-cockpit-kpi-var {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: var(--f-ui);
+  font-weight: 500;
+  color: var(--mute);
+  margin-bottom: 2px;
+}
+
+.leo .leo-cockpit-kpi-var[data-pos="true"] span:first-child { color: var(--mint); }
+.leo .leo-cockpit-kpi-var[data-pos="false"] span:first-child { color: var(--pink); }
+
+.leo .leo-cockpit-spark {
+  overflow: visible;
+  opacity: 0.8;
+}
+
+.leo .leo-cockpit-spark path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: d 0.4s ease;
+}
+
+.leo .leo-cockpit-spark[data-pos="true"] path { stroke: var(--mint); }
+.leo .leo-cockpit-spark[data-pos="false"] path { stroke: var(--pink); }
+
+.leo .leo-cockpit-chart-wrap {
+  position: relative;
+  height: 150px;
+  margin-top: 28px;
+}
+
+.leo .leo-cockpit-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.leo .leo-cockpit-grid {
+  stroke: rgba(243, 240, 232, 0.05);
+  stroke-width: 1;
+}
+
+.leo .leo-cockpit-y-lbl, .leo .leo-cockpit-x-lbl {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  fill: var(--ash);
+}
+
+.leo .leo-cockpit-y-lbl { text-anchor: end; }
+.leo .leo-cockpit-x-lbl { text-anchor: middle; }
+
+.leo .leo-cockpit-prev-line {
+  fill: none;
+  stroke: var(--ash);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 3;
+  opacity: 0.5;
+  transition: all 0.4s ease;
+}
+
+.leo .leo-cockpit-tgt-line {
+  stroke: var(--pink);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0.8;
+  transition: all 0.4s ease;
+}
+
+.leo .leo-cockpit-tgt-lbl {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  fill: var(--pink);
+  text-anchor: end;
+}
+
+.leo .leo-cockpit-rect {
+  fill: var(--mint);
+  opacity: 0.35;
+  outline: none;
+  cursor: pointer;
+  transition: x 0.4s cubic-bezier(0.2, 0.7, 0.3, 1), 
+              y 0.4s cubic-bezier(0.2, 0.7, 0.3, 1), 
+              width 0.4s cubic-bezier(0.2, 0.7, 0.3, 1), 
+              height 0.4s cubic-bezier(0.2, 0.7, 0.3, 1), 
+              opacity 0.2s, 
+              fill 0.2s;
+}
+
+.leo .leo-cockpit-rect.active {
+  opacity: 0.9;
+}
+
+.leo .leo-cockpit-rect:hover, 
+.leo .leo-cockpit-rect:focus-visible {
+  opacity: 1;
+  fill: var(--bone);
+}
+
+.leo .leo-cockpit-rect:focus-visible {
+  stroke: var(--bone);
+  stroke-width: 2px;
+}
+
+.leo .leo-cockpit-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  margin-top: -8px;
+  background: var(--obsidian);
+  color: var(--bone);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+  animation: cockpitFadeIn 0.2s ease-out;
+  z-index: 20;
+  text-align: center;
+}
+
+.leo .leo-cockpit-tt-vs {
+  font-size: 9px;
+  color: var(--ash);
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+@keyframes cockpitFadeIn {
+  from { opacity: 0; transform: translate(-50%, -80%); }
+  to { opacity: 1; transform: translate(-50%, -100%); }
+}
+
+@media (max-width: 640px) {
+  .leo .leo-cockpit {
+    padding: 20px 16px;
+  }
+  .leo .leo-cockpit-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .leo .leo-cockpit-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .leo .leo-cockpit-tabs {
+    display: flex;
+    width: 100%;
+  }
+  .leo .leo-cockpit-tabs button {
+    flex: 1;
+    text-align: center;
+  }
+  .leo .leo-cockpit-branch {
+    width: 100%;
+  }
+  .leo .leo-cockpit-branch select {
+    width: 100%;
+  }
+  .leo .leo-cockpit-kpis {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .leo .leo-cockpit-kpi:last-child {
+    grid-column: 1 / -1;
+  }
+  .leo .leo-cockpit-kpi {
+    padding: 14px;
+    min-width: 0;
+  }
+  .leo .leo-cockpit-kpi-val {
+    font-size: 22px;
+  }
+  .leo .leo-cockpit-kpi-bot {
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .leo .leo-cockpit-kpi-var {
+    font-size: 9.5px;
+    gap: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .leo .leo-cockpit-spark {
+    width: auto;
+    max-width: 50px;
+    flex-shrink: 1;
+  }
+  .leo .leo-cockpit-chart-wrap {
+    height: 120px;
+    margin-top: 24px;
+  }
+}

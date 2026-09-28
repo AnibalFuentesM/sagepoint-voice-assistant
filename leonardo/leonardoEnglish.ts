@@ -12,7 +12,7 @@ export const ENGLISH: Record<string, string> = {
   'Agendar diagnóstico': 'Book a consultation',
   'Saltar al contenido': 'Skip to content',
   'Secciones del sitio': 'Site sections',
-  'Trabajo': 'Work', 'Casos': 'Case studies', 'Sistema': 'Process', 'Paquetes': 'Packages',
+  'Transformación': 'Transformation', 'Trabajo': 'Work', 'Casos': 'Case studies', 'Sistema': 'Process', 'Paquetes': 'Packages',
   'Agendar': 'Book a call', 'Tus': 'Your', 'Datos': 'Data', 'Tu': 'Your', 'Contexto': 'Context', 'Tú decides': 'You decide',
   'BI fraccional · Guatemala & Estados Unidos': 'Fractional BI · Guatemala & United States',
   'De datos dispersos a': 'From scattered data to',

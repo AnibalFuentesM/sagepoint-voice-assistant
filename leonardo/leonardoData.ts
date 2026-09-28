@@ -239,6 +239,13 @@ export const PROJECTS: LeoProject[] = [
   }
 ];
 
+/** Home gallery leads with dashboard work, then automation; web stays in its own filter. */
+export const HOME_PROJECTS: LeoProject[] = [
+  ...PROJECTS.filter((project) => project.cat === 'bi'),
+  ...PROJECTS.filter((project) => project.cat === 'auto'),
+  ...PROJECTS.filter((project) => project.cat === 'web'),
+];
+
 export const SAY: LeoQuote[] = [
   {
     "text": "Ver la fuga de margen en repuestos el mismo día, no semanas después.",

@@ -1,0 +1,25 @@
+.leo .spot {
+  position: relative;
+}
+
+.leo .spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    clamp(200px, 35vw, 400px) circle at var(--mx, -9999px) var(--my, -9999px),
+    rgba(99, 230, 190, 0.08),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (hover: hover) {
+  .leo .spot:hover::after {
+    opacity: 1;
+  }
+}
