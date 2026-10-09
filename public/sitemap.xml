@@ -1,39 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml"
->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.sagepoint-analytics.com/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/" />
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.sagepoint-analytics.com/?lang=en</loc>
+    <loc>https://www.sagepoint-analytics.com/en/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/" />
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/portfolio/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/portfolio/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/portfolio/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/portfolio/" />
   </url>
   <url>
     <loc>https://www.sagepoint-analytics.com/web/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/web/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/web/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/web/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/web/" />
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.sagepoint-analytics.com/portfolio/</loc>
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://www.sagepoint-analytics.com/en/web/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/web/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/web/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/web/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/services/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/dashboards-power-bi-guatemala/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/dashboards-power-bi-guatemala/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/automatizar-reportes-excel-sheets/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/automatizar-reportes-excel-sheets/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/automatizacion-procesos-pymes/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/automatizacion-procesos-pymes/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/integracion-crm-erp-apis/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/integracion-crm-erp-apis/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/servicios/pronosticos-ventas-demanda/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/servicios/pronosticos-ventas-demanda/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/services/call-center-kpi-dashboards/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/call-center-kpi-dashboards/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/services/bpo-client-reporting-automation/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/bpo-client-reporting-automation/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/services/contact-center-qa-reporting/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/contact-center-qa-reporting/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/en/services/contact-center-wfm-reporting/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/services/contact-center-wfm-reporting/" />
+  </url>
+  <url>
+    <loc>https://www.sagepoint-analytics.com/guias/cuanto-cuesta-dashboard-power-bi-guatemala/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/guias/cuanto-cuesta-dashboard-power-bi-guatemala/" />
   </url>
 </urlset>
