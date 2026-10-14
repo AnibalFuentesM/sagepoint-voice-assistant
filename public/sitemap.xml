@@ -2,26 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.sagepoint-analytics.com/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/" />
   </url>
   <url>
-    <loc>https://www.sagepoint-analytics.com/en/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/" />
+    <loc>https://www.sagepoint-analytics.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/es/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/" />
   </url>
   <url>
     <loc>https://www.sagepoint-analytics.com/portfolio/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/portfolio/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/es/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/portfolio/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/portfolio/" />
   </url>
   <url>
-    <loc>https://www.sagepoint-analytics.com/en/portfolio/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/portfolio/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/en/portfolio/" />
+    <loc>https://www.sagepoint-analytics.com/es/portfolio/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sagepoint-analytics.com/es/portfolio/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sagepoint-analytics.com/portfolio/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sagepoint-analytics.com/portfolio/" />
   </url>
   <url>

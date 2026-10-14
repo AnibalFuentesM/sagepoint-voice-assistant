@@ -27,7 +27,7 @@
         }
       ],
       "headers": {
-        "Location": "/en/"
+        "Location": "/"
       },
       "status": 308
     },
@@ -41,7 +41,7 @@
         }
       ],
       "headers": {
-        "Location": "/en/portfolio/"
+        "Location": "/portfolio/"
       },
       "status": 308
     },
@@ -69,7 +69,7 @@
         }
       ],
       "headers": {
-        "Location": "/en/portfolio/"
+        "Location": "/portfolio/"
       },
       "status": 308
     },
@@ -132,14 +132,42 @@
     {
       "src": "^/en$",
       "headers": {
-        "Location": "/en/"
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/$",
+      "headers": {
+        "Location": "/"
       },
       "status": 308
     },
     {
       "src": "^/en/portfolio$",
       "headers": {
-        "Location": "/en/portfolio/"
+        "Location": "/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/portfolio/$",
+      "headers": {
+        "Location": "/portfolio/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/es$",
+      "headers": {
+        "Location": "/es/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/es/portfolio$",
+      "headers": {
+        "Location": "/es/portfolio/"
       },
       "status": 308
     },
@@ -256,12 +284,12 @@
       "dest": "/servicios/automatizacion-procesos-pymes/index.html"
     },
     {
-      "src": "^/en/$",
-      "dest": "/en/index.html"
+      "src": "^/es/$",
+      "dest": "/es/index.html"
     },
     {
-      "src": "^/en/portfolio/$",
-      "dest": "/en/portfolio/index.html"
+      "src": "^/es/portfolio/$",
+      "dest": "/es/portfolio/index.html"
     },
     {
       "src": "^/en/web/$",

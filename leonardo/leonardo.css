@@ -246,6 +246,7 @@ html{scroll-behavior:smooth}
 .leo .ptile .chips{margin-top:3px}
 .leo .ptile .p-chip{position:absolute;top:14px;right:14px}
 .leo .gal-foot{display:flex;justify-content:center;margin-top:24px}
+.leo .case-shot{max-width:900px;margin:14px auto 0}
 .leo .cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:38px}
 .leo .case{
   background:var(--card);border-radius:20px;padding:26px 24px 24px;
@@ -485,3 +486,6 @@ html{scroll-behavior:smooth}
   .leo .language-switch button{padding:7px 6px}
   .leo .plate{gap:16px}
 }
+
+/* Keep the three CTA reassurance items on one line on narrow phones (inline styles set the desktop spacing). */
+@media (max-width:420px){.leo .ctareassure{gap:8px!important;letter-spacing:.06em!important}}

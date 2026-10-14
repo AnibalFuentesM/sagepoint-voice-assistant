@@ -7,7 +7,7 @@ import { ServicesLayout, ServiceActions } from './ServicesLayout';
 
 const SITE = 'https://www.sagepoint-analytics.com';
 export function serviceGraph(service: Service) {
-  const home = service.lang === 'es' ? '/' : '/en/';
+  const home = service.lang === 'es' ? '/es/' : '/';
   const hub = service.lang === 'es' ? '/servicios/' : '/en/services/';
   return [
     { '@type': 'Service', name: service.h1, description: service.description, serviceType: service.h1, provider: { '@id': `${SITE}/#organization` }, areaServed: { '@type': 'Country', name: service.lang === 'es' ? 'Guatemala' : 'United States' }, url: `${SITE}${service.path}` },
@@ -29,7 +29,7 @@ export default function ServicePage() {
 
 export function ServiceContent({ service }: { service: Service }) {
   const { lang } = service;
-  const home = lang === 'es' ? '/' : '/en/';
+  const home = lang === 'es' ? '/es/' : '/';
   const hub = lang === 'es' ? '/servicios/' : '/en/services/';
   const source = `service_${service.slug}`;
   useDocumentMeta(service.title, service.description, service.path, [{ lang, path: service.path }], serviceGraph(service));

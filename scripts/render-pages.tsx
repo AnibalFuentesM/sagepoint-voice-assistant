@@ -15,7 +15,7 @@ import { translateLeo } from '../leonardo/leonardoEnglish';
 /** Build-time rendering uses the same components, copy and routing as the browser. */
 export function renderPage(path: string) {
   const language = getLangFromPath(path);
-  const plainPath = path.replace(/^\/en(?=\/|$)/, '') || '/';
+  const plainPath = path.replace(/^\/(en|es)(?=\/|$)/, '') || '/';
   const service = SERVICES.find(item => item.path === path);
   const guide = GUIDES.find(item => item.path === path);
   const Component = service ? <ServiceContent service={service} /> : guide ? <GuideContent guide={guide} /> : plainPath === '/' ? <LeonardoHome /> : plainPath === '/portfolio/' ? <PortfolioPage /> : plainPath === '/web/' ? <WebPage /> : <ServicesHub />;

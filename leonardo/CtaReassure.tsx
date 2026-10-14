@@ -8,8 +8,8 @@ type Props = {
 export default function CtaReassure({ lang, align = 'center' }: Props) {
   const isEs = lang === 'es';
   const checks = isEs 
-    ? ['Llamada de 30–45 min', 'Diagnóstico sin costo', 'Sin compromiso']
-    : ['30–45 min call', 'Free diagnostic', 'No commitment'];
+    ? ['30–45 min', 'Videollamada', 'Sin compromiso']
+    : ['30–45 min', 'Video call', 'No commitment'];
 
   return (
     <div 
@@ -36,9 +36,6 @@ export default function CtaReassure({ lang, align = 'center' }: Props) {
             </svg>
             {text}
           </span>
-          {i < checks.length - 1 && (
-            <span aria-hidden="true" style={{ opacity: 0.35 }}>·</span>
-          )}
         </React.Fragment>
       ))}
     </div>

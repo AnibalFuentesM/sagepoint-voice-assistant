@@ -12,7 +12,7 @@ import BookingModal from './BookingModal';
 import RoiEstimator from './RoiEstimator';
 import { getEnglishBookingUrl } from './booking';
 import { translateLeo, type LeoLanguage } from './leonardoEnglish';
-import { CATCOLOR, CATNAME, CATRGB, HOME_PROJECTS, STACK, TILES, type LeoCat } from './leonardoData';
+import { STACK, TILES } from './leonardoData';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { FOUNDER_LINKEDIN, FOUNDER_PHOTO } from './booking';
 import HeroCockpit from './HeroCockpit';
@@ -35,19 +35,10 @@ export const HOME_META = {
     description: 'Dashboards ejecutivos y reportes automatizados para PYMEs en Guatemala. Diagnóstico gratuito y proyectos con alcance, precio y plazo definidos.',
   },
   en: {
-    title: 'BI Dashboards and Report Automation | Sagepoint',
-    description: 'Executive dashboards and automated reports for growing teams in Guatemala and the US. Book a free assessment with a defined project scope.',
+    title: 'Small Business Dashboards and Report Automation | Sagepoint',
+    description: 'Live dashboards and automated reports for US small businesses. Free diagnostic call, first dashboard in 14 days, price agreed in writing.',
   },
 };
-
-type Filter = 'all' | LeoCat;
-
-const FILTERS: { id: Filter; label: string; color: string }[] = [
-  { id: 'all', label: 'Todo', color: 'var(--bone)' },
-  { id: 'bi', label: 'BI & Dashboards', color: 'var(--mint)' },
-  { id: 'auto', label: 'Automatización', color: 'var(--violet)' },
-  { id: 'web', label: 'Web & Apps', color: 'var(--arc)' },
-];
 
 /** Package ids carried on the CTA buttons, mapped to the label the closer echoes back. */
 const PACKAGE_NAMES: Record<string, string> = {
@@ -101,7 +92,6 @@ export default function LeonardoHome() {
   useHashScroll();
   useSpotlight();
 
-  const [filter, setFilter] = useState<Filter>('all');
   /** Package the visitor last showed interest in, by id. Drives the closer echo and the modal. */
   const [pickedId, setPickedId] = useState<string | null>(null);
   const [booking, setBooking] = useState({ open: false, pkg: 'general', source: 'nav' });
@@ -138,11 +128,6 @@ export default function LeonardoHome() {
         };
       }),
     [],
-  );
-
-  const shown = useMemo(
-    () => HOME_PROJECTS.map((p) => filter === 'all' ? p.cat !== 'web' : p.cat === filter),
-    [filter],
   );
 
   useEffect(() => {
@@ -190,7 +175,7 @@ export default function LeonardoHome() {
       io.observe(el);
     });
     return () => io.disconnect();
-  }, [filter]);
+  }, []);
 
   /** Hairline under the sticky header, once the page has moved at all. */
   useEffect(() => {
@@ -289,6 +274,10 @@ export default function LeonardoHome() {
       const p = cinema && span > 0 ? clamp01(-rect.top / span) : 0;
       flight.style.setProperty('--flight-p', p.toFixed(3));
       if (landingRef.current) landingRef.current.style.pointerEvents = 'none';
+      // The cockpit sits over the hero buttons and stays invisible until p = 0.7. Until it is
+      // mostly visible it must not swallow the clicks meant for "Book a free call".
+      const cockpit = landingRef.current?.querySelector<HTMLElement>('.leo-cockpit');
+      if (cockpit) cockpit.style.pointerEvents = cinema && p < 0.85 ? 'none' : '';
 
       // The camera dollies down the room, then the walls sweep past the lens.
       if (boxRef.current) {
@@ -296,7 +285,7 @@ export default function LeonardoHome() {
         const depth = window.innerHeight * 1.25;
         boxRef.current.style.transform = `translateZ(${(Math.pow(q, 1.55) * depth * 0.92).toFixed(1)}px)`;
       }
-      if (roomRef.current) roomRef.current.style.opacity = (0.12 * (1 - clamp01((p - 0.15) / 0.09))).toFixed(3);
+      if (roomRef.current) roomRef.current.style.opacity = (0.06 * (1 - clamp01((p - 0.15) / 0.09))).toFixed(3);
       if (glowRef.current) {
         glowRef.current.style.opacity = cinema ? clamp01((p - 0.13) / 0.12).toFixed(3) : '1';
       }
@@ -435,7 +424,7 @@ export default function LeonardoHome() {
         handlePrimaryBooking(e, id, `paquete:${id}`);
       }}
     >
-      {t("Solicitar diagnóstico")}
+      {t("Solicitar diagnóstico gratuito")}
     </a>
   );
 
@@ -452,22 +441,17 @@ export default function LeonardoHome() {
             SAGEPOINT
           </a>
           <nav className="nav-links" aria-label={t("Secciones del sitio")}>
-            <a href="#transformador">{t("Transformación")}</a>
-            <a href="#trabajo">{t("Trabajo")}</a>
             <Link to={servicesPath}>{t("Servicios")}</Link>
             <a href="#casos">{t("Casos")}</a>
-            <a href="#sistema">{t("Sistema")}</a>
-            <a href="#paquetes">{t("Paquetes")}</a>
+            <a href="#sistema">{t("Cómo funciona")}</a>
+            <a href="#paquetes">{t("Precios")}</a>
             <a href="#faq">FAQ</a>
           </nav>
           <div className="nav-act">
             <div className="language-switch" role="group" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
-              <button type="button" lang="es" aria-label="Español" aria-pressed={lang === 'es'} onClick={() => switchLanguage('es')}>ES</button>
               <button type="button" lang="en" aria-label="English" aria-pressed={lang === 'en'} onClick={() => switchLanguage('en')}>EN</button>
+              <button type="button" lang="es" aria-label="Español" aria-pressed={lang === 'es'} onClick={() => switchLanguage('es')}>ES</button>
             </div>
-            <a className="pill pill--ghost pill--sm" href="#paquetes">
-              {t("Paquetes")}
-            </a>
             <a
               className="pill pill--fill pill--sm"
               href={externalBookingUrl ?? '#agendar'}
@@ -475,22 +459,20 @@ export default function LeonardoHome() {
               rel={externalBookingUrl ? 'noopener noreferrer' : undefined}
               onClick={(e) => handlePrimaryBooking(e, pickedId ?? 'general', 'nav')}
             >
-              {t("Contactar")}
+              {t("Diagnóstico gratis")}
             </a>
           </div>
           <MobileMenu
             lang={lang}
             items={[
-              { href: '#transformador', label: t('Transformación') },
-              { href: '#trabajo', label: t('Trabajo') },
               { href: servicesPath, label: t('Servicios') },
               { href: '#casos', label: t('Casos') },
-              { href: '#sistema', label: t('Sistema') },
-              { href: '#paquetes', label: t('Paquetes') },
+              { href: '#sistema', label: t('Cómo funciona') },
+              { href: '#paquetes', label: t('Precios') },
               { href: '#faq', label: 'FAQ' },
             ]}
             cta={{
-              label: t('Contactar'),
+              label: t('Diagnóstico gratis'),
               onClick: () => {
                 const pkg = pickedId ?? 'general';
                 if (externalBookingUrl) {
@@ -559,12 +541,12 @@ export default function LeonardoHome() {
             </div>
 
             <div className="plate" id="plate" ref={plateRef}>
-              <p className="eyebrow">{t("BI fraccional · Guatemala & Estados Unidos")}</p>
+              <p className="eyebrow">{t("Dashboards y reportes automáticos para pymes")}</p>
               <h1 className="hero-h1">
-                {t("De datos dispersos a")} <em>{t("decisiones que venden")}</em>
+                {t("Tus ventas, margen y cobros")} <em>{t("en un solo dashboard")}</em>
               </h1>
               <p className="hero-sub">
-                {t("Tu departamento de inteligencia de negocios y automatización por una fracción de lo que cuesta un analista interno. Primer dashboard en 14 días.")}
+                {t("Conectamos tus hojas de cálculo, tu CRM y tu sistema contable en un dashboard que se actualiza solo. Trabajo de nivel senior por una fracción de lo que cuesta un analista interno. Primer dashboard en 14 días.")}
               </p>
               <div className="hero-cta">
                 <a
@@ -577,21 +559,10 @@ export default function LeonardoHome() {
                   {t("Solicitar diagnóstico gratuito")}
                 </a>
                 <a className="pill pill--ghost" href="#paquetes">
-                  {t("Ver paquetes")}
+                  {t("Ver precios")}
                 </a>
               </div>
               <CtaReassure lang={lang} />
-              <div className="micro">
-                <span>
-                  <b>14</b> {t("días al primer dashboard")}
-                </span>
-                <span>
-                  <b>100%</b> {t("propiedad de tus datos")}
-                </span>
-                <span>
-                  <b>0</b> {t("contratos forzosos")}
-                </span>
-              </div>
             </div>
 
             <div className="cockpit-landing" ref={landingRef}><HeroCockpit lang={lang} /></div>
@@ -625,96 +596,6 @@ export default function LeonardoHome() {
         </div>
 
         <BeforeAfter lang={lang} />
-
-        {/* GALLERY */}
-        <section id="trabajo">
-          <div className="wrap">
-            <div className="sec-head" data-rv>
-              <div>
-                <p className="eyebrow">{t("Portafolio")}</p>
-                <h2 className="sec-title">
-                  {t("Lo que ya")}
-                  <br />
-                  {t("está corriendo")}
-                </h2>
-              </div>
-              <p className="sec-lede">
-                {t("Proyectos entregados y en desarrollo: cockpits ejecutivos, motores de reportería, automatizaciones y sitios. Capturas reales — y donde el cliente no permite compartir pantalla, va la cifra en vez de una imagen prestada.")}
-              </p>
-            </div>
-
-            <div className="filters" role="group" aria-label={t("Filtrar por tipo de trabajo")} data-rv>
-              {FILTERS.map((f) => (
-                <button
-                  className="fb"
-                  key={f.id}
-                  aria-pressed={filter === f.id}
-                  onClick={() => setFilter(f.id)}
-                  style={{ '--c': f.color } as React.CSSProperties}
-                >
-                  {t(f.label)}
-                </button>
-              ))}
-            </div>
-
-            <div className="gal" id="gal">
-              {HOME_PROJECTS.map((p, i) => {
-                const style = {
-                  '--c': CATCOLOR[p.cat],
-                  '--crgb': CATRGB[p.cat],
-                } as React.CSSProperties;
-                const hidden = shown[i] ? '' : ' hide';
-                if (p.kind === 'shot') {
-                  return (
-                    <figure
-                      className={`tile tile--shot${hidden}`}
-                      key={p.file}
-                      data-cat={p.cat}
-                      style={style}
-                    >
-                      <img src={p.src} alt={t(p.alt)} loading="lazy" width={900} height={p.h} />
-                      <figcaption className="tile-bar">
-                        <i />
-                        <b>{t(p.title)}</b>
-                      </figcaption>
-                    </figure>
-                  );
-                }
-                return (
-                  <article
-                    className={`ptile${hidden}`}
-                    key={p.client + p.title}
-                    data-cat={p.cat}
-                    style={style}
-                  >
-                    <div className="p-chip">
-                      <span className="tag" style={{ background: CATCOLOR[p.cat] }}>
-                        {t(CATNAME[p.cat])}
-                      </span>
-                    </div>
-                    <p className="p-eyebrow">{t(p.client)}</p>
-                    <p className="p-num">{p.num}</p>
-                    <p className="p-numl">{t(p.numl)}</p>
-                    <h3>{t(p.title)}</h3>
-                    <p>{t(p.desc)}</p>
-                    <div className="chips">
-                      {p.stack.map((t) => (
-                        <span className="chip" key={t}>
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-            <div className="gal-foot" data-rv>
-              <Link className="pill pill--ghost" to={portfolioPath}>
-                {t("Ver el portafolio completo")}
-              </Link>
-            </div>
-          </div>
-        </section>
 
         {/* CASES */}
         <section id="casos">
@@ -798,8 +679,24 @@ export default function LeonardoHome() {
                   <span className="chip">14 PM APIs</span>
                 </div>
               </article>
-
-
+            </div>
+            <figure className="tile tile--shot case-shot" data-rv style={{ '--c': 'var(--amber)' } as React.CSSProperties}>
+              <img
+                src="/assets/img/work-apex-powerbi.webp"
+                alt={t("Dashboard de Power BI de Apex Auto Group con unidades vendidas, ingreso neto y margen bruto por región")}
+                loading="lazy"
+                width={900}
+                height={507}
+              />
+              <figcaption className="tile-bar">
+                <i />
+                <b>{t("Apex Auto Group — cockpit ejecutivo en Power BI")}</b>
+              </figcaption>
+            </figure>
+            <div className="gal-foot" data-rv>
+              <Link className="pill pill--ghost" to={portfolioPath}>
+                {t("Ver el portafolio completo")}
+              </Link>
             </div>
           </div>
         </section>
@@ -809,7 +706,7 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">{t("El sistema Sagepoint")}</p>
+                <p className="eyebrow">{t("Cómo funciona")}</p>
                 <h2 className="sec-title">
                   {t("Tres pasos,")}
                   <br />
@@ -817,7 +714,7 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("La IA sola alucina y no conoce tu contexto local. Cada métrica que sale de aquí pasó por un consultor antes de llegar a tu pantalla.")}
+                {t("Trabajamos con las herramientas que ya usas y una persona revisa cada número antes de que llegue a tu pantalla.")}
               </p>
             </div>
             <DataFlow lang={lang} />
@@ -826,9 +723,9 @@ export default function LeonardoHome() {
                 <div className="step-n" style={{ '--c': 'var(--mint)' } as React.CSSProperties}>
                   {t("PASO 01")}
                 </div>
-                <h3>{t("Levantamos la señal")}</h3>
+                <h3>{t("Revisamos tus datos")}</h3>
                 <p>
-                  {t("Auditamos tus fuentes reales —DMS, CRM, ERP, telefonía, las hojas de cálculo que nadie quiere abrir— y mapeamos dónde se pierde la información.")}
+                  {t("Revisamos dónde viven hoy tus números —hojas de cálculo, CRM, sistema contable o ERP, telefonía— y encontramos dónde se pierde la información.")}
                 </p>
               </article>
               <article className="step" data-rv>
@@ -837,14 +734,14 @@ export default function LeonardoHome() {
                 </div>
                 <h3>{t("Conectamos y validamos")}</h3>
                 <p>
-                  {t("Ingesta automatizada con Python, Playwright y Apps Script. Cada regla de validación corre a diario y un humano revisa lo que la máquina marca.")}
+                  {t("Tus datos se cargan solos cada día y pasan por reglas de validación. Una persona revisa todo lo que el sistema marca como dudoso.")}
                 </p>
               </article>
               <article className="step" data-rv>
                 <div className="step-n" style={{ '--c': 'var(--amber)' } as React.CSSProperties}>
                   {t("PASO 03")}
                 </div>
-                <h3>{t("Entregamos la decisión")}</h3>
+                <h3>{t("Entregamos tu dashboard")}</h3>
                 <p>
                   {t("Dashboards que tu equipo entiende sin capacitación de tres semanas, con alertas que llegan a Slack o WhatsApp antes de que el problema crezca.")}
                 </p>
@@ -862,21 +759,21 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">{t("Cómo se empieza")}</p>
+                <p className="eyebrow">{t("Precios")}</p>
                 <h2 className="sec-title">
-                  {t("Primero una")}
+                  {t("Empieza en pequeño,")}
                   <br />
-                  {t("prueba pequeña")}
+                  {t("sigue si funciona")}
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("No tienes que decidir hoy el proyecto completo. Se empieza por una radiografía de dos semanas, y de ahí se ve si hay con qué seguir. Todo con entregable, plazo y precio por escrito.")}
+                {t("Todo empieza con una llamada de diagnóstico gratuita. Si hay encaje, arrancas con una Radiografía de Datos de dos semanas por $750 y después decides si sigues. Alcance, plazo y precio siempre por escrito.")}
               </p>
             </div>
 
             <div className="plist">
               <p className="lstep">
-                <span>{t("Etapa 1")}</span> {t("Por aquí se entra")}
+                <span>{t("Etapa 1")}</span> {t("Primer proyecto")}
               </p>
               <article className="prow prow--lead spot" data-rv>
                 <div className="prow-price">
@@ -1199,17 +1096,16 @@ export default function LeonardoHome() {
                   <Link to={lang === 'en' ? '/en/services/call-center-kpi-dashboards/' : '/servicios/dashboards-power-bi-guatemala/'}>Dashboards &amp; BI</Link>
                 </li>
                 <li>
-                  <Link to={localizedPath('/web/', lang)}>{t("Automatización web")}</Link>
+                  <Link to={localizedPath('/web/', lang)}>{t("Páginas web")}</Link>
                 </li>
                 <li>
                   <Link to={lang === 'en' ? '/en/services/bpo-client-reporting-automation/' : '/servicios/automatizar-reportes-excel-sheets/'}>{t("Automatización en Excel")}</Link>
                 </li>
-                <li>
-                  <a href="#trabajo">{t("Modelos predictivos")}</a>
-                </li>
-                <li>
-                  <a href="#trabajo">Data coaching</a>
-                </li>
+                {lang === 'es' && (
+                  <li>
+                    <Link to="/servicios/pronosticos-ventas-demanda/">{t("Modelos predictivos")}</Link>
+                  </li>
+                )}
               <li><Link to={servicesPath}>{lang === 'en' ? 'All services' : 'Todos los servicios'}</Link></li>
               </ul>
             </nav>
@@ -1222,10 +1118,10 @@ export default function LeonardoHome() {
                   <a href="#casos">{t("Casos")}</a>
                 </li>
                 <li>
-                  <Link to={portfolioPath}>Portfolio</Link>
+                  <Link to={portfolioPath}>{t("Portafolio")}</Link>
                 </li>
                 <li>
-                  <a href="#paquetes">{t("Paquetes")}</a>
+                  <a href="#paquetes">{t("Precios")}</a>
                 </li>
                 <li>
                   <a href="#faq">FAQ</a>
@@ -1239,7 +1135,7 @@ export default function LeonardoHome() {
               <ul>
                 <li>
                   <a href={externalBookingUrl ?? '#agendar'} target={externalBookingUrl ? '_blank' : undefined} rel={externalBookingUrl ? 'noopener noreferrer' : undefined} onClick={(e) => handlePrimaryBooking(e, pickedId ?? 'general', 'footer')}>
-                    {t("Solicitar diagnóstico")}
+                    {t("Solicitar diagnóstico gratuito")}
                   </a>
                 </li>
                 {lang === 'en' ? (

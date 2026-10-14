@@ -51,7 +51,7 @@ test('submission preserves context, attribution and selected package without sen
 });
 
 const routes = [
-  ['/', 'es'], ['/en/', 'en'], ['/portfolio/', 'es'], ['/en/portfolio/', 'en'],
+  ['/', 'en'], ['/es/', 'es'], ['/portfolio/', 'en'], ['/es/portfolio/', 'es'],
   ['/web/', 'es'], ['/en/web/', 'en'], ['/servicios/', 'es'], ['/en/services/', 'en'],
   ['/servicios/dashboards-power-bi-guatemala/', 'es'],
   ['/servicios/automatizar-reportes-excel-sheets/', 'es'],
@@ -83,7 +83,8 @@ test('every built route has its own canonical, language, and one h1', () => {
     assert.ok(title && title.length <= 60, `${path}: title ${title?.length}`);
     assert.ok(description && description.length <= 155, `${path}: description ${description?.length}`);
     for (const block of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(block[1]);
-    if (path === '/' || path === '/en/') assert.ok(html.includes(lang === 'en' ? 'Request a free consultation' : 'Solicitar diagnóstico gratuito'));
+    if (path === '/') assert.ok(html.includes('Book a free call'));
+    if (path === '/es/') assert.ok(html.includes('Solicitar diagnóstico gratuito'));
   }
 });
 
@@ -142,19 +143,19 @@ test('built HTML and JS use path language links', () => {
   for (const entry of readdirSync('dist/assets')) if (entry.endsWith('.js')) {
     assert.doesNotMatch(readFileSync(join('dist/assets', entry), 'utf8'), /\?lang=en|_localized/, entry);
   }
-  assert.ok(built('/').includes('/servicios/dashboards-power-bi-guatemala/'));
-  for (const path of ['/', '/en/']) {
+  assert.ok(built('/es/').includes('/servicios/dashboards-power-bi-guatemala/'));
+  for (const path of ['/', '/es/']) {
     const html = built(path);
     const faq = graph(html).find(item => item['@type'] === 'FAQPage');
     const visible = [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]);
     assert.deepEqual(faq.mainEntity.map(item => item.name), visible, path);
   }
-  assert.ok(built('/en/').includes('/en/services/call-center-kpi-dashboards/'));
+  assert.ok(built('/').includes('/en/services/call-center-kpi-dashboards/'));
 });
 
 test('built home keeps conservative case results and phone examples in the selected language', () => {
-  const spanish = readFileSync('dist/index.html', 'utf8');
-  const english = readFileSync('dist/en/index.html', 'utf8');
+  const spanish = readFileSync('dist/es/index.html', 'utf8');
+  const english = readFileSync('dist/index.html', 'utf8');
   for (const text of ['6 cifras', '&gt;99%', '~81%', 'más de 25 h/semana', 'un margen de seis cifras', '+502 5555 5555']) {
     assert.ok(spanish.includes(text), `Spanish home: ${text}`);
   }
@@ -205,6 +206,12 @@ test('local production preview serves the matching initial HTML', async () => {
   }
 });
 
+test('hidden hero cockpit does not block the hero buttons on desktop', () => {
+  // The cockpit overlays the hero CTAs while it is still transparent; it must let clicks through.
+  const home = readFileSync('leonardo/LeonardoHome.tsx', 'utf8');
+  assert.match(home, /querySelector<HTMLElement>\('\.leo-cockpit'\)[\s\S]{0,120}pointerEvents = cinema && p < 0\.85 \? 'none' : ''/);
+});
+
 test('analytics bootstrap queues gtag Arguments, preserving event name and parameters', async () => {
   const { default: ts } = await import('typescript');
   const { runInNewContext } = await import('node:vm');
@@ -246,13 +253,18 @@ test('deployment config redirects legacy URLs and serves each prerendered route'
   assert.equal(config.routes[0].has[0].type, 'host');
   assert.equal(config.routes[0].has[0].value, 'sagepoint-analytics.com');
   const fileIndex = config.routes.findIndex(r => r.handle === 'filesystem');
-  for (const [source, target] of [['/', '/en/'], ['/portfolio/', '/en/portfolio/'], ['/web/', '/en/web/']]) {
+  for (const [source, target] of [['/', '/'], ['/portfolio/', '/portfolio/'], ['/web/', '/en/web/']]) {
     const route = config.routes.find(r => r.src === `^${source}$` && r.has?.some(h => h.type === 'query' && h.key === 'lang' && h.value === 'en'));
     assert.equal(route?.status, 308);
     assert.equal(route?.headers.Location, target);
   }
-  for (const [source, target] of [['/portfolio', '/en/portfolio/'], ['/web', '/en/web/']]) {
+  for (const [source, target] of [['/portfolio', '/portfolio/'], ['/web', '/en/web/']]) {
     const route = config.routes.find(r => r.src === `^${source}$` && r.has?.some(h => h.key === 'lang' && h.value === 'en'));
+    assert.equal(route?.headers.Location, target);
+  }
+  for (const [source, target] of [['/en/', '/'], ['/en', '/'], ['/en/portfolio/', '/portfolio/']]) {
+    const route = config.routes.find(r => r.src === `^${source}$` && !r.has && r.status === 308);
+    assert.equal(route?.status, 308);
     assert.equal(route?.headers.Location, target);
   }
   for (const [path, lang] of routes) {

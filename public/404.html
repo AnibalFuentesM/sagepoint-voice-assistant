@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex" />
-<title>Página no encontrada | Sagepoint Analytics</title>
+<title>Page not found | Sagepoint Analytics</title>
 <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,21 +37,20 @@
 <main>
   <img src="/assets/img/mago-404.webp" width="414" height="480" alt="" aria-hidden="true" />
   <p class="code">Error 404</p>
-  <h1 data-es="Esta página se perdió entre los datos" data-en="This page got lost in the data">Esta página se perdió entre los datos</h1>
-  <p class="lede" data-es="El enlace puede estar viejo o mal escrito. Desde aquí te llevamos a lo que sí existe." data-en="The link may be outdated or mistyped. Here is what does exist.">El enlace puede estar viejo o mal escrito. Desde aquí te llevamos a lo que sí existe.</p>
+  <h1 data-es="Esta página se perdió entre los datos" data-en="This page got lost in the data">This page got lost in the data</h1>
+  <p class="lede" data-es="El enlace puede estar viejo o mal escrito. Desde aquí te llevamos a lo que sí existe." data-en="The link may be outdated or mistyped. Here is what does exist.">The link may be outdated or mistyped. Here is what does exist.</p>
   <nav>
-    <a class="pill fill" href="/" data-href-en="/en/" data-es="Ir al inicio" data-en="Go to the home page">Ir al inicio</a>
-    <a class="pill ghost" href="/servicios/" data-href-en="/en/services/" data-es="Ver servicios" data-en="See services">Ver servicios</a>
-    <a class="pill ghost" href="https://wa.me/50240464716" data-es="Escribir por WhatsApp" data-en="Message us on WhatsApp" rel="noopener noreferrer">Escribir por WhatsApp</a>
+    <a class="pill fill" href="/" data-href-es="/es/" data-es="Ir al inicio" data-en="Go to the home page">Go to the home page</a>
+    <a class="pill ghost" href="/en/services/" data-href-es="/servicios/" data-es="Ver servicios" data-en="See services">See services</a>
+    <a class="pill ghost" href="https://wa.me/50240464716" data-es="Escribir por WhatsApp" data-en="Message us on WhatsApp" rel="noopener noreferrer">Message us on WhatsApp</a>
   </nav>
 </main>
 <script>
-  // English copy for anything under /en/; Spanish is the default markup.
-  if (/^\/en(\/|$)/.test(location.pathname)) {
-    document.documentElement.lang = 'en';
-    document.title = 'Page not found | Sagepoint Analytics';
-    document.querySelectorAll('[data-en]').forEach(function (el) { el.textContent = el.getAttribute('data-en'); });
-    document.querySelectorAll('[data-href-en]').forEach(function (el) { el.setAttribute('href', el.getAttribute('data-href-en')); });
+  if (/^\/(es|servicios|guias|web)(\/|$)/.test(location.pathname)) {
+    document.documentElement.lang = 'es';
+    document.title = 'Página no encontrada | Sagepoint Analytics';
+    document.querySelectorAll('[data-es]').forEach(function (el) { el.textContent = el.getAttribute('data-es'); });
+    document.querySelectorAll('[data-href-es]').forEach(function (el) { el.setAttribute('href', el.getAttribute('data-href-es')); });
   }
 </script>
 </body>

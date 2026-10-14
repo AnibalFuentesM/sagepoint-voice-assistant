@@ -53,7 +53,7 @@ const copy = {
     annualHours: 'Hours spent on manual reporting',
     annualCost: 'Cost of that time',
     recoverable: 'Estimated recoverable value',
-    method: 'Estimate: 75% of reporting time is automated. Recoverable value is hours freed multiplied by your loaded hourly cost; it is not guaranteed cash savings. The diagnostic call confirms what can be recovered.',
+    method: 'Estimate: 75% of reporting time is automated. Recoverable value is hours freed multiplied by your loaded hourly cost; it is not guaranteed cash savings. The free call confirms what can be recovered.',
     recommended: 'Suggested starting point',
     assessment: 'Data Assessment',
     cockpit: 'Executive Cockpit',
@@ -62,8 +62,8 @@ const copy = {
     credit: 'If you start with the Data Assessment, its US$750 is credited in full toward the project if you sign within 30 days.',
     weeks: 'weeks',
     longPayback: 'over 2 years',
-    complex: 'Operations spanning multiple systems may need Control Room (from US$12,000). We will confirm that in the diagnostic.',
-    cta: 'Book a diagnostic with this estimate',
+    complex: 'Operations spanning multiple systems may need Control Room (from US$12,000). We will confirm that on the free call.',
+    cta: 'Book a free call about this estimate',
   },
 } as const;
 

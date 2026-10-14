@@ -338,4 +338,4 @@ export const HUBS = {
   en: { path: '/en/services/', title: 'Reporting Services for Contact Centers | Sagepoint', description: 'Operational KPI dashboards and client reporting automation for US contact centers and BPOs. Built on your existing data and systems.', h1: 'Reporting services for contact centers and BPOs', intro: 'Your operations already generate data. We help turn existing ACD, CRM, and spreadsheet outputs into useful dashboards and repeatable client reporting, with agreed metric definitions and a documented handoff.' }
 };
 
-export const ALL_ROUTES = ['/', '/en/', '/portfolio/', '/en/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'];
+export const ALL_ROUTES = ['/', '/es/', '/portfolio/', '/es/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'];

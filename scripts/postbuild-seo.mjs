@@ -10,11 +10,13 @@ const org = blocks[0]['@graph'].find(item => item['@id'] === `${site}/#organizat
 const { hasOfferCatalog, ...organization } = org;
 const homeFaq = blocks.find(item => item['@type'] === 'FAQPage');
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+const getLang = p => (p === '/en' || p.startsWith('/en/')) ? 'en' : (p === '/es' || p.startsWith('/es/') || p.startsWith('/servicios') || p.startsWith('/guias') || p.startsWith('/web')) ? 'es' : 'en';
 const paired = path => {
-  if (path === '/' || path === '/en/') return [{ lang: 'es', path: '/' }, { lang: 'en', path: '/en/' }, { lang: 'x-default', path: '/' }];
-  for (const segment of ['portfolio', 'web']) if (path === `/${segment}/` || path === `/en/${segment}/`) return [{ lang: 'es', path: `/${segment}/` }, { lang: 'en', path: `/en/${segment}/` }, { lang: 'x-default', path: `/${segment}/` }];
+  if (path === '/' || path === '/es/') return [{ lang: 'es', path: '/es/' }, { lang: 'en', path: '/' }, { lang: 'x-default', path: '/' }];
+  if (path === '/portfolio/' || path === '/es/portfolio/') return [{ lang: 'es', path: '/es/portfolio/' }, { lang: 'en', path: '/portfolio/' }, { lang: 'x-default', path: '/portfolio/' }];
+  if (path === '/web/' || path === '/en/web/') return [{ lang: 'es', path: '/web/' }, { lang: 'en', path: '/en/web/' }, { lang: 'x-default', path: '/web/' }];
   if (path === '/servicios/' || path === '/en/services/') return [{ lang: 'es', path: '/servicios/' }, { lang: 'en', path: '/en/services/' }];
-  return [{ lang: path.startsWith('/en/') ? 'en' : 'es', path }];
+  return [{ lang: getLang(path), path }];
 };
 const vite = await createServer({ server: { middlewareMode: true, hmr: false }, appType: 'custom', ssr: { resolve: { externalConditions: ['module-sync', 'node'] } } });
 let paths;
@@ -24,7 +26,7 @@ try {
   const { guideGraph } = await vite.ssrLoadModule('/leonardo/GuidePage.tsx');
   paths = ALL_ROUTES;
   for (const path of paths) {
-    const language = path.startsWith('/en/') ? 'en' : 'es';
+    const language = getLang(path);
     const url = `${site}${path}`;
     const { markup, meta, service, guide } = renderPage(path);
     const graph = [
@@ -32,11 +34,11 @@ try {
       { '@type': 'WebSite', '@id': `${site}/#website`, url: `${site}/`, name: 'Sagepoint Analytics', publisher: { '@id': `${site}/#organization` } },
       { '@type': path.includes('/portfolio/') ? 'CollectionPage' : 'WebPage', '@id': `${url}#webpage`, url, name: meta.title, description: meta.description, inLanguage: language, isPartOf: { '@id': `${site}/#website` }, about: { '@id': `${site}/#organization` } },
     ];
-    if (path === '/' || path === '/en/') graph.push({ ...homeFaq, mainEntity: homeFaq.mainEntity.map(q => ({ ...q, name: translateLeo(language, q.name), acceptedAnswer: { ...q.acceptedAnswer, text: translateLeo(language, q.acceptedAnswer.text) } })) });
+    if (path === '/' || path === '/es/') graph.push({ ...homeFaq, mainEntity: homeFaq.mainEntity.map(q => ({ ...q, name: translateLeo(language, q.name), acceptedAnswer: { ...q.acceptedAnswer, text: translateLeo(language, q.acceptedAnswer.text) } })) });
     if (service) graph.push(...serviceGraph(service));
     if (guide) graph.push(...guideGraph(guide));
     if (path === '/servicios/' || path === '/en/services/') graph.push({ '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: language === 'es' ? 'Inicio' : 'Home', item: `${site}${language === 'es' ? '/' : '/en/'}` },
+      { '@type': 'ListItem', position: 1, name: language === 'es' ? 'Inicio' : 'Home', item: `${site}${language === 'es' ? '/es/' : '/'}` },
       { '@type': 'ListItem', position: 2, name: language === 'es' ? 'Servicios' : 'Services', item: url },
     ] });
     let html = template

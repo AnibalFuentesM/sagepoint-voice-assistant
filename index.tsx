@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { legacyEnglishPath } from './utils/i18nRoutes';
+import { legacyEnglishPath, localizedPath } from './utils/i18nRoutes';
 import LeonardoHome from './leonardo/LeonardoHome';
 import { captureLeadAttribution, initializeAnalytics } from './utils/analytics';
 import './index.css';
@@ -32,6 +32,13 @@ function LegacyLanguageFallback() {
   return null;
 }
 
+function EnglishRedirect() {
+  const location = useLocation();
+  const normalized = location.pathname.endsWith('/') ? location.pathname : `${location.pathname}/`;
+  const target = `${localizedPath(normalized, 'en')}${location.search}${location.hash}`;
+  return <Navigate to={target} replace />;
+}
+
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");
@@ -45,16 +52,20 @@ root.render(
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<LeonardoHome />} />
-          <Route path="/en" element={<LeonardoHome />} />
-          <Route path="/en/" element={<LeonardoHome />} />
+          <Route path="/es" element={<LeonardoHome />} />
+          <Route path="/es/" element={<LeonardoHome />} />
+          <Route path="/en" element={<EnglishRedirect />} />
+          <Route path="/en/" element={<EnglishRedirect />} />
           <Route path="/web" element={<WebPage />} />
           <Route path="/web/" element={<WebPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
           <Route path="/portfolio/" element={<PortfolioPage />} />
+          <Route path="/es/portfolio" element={<PortfolioPage />} />
+          <Route path="/es/portfolio/" element={<PortfolioPage />} />
           <Route path="/en/web" element={<WebPage />} />
           <Route path="/en/web/" element={<WebPage />} />
-          <Route path="/en/portfolio" element={<PortfolioPage />} />
-          <Route path="/en/portfolio/" element={<PortfolioPage />} />
+          <Route path="/en/portfolio" element={<EnglishRedirect />} />
+          <Route path="/en/portfolio/" element={<EnglishRedirect />} />
           <Route path="/servicios" element={<ServicesHub />} />
           <Route path="/servicios/" element={<ServicesHub />} />
           <Route path="/en/services" element={<ServicesHub />} />
