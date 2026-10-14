@@ -81,7 +81,7 @@ export const ENGLISH: Record<string, string> = {
   'el dato directo del sistema': 'data straight from the system',
   'APIs de CRM y telefonía': 'CRM & telephony APIs',
   'Sagepoint en LinkedIn': 'Sagepoint on LinkedIn',
-  'Aníbal Fuentes, fundador de Sagepoint Analytics': 'Aníbal Fuentes, founder of Sagepoint Analytics',
+  'Anibal Fuentes, fundador de Sagepoint Analytics': 'Anibal Fuentes, founder of Sagepoint Analytics',
   'Bilingüe en inglés y español.': 'Bilingual in English and Spanish.',
   'Construye personalmente los dashboards y las automatizaciones con Power BI, Python, Playwright y Google Apps Script.': 'He builds the dashboards and automations himself with Power BI, Python, Playwright and Google Apps Script.',
   'Trabaja dentro de las cuentas y licencias del cliente.': "He works inside the client's own accounts and licenses.",

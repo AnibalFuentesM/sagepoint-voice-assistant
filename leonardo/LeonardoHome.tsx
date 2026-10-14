@@ -874,7 +874,7 @@ export default function LeonardoHome() {
                   <img
                     className="founder-photo"
                     src={FOUNDER_PHOTO}
-                    alt={t("Aníbal Fuentes, fundador de Sagepoint Analytics")}
+                    alt={t("Anibal Fuentes, fundador de Sagepoint Analytics")}
                     width={128}
                     height={128}
                     loading="lazy"
@@ -885,7 +885,7 @@ export default function LeonardoHome() {
                 )}
                 <div>
                   <p className="eyebrow">{t("Quién está detrás")}</p>
-                  <h2>Aníbal Fuentes</h2>
+                  <h2>Anibal Fuentes</h2>
                   <p className="founder-role">{t("Fundador")}</p>
                   <a
                     className="founder-link"
@@ -896,7 +896,7 @@ export default function LeonardoHome() {
                   >
                     {t("Sagepoint en LinkedIn")} <span aria-hidden="true">↗</span>
                   </a>
-                  {/* // TODO(Aníbal): 1 línea de trayectoria verificable */}
+                  {/* // TODO(Anibal): 1 línea de trayectoria verificable */}
                 </div>
               </div>
               <ul className="founder-facts">
