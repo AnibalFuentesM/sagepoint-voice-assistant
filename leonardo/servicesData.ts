@@ -211,10 +211,10 @@ export const SERVICES: Service[] = [
       'A free 30–45 minute assessment covers decisions, sample exports, current reports, and the teams that will use them.',
       'We propose a defined scope with sources, metrics, access, review rounds, deliverables, and an agreed schedule.',
       'We build the data model and views, reconcile them against source totals, and review the interpretation with your operations team.',
-      'We hand over documentation and training. Ongoing support starts at US$300/month if you need later adjustments.'
+      'We hand over documentation and training. Ongoing support starts at US$450/month if you need later adjustments.'
     ],
     proof: 'Multi-client BPO operator: the published case describes daily consolidation across fourteen telephony and CRM systems. SLA compliance moved from about 81% to over 99%, and the workflow freed more than 25 supervisor hours per week. The dashboard work is grounded in reconciled operational data, not a generic template.',
-    packageFit: 'Data Assessment (US$750, 2 weeks) helps when metric definitions and source quality need discovery. Executive Cockpit starts at US$2,500 for a scoped dashboard build. Control Room starts at US$12,000 for wider integrations; the right package depends on your sources and deliverables.',
+    packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) helps when metric definitions and source quality need discovery. Executive Cockpit is a fixed US$3,900 for a scoped dashboard build. Control Room starts at US$15,000 for wider integrations; the right package depends on your sources and deliverables.',
     faq: [
       { question: 'Which KPIs should a small call center dashboard track first?', answer: 'Start with measures tied to decisions: demand, service level, abandonment, handling time, and a quality or outcome measure where available. We agree on definitions and queue scope with your managers before deciding which charts belong in the first view.' },
       { question: 'Can you combine ACD, CRM and QA data in one dashboard?', answer: 'Often, if exports or authorized connections are available and records can be matched reliably. We inspect sample data, identifiers, permissions, and refresh limits before committing to a combined view.' },
@@ -247,10 +247,10 @@ export const SERVICES: Service[] = [
       'The free 30–45 minute assessment examines a sample reporting cycle, current packs, source exports, and approval requirements.',
       'We scope the programs, definitions, schedules, review rounds, and delivery boundaries in a proposal.',
       'We build against sample cycles, reconcile totals, and review exceptions with the people who sign off on client reporting.',
-      'We hand over the workflow and documentation. Ongoing support begins at US$300/month if you need changes after delivery.'
+      'We hand over the workflow and documentation. Ongoing support begins at US$450/month if you need changes after delivery.'
     ],
     proof: 'Multi-client BPO operator: the published case reconciled 33,370 rows across 79 production weeks and consolidated fourteen telephony and CRM systems daily. SLA compliance moved from about 81% to over 99%, and more than 25 supervisor hours per week were freed. These are results from that case, not a forecast for a new engagement.',
-    packageFit: 'Data Assessment (US$750, 2 weeks) clarifies sources and reporting obligations. Executive Cockpit starts at US$2,500 and includes a scoped automated reporting flow. Control Room starts at US$12,000 for broader integration work. We recommend a package only after examining your actual client packs.',
+    packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) clarifies sources and reporting obligations. Executive Cockpit is a fixed US$3,900 and includes a scoped automated reporting flow. Control Room starts at US$15,000 for broader integration work. We recommend a package only after examining your actual client packs.',
     faq: [
       { question: 'Can each client receive a report with its own SLA definitions?', answer: 'Yes, when the source data supports those definitions. We record the threshold, exclusions, time window, and program mapping for each client, then validate sample outputs with your account owners.' },
       { question: 'How do you reconcile numbers from multiple ACD and CRM exports?', answer: 'We map identifiers and reporting periods, compare totals, and expose unmatched or late records for review. The exact method depends on fields available in each system and how consistently they are populated.' },
@@ -283,10 +283,10 @@ export const SERVICES: Service[] = [
       'A free 30–45 minute assessment reviews sample scorecards, exports, rubric changes, and coaching decisions.',
       'We agree on data access, comparable groups, metrics, review rounds, and a scoped deliverable.',
       'We reconcile sample evaluations, build views, and review score variances and outliers with QA leads.',
-      'We hand over definitions, reporting instructions, and training. Ongoing Support starts at US$300/month for later changes.'
+      'We hand over definitions, reporting instructions, and training. Ongoing Support starts at US$450/month for later changes.'
     ],
     validation: { title: 'How we validate QA data', detail: 'We compare report counts and score calculations with source evaluations, check rubric version and weighting, and flag missing evaluator or program identifiers. Calibration comparisons are shown only when the same work was reviewed by multiple evaluators under a comparable rubric.' },
-    packageFit: 'Data Assessment (US$750, 14 days, NDA before we touch a file) audits two sources, clarifies scorecards and source quality, and is credited in full toward the project if you sign within 30 days. Executive Cockpit starts at US$2,500 over 4–6 weeks: up to four sources and up to three dashboards. The proposal depends on forms, history, and review needs.',
+    packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery, NDA before we touch a file) connects two sources, clarifies scorecards and source quality, and comes off the project if you continue within 30 days. Executive Cockpit is a fixed US$3,900 over 4–6 weeks: up to four sources and up to three dashboards. The proposal depends on forms, history, and review needs.',
     faq: [
       { question: 'Can reports compare QA scores by agent, team and rubric item?', answer: 'Yes, if the evaluations include consistent agent, team, and item identifiers. We preserve rubric versions and show when a comparison would be misleading.' },
       { question: 'How do you handle different scorecards across client programs?', answer: 'We document each program’s items and weights, report them separately by default, and combine only measures that have an agreed common meaning.' },
@@ -319,10 +319,10 @@ export const SERVICES: Service[] = [
       'A free 30–45 minute assessment reviews current staffing decisions and sample WFM and ACD exports.',
       'We scope intervals, program mappings, measures, access, review rounds, and refresh needs.',
       'We reconcile records and test formulas with supervisors before finalizing the reporting views.',
-      'We provide documentation and training. Ongoing Support starts at US$300/month if later changes are needed.'
+      'We provide documentation and training. Ongoing Support starts at US$450/month if later changes are needed.'
     ],
     proof: 'Multi-client BPO operator: the published case reconciled 33,370 rows over 79 weeks from fourteen telephony and CRM systems, moving SLA compliance from about 81% to over 99% and freeing 25+ supervisor hours per week. It shows cross-system operational reporting, not a WFM software implementation.',
-    packageFit: 'Data Assessment (US$750, 2 weeks) can clarify states and definitions. Executive Cockpit starts at US$2,500 for a scoped reporting view over 4–6 weeks. Control Room starts at US$12,000 over 10–14 weeks when broader data integration is required. Scope determines fit.',
+    packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) can clarify states and definitions. Executive Cockpit is a fixed US$3,900 for a scoped reporting view over 4–6 weeks. Control Room starts at US$15,000 over 10–14 weeks when broader data integration is required. Scope determines fit.',
     faq: [
       { question: 'How is occupancy calculated from our available data?', answer: 'We agree on which handling and available states count and inspect what your ACD exports provide. The report documents numerator, denominator, exclusions, and interval rules.' },
       { question: 'Can the report compare scheduled and actual staffing by interval?', answer: 'Yes, when schedule and actual-state data share reliable agent IDs, timestamps, and interval detail. We show gaps and flag missing records.' },

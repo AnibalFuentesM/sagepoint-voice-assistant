@@ -25,24 +25,28 @@ The portfolio includes hands-on AI and operations automation experience using Py
 Sagepoint Analytics ofrece consultoria de inteligencia de negocios para PYMEs, dashboards ejecutivos, automatizacion de reportes, automatizacion de Excel con Power Query/VBA, modelos predictivos, integraciones CRM/ERP y acompanamiento humano para equipos en Guatemala, Centroamerica y Estados Unidos.
 
 ## Packages (fixed-scope projects)
+Prices below are for US and international clients (English site). Clients in Guatemala and Central America see local prices on the Spanish site: Radiografía de Datos $750, Cockpit Ejecutivo from $2,500, Sala de Control from $12,000, Soporte Cercano from $300/month.
 
-### Data Assessment (Radiografía de Datos)
-- **Price**: $750 USD one-time | **Timeline**: 2 weeks
-- **Includes**: Audit of up to 2 data sources, 1 dashboard with up to 8 key KPIs, prioritized opportunity report, 1 revision round.
-- **Not included**: Automation, integrations, predictive models.
+### 14-Day Dashboard Pilot (Radiografía de Datos)
+- **Price**: $750 USD, paid on delivery; no charge if the dashboard isn't useful | **Timeline**: 14 days
+- **Includes**: 2 connected data sources, 1 working dashboard with up to 8 KPIs, a one-page list of what to automate next, 1 revision round, NDA before any file is opened.
+- **Credit**: the $750 comes off the next project if the client continues within 30 days.
 
 ### Executive Cockpit (Cockpit Ejecutivo)
-- **Price**: from $2,500 USD per project | **Timeline**: 4–6 weeks
-- **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated reporting flow (over 75% less manual time), 2 training sessions, documentation, 2 revision rounds.
-- **Not included**: Data warehouse, custom AI models.
+- **Price**: $3,900 USD fixed | **Timeline**: 4–6 weeks
+- **Includes**: Up to 4 integrated data sources, up to 3 executive dashboards, 1 automated weekly report, 2 training sessions, documentation.
+- **Not included**: Data warehouse, custom forecasting models.
 
 ### Control Room (Sala de Control)
-- **Price**: from $12,000 USD | **Timeline**: 10–14 weeks
-- **Includes**: Dedicated predictive models, CRM/ERP integrations, data warehouse. Scope defined in a formal quote.
+- **Price**: from $15,000 USD | **Timeline**: 10–14 weeks
+- **Includes**: Data warehouse, portal with user permissions, forecasting models, CRM/ERP integrations. Scoped and priced in writing after the pilot.
 
-### Soporte Cercano Monthly (add-on)
-- **Price**: $300 / $600 / $1,000 USD/month
-- **Includes**: Dashboard maintenance, adjustments, coaching and a priority WhatsApp line. Tiers depend on support intensity, with fixed monthly hours that do not roll over.
+### Ongoing Support (Soporte Cercano, optional monthly add-on)
+- **Price**: $450 / $900 / $1,800 USD/month, cancel any month; two months free when the year is paid upfront
+- **Tiers**: Keep it running (refresh checks, fixes, small changes); Keep improving (adds a new view or report each month); Analyst on call (adds a 30-minute weekly review). No hour counting: each tier covers the work it describes.
+
+### Payment terms
+Projects: 50% to start, 50% on delivery.
 
 ## Website Design and Development (Guatemala) — /web/
 
@@ -84,7 +88,7 @@ Quotes used with permission from delivered projects.
 - "What I value most is that he had the patience to listen and understand our ideas before proposing a solution. Really top-tier work." — Meylin Sic, project coordinator (dashboard and report automation project).
 
 ## Getting Started
-The initial consultation (30–45 minute video call) is free. The two-week Data Assessment is a separate paid project ($750), credited toward a project contracted within 30 days. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com
+The initial consultation (30–45 minute video call) is free. The 14-Day Dashboard Pilot is a separate paid project ($750, paid on delivery and only if the dashboard is useful), credited toward a project contracted within 30 days. Contact: info@sagepoint-analytics.com | WhatsApp +502 4046 4716 | https://www.sagepoint-analytics.com
 
 ## Service landing pages
 Spanish home: https://www.sagepoint-analytics.com/es/

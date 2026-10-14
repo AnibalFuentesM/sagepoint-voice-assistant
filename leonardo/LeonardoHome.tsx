@@ -21,6 +21,7 @@ import DataFlow from './DataFlow';
 import MobileMenu from './MobileMenu';
 import TrustGrid from './TrustGrid';
 import CtaReassure from './CtaReassure';
+import PricingEn from './PricingEn';
 import { useHashScroll } from './useHashScroll';
 import { useSpotlight } from './useSpotlight';
 import './spotlight.css';
@@ -767,10 +768,14 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Todo empieza con una llamada de diagnóstico gratuita. Si hay encaje, arrancas con una Radiografía de Datos de dos semanas por $750 y después decides si sigues. Alcance, plazo y precio siempre por escrito.")}
+                {lang === 'en' ? 'Every price here is fixed and written into the proposal before any work starts. You can stop after any step and keep what has been built.' : t("Todo empieza con una llamada de diagnóstico gratuita. Si hay encaje, arrancas con una Radiografía de Datos de dos semanas por $750 y después decides si sigues. Alcance, plazo y precio siempre por escrito.")}
               </p>
             </div>
 
+            {lang === 'en' ? (
+              <PricingEn cta={packageCta} portfolioPath={portfolioPath} />
+            ) : (
+            <>
             <div className="plist">
               <p className="lstep">
                 <span>{t("Etapa 1")}</span> {t("Primer proyecto")}
@@ -862,6 +867,8 @@ export default function LeonardoHome() {
             <p className="aside" data-rv>
               {t("¿Buscas solo un sitio web o una aplicación, sin la parte de datos? También lo hacemos, aparte de esta escalera —")} <Link to={portfolioPath}>{t("mira el portafolio")}</Link>.
             </p>
+            </>
+            )}
           </div>
         </section>
 

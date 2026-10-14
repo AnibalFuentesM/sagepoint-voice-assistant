@@ -284,7 +284,7 @@ html{scroll-behavior:smooth}
 }
 .leo .lstep > span{
   background:var(--mint);color:#04120d;font-weight:700;border-radius:270px;
-  padding:4px 11px;letter-spacing:.12em;
+  padding:4px 11px;letter-spacing:.12em;white-space:nowrap;flex-shrink:0;
 }
 .leo .lstep::after{content:'';flex:1;height:1px;background:var(--rule)}
 .leo .lstep--mid{margin-top:clamp(46px,5vw,72px)}
@@ -489,3 +489,17 @@ html{scroll-behavior:smooth}
 
 /* Keep the three CTA reassurance items on one line on narrow phones (inline styles set the desktop spacing). */
 @media (max-width:420px){.leo .ctareassure{gap:8px!important;letter-spacing:.06em!important}}
+/* Pricing ladder (EN): facts, guarantee, support tiers, signed note */
+.leo .pfacts{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--bone);font-size:14px}
+.leo .pfacts li::before{content:'✓';color:var(--mint);margin-right:8px}
+.leo .pguar{margin:20px 0 0;padding:14px 16px;border-left:2px solid var(--mint);background:rgba(99,230,190,.06);color:var(--ash);font-size:14.5px;max-width:62ch;border-radius:0 8px 8px 0}
+.leo .pguar b{color:var(--bone);font-weight:600}
+.leo .ptiers{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:10px;color:var(--ash);font-size:15px;max-width:62ch}
+.leo .ptiers b{color:var(--mint);font-weight:700;display:inline-block;min-width:64px}
+.leo .pnote{margin-top:clamp(40px,5vw,64px);padding:24px 26px;border:1px solid var(--rule);border-radius:14px;max-width:760px}
+.leo .pnote p{margin:0;color:var(--ash);font-size:15px;line-height:1.55}
+.leo .pnote b{color:var(--bone)}
+.leo .pnote-terms{margin-top:12px!important;font-size:13.5px!important;color:var(--mute)!important}
+.leo .pnote-sign{margin-top:14px!important;font-size:14px!important;font-weight:600;color:var(--bone)!important}
+.leo .ptiers li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px}
+.leo .pnote + .aside{margin-top:22px}

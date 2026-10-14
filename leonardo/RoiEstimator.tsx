@@ -37,6 +37,8 @@ const copy = {
     longPayback: 'más de 2 años',
     complex: 'Si tu operación conecta varios sistemas, podría necesitar Sala de Control (desde US$12,000). Lo definimos en el diagnóstico.',
     cta: 'Solicitar diagnóstico con esta estimación',
+    cockpitPrice: 2500,
+    cockpitFrom: true,
   },
   en: {
     eyebrow: 'ROI estimator',
@@ -55,15 +57,17 @@ const copy = {
     recoverable: 'Estimated recoverable value',
     method: 'Estimate: 75% of reporting time is automated. Recoverable value is hours freed multiplied by your loaded hourly cost; it is not guaranteed cash savings. The free call confirms what can be recovered.',
     recommended: 'Suggested starting point',
-    assessment: 'Data Assessment',
+    assessment: '14-Day Dashboard Pilot',
     cockpit: 'Executive Cockpit',
     from: 'from',
-    payback: 'Estimated payback on an Executive Cockpit (from US$2,500)',
-    credit: 'If you start with the Data Assessment, its US$750 is credited in full toward the project if you sign within 30 days.',
+    payback: 'Estimated payback on an Executive Cockpit (US$3,900)',
+    credit: 'You pay the US$750 only if the pilot dashboard is useful to you, and it comes off the next project if you continue within 30 days.',
     weeks: 'weeks',
     longPayback: 'over 2 years',
-    complex: 'Operations spanning multiple systems may need Control Room (from US$12,000). We will confirm that on the free call.',
+    complex: 'Operations spanning multiple systems may need Control Room (from US$15,000). We will confirm that on the free call.',
     cta: 'Book a free call about this estimate',
+    cockpitPrice: 3900,
+    cockpitFrom: false,
   },
 } as const;
 
@@ -80,9 +84,9 @@ export default function RoiEstimator({ lang, onBook }: Props) {
   const annualCost = annualHours * hourlyRate;
   const estimatedSavings = annualCost * 0.75;
   const packageId: PackageId = estimatedSavings < 10000 ? 'quick-win' : 'executive';
-  const entryPrice = packageId === 'quick-win' ? 750 : 2500;
+  const entryPrice = packageId === 'quick-win' ? 750 : t.cockpitPrice;
   // The 75% automation is what an Executive Cockpit delivers, so payback is measured against it.
-  const paybackWeeks = 2500 / (estimatedSavings / 52);
+  const paybackWeeks = t.cockpitPrice / (estimatedSavings / 52);
   const number = new Intl.NumberFormat(lang === 'es' ? 'es-GT' : 'en-US');
   const decimal = new Intl.NumberFormat(lang === 'es' ? 'es-GT' : 'en-US', {
     minimumFractionDigits: 1,
@@ -174,7 +178,7 @@ export default function RoiEstimator({ lang, onBook }: Props) {
           <p className="roi-method">{t.method}</p>
           <div className="roi-recommendation">
             <p className="roi-kicker">{t.recommended}</p>
-            <p className="roi-package">{packageId === 'quick-win' ? t.assessment : t.cockpit} <span>· {packageId === 'quick-win' ? dollars(entryPrice) : `${t.from} ${dollars(entryPrice)}`}</span></p>
+            <p className="roi-package">{packageId === 'quick-win' ? t.assessment : t.cockpit} <span>· {packageId === 'quick-win' || !t.cockpitFrom ? dollars(entryPrice) : `${t.from} ${dollars(entryPrice)}`}</span></p>
             {packageId === 'quick-win' && <p className="roi-complex">{t.credit}</p>}
             <p className="roi-payback">{t.payback}: <strong>{paybackWeeks > 104 ? t.longPayback : `${decimal.format(paybackWeeks)} ${t.weeks}`}</strong></p>
           </div>
