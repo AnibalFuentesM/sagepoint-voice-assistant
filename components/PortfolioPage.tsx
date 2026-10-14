@@ -100,12 +100,12 @@ export const portfolioContent = {
       {
         id: 11,
         categoryId: 'operations-bi' as CategoryId,
-        title: 'Apex Auto Group | Executive Dashboard',
+        title: 'Demo: cockpit para concesionarios',
         category: 'Operaciones & BI',
         description:
-          'Dashboard ejecutivo en Power BI para una red de 12 concesionarios en EE. UU.: ventas vs. meta, utilidad bruta por región, mezcla de vehículos eléctricos/híbridos e inventario envejecido, con modelo estelar y medidas DAX documentadas.',
+          'Demo con datos de muestra de un dashboard ejecutivo en Power BI para una red de 12 concesionarios: ventas vs. meta, utilidad bruta por región, mezcla de vehículos eléctricos/híbridos e inventario envejecido, con modelo estelar y medidas DAX documentadas.',
         image: '/projects/apex-auto.jpg',
-        alt: 'Dashboard ejecutivo de Apex Auto Group con ventas, utilidad, mezcla de powertrain e inventario por concesionario',
+        alt: 'Demo de dashboard ejecutivo con datos de muestra: ventas, utilidad, mezcla de powertrain e inventario por concesionario',
         tall: false,
         link: '/projects/apex-auto-dashboard.html',
         linkLabel: 'Ver Dashboard',
@@ -165,12 +165,12 @@ export const portfolioContent = {
       {
         id: 5,
         categoryId: 'health-wellness' as CategoryId,
-        title: 'Saludable – Nutricionista Maylin Sic',
+        title: 'Saludable – Nutricionista Meylin Sic',
         category: 'Salud & Bienestar',
         description:
           'Sitio web para nutricionista guatemalteca. Incluye servicios, precios, horarios, agendamiento de citas y branding completo. Diseño cálido y profesional enfocado en familias.',
         image: '/projects/saludable.jpg',
-        alt: 'Sitio web de la nutricionista Maylin Sic con agendamiento de citas',
+        alt: 'Sitio web de la nutricionista Meylin Sic con agendamiento de citas',
         tall: false,
         link: 'https://saludable-indol.vercel.app/',
         linkLabel: 'Ver Sitio',
@@ -205,8 +205,8 @@ export const portfolioContent = {
 
   en: {
     meta: {
-      title: 'BI and Automation Portfolio | Sagepoint',
-      description: 'Explore dashboard, automation, applied AI and web projects for companies in Guatemala and the United States.',
+      title: 'Dashboard and Automation Projects | Sagepoint',
+      description: 'Real dashboards, report automations and websites we have delivered, with screenshots and results. Projects in the United States and Guatemala.',
     },
     nav: {
       home: 'Home',
@@ -280,12 +280,12 @@ export const portfolioContent = {
       {
         id: 11,
         categoryId: 'operations-bi' as CategoryId,
-        title: 'Apex Auto Group | Executive Dashboard',
+        title: 'Demo: Dealer Group Cockpit',
         category: 'Operations & BI',
         description:
-          'Executive Power BI dashboard for a 12-dealership network in the US: sales vs. targets, gross margin by region, EV/hybrid powertrain mix, and aging inventory tracking with star-schema DAX models.',
+          'Demo built on sample data: an executive Power BI dashboard for a 12-dealership network: sales vs. targets, gross margin by region, EV/hybrid powertrain mix, and aging inventory tracking with star-schema DAX models.',
         image: '/projects/apex-auto.jpg',
-        alt: 'Apex Auto Group executive dashboard with sales, margins, powertrain mix, and dealership inventory',
+        alt: 'Executive dashboard demo with sample data: sales, margins, powertrain mix, and dealership inventory',
         tall: false,
         link: '/projects/apex-auto-dashboard.html',
         linkLabel: 'View Dashboard',

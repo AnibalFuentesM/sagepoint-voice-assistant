@@ -186,6 +186,27 @@
       "status": 308
     },
     {
+      "src": "^/en/services/small-business-dashboards$",
+      "headers": {
+        "Location": "/en/services/small-business-dashboards/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/excel-report-automation$",
+      "headers": {
+        "Location": "/en/services/excel-report-automation/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/en/services/quickbooks-dashboard$",
+      "headers": {
+        "Location": "/en/services/quickbooks-dashboard/"
+      },
+      "status": 308
+    },
+    {
       "src": "^/en/services/call-center-kpi-dashboards$",
       "headers": {
         "Location": "/en/services/call-center-kpi-dashboards/"
@@ -298,6 +319,18 @@
     {
       "src": "^/en/services/$",
       "dest": "/en/services/index.html"
+    },
+    {
+      "src": "^/en/services/small-business-dashboards/$",
+      "dest": "/en/services/small-business-dashboards/index.html"
+    },
+    {
+      "src": "^/en/services/excel-report-automation/$",
+      "dest": "/en/services/excel-report-automation/index.html"
+    },
+    {
+      "src": "^/en/services/quickbooks-dashboard/$",
+      "dest": "/en/services/quickbooks-dashboard/index.html"
     },
     {
       "src": "^/en/services/call-center-kpi-dashboards/$",

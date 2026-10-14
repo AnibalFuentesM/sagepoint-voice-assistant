@@ -100,5 +100,8 @@ Spanish services hub: https://www.sagepoint-analytics.com/servicios/
 English home: https://www.sagepoint-analytics.com/
 English portfolio: https://www.sagepoint-analytics.com/portfolio/
 English services hub: https://www.sagepoint-analytics.com/en/services/
+- https://www.sagepoint-analytics.com/en/services/small-business-dashboards/
+- https://www.sagepoint-analytics.com/en/services/excel-report-automation/
+- https://www.sagepoint-analytics.com/en/services/quickbooks-dashboard/
 - https://www.sagepoint-analytics.com/en/services/call-center-kpi-dashboards/
 - https://www.sagepoint-analytics.com/en/services/bpo-client-reporting-automation/

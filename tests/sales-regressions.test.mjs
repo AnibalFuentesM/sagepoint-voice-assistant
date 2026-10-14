@@ -58,6 +58,9 @@ const routes = [
   ['/servicios/automatizacion-procesos-pymes/', 'es'],
   ['/servicios/integracion-crm-erp-apis/', 'es'],
   ['/servicios/pronosticos-ventas-demanda/', 'es'],
+  ['/en/services/small-business-dashboards/', 'en'],
+  ['/en/services/excel-report-automation/', 'en'],
+  ['/en/services/quickbooks-dashboard/', 'en'],
   ['/en/services/call-center-kpi-dashboards/', 'en'],
   ['/en/services/bpo-client-reporting-automation/', 'en'],
   ['/en/services/contact-center-qa-reporting/', 'en'],
@@ -150,20 +153,18 @@ test('built HTML and JS use path language links', () => {
     const visible = [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]);
     assert.deepEqual(faq.mainEntity.map(item => item.name), visible, path);
   }
-  assert.ok(built('/').includes('/en/services/call-center-kpi-dashboards/'));
+  assert.ok(built('/').includes('/en/services/small-business-dashboards/'));
+  assert.ok(built('/en/services/').includes('/en/services/call-center-kpi-dashboards/'));
 });
 
-test('built home keeps conservative case results and phone examples in the selected language', () => {
+test('built home shows no invented results or testimonials and keeps phone examples in the selected language', () => {
   const spanish = readFileSync('dist/es/index.html', 'utf8');
   const english = readFileSync('dist/index.html', 'utf8');
-  for (const text of ['6 cifras', '&gt;99%', '~81%', 'más de 25 h/semana', 'un margen de seis cifras', '+502 5555 5555']) {
-    assert.ok(spanish.includes(text), `Spanish home: ${text}`);
-  }
-  for (const text of ['Six figures', '&gt;99%', '~81%', '25+ hours/week', 'a six-figure margin', '+1 (555) 555-5555']) {
-    assert.ok(english.includes(text), `English home: ${text}`);
-  }
+  assert.ok(spanish.includes('+502 5555 5555'), 'Spanish home phone example');
+  assert.ok(english.includes('+1 (555) 555-5555'), 'English home phone example');
   for (const [language, html] of [['es', spanish], ['en', english]]) {
-    assert.doesNotMatch(html, /\$420(?:,000|k)|99\.4%|81\.2%|28 (?:h\/semana|horas|hours)/, `${language} home`);
+    assert.doesNotMatch(html, /Marcus Vance|Maylin|\$420(?:,000|k)|99\.4%|81\.2%|&gt;99%|~81%|6 cifras|Six figures|seis cifras|six-figure|25\+ hours|25 h\/semana|28 (?:h\/semana|horas|hours)/, `${language} home`);
+    assert.ok(html.includes('Meylin Sic'), `${language} home keeps the real quote`);
   }
 });
 

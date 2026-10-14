@@ -37,7 +37,7 @@ export const HOME_META = {
   },
   en: {
     title: 'Small Business Dashboards and Report Automation | Sagepoint',
-    description: 'Live dashboards and automated reports for US small businesses. Free diagnostic call, first dashboard in 14 days, price agreed in writing.',
+    description: 'Live dashboards and automated reports for US small businesses. Free call, first dashboard in 14 days, price agreed in writing.',
   },
 };
 
@@ -603,15 +603,15 @@ export default function LeonardoHome() {
           <div className="wrap">
             <div className="sec-head" data-rv>
               <div>
-                <p className="eyebrow">{t("Casos seleccionados")}</p>
+                <p className="eyebrow">{t("Nuestro trabajo")}</p>
                 <h2 className="sec-title">
-                  {t("Números que")}
+                  {t("Lo que hemos")}
                   <br />
-                  {t("cambiaron de mano")}
+                  {t("construido")}
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Resultados de proyectos entregados. Donde hay acuerdo de confidencialidad, omitimos el nombre del cliente.")}
+                {t("Un proyecto de reportería entregado y una demo hecha con datos de muestra. En la llamada gratuita te mostramos más trabajos.")}
               </p>
             </div>
             <div className="cases">
@@ -619,26 +619,26 @@ export default function LeonardoHome() {
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--amber)' }}>
-                      {t("6 cifras")}
+                      Demo
                     </div>
-                    <div className="case-statl">{t("Margen recuperado / año")}</div>
+                    <div className="case-statl">{t("Datos de muestra")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--amber)' }}>
                     {t("Automoción")}
                   </span>
                 </div>
-                <h3>{t("Apex Auto Group — cockpit ejecutivo multi-tienda")}</h3>
+                <h3>{t("Cockpit para un grupo de concesionarios (demo)")}</h3>
                 <p>
-                  {t("Doce concesionarios y 85+ feeds DMS unificados en un solo Power BI con refresco sub-segundo.")}
+                  {t("Una demo en Power BI para doce concesionarios: ventas contra meta, margen bruto por región e inventario envejecido, con datos de muestra.")}
                 </p>
                 <div className="ba">
                   <div className="b">
                     <i>✕</i>
-                    <span>{t("85 reportes aislados, 5–7 días de retraso")}</span>
+                    <span>{t("Un reporte por tienda, armado a mano")}</span>
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>{t("Un cockpit único, fuga visible el mismo día")}</span>
+                    <span>{t("Una sola vista para todas las tiendas")}</span>
                   </div>
                 </div>
                 <div className="chips">
@@ -652,46 +652,46 @@ export default function LeonardoHome() {
                 <div className="case-top">
                   <div>
                     <div className="case-stat" style={{ color: 'var(--arc)' }}>
-                      {t(">99%")}
+                      33,370
                     </div>
-                    <div className="case-statl">{t("SLA · antes ~81%")}</div>
+                    <div className="case-statl">{t("filas reconciliadas")}</div>
                   </div>
                   <span className="tag" style={{ background: 'var(--arc)' }}>
                     {t("Operaciones")}
                   </span>
                 </div>
-                <h3>{t("Operador BPO — motor de reportería multi-tenant")}</h3>
+                <h3>{t("Operador BPO — reportería de producción")}</h3>
                 <p>
-                  {t("33,370 registros de rendimiento a través de 14 sistemas de telefonía y CRM, reconciliados a diario.")}
+                  {t("Un workbook ejecutivo con 33,370 filas de 14 sistemas de telefonía y CRM, con tablas y gráficos semanales para la gerencia.")}
                 </p>
                 <div className="ba">
                   <div className="b">
                     <i>✕</i>
-                    <span>{t("35 h/semana consolidando a mano")}</span>
+                    <span>{t("Cada informe semanal armado a mano")}</span>
                   </div>
                   <div className="a">
                     <i>✓</i>
-                    <span>{t("más de 25 h/semana devueltas a los supervisores")}</span>
+                    <span>{t("Tablas y gráficos que se actualizan juntos")}</span>
                   </div>
                 </div>
                 <div className="chips">
                   <span className="chip">Apps Script</span>
                   <span className="chip">Looker Studio</span>
-                  <span className="chip">14 PM APIs</span>
+                  <span className="chip">{lang === 'en' ? '14 system APIs' : '14 PM APIs'}</span>
                 </div>
               </article>
             </div>
             <figure className="tile tile--shot case-shot" data-rv style={{ '--c': 'var(--amber)' } as React.CSSProperties}>
               <img
                 src="/assets/img/work-apex-powerbi.webp"
-                alt={t("Dashboard de Power BI de Apex Auto Group con unidades vendidas, ingreso neto y margen bruto por región")}
+                alt={t("Demo de Power BI con datos de muestra: unidades vendidas, ingreso neto y margen bruto por región")}
                 loading="lazy"
                 width={900}
                 height={507}
               />
               <figcaption className="tile-bar">
                 <i />
-                <b>{t("Apex Auto Group — cockpit ejecutivo en Power BI")}</b>
+                <b>{t("Demo de cockpit ejecutivo en Power BI (datos de muestra)")}</b>
               </figcaption>
             </figure>
             <div className="gal-foot" data-rv>
@@ -926,46 +926,16 @@ export default function LeonardoHome() {
               <div>
                 <p className="eyebrow">{t("Testimonios")}</p>
                 <h2 className="sec-title">
-                  {t("Lo dicen")}
+                  {t("Lo que dice")}
                   <br />
-                  {t("quienes firman")}
+                  {t("una clienta")}
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Citas de proyectos entregados, con la métrica que quedó del otro lado.")}
+                {t("Una cita real de un proyecto entregado.")}
               </p>
             </div>
             <div className="quotes">
-              <figure className="quote" data-rv>
-                <blockquote>
-                  {t("“Ver la fuga de margen en repuestos el mismo día, no semanas después. Recuperamos un margen de seis cifras en el primer año.”")}
-                </blockquote>
-                <figcaption>
-                  <span className="av">MV</span>
-                  <span className="who">
-                    Marcus Vance<span>Managing Partner · Apex Auto</span>
-                  </span>
-                  <span className="kpi">
-                    {t("6 cifras")}
-                    <br />
-                    {t("recuperados")}
-                  </span>
-                </figcaption>
-              </figure>
-              <figure className="quote" data-rv>
-                <blockquote>
-                  {t("“Gestionar 33,000 registros y 14 sistemas era una pesadilla manual. Hoy el SLA está en más de 99% y liberamos más de 25 horas de supervisores por semana.”")}
-                </blockquote>
-                <figcaption>
-                  <span className="av b">BPO</span>
-                  <span className="who">{t("VP Operaciones · operador BPO multi-cliente")}</span>
-                  <span className="kpi">
-                    {t(">99%")}
-                    <br />
-                    SLA
-                  </span>
-                </figcaption>
-              </figure>
               <figure className="quote" data-rv>
                 <blockquote>
                   {t("“Tuvo la paciencia de entender nuestras ideas antes de proponer nada. El primer dashboard funcional llegó en menos de 10 días.”")}
@@ -973,7 +943,7 @@ export default function LeonardoHome() {
                 <figcaption>
                   <span className="av c">MS</span>
                   <span className="who">
-                    Maylin Sic<span>{t("Coordinadora de Proyecto")}</span>
+                    Meylin Sic<span>{t("Coordinadora de Proyecto")}</span>
                   </span>
                   <span className="kpi">
                     {t("10 días")}
@@ -1100,14 +1070,19 @@ export default function LeonardoHome() {
               </h2>
               <ul>
                 <li>
-                  <Link to={lang === 'en' ? '/en/services/call-center-kpi-dashboards/' : '/servicios/dashboards-power-bi-guatemala/'}>Dashboards &amp; BI</Link>
+                  <Link to={lang === 'en' ? '/en/services/small-business-dashboards/' : '/servicios/dashboards-power-bi-guatemala/'}>Dashboards &amp; BI</Link>
                 </li>
                 <li>
                   <Link to={localizedPath('/web/', lang)}>{t("Páginas web")}</Link>
                 </li>
                 <li>
-                  <Link to={lang === 'en' ? '/en/services/bpo-client-reporting-automation/' : '/servicios/automatizar-reportes-excel-sheets/'}>{t("Automatización en Excel")}</Link>
+                  <Link to={lang === 'en' ? '/en/services/excel-report-automation/' : '/servicios/automatizar-reportes-excel-sheets/'}>{t("Automatización en Excel")}</Link>
                 </li>
+                {lang === 'en' && (
+                  <li>
+                    <Link to="/en/services/quickbooks-dashboard/">QuickBooks dashboards</Link>
+                  </li>
+                )}
                 {lang === 'es' && (
                   <li>
                     <Link to="/servicios/pronosticos-ventas-demanda/">{t("Modelos predictivos")}</Link>

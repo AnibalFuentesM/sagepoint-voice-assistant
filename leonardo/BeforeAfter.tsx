@@ -14,7 +14,7 @@ export default function BeforeAfter({ lang }: Props) {
     title: lang === 'es' ? 'El antes y el después de tus datos' : 'The before and after of your data',
     lede: lang === 'es' 
       ? 'No más hojas de cálculo rotas. Transforma el caos manual en un sistema automatizado y confiable.' 
-      : 'No more broken spreadsheets. Transform manual chaos into an automated, reliable system.',
+      : 'Left: the spreadsheet someone rebuilds every Monday. Right: the same numbers, updated and checked on their own.',
     before: lang === 'es' ? 'Antes: el reporte de cada lunes' : 'Before: the Monday report',
     after: lang === 'es' ? 'Después: tablero automático' : 'After: automated dashboard',
     sample: lang === 'es' ? 'Datos de ejemplo' : 'Sample data',
@@ -138,7 +138,7 @@ export default function BeforeAfter({ lang }: Props) {
       <div className="wrap">
         <div className="sec-head" data-rv>
           <div>
-            <p className="eyebrow">{lang === 'es' ? 'Transformación' : 'Transformation'}</p>
+            <p className="eyebrow">{lang === 'es' ? 'Transformación' : 'Before and after'}</p>
             <h2 className="sec-title">{t.title}</h2>
           </div>
           <p className="sec-lede">{t.lede}</p>

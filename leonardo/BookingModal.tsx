@@ -307,7 +307,7 @@ export default function BookingModal({ lang, open, packageId, source, onClose }:
                 onChange={(e) => set('country', e.target.value)}
               >
                 <option value="">{t("Selecciona")}</option>
-                {COUNTRIES.map((c) => (
+                {(lang === 'en' ? [...COUNTRIES.filter((c) => c.id === 'us'), ...COUNTRIES.filter((c) => c.id !== 'us')] : COUNTRIES).map((c) => (
                   <option value={c.id} key={c.id}>
                     {t(c.label)}
                   </option>

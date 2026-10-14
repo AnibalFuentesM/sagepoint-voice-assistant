@@ -33,7 +33,7 @@ export const SERVICES: Service[] = [
       'Construimos el modelo y el dashboard, contrastamos totales contra las fuentes y revisamos prototipos contigo hasta ajustar la lectura.',
       'Entregamos el panel, las definiciones y una guía de uso. Si quieres cambios y mantenimiento después, Soporte Cercano empieza en US$300/mes.'
     ],
-    proof: 'Apex Auto Group — cockpit ejecutivo en Power BI: un solo cockpit para 12 concesionarios y 85 feeds de DMS. El caso publicado muestra cómo una vista compartida ayudó a ver la fuga de margen en repuestos el mismo día, no semanas después.',
+    validation: { title: 'Cada total cuadra con la fuente', detail: 'Antes de entregar comparamos los totales con tus archivos y sistemas de origen, y dejamos por escrito cualquier diferencia y su causa. Revisas una versión funcional con tus propios datos antes de cerrar el proyecto.' },
     packageFit: 'Si todavía hay que validar fuentes y preguntas, Radiografía de Datos (US$750, 2 semanas) suele ser el punto de partida. Para construir un dashboard ejecutivo, Cockpit Ejecutivo empieza en US$2,500. Sala de Control, desde US$12,000, corresponde a una integración más amplia; el paquete final depende del alcance.',
     faq: [
       { question: '¿Cuánto cuesta desarrollar un dashboard de Power BI en Guatemala?', answer: 'Depende de las fuentes, la limpieza necesaria, la cantidad de vistas y quién debe acceder. Cockpit Ejecutivo empieza en US$2,500, pero primero revisamos un ejemplo de tus datos y definimos el alcance en una propuesta. Radiografía de Datos (US$750) puede servir si aún hay que aclarar el problema. Lee nuestra guía de costos para comparar alcances.' },
@@ -69,7 +69,7 @@ export const SERVICES: Service[] = [
       'Construimos con muestras reales, comparamos el resultado con el reporte actual y ajustamos las excepciones contigo.',
       'Entregamos scripts o consultas, documentación y capacitación. Soporte Cercano desde US$300/mes puede cubrir ajustes posteriores.'
     ],
-    proof: 'Operador BPO multi-cliente: catorce sistemas de telefonía y CRM consolidados a diario en un motor de reportería. El caso publicado registra 33,370 filas reconciliadas, 79 semanas y un cumplimiento de SLA que pasó de ~81% a más de 99%, liberando más de 25 horas de supervisión por semana.',
+    validation: { title: 'Cada total cuadra con la fuente', detail: 'Antes de entregar comparamos los totales con tus archivos y sistemas de origen, y dejamos por escrito cualquier diferencia y su causa. Revisas una versión funcional con tus propios datos antes de cerrar el proyecto.' },
     packageFit: 'Radiografía de Datos (US$750, 2 semanas) ayuda a ordenar fuentes y reglas antes de automatizar. Cockpit Ejecutivo, desde US$2,500, incluye un flujo de reportes dentro de su alcance publicado. Para integraciones extensas, Sala de Control empieza en US$12,000; la propuesta determina el encaje real.',
     faq: [
       { question: '¿Se puede automatizar un reporte si recibo varios archivos Excel cada semana?', answer: 'Sí, si identificamos un patrón de nombres, columnas y entrega. Revisamos muestras de ciclos distintos para definir cómo consolidarlos y qué hacer cuando falta un archivo o aparece un formato nuevo.' },
@@ -105,7 +105,7 @@ export const SERVICES: Service[] = [
       'Construimos por partes, probamos casos normales y fallidos con tu equipo y corregimos lo observado en las revisiones.',
       'Hacemos la entrega con documentación y responsables. Soporte Cercano desde US$300/mes queda disponible para cambios posteriores.'
     ],
-    proof: 'Operador BPO multi-cliente: el caso publicado consolidó a diario datos de catorce sistemas de telefonía y CRM. El motor de reportería reconcilió 33,370 filas y liberó más de 25 horas de supervisión por semana. Es un ejemplo de proceso repetitivo convertido en un flujo verificable.',
+    validation: { title: 'Cada total cuadra con la fuente', detail: 'Antes de entregar comparamos los totales con tus archivos y sistemas de origen, y dejamos por escrito cualquier diferencia y su causa. Revisas una versión funcional con tus propios datos antes de cerrar el proyecto.' },
     packageFit: 'Radiografía de Datos (US$750, 2 semanas) sirve para descubrir y priorizar oportunidades. Cockpit Ejecutivo empieza en US$2,500 cuando el proyecto combina datos y un flujo de reportes. Sala de Control, desde US$12,000, suele encajar mejor en procesos e integraciones amplios; siempre se cotiza el alcance.',
     faq: [
       { question: '¿Qué procesos de una PYME vale la pena automatizar primero?', answer: 'Los que se repiten, tienen reglas claras y consumen tiempo sin requerir una decisión nueva en cada caso. Revisamos frecuencia, excepciones, impacto de errores y accesos antes de priorizar.' },
@@ -188,6 +188,114 @@ export const SERVICES: Service[] = [
     ]
   },
   {
+    lang: 'en', slug: 'small-business-dashboards', path: '/en/services/small-business-dashboards/',
+    title: 'Small Business Dashboards in Power BI | Sagepoint',
+    description: 'Power BI or Looker Studio dashboards for US small businesses. Sales, margin and cash from your spreadsheets, CRM and accounting in one live view.',
+    h1: 'Small business dashboards for sales, margin and cash',
+    subhead: 'Your numbers live in spreadsheets, your CRM and your accounting system, and every report means copying between them. We build one dashboard that pulls from all of them and updates itself, so you see the same numbers your team sees.',
+    problemIntro: 'A good-looking chart does not help if two people get two different totals. Before we build anything, we agree on what each number means, where it comes from and who uses it to decide.',
+    symptoms: [
+      'I walk into the weekly meeting and each manager brings a different sales number from a different file.',
+      'I can see total sales, but I cannot tell which location, product or cost is moving the margin.',
+      'Someone on my team spends Monday morning rebuilding the same report, and it is already out of date when I read it.'
+    ],
+    approach: 'We pick Power BI, Looker Studio or Google Sheets based on your sources, your licenses and how your team already works. Everything is built in your own Microsoft 365 or Google account, so you own it.',
+    deliverables: [
+      { title: 'Sources and definitions', detail: 'A written list of where each number comes from, the formula behind it and who owns it.' },
+      { title: 'Connected data', detail: 'Your spreadsheets, CRM and accounting exports cleaned and linked so totals match the source systems.' },
+      { title: 'Owner view', detail: 'One page for trends, targets and exceptions, with drill-down by location, product or salesperson where your data supports it.' },
+      { title: 'Automatic refresh with checks', detail: 'A scheduled update and validation rules that flag a missing or incomplete file before it reaches the dashboard.' },
+      { title: 'Handoff', detail: 'Written documentation and a training session so your team can read and use the dashboard without calling us.' }
+    ],
+    process: [
+      'On a free 30–45 minute call we look at the decisions you make, where the data lives and one example of your current report.',
+      'You get a written proposal with scope, numbers to track, access needed, deliverables, timeline and a fixed price.',
+      'We build the data model and the dashboard, check totals against your sources and review a working version with you.',
+      'We hand over the dashboard, the definitions and a short guide. Ongoing support starts at US$450/month if you want changes later.'
+    ],
+    validation: { title: 'Every total checked against the source', detail: 'Before the dashboard goes live, we compare its totals with your spreadsheets, CRM and accounting system, and we document any difference we find. You review a working version with your own data before you pay for the pilot.' },
+    packageFit: 'Most clients start with the 14-Day Dashboard Pilot (US$750, paid on delivery): two sources and up to eight of your numbers in a working dashboard. Executive Cockpit is a fixed US$3,900 for up to four sources and three dashboards. Control Room starts at US$15,000 when several systems need to be integrated.',
+    faq: [
+      { question: 'How much does a Power BI dashboard cost for a small business?', answer: 'It depends on how many sources, how much cleanup and how many views you need. Our 14-Day Dashboard Pilot is US$750 for two sources, and Executive Cockpit is a fixed US$3,900 for up to four sources and three dashboards. The proposal states the price before any work starts.' },
+      { question: 'Can you use my Excel files and the data in my current systems?', answer: 'Yes, if we can access them with your permission and understand their fields. We check whether each system offers an export, an API or a direct connection, and we confirm the totals match before the dashboard goes live.' },
+      { question: 'Which numbers should a small business owner see on a dashboard?', answer: 'The ones tied to a decision: usually sales, gross margin, cash and overdue accounts, broken down by location or product. On the free call we ask what you decide each week and start from there instead of filling the screen with metrics nobody owns.' },
+      { question: 'Should I use Power BI, Looker Studio or Google Sheets?', answer: 'Power BI fits more complex models and Microsoft 365 companies. Looker Studio and Sheets fit businesses that already run on Google Workspace. We recommend one after seeing your sources, your licenses and who needs access.' },
+      { question: 'How often does the dashboard update?', answer: 'It depends on the source and its access. Most dashboards refresh daily on a schedule; some sources allow more often. The proposal states the refresh frequency and what happens if a source does not arrive.' }
+    ]
+  },
+  {
+    lang: 'en', slug: 'excel-report-automation', path: '/en/services/excel-report-automation/',
+    title: 'Excel and Google Sheets Report Automation | Sagepoint',
+    description: 'Automate the weekly Excel or Google Sheets report: consolidate files, check for errors and send it on schedule with Power Query or Apps Script.',
+    h1: 'Excel and Google Sheets report automation',
+    subhead: 'Every week someone downloads the same files, copies rows, fixes formulas and emails the report. We turn that routine into a repeatable process that consolidates the data, flags what looks wrong and sends the report on schedule.',
+    problemIntro: 'Excel and Sheets are not the problem. The problem is a manual sequence that only one person knows, that is hard to check and that breaks when that person is out.',
+    symptoms: [
+      'I receive several files with similar columns and spend hours copying rows before I can analyze anything.',
+      'A formula breaks or an old version gets emailed, and nobody knows which report is the right one.',
+      'I rebuild the same report for each recipient even though the data and the rules barely change.'
+    ],
+    approach: 'We keep the format your readers already use and automate the steps that cause the work and the errors. Power Query handles repeated imports, Apps Script connects sheets and email in Google Workspace, and Python covers heavier jobs. We choose after seeing the real process.',
+    deliverables: [
+      { title: 'Process map', detail: 'The input files, owners, schedule, business rules and recipients, written down in one place.' },
+      { title: 'Repeatable consolidation', detail: 'Power Query, Apps Script or Python set up for where your data lives and how each file arrives.' },
+      { title: 'Error checks', detail: 'Missing files, unexpected formats and total differences flagged for review before the report goes out.' },
+      { title: 'Agreed output', detail: 'The report in Excel or Google Sheets with the columns, filters and breakdowns your readers use.' },
+      { title: 'Run guide', detail: 'Instructions to run it, review exceptions and adjust common sources without depending on the developer.' }
+    ],
+    process: [
+      'On a free 30–45 minute call we walk through one full cycle: the files you receive, the manual work and the report you send.',
+      'You get a written proposal with sources, formats, checks, frequency, recipients and a fixed price.',
+      'We build it with your real files, compare the result with your current report and adjust the exceptions with you.',
+      'We hand over the scripts or queries, documentation and training. Ongoing support starts at US$450/month for later changes.'
+    ],
+    validation: { title: 'Same numbers as your current report', detail: 'We run the automated report side by side with the manual one on your real files until both match, and we write down every rule that explains a difference.' },
+    packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) is a low-risk way to connect two sources and list what is worth automating next. Executive Cockpit, a fixed US$3,900, includes one report that builds and sends itself every week. Larger integrations start at US$15,000 with Control Room.',
+    faq: [
+      { question: 'Can a report be automated if I receive several Excel files every week?', answer: 'Yes, if the files follow a pattern in names, columns and timing. We review samples from different weeks to define how to combine them and what to do when a file is missing or arrives in a new format.' },
+      { question: 'When is Power Query better than a VBA macro?', answer: 'Power Query is usually better for importing and transforming the same kind of data again and again. VBA fits steps that happen inside one workbook. The choice depends on the files, permissions and who will maintain the process.' },
+      { question: 'Can Google Sheets send a report automatically?', answer: 'Yes. Apps Script can run scheduled tasks in Google Workspace, within the limits of your account. We check the volume, frequency and validations needed before setting up an automatic send.' },
+      { question: 'What happens if one of the source files changes format?', answer: 'We add checks that detect missing columns or unexpected data, so the report does not go out silently wrong. Adapting to future changes can be covered by the run guide or a support plan.' },
+      { question: 'Will my team be able to maintain the automated report?', answer: 'Yes. The handoff covers where the data comes from, how to run it, the calculation rules and how errors are handled. We also walk through it with the person who will operate it.' }
+    ]
+  },
+  {
+    lang: 'en', slug: 'quickbooks-dashboard', path: '/en/services/quickbooks-dashboard/',
+    title: 'QuickBooks Dashboard in Power BI or Looker | Sagepoint',
+    description: 'Combine QuickBooks with your sales spreadsheet or CRM in one dashboard: margin by product, cash, overdue invoices and sales targets, updated on a schedule.',
+    h1: 'QuickBooks dashboards that combine accounting and sales',
+    subhead: 'QuickBooks knows your invoices and expenses. Your spreadsheet or CRM knows your pipeline and targets. We connect them in one dashboard so you can see margin, cash and overdue accounts next to sales without rebuilding the same export every month.',
+    problemIntro: 'Built-in accounting reports answer accounting questions. Owners usually need something else: which customers, products or locations make money, what cash is coming in and who is late, in one place that updates itself.',
+    symptoms: [
+      'I export QuickBooks reports to Excel every month and paste them next to my sales numbers to see the margin.',
+      'I find out a big customer is 60 days late only when cash gets tight.',
+      'My bookkeeper and my sales manager report different revenue for the same month.'
+    ],
+    approach: 'We connect to QuickBooks through an authorized export or connector, combine it with your sales sources and build the view in Power BI, Looker Studio or Google Sheets. Your books stay in QuickBooks; we only read the data.',
+    deliverables: [
+      { title: 'Account and revenue mapping', detail: 'Your chart of accounts, products and customers mapped to the categories you actually use to run the business.' },
+      { title: 'Combined data', detail: 'QuickBooks data joined with your sales spreadsheet or CRM, with totals checked against QuickBooks.' },
+      { title: 'Owner dashboard', detail: 'Margin by product or customer, cash, overdue invoices and sales against target on one page.' },
+      { title: 'Scheduled refresh', detail: 'A daily or weekly update with checks that flag a failed or incomplete refresh.' },
+      { title: 'Handoff', detail: 'Definitions, access notes and a training session for you and your bookkeeper.' }
+    ],
+    process: [
+      'On a free 30–45 minute call we look at your QuickBooks setup, your other sales sources and the questions you want answered.',
+      'You get a written proposal with sources, numbers to track, access needed, timeline and a fixed price.',
+      'We build the connection and the dashboard, reconcile totals against QuickBooks and review a working version with you.',
+      'We hand over the dashboard and documentation. Ongoing support starts at US$450/month if you want changes later.'
+    ],
+    validation: { title: 'Reconciled with QuickBooks', detail: 'Revenue, expense and receivable totals are checked against QuickBooks for the same period before the dashboard goes live, so your bookkeeper and your dashboard agree.' },
+    packageFit: 'A QuickBooks dashboard fits the 14-Day Dashboard Pilot well (US$750, paid on delivery): QuickBooks plus one sales source and up to eight numbers. Executive Cockpit, a fixed US$3,900, covers up to four sources and three dashboards.',
+    faq: [
+      { question: 'Can Power BI connect to QuickBooks Online?', answer: 'Yes, through an authorized connector or scheduled exports. Which route we use depends on your QuickBooks plan, the data you need and how often it must refresh. We confirm it before quoting.' },
+      { question: 'Do you need access to change anything in QuickBooks?', answer: 'No. We only read data. We ask for the minimum access needed, sign an NDA before opening any file and never post entries or change your books.' },
+      { question: 'Can you combine QuickBooks with my CRM or sales spreadsheet?', answer: 'Yes, if customers or products can be matched between the two. We check sample data first and tell you what can be matched reliably and what needs a cleanup rule.' },
+      { question: 'What is the difference between this and QuickBooks reports?', answer: 'QuickBooks reports show accounting views of accounting data. A dashboard combines that data with sales and operations sources, tracks targets and updates on its own, so you do not rebuild the same export every month.' },
+      { question: 'How long does a QuickBooks dashboard take?', answer: 'A first working dashboard with QuickBooks and one other source fits in the 14-Day Dashboard Pilot. Larger builds with more sources usually take four to six weeks as an Executive Cockpit.' }
+    ]
+  },
+  {
     lang: 'en', slug: 'call-center-kpi-dashboards', path: '/en/services/call-center-kpi-dashboards/',
     title: 'Call Center KPI Dashboards | Sagepoint',
     description: 'Custom dashboards for call center leaders. Bring SLA, AHT, queue volume, abandonment and agent performance into one operational view.',
@@ -213,7 +321,7 @@ export const SERVICES: Service[] = [
       'We build the data model and views, reconcile them against source totals, and review the interpretation with your operations team.',
       'We hand over documentation and training. Ongoing support starts at US$450/month if you need later adjustments.'
     ],
-    proof: 'Multi-client BPO operator: the published case describes daily consolidation across fourteen telephony and CRM systems. SLA compliance moved from about 81% to over 99%, and the workflow freed more than 25 supervisor hours per week. The dashboard work is grounded in reconciled operational data, not a generic template.',
+    validation: { title: 'Every total checked against the source', detail: 'Before handoff we compare totals with your source exports and systems, and we document any difference and its cause. You review a working version with your own data before the project closes.' },
     packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) helps when metric definitions and source quality need discovery. Executive Cockpit is a fixed US$3,900 for a scoped dashboard build. Control Room starts at US$15,000 for wider integrations; the right package depends on your sources and deliverables.',
     faq: [
       { question: 'Which KPIs should a small call center dashboard track first?', answer: 'Start with measures tied to decisions: demand, service level, abandonment, handling time, and a quality or outcome measure where available. We agree on definitions and queue scope with your managers before deciding which charts belong in the first view.' },
@@ -249,7 +357,7 @@ export const SERVICES: Service[] = [
       'We build against sample cycles, reconcile totals, and review exceptions with the people who sign off on client reporting.',
       'We hand over the workflow and documentation. Ongoing support begins at US$450/month if you need changes after delivery.'
     ],
-    proof: 'Multi-client BPO operator: the published case reconciled 33,370 rows across 79 production weeks and consolidated fourteen telephony and CRM systems daily. SLA compliance moved from about 81% to over 99%, and more than 25 supervisor hours per week were freed. These are results from that case, not a forecast for a new engagement.',
+    validation: { title: 'Every total checked against the source', detail: 'Before handoff we compare totals with your source exports and systems, and we document any difference and its cause. You review a working version with your own data before the project closes.' },
     packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) clarifies sources and reporting obligations. Executive Cockpit is a fixed US$3,900 and includes a scoped automated reporting flow. Control Room starts at US$15,000 for broader integration work. We recommend a package only after examining your actual client packs.',
     faq: [
       { question: 'Can each client receive a report with its own SLA definitions?', answer: 'Yes, when the source data supports those definitions. We record the threshold, exclusions, time window, and program mapping for each client, then validate sample outputs with your account owners.' },
@@ -321,7 +429,7 @@ export const SERVICES: Service[] = [
       'We reconcile records and test formulas with supervisors before finalizing the reporting views.',
       'We provide documentation and training. Ongoing Support starts at US$450/month if later changes are needed.'
     ],
-    proof: 'Multi-client BPO operator: the published case reconciled 33,370 rows over 79 weeks from fourteen telephony and CRM systems, moving SLA compliance from about 81% to over 99% and freeing 25+ supervisor hours per week. It shows cross-system operational reporting, not a WFM software implementation.',
+    validation: { title: 'Every total checked against the source', detail: 'Before handoff we compare totals with your source exports and systems, and we document any difference and its cause. You review a working version with your own data before the project closes.' },
     packageFit: 'The 14-Day Dashboard Pilot (US$750, paid on delivery) can clarify states and definitions. Executive Cockpit is a fixed US$3,900 for a scoped reporting view over 4–6 weeks. Control Room starts at US$15,000 over 10–14 weeks when broader data integration is required. Scope determines fit.',
     faq: [
       { question: 'How is occupancy calculated from our available data?', answer: 'We agree on which handling and available states count and inspect what your ACD exports provide. The report documents numerator, denominator, exclusions, and interval rules.' },
@@ -335,7 +443,9 @@ export const SERVICES: Service[] = [
 
 export const HUBS = {
   es: { path: '/servicios/', title: 'Servicios de BI y automatización | Sagepoint', description: 'Dashboards, reportes y automatización de procesos para PYMEs en Guatemala. Explora servicios y agenda un diagnóstico gratuito.', h1: 'Servicios de datos y automatización para tu empresa', intro: 'Si tus decisiones dependen de archivos dispersos o tareas repetitivas, empezamos por entender el trabajo real. Construimos dashboards, reportes y flujos con alcance claro, revisión contigo y documentación para tu equipo.' },
-  en: { path: '/en/services/', title: 'Reporting Services for Contact Centers | Sagepoint', description: 'Operational KPI dashboards and client reporting automation for US contact centers and BPOs. Built on your existing data and systems.', h1: 'Reporting services for contact centers and BPOs', intro: 'Your operations already generate data. We help turn existing ACD, CRM, and spreadsheet outputs into useful dashboards and repeatable client reporting, with agreed metric definitions and a documented handoff.' }
+  en: { path: '/en/services/', title: 'Dashboard and Report Automation Services | Sagepoint', description: 'Dashboards, QuickBooks reporting and Excel or Google Sheets automation for US small businesses, plus KPI reporting for contact centers.', h1: 'Dashboards and report automation for small businesses', intro: 'If your decisions depend on scattered spreadsheets or a report someone rebuilds every week, we start by looking at the real work. We build dashboards, automated reports and data connections with a fixed price, a review with you and documentation for your team.' }
 };
+
+export const CONTACT_CENTER_SLUGS = ['call-center-kpi-dashboards', 'bpo-client-reporting-automation', 'contact-center-qa-reporting', 'contact-center-wfm-reporting'];
 
 export const ALL_ROUTES = ['/', '/es/', '/portfolio/', '/es/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'];

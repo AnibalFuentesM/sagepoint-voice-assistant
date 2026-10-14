@@ -170,7 +170,7 @@ export const PROJECTS: LeoProject[] = [
     "num": "33,370",
     "numl": "filas reconciliadas · 79 semanas",
     "title": "Motor de reportería multi-tenant",
-    "desc": "Catorce sistemas de telefonía y CRM consolidados a diario. El cumplimiento de SLA pasó de ~81% a más de 99% y liberó más de 25 horas de supervisión por semana.",
+    "desc": "Workbook ejecutivo con datos de catorce sistemas de telefonía y CRM, con tablas y gráficos semanales sincronizados para la gerencia.",
     "stack": [
       "Apps Script",
       "SQL Warehousing",
@@ -200,7 +200,7 @@ export const PROJECTS: LeoProject[] = [
     "kind": "shot",
     "file": "saludable",
     "cat": "web",
-    "title": "Saludable — Nutricionista Maylin Sic",
+    "title": "Saludable — Nutricionista Meylin Sic",
     "alt": "Página de inicio del sitio de nutrición Saludable con agenda de consultas",
     "h": 506,
     "src": "/assets/img/work-saludable.webp"
@@ -248,33 +248,13 @@ export const HOME_PROJECTS: LeoProject[] = [
 
 export const SAY: LeoQuote[] = [
   {
-    "text": "Ver la fuga de margen en repuestos el mismo día, no semanas después.",
-    "author": "Marcus Vance",
-    "role": "Managing Partner · Apex Auto"
-  },
-  {
-    "text": "Hoy el SLA está en más de 99% y liberamos más de 25 horas de supervisores por semana.",
-    "author": "VP Operaciones",
-    "role": "operador BPO multi-cliente"
-  },
-  {
     "text": "Tuvo la paciencia de entender nuestras ideas antes de proponer nada.",
-    "author": "Maylin Sic",
+    "author": "Meylin Sic",
     "role": "Coordinadora de Proyecto"
   },
   {
-    "text": "Un solo cockpit para 12 concesionarios y 85 feeds de DMS.",
-    "author": "Marcus Vance",
-    "role": "Managing Partner · Apex Auto"
-  },
-  {
-    "text": "Gestionar 33,000 registros y 14 sistemas era una pesadilla manual.",
-    "author": "VP Operaciones",
-    "role": "operador BPO multi-cliente"
-  },
-  {
     "text": "El primer dashboard funcional llegó en menos de 10 días.",
-    "author": "Maylin Sic",
+    "author": "Meylin Sic",
     "role": "Coordinadora de Proyecto"
   }
 ];
