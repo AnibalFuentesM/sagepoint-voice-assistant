@@ -7,7 +7,7 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 import { trackPageView } from '../utils/analytics';
 
-export type CategoryId = 'all' | 'ai-automation' | 'operations-bi' | 'web-apps' | 'corporate-sites' | 'health-wellness' | 'gastronomy';
+export type CategoryId = 'all' | 'ai-automation' | 'operations-bi' | 'web-apps' | 'corporate-sites' | 'health-wellness' | 'gastronomy' | 'retail';
 
 export type Project = {
   id: number;
@@ -69,6 +69,7 @@ export const portfolioContent = {
       'corporate-sites': 'Sitios Corporativos',
       'health-wellness': 'Salud & Bienestar',
       gastronomy: 'Gastronomía',
+      retail: 'Comercio & Catálogos',
     } as Record<CategoryId, string>,
     projects: [
       {
@@ -78,7 +79,7 @@ export const portfolioContent = {
         category: 'Operaciones & BI',
         description:
           'Flujo de Google Apps Script y Google Sheets conectado a Zendesk Talk para reemplazar exportaciones manuales, refrescar reportes por rango de fechas y validar la API como fuente de verdad frente a Explore.',
-        image: '/projects/crm.jpg',
+        image: '/projects/zendesk-talk-reporting.jpg',
         alt: 'Reporte operativo conectado a API de Zendesk Talk en Google Sheets',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=Zendesk%20Talk%20API%20Reporting',
@@ -91,7 +92,7 @@ export const portfolioContent = {
         category: 'Operaciones & BI',
         description:
           'Actualización y estabilización de un workbook ejecutivo con 33,370 filas, 20 meses, 79 semanas de producción, 14 PM systems y sincronización de tablas y gráficos semanales para revisión gerencial.',
-        image: '/projects/inmotion.jpg',
+        image: '/projects/bpo-production-reporting.jpg',
         alt: 'Workbook ejecutivo de producción BPO con métricas semanales y gráficos sincronizados',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting',
@@ -109,6 +110,58 @@ export const portfolioContent = {
         tall: false,
         link: '/projects/apex-auto-dashboard.html',
         linkLabel: 'Ver Dashboard',
+      },
+      {
+        id: 12,
+        categoryId: 'retail' as CategoryId,
+        title: 'JKS Mobiliario para Oficina',
+        category: 'Comercio & Catálogos',
+        description:
+          'Catálogo en línea para un fabricante guatemalteco de muebles de oficina: 70 productos en 12 categorías, carrito de cotización que envía el pedido completo por WhatsApp, páginas listas para Google y un panel donde el cliente publica sus propios productos.',
+        image: '/projects/jks-mobiliario.jpg',
+        alt: 'Sitio de JKS Mobiliario para Oficina con catálogo y botón de cotización por WhatsApp',
+        tall: false,
+        link: 'https://www.muebles-jks.com/',
+        linkLabel: 'Ver Sitio',
+      },
+      {
+        id: 4,
+        categoryId: 'web-apps' as CategoryId,
+        title: 'In Motion Dance Academy',
+        category: 'Aplicaciones Web',
+        description:
+          'Varios proyectos para la misma academia: catálogo de videos de clases conectado a Google Sheets y Google Drive, prototipo de app de gestión (alumnos, pagos, asistencia con QR y portal para encargados), landing del Festival In Motion y un selector de planes.',
+        image: '/projects/inmotion-academia.jpg',
+        alt: 'Panel de administración de la app de In Motion Dance Academy con datos de demostración',
+        tall: false,
+        link: 'https://inmotion-tan.vercel.app/',
+        linkLabel: 'Ver Sitio',
+      },
+      {
+        id: 13,
+        categoryId: 'corporate-sites' as CategoryId,
+        title: 'GPPX, S.A.',
+        category: 'Sitios Corporativos',
+        description:
+          'Sitio corporativo para una firma guatemalteca de arquitectura, planificación paramétrica e ingeniería, con animación de entrada a la medida, servicios y portafolio de proyectos.',
+        image: '/projects/gppx.jpg',
+        alt: 'Página de inicio del sitio de GPPX, firma de arquitectura e ingeniería paramétrica',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20GPPX',
+        linkLabel: 'Solicitar Demo',
+      },
+      {
+        id: 14,
+        categoryId: 'corporate-sites' as CategoryId,
+        title: 'Plomeros Rapi2',
+        category: 'Sitios Corporativos',
+        description:
+          'Rediseño completo del sitio de una empresa de plomería y electricidad 24 horas: 206 páginas reconstruidas con el diseño nuevo sin perder las que ya estaban en Google, botones de llamada y WhatsApp siempre visibles y una sección de emergencias eléctricas.',
+        image: '/projects/plomeros-rapi2.jpg',
+        alt: 'Sitio de Plomeros Rapi2 con servicios de calentadores, plomería y electricidad 24 horas',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Plomeros%20Rapi2',
+        linkLabel: 'Solicitar Demo',
       },
       {
         id: 1,
@@ -150,17 +203,17 @@ export const portfolioContent = {
         linkLabel: 'Ver Presentación',
       },
       {
-        id: 6,
-        categoryId: 'gastronomy' as CategoryId,
-        title: "Jen's Desserts GT",
-        category: 'Gastronomía',
+        id: 15,
+        categoryId: 'health-wellness' as CategoryId,
+        title: 'Clínica Psicológica Jardín Interior',
+        category: 'Salud & Bienestar',
         description:
-          'Sitio web para repostería artesanal guatemalteca. Incluye catálogo de especialidades, sección de eventos, contacto por WhatsApp y diseño premium con identidad de marca propia.',
-        image: '/projects/jens-desserts.jpg',
-        alt: "Sitio web de la repostería artesanal Jen's Desserts GT con catálogo de postres",
+          'Sitio web para una clínica psicológica que atiende a niños, adolescentes, adultos y familias, en persona y en línea. Presenta sus servicios y lleva a agendar cita por WhatsApp.',
+        image: '/projects/jardin-interior.jpg',
+        alt: 'Sitio web de la Clínica Psicológica Jardín Interior con botón para agendar cita',
         tall: false,
-        link: 'https://jens-desserts.vercel.app/',
-        linkLabel: 'Ver Sitio',
+        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Jardin%20Interior',
+        linkLabel: 'Solicitar Demo',
       },
       {
         id: 5,
@@ -176,17 +229,30 @@ export const portfolioContent = {
         linkLabel: 'Ver Sitio',
       },
       {
-        id: 4,
-        categoryId: 'web-apps' as CategoryId,
-        title: 'InMotion Dance Academy',
-        category: 'Aplicaciones Web',
+        id: 6,
+        categoryId: 'gastronomy' as CategoryId,
+        title: "Jen's Desserts GT",
+        category: 'Gastronomía',
         description:
-          'Catálogo interactivo de videos de clases de salsa con panel de administración, integrado con Google Sheets y Google Drive para gestión de contenido.',
-        image: '/projects/inmotion.jpg',
-        alt: 'Catálogo de videos de clases de salsa de InMotion Dance Academy',
+          'Sitio web para repostería artesanal guatemalteca. Incluye catálogo de especialidades, sección de eventos, contacto por WhatsApp y diseño premium con identidad de marca propia.',
+        image: '/projects/jens-desserts.jpg',
+        alt: "Sitio web de la repostería artesanal Jen's Desserts GT con catálogo de postres",
         tall: false,
-        link: 'https://inmotion-tan.vercel.app/',
+        link: 'https://jens-desserts.vercel.app/',
         linkLabel: 'Ver Sitio',
+      },
+      {
+        id: 16,
+        categoryId: 'retail' as CategoryId,
+        title: 'Box Sunshine',
+        category: 'Comercio & Catálogos',
+        description:
+          'Catálogo de regalos para una tienda de desayunos sorpresa, globos y flores, con páginas por categoría, modo oscuro y pedidos directos por WhatsApp.',
+        image: '/projects/box-sunshine.jpg',
+        alt: 'Catálogo web de Box Sunshine con globos, flores y regalos personalizados',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Box%20Sunshine',
+        linkLabel: 'Solicitar Demo',
       },
     ],
     cta: {
@@ -249,6 +315,7 @@ export const portfolioContent = {
       'corporate-sites': 'Corporate Sites',
       'health-wellness': 'Health & Wellness',
       gastronomy: 'Food & Hospitality',
+      retail: 'Retail & Catalogs',
     } as Record<CategoryId, string>,
     projects: [
       {
@@ -258,7 +325,7 @@ export const portfolioContent = {
         category: 'Operations & BI',
         description:
           'Google Apps Script & Sheets automated pipeline connected to Zendesk Talk REST API, eliminating manual CSV exports and reconciling 11,327 call records against Explore.',
-        image: '/projects/crm.jpg',
+        image: '/projects/zendesk-talk-reporting.jpg',
         alt: 'Operational reporting connected to Zendesk Talk API in Google Sheets',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=Zendesk%20Talk%20API%20Reporting%20Case%20Study',
@@ -271,7 +338,7 @@ export const portfolioContent = {
         category: 'Operations & BI',
         description:
           'Stabilization and overhaul of an executive master workbook with 33,370 rows, 20 months, 79 production weeks, and 14 PM systems with synchronized weekly management KPI charts.',
-        image: '/projects/inmotion.jpg',
+        image: '/projects/bpo-production-reporting.jpg',
         alt: 'Executive BPO production workbook with weekly metrics and synchronized charts',
         tall: false,
         link: 'mailto:info@sagepoint-analytics.com?subject=BPO%20Production%20Reporting%20Case%20Study',
@@ -289,6 +356,58 @@ export const portfolioContent = {
         tall: false,
         link: '/projects/apex-auto-dashboard.html',
         linkLabel: 'View Dashboard',
+      },
+      {
+        id: 12,
+        categoryId: 'retail' as CategoryId,
+        title: 'JKS Office Furniture',
+        category: 'Retail & Catalogs',
+        description:
+          'Online catalog for a Guatemalan office furniture maker: 70 products in 12 categories, a quote cart that sends the whole order through WhatsApp, search-ready product pages and an admin panel where the client publishes their own products.',
+        image: '/projects/jks-mobiliario.jpg',
+        alt: 'JKS office furniture website with product catalog and WhatsApp quote button',
+        tall: false,
+        link: 'https://www.muebles-jks.com/',
+        linkLabel: 'Visit Site',
+      },
+      {
+        id: 4,
+        categoryId: 'web-apps' as CategoryId,
+        title: 'In Motion Dance Academy',
+        category: 'Web Applications',
+        description:
+          'Several projects for one dance academy: a class video catalog connected to Google Sheets and Google Drive, a management app prototype (students, payments, QR attendance and a parent portal), the Festival In Motion landing page and a plan picker.',
+        image: '/projects/inmotion-academia.jpg',
+        alt: 'Admin dashboard of the In Motion Dance Academy app with demo data',
+        tall: false,
+        link: 'https://inmotion-tan.vercel.app/',
+        linkLabel: 'Visit Site',
+      },
+      {
+        id: 13,
+        categoryId: 'corporate-sites' as CategoryId,
+        title: 'GPPX, S.A.',
+        category: 'Corporate Sites',
+        description:
+          'Corporate website for a Guatemalan architecture, parametric planning and engineering firm, with a custom intro animation, services and a project portfolio.',
+        image: '/projects/gppx.jpg',
+        alt: 'Homepage of the GPPX architecture and parametric engineering firm website',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=GPPX%20Project',
+        linkLabel: 'Request Demo',
+      },
+      {
+        id: 14,
+        categoryId: 'corporate-sites' as CategoryId,
+        title: 'Plomeros Rapi2',
+        category: 'Corporate Sites',
+        description:
+          'Full redesign for a 24-hour plumbing and electrical company: 206 pages rebuilt in the new design without losing the ones already ranking on Google, call and WhatsApp buttons always in view, and an electrical emergency section.',
+        image: '/projects/plomeros-rapi2.jpg',
+        alt: 'Plomeros Rapi2 website with water heater, plumbing and 24-hour electrical services',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=Plomeros%20Rapi2%20Project',
+        linkLabel: 'Request Demo',
       },
       {
         id: 1,
@@ -330,17 +449,17 @@ export const portfolioContent = {
         linkLabel: 'View Overview',
       },
       {
-        id: 6,
-        categoryId: 'gastronomy' as CategoryId,
-        title: "Jen's Desserts GT",
-        category: 'Food & Hospitality',
+        id: 15,
+        categoryId: 'health-wellness' as CategoryId,
+        title: 'Jardín Interior Psychology Clinic',
+        category: 'Health & Wellness',
         description:
-          'E-commerce showcase for a premium artisanal bakery in Guatemala. Features specialty item catalogs, catering/events module, direct WhatsApp checkout, and custom brand identity.',
-        image: '/projects/jens-desserts.jpg',
-        alt: "Artisanal bakery website for Jen's Desserts GT with pastry catalog",
+          'Website for a psychology clinic serving children, teens, adults and families, in person and online. It presents their services and leads to booking an appointment on WhatsApp.',
+        image: '/projects/jardin-interior.jpg',
+        alt: 'Jardín Interior psychology clinic website with appointment booking button',
         tall: false,
-        link: 'https://jens-desserts.vercel.app/',
-        linkLabel: 'Visit Site',
+        link: 'mailto:info@sagepoint-analytics.com?subject=Jardin%20Interior%20Project',
+        linkLabel: 'Request Demo',
       },
       {
         id: 5,
@@ -356,17 +475,30 @@ export const portfolioContent = {
         linkLabel: 'Visit Site',
       },
       {
-        id: 4,
-        categoryId: 'web-apps' as CategoryId,
-        title: 'InMotion Dance Academy',
-        category: 'Web Applications',
+        id: 6,
+        categoryId: 'gastronomy' as CategoryId,
+        title: "Jen's Desserts GT",
+        category: 'Food & Hospitality',
         description:
-          'Interactive video lesson academy platform with admin CMS portal, connected directly to Google Drive & Sheets API for effortless content management.',
-        image: '/projects/inmotion.jpg',
-        alt: 'Salsa lesson video catalog for InMotion Dance Academy',
+          'E-commerce showcase for a premium artisanal bakery in Guatemala. Features specialty item catalogs, catering/events module, direct WhatsApp checkout, and custom brand identity.',
+        image: '/projects/jens-desserts.jpg',
+        alt: "Artisanal bakery website for Jen's Desserts GT with pastry catalog",
         tall: false,
-        link: 'https://inmotion-tan.vercel.app/',
+        link: 'https://jens-desserts.vercel.app/',
         linkLabel: 'Visit Site',
+      },
+      {
+        id: 16,
+        categoryId: 'retail' as CategoryId,
+        title: 'Box Sunshine',
+        category: 'Retail & Catalogs',
+        description:
+          'Gift catalog for a surprise breakfast, balloon and flower shop, with category pages, dark mode and direct orders on WhatsApp.',
+        image: '/projects/box-sunshine.jpg',
+        alt: 'Box Sunshine web catalog with balloons, flowers and custom gifts',
+        tall: false,
+        link: 'mailto:info@sagepoint-analytics.com?subject=Box%20Sunshine%20Project',
+        linkLabel: 'Request Demo',
       },
     ],
     cta: {
