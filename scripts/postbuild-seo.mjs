@@ -24,6 +24,7 @@ try {
   const { renderPage, translateLeo, ALL_ROUTES } = await vite.ssrLoadModule('/scripts/render-pages.tsx');
   const { serviceGraph } = await vite.ssrLoadModule('/leonardo/ServicePage.tsx');
   const { guideGraph } = await vite.ssrLoadModule('/leonardo/GuidePage.tsx');
+  const { webContent } = await vite.ssrLoadModule('/components/WebPage.tsx');
   paths = ALL_ROUTES;
   for (const path of paths) {
     const language = getLang(path);
@@ -37,6 +38,17 @@ try {
     if (path === '/' || path === '/es/') graph.push({ ...homeFaq, mainEntity: homeFaq.mainEntity.map(q => ({ ...q, name: translateLeo(language, q.name), acceptedAnswer: { ...q.acceptedAnswer, text: translateLeo(language, q.acceptedAnswer.text) } })) });
     if (service) graph.push(...serviceGraph(service));
     if (guide) graph.push(...guideGraph(guide));
+    if (path === '/web/' || path === '/en/web/') {
+      const web = webContent[language];
+      graph.push(
+        { '@type': 'Service', name: web.meta.title.split(' | ')[0], description: web.meta.description, serviceType: language === 'es' ? 'Diseño de páginas web' : 'Website design', provider: { '@id': `${site}/#organization` }, areaServed: language === 'es' ? 'GT' : 'US', url },
+        { '@type': 'FAQPage', mainEntity: web.faq.items.map(item => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+      );
+    }
+    if (path.includes('/portfolio/')) graph.push({ '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: language === 'es' ? 'Inicio' : 'Home', item: `${site}${language === 'es' ? '/es/' : '/'}` },
+      { '@type': 'ListItem', position: 2, name: language === 'es' ? 'Portafolio' : 'Portfolio', item: url },
+    ] });
     if (path === '/servicios/' || path === '/en/services/') graph.push({ '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: language === 'es' ? 'Inicio' : 'Home', item: `${site}${language === 'es' ? '/es/' : '/'}` },
       { '@type': 'ListItem', position: 2, name: language === 'es' ? 'Servicios' : 'Services', item: url },

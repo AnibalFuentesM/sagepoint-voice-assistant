@@ -1,0 +1,6 @@
+/* /web/ keeps its own Tailwind sections but shares the site header, footer and heading typeface.
+   Unlayered on purpose so it wins over Tailwind's layered utilities. */
+.leo.leo-chrome { min-height: 0; background: transparent; overflow: visible; }
+.web-skin .font-serif { font-family: 'Archivo', 'Archivo Black', Impact, system-ui, sans-serif; font-weight: 800; letter-spacing: -.035em; }
+/* Same content width and gutters as the shared header. */
+.web-skin main > div { max-width: 1440px; padding-inline: clamp(20px, 4vw, 68px); }

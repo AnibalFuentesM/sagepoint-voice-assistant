@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   ArrowRight,
-  BarChart3,
+  CalendarDays,
   Check,
   ChevronDown,
   Globe,
@@ -16,16 +16,32 @@ import {
 import WhatsAppButton from './WhatsAppButton';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
-import { trackPageView, trackSelectPackage, trackWhatsAppClick } from '../utils/analytics';
+import { trackPageView, trackScheduleCall, trackSelectPackage, trackWhatsAppClick } from '../utils/analytics';
+import { getEnglishBookingUrl } from '../leonardo/booking';
+import { SiteHeader, SiteFooter } from '../leonardo/ServicesLayout';
+import './webSkin.css';
 
 const WHATSAPP_PHONE = '50240464716';
 
 export type WebPackageId = 'web-esencial' | 'web-panel' | 'web-custom' | 'web-care' | 'web-general';
 
 /**
- * Prices on this page are quoted in Guatemalan quetzales on purpose: every local
- * competitor that publishes pricing does so in Q, and the landing is aimed at
- * Guatemalan SMBs. The home page keeps its USD BI packages untouched.
+ * US website prices (English page). PROPOSED on Nov 10 2026, pending Mariano's approval:
+ * change them here and every mention on the page follows.
+ */
+export const US_WEB_PRICES = {
+  essential: '$1,200',
+  dashboard: '$2,400',
+  custom: '$4,500',
+  care: '$75 / $150 / $250',
+  renewal: '$150',
+};
+
+/**
+ * Two audiences on purpose. Spanish (/web/) is aimed at Guatemalan SMBs and quotes
+ * quetzales, like every local competitor that publishes pricing. English (/en/web/)
+ * is aimed at US small businesses: US dollars, "Book a free call" as the action and
+ * no Guatemala-only statistics.
  */
 export const webContent = {
   es: {
@@ -281,66 +297,52 @@ export const webContent = {
 
   en: {
     meta: {
-      title: 'Business Websites with Analytics | Sagepoint',
+      title: 'Small Business Websites with a Dashboard | Sagepoint',
       description:
-        'Websites for Guatemala businesses with domain, hosting, WhatsApp and a dashboard for visits and leads. Defined price and timeline.',
+        'Small business websites with domain, hosting and a dashboard that shows visits and leads. Live in 7 business days, fixed price in US dollars.',
     },
     nav: {
       home: 'Home',
       web: 'Websites',
       portfolio: 'Portfolio',
-      contact: 'Contact us',
+      contact: 'Book a free call',
     },
     hero: {
-      eyebrow: 'Websites with a customer dashboard · Guatemala',
-      title_lead: 'You already have Facebook.',
-      title_sub: "What's missing is what closes the sale.",
+      eyebrow: 'Websites with a customer dashboard · US small businesses',
+      title_lead: 'A website that brings customers,',
+      title_sub: 'and tells you if it is working.',
       description:
-        'In Guatemala, 61% of online buyers closed their last purchase on a website and only 14% on social media. We build the site —domain, hosting and WhatsApp included— and hand you a dashboard showing how many customers came in and where from.',
+        'Most small business websites get built and then nobody knows whether they work. We build yours with domain, hosting and contact buttons included, and hand you a dashboard that shows how many people visited, where they came from and how many contacted you.',
       cta_primary: 'See packages and pricing',
-      cta_whatsapp: 'Message us on WhatsApp',
-      proof: ['Delivered in 7 business days', 'Fixed price in quetzales', 'The domain stays in your name'],
+      cta_whatsapp: 'Book a free call',
+      proof: ['Live in 7 business days', 'Fixed price in US dollars', 'The domain stays in your name'],
       card: {
         label: 'Customer dashboard · sample view',
         updated: 'Updated 4 min ago',
         rows: [
           { label: 'Visits this month', value: '1,284', delta: '+18%' },
-          { label: 'WhatsApp messages', value: '73', delta: '+31%' },
+          { label: 'Calls and messages', value: '73', delta: '+31%' },
           { label: 'From Google search', value: '46%', delta: '' },
           { label: 'From Facebook and Instagram', value: '38%', delta: '' },
         ],
         note: 'Sample numbers. Your dashboard is built from your own site data.',
       },
     },
-    proof: {
-      eyebrow: 'The data that changed the game',
-      title: 'In two years, buying moved to the web.',
-      description:
-        "This isn't our opinion. It's the 7th National E-Commerce Study by the Guatemalan Chamber of Commerce: where Guatemalans closed their last purchase.",
-      col_2024: '2024',
-      col_2026: '2026',
-      rows: [
-        { label: 'Own website', a: 36, b: 61, tone: 'up' as const },
-        { label: 'Social media', a: 26, b: 14, tone: 'down' as const },
-        { label: 'Brand app', a: 20, b: 8, tone: 'down' as const },
-      ],
-      source:
-        '7th National E-Commerce Study, Guatemalan Chamber of Commerce (2026). 748 online surveys and 66 companies. Own website combines mobile (38%) and desktop (23%).',
-      kicker: 'Your customer no longer closes the sale where you are waiting for them.',
-    },
+    /** The Spanish page shows a Guatemalan e-commerce study here. There is no verified US equivalent, so the English page skips the section. */
+    proof: null,
     diff: {
       eyebrow: 'What nobody else gives you',
       title: 'Everyone sells you a website. We tell you whether it works.',
       description:
-        'We are an analytics consultancy that also builds sites, not a design agency that learned to add charts. The dashboard is not an extra: it is the reason to hire us.',
+        'We are an analytics firm that also builds sites, not a design agency that learned to add charts. The dashboard is not an extra: it is the reason to hire us.',
       items: [
         {
           title: 'How many visits and from where',
-          desc: 'Google, Facebook, Instagram, WhatsApp or someone typing your address. You know which channel actually brings people.',
+          desc: 'Google, Facebook, Instagram or someone typing your address. You know which channel actually brings people.',
         },
         {
-          title: 'How many people wrote in',
-          desc: 'Every WhatsApp click and every form submission is counted, along with the page it came from.',
+          title: 'How many people contacted you',
+          desc: 'Every tap on your phone number and every form submission is counted, along with the page it came from.',
         },
         {
           title: 'Which page converts and which does not',
@@ -357,15 +359,15 @@ export const webContent = {
       items: [
         'Domain and hosting stay in your name, not ours',
         'SSL certificate and email on your own domain',
-        'Mobile-first design (75% of purchases in Guatemala are mobile)',
+        'Mobile-first design',
         'Loads in under 2.5 seconds on mobile data',
-        'WhatsApp button with a pre-written message per page',
+        'Click-to-call button and contact form on every page',
         'Fixed price in writing before we start',
       ],
     },
     packages: {
       eyebrow: 'Packages and pricing',
-      title: 'Fixed price, defined timeline, in quetzales.',
+      title: 'Fixed price, defined timeline, in US dollars.',
       description: 'No "it depends", no inflated quotes and no holding your domain hostage.',
       timeline_label: 'Delivery',
       excludes_label: 'Not included',
@@ -373,25 +375,25 @@ export const webContent = {
         {
           id: 'web-esencial' as WebPackageId,
           title: 'Essential',
-          price: 'Q4,500',
+          price: US_WEB_PRICES.essential,
           period: 'one-time',
           timeline: '7 business days',
-          desc: 'For the business that needs to exist on Google and stop losing the customer who is checking prices.',
+          desc: 'For the business that needs to show up on Google and stop losing the customer who is comparing options.',
           features: [
             '1 to 3 page site with custom design',
             'First year of domain and hosting included',
-            'WhatsApp and contact form connected',
+            'Click-to-call button and contact form connected',
             'Optimized for mobile and Google search',
-            'Basic dashboard: visits and messages received',
+            'Basic dashboard: visits and contacts received',
             '1 round of revisions',
           ],
-          excludes: 'Online store, blog and English version.',
+          excludes: 'Online store, blog and Spanish version.',
           cta: 'Start with Essential',
         },
         {
           id: 'web-panel' as WebPackageId,
           title: 'Site + Customer Dashboard',
-          price: 'Q8,500',
+          price: US_WEB_PRICES.dashboard,
           period: 'one-time',
           timeline: '14 business days',
           tag: 'Most popular',
@@ -399,29 +401,29 @@ export const webContent = {
           features: [
             '4 to 6 page site with custom design',
             'Everything in Essential',
-            'Full customer dashboard: visits, sources, conversations and per-page conversion',
+            'Full customer dashboard: visits, sources, contacts and per-page conversion',
             'Google Business Profile configured (local SEO)',
             'Catalog or gallery of up to 30 products or services',
             '1 training session for your team',
             '2 rounds of revisions',
           ],
-          excludes: 'Online payment gateway and inventory integration.',
+          excludes: 'Online payments and inventory integration.',
           cta: 'I want the site with dashboard',
         },
         {
           id: 'web-custom' as WebPackageId,
           title: 'Store or Custom',
           pricePrefix: 'from',
-          price: 'Q15,000',
+          price: US_WEB_PRICES.custom,
           period: 'by scope',
           timeline: '4 to 6 weeks',
           desc: 'To sell online, connect to your systems or serve customers in two languages.',
           features: [
             'Online store with online payments',
             'Integrations with billing, inventory or CRM',
-            'Bilingual Spanish and English site',
+            'Bilingual English and Spanish site',
             'Dashboard connected to your real sales data',
-            'Scope and price defined in a formal quote',
+            'Scope and price defined in a written quote',
           ],
           excludes: '',
           cta: 'Quote my project',
@@ -431,22 +433,22 @@ export const webContent = {
         id: 'web-care' as WebPackageId,
         tag: 'Monthly add-on',
         title: 'Maintenance',
-        price: 'Q450 / Q900 / Q1,500',
+        price: US_WEB_PRICES.care,
         period: 'per month',
-        desc: 'Hosting and domain, backups, content changes, the monthly dashboard report and priority WhatsApp. The three tiers differ by number of monthly changes.',
+        desc: 'Hosting and domain, backups, content changes, the monthly dashboard report and priority replies. The three tiers differ by number of monthly changes.',
         cta: 'Add maintenance',
       },
       renewal:
-        'After the first year, domain and hosting cost around Q1,200 per year if you manage them yourself. We tell you upfront so it is never a surprise.',
+        `After the first year, domain and hosting cost around ${US_WEB_PRICES.renewal} per year if you manage them yourself. We tell you upfront so it is never a surprise.`,
       payment: 'Paid in two parts: 50% to start and 50% on delivery.',
     },
     compare: {
       eyebrow: 'Honest comparison',
       title: 'What about Wix, or just staying on Facebook?',
       description: 'Both are legitimate, and for some businesses they are the right call. Here is the comparison without makeup.',
-      headers: ['', 'Facebook only', 'Wix or Shopify (DIY)', 'Sagepoint'],
+      headers: ['', 'Facebook only', 'Wix or Squarespace (DIY)', 'Sagepoint'],
       rows: [
-        { label: 'First year cost', a: 'Q0', b: '~Q3,600 per year', c: 'Q4,500–8,500 once' },
+        { label: 'First year cost', a: '$0', b: 'A monthly plan, every year', c: `${US_WEB_PRICES.essential}–${US_WEB_PRICES.dashboard.replace('$', '')} once` },
         { label: 'Your time invested', a: 'Constant', b: '20 to 40 hours', c: '2 meetings' },
         { label: 'Shows up in Google search', a: 'no', b: 'if you configure it', c: 'yes' },
         { label: 'Tells you how many customers came in', a: 'no', b: 'partial', c: 'yes' },
@@ -460,7 +462,7 @@ export const webContent = {
       eyebrow: 'How we work',
       title: 'Four steps, no mystery.',
       steps: [
-        { n: '01', title: '20-minute call', desc: 'We look at your business, what you sell and to whom. Free, no commitment.' },
+        { n: '01', title: 'Free call', desc: 'We look at your business, what you sell and to whom. No commitment.' },
         { n: '02', title: 'Proposal with fixed price', desc: 'You get in writing what is included, what it costs and when it ships.' },
         { n: '03', title: 'Build', desc: 'You give us copy, photos and logo. We do the rest and show you progress.' },
         { n: '04', title: 'Delivery and training', desc: 'Site live, dashboard running and your team trained to update it.' },
@@ -471,8 +473,8 @@ export const webContent = {
       title: 'What people ask before deciding.',
       items: [
         {
-          q: 'Why Q8,500 when someone else does it for Q1,350?',
-          a: 'Because it is not the same product. For Q1,350 you get a template with your logo on it, and often the domain ends up registered under the provider. Our price includes custom design, configured local SEO and the customer dashboard, which no provider in Guatemala offers today. If your real budget is Q1,350, buying the template is a sound decision and we will tell you so on the call.',
+          q: `Why ${US_WEB_PRICES.dashboard} when a template site costs a few hundred dollars?`,
+          a: 'Because it is not the same product. A template gives you a standard layout with your logo on it, and you set up the rest yourself. Our price includes custom design, your Google Business Profile configured and the customer dashboard that shows whether the site brings you customers. If a template is all your business needs right now, we will tell you so on the call.',
         },
         {
           q: 'Do the domain and hosting stay in my name?',
@@ -480,19 +482,19 @@ export const webContent = {
         },
         {
           q: 'What does it cost to keep after the first year?',
-          a: 'Around Q1,200 per year for domain and hosting if you manage it. If you would rather not, the Maintenance add-on starts at Q450 per month and includes backups, content changes and the dashboard report.',
+          a: `Around ${US_WEB_PRICES.renewal} per year for domain and hosting if you manage it. If you would rather not, the Maintenance add-on starts at ${US_WEB_PRICES.care.split(' / ')[0]} per month and includes backups, content changes and the dashboard report.`,
         },
         {
           q: 'I already have a website. Is any of this useful?',
-          a: 'Probably the dashboard. We review your current site at no cost and tell you honestly whether it is worth rebuilding or whether instrumenting it and fixing two or three things is enough.',
+          a: 'Probably the dashboard. We review your current site at no cost and tell you honestly whether it is worth rebuilding or whether adding tracking and fixing two or three things is enough.',
         },
         {
-          q: 'Do you work outside the capital?',
-          a: 'Yes. The whole process is remote, so we serve Quetzaltenango, Antigua, Escuintla, Cobán or Petén the same way. We also work with clients in the United States in Spanish or English.',
+          q: 'Where are you based, and do you work with businesses anywhere in the US?',
+          a: 'We are based in Guatemala and work remotely, in English or Spanish, with businesses in any state. Our workday overlaps US business hours, calls happen on video and you approve every step in writing.',
         },
         {
           q: 'Do I have to leave Facebook?',
-          a: 'No, and it would be a mistake. Facebook keeps bringing you people; the site is where those people find pricing, a catalog and a button to message you. The dashboard also shows how much of your traffic comes from social, which is the best way to know whether the ad spend is worth it.',
+          a: 'No, and it would be a mistake. Facebook keeps bringing you people; the site is where those people find pricing, a catalog and a way to contact you. The dashboard also shows how much of your traffic comes from social media, which is the best way to know whether the ad spend is worth it.',
         },
         {
           q: 'Can I pay in installments?',
@@ -502,10 +504,10 @@ export const webContent = {
     },
     cta: {
       eyebrow: 'Next step',
-      title: 'Twenty minutes and you will know.',
+      title: 'One call and you will know.',
       description:
-        'Message us on WhatsApp and we will tell you what your business needs, what it would cost and how long it takes. If the honest answer is that you do not need it yet, we will say that too.',
-      whatsapp: 'Message on WhatsApp',
+        'Book a free call and we will tell you what your business needs, what it would cost and how long it takes. If the honest answer is that you do not need it yet, we will say that too.',
+      whatsapp: 'Book a free call',
       email: 'Send an email',
     },
     footer: {
@@ -517,8 +519,8 @@ export const webContent = {
     },
     wa_messages: {
       'web-general': 'Hi, I saw the websites page and would like to know more.',
-      'web-esencial': 'Hi, I am interested in the Q4,500 Essential website package.',
-      'web-panel': 'Hi, I am interested in the Q8,500 Site + Customer Dashboard package.',
+      'web-esencial': 'Hi, I am interested in the Essential website package.',
+      'web-panel': 'Hi, I am interested in the Site + Customer Dashboard package.',
       'web-custom': 'Hi, I need an online store or a custom site. Can you quote it?',
       'web-care': 'Hi, I am interested in monthly maintenance for my website.',
     } as Record<WebPackageId, string>,
@@ -534,9 +536,18 @@ function waHref(lang: Lang, pkg: WebPackageId) {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
+/** English visitors book on the calendar, like the rest of the English site; Spanish visitors write on WhatsApp. */
+function contactHref(lang: Lang, pkg: WebPackageId) {
+  return getEnglishBookingUrl(lang) ?? waHref(lang, pkg);
+}
+
+function trackContact(lang: Lang, section: string, pkg: WebPackageId) {
+  if (getEnglishBookingUrl(lang)) trackScheduleCall({ source_section: section, package_id: pkg, method: 'booking_link', language: lang });
+  else trackWhatsAppClick({ source_section: section, package_id: pkg, language: lang });
+}
+
 export default function WebPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const lang: Lang = getLangFromPath(location.pathname);
   const t = webContent[lang];
   const path = localizedPath('/web/', lang);
@@ -551,19 +562,14 @@ export default function WebPage() {
     trackPageView(path, t.meta.title, lang);
   }, [path, t.meta.title, lang]);
 
-  const switchLang = (next: Lang) => navigate(localizedPath('/web/', next));
-
   return (
-    <div className="relative isolate flex min-h-screen flex-col overflow-x-hidden bg-[#071012] font-sans text-slate-300 selection:bg-sage/30 selection:text-sage">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -right-64 -top-64 h-[42rem] w-[42rem] rounded-full bg-sage/10 blur-[120px]" />
-        <div className="absolute -bottom-80 -left-72 h-[44rem] w-[44rem] rounded-full bg-copper/5 blur-[140px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(244,247,246,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(244,247,246,0.025)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
+    <div className="web-skin relative isolate flex min-h-screen flex-col overflow-x-hidden bg-black font-sans text-slate-300 selection:bg-sage/30 selection:text-sage">
+      <div className="leo service-site leo-chrome relative z-20">
+        <a className="skip" href="#content">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+        <SiteHeader lang={lang} source="web" switchPath="/web/" />
       </div>
 
-      <Navbar lang={lang} onSwitchLang={switchLang} />
-
-      <main className="relative z-10 flex-grow pt-28 pb-24">
+      <main id="content" className="relative z-10 flex-grow pt-12 pb-24 sm:pt-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <Hero lang={lang} />
           <ProofSection lang={lang} />
@@ -576,77 +582,11 @@ export default function WebPage() {
         </div>
       </main>
 
-      <Footer lang={lang} />
+      <div className="leo service-site leo-chrome relative z-10">
+        <SiteFooter lang={lang} />
+      </div>
       <WhatsAppButton lang={lang} />
     </div>
-  );
-}
-
-function Navbar({ lang, onSwitchLang }: { lang: Lang; onSwitchLang: (next: Lang) => void }) {
-  const t = webContent[lang];
-  const homeLink = localizedPath('/', lang);
-
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#071012]/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link to={homeLink} className="group flex items-center gap-3 text-ink">
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0d1b1c] shadow-[0_10px_30px_rgba(2,8,9,0.35)]">
-            <BarChart3 size={20} className="text-sage transition-transform duration-300 group-hover:scale-110" strokeWidth={2.4} />
-          </span>
-          <span className="leading-none">
-            <span className="block font-serif text-lg font-bold tracking-tight">Sagepoint</span>
-            <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.28em] text-muted">Analytics</span>
-          </span>
-        </Link>
-
-        <nav
-          className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] p-1 md:flex"
-          aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
-        >
-          <Link to={homeLink} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
-            {t.nav.home}
-          </Link>
-          <Link to={localizedPath('/web/', lang)} aria-current="page" className="rounded-full bg-sage/10 px-5 py-2 text-sm font-semibold text-sage">
-            {t.nav.web}
-          </Link>
-          <Link to={localizedPath('/portfolio/', lang)} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
-            {t.nav.portfolio}
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => onSwitchLang('es')}
-              className={`language-chip ${lang === 'es' ? 'language-chip--active' : ''}`}
-              title="Español"
-              aria-label="Español"
-            >
-              ES
-            </button>
-            <button
-              onClick={() => onSwitchLang('en')}
-              className={`language-chip ${lang === 'en' ? 'language-chip--active' : ''}`}
-              title="English"
-              aria-label="English"
-            >
-              EN
-            </button>
-          </div>
-
-          <a
-            href={waHref(lang, 'web-general')}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ source_section: 'web_navbar', package_id: 'web-general', language: lang })}
-            className="flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-4 py-2.5 text-sm font-semibold text-sage transition-all duration-300 hover:-translate-y-0.5 hover:border-sage/60 hover:bg-sage hover:text-dark sm:px-5"
-          >
-            <MessageCircle size={16} />
-            <span className="hidden sm:inline">{t.nav.contact}</span>
-          </a>
-        </div>
-      </div>
-    </header>
   );
 }
 
@@ -687,13 +627,13 @@ function Hero({ lang }: { lang: Lang }) {
             <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a
-            href={waHref(lang, 'web-general')}
+            href={contactHref(lang, 'web-general')}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ source_section: 'web_hero', package_id: 'web-general', language: lang })}
+            onClick={() => trackContact(lang, 'web_hero', 'web-general')}
             className="inline-flex items-center gap-3 rounded-full border border-white/15 px-7 py-4 text-sm font-bold text-ink transition-all duration-300 hover:-translate-y-1 hover:border-sage/50 hover:text-sage"
           >
-            <MessageCircle size={17} />
+            {lang === 'en' ? <CalendarDays size={17} /> : <MessageCircle size={17} />}
             {t.cta_whatsapp}
           </a>
         </div>
@@ -738,6 +678,7 @@ function Hero({ lang }: { lang: Lang }) {
 
 function ProofSection({ lang }: { lang: Lang }) {
   const t = webContent[lang].proof;
+  if (!t) return null;
 
   return (
     <section className="mt-28 sm:mt-36">
@@ -884,7 +825,7 @@ function PackagesSection({ lang }: { lang: Lang }) {
               ) : null}
 
               <a
-                href={waHref(lang, card.id)}
+                href={contactHref(lang, card.id)}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
@@ -892,10 +833,10 @@ function PackagesSection({ lang }: { lang: Lang }) {
                     package_id: card.id,
                     package_name: card.title,
                     price: card.price,
-                    currency: 'GTQ',
+                    currency: lang === 'en' ? 'USD' : 'GTQ',
                     language: lang,
                   });
-                  trackWhatsAppClick({ source_section: 'web_packages', package_id: card.id, language: lang });
+                  trackContact(lang, 'web_packages', card.id);
                 }}
                 className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 ${
                   featured
@@ -927,10 +868,10 @@ function PackagesSection({ lang }: { lang: Lang }) {
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted">{t.care.desc}</p>
           <a
-            href={waHref(lang, t.care.id)}
+            href={contactHref(lang, t.care.id)}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ source_section: 'web_care', package_id: t.care.id, language: lang })}
+            onClick={() => trackContact(lang, 'web_care', t.care.id)}
             className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-sage transition-colors hover:text-ink"
           >
             {t.care.cta}
@@ -1094,13 +1035,13 @@ function FinalCta({ lang }: { lang: Lang }) {
         </div>
         <div className="flex flex-col gap-3">
           <a
-            href={waHref(lang, 'web-general')}
+            href={contactHref(lang, 'web-general')}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ source_section: 'web_final_cta', package_id: 'web-general', language: lang })}
+            onClick={() => trackContact(lang, 'web_final_cta', 'web-general')}
             className="group inline-flex w-fit items-center gap-3 rounded-full bg-[#071012] px-7 py-4 text-sm font-bold text-ink shadow-[0_18px_40px_rgba(7,16,18,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#0d1b1c]"
           >
-            <MessageCircle size={17} />
+            {lang === 'en' ? <CalendarDays size={17} /> : <MessageCircle size={17} />}
             {t.whatsapp}
           </a>
           <a
@@ -1113,42 +1054,5 @@ function FinalCta({ lang }: { lang: Lang }) {
         </div>
       </div>
     </section>
-  );
-}
-
-function Footer({ lang }: { lang: Lang }) {
-  const t = webContent[lang].footer;
-  const homeLink = localizedPath('/', lang);
-
-  return (
-    <footer className="relative z-10 border-t border-white/10 bg-[#050b0d] px-5 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-16">
-        <div>
-          <Link to={homeLink} className="inline-flex items-center gap-3 text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-[#0d1b1c] text-sage">
-              <BarChart3 size={18} />
-            </span>
-            <span className="font-serif text-xl font-bold">Sagepoint Analytics.</span>
-          </Link>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">{t.tagline}</p>
-        </div>
-        <nav className="flex gap-6 text-sm font-semibold" aria-label={lang === 'es' ? 'Navegación del pie de página' : 'Footer navigation'}>
-          <Link to={homeLink} className="text-muted transition-colors hover:text-sage">
-            {t.home}
-          </Link>
-          <Link to={localizedPath('/web/', lang)} className="text-sage">
-            {t.web}
-          </Link>
-          <Link to={localizedPath('/portfolio/', lang)} className="text-muted transition-colors hover:text-sage">
-            {t.portfolio}
-          </Link>
-          <Link to={localizedPath('/servicios/', lang)}>{lang === 'en' ? 'Services' : 'Servicios'}</Link>
-        </nav>
-        <a href="mailto:info@sagepoint-analytics.com" className="text-sm font-semibold text-muted transition-colors hover:text-sage">
-          info@sagepoint-analytics.com
-        </a>
-      </div>
-      <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-6 text-xs font-mono text-muted/60">{t.rights}</div>
-    </footer>
   );
 }

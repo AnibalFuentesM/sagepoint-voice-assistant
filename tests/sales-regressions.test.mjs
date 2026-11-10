@@ -158,6 +158,26 @@ test('English cost guide uses US prices, English breadcrumb and is linked from t
   assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes(`${site}${path}`));
 });
 
+test('English websites page targets the US in dollars; Spanish page keeps quetzales', () => {
+  const en = built('/en/web/');
+  const es = built('/web/');
+  assert.doesNotMatch(en, /\bQ\d{1,2},\d{3}|quetzal|Guatemalan Chamber/);
+  for (const text of ['$1,200', '$2,400', 'US dollars', 'Book a free call', 'calendar.google.com']) assert.ok(en.includes(text), text);
+  for (const text of ['Q4,500', 'Q8,500', 'quetzales']) assert.ok(es.includes(text), text);
+  const faq = graph(en).find(item => item['@type'] === 'FAQPage');
+  assert.ok(faq && faq.mainEntity.length >= 5);
+  for (const entry of faq.mainEntity) assert.ok(en.includes(entry.acceptedAnswer.text.replaceAll('&', '&amp;').replaceAll("'", '&#x27;')) || en.includes(entry.acceptedAnswer.text), entry.name);
+});
+
+test('portfolio and websites pages share the site header with the mobile menu', () => {
+  for (const path of ['/portfolio/', '/es/portfolio/', '/web/', '/en/web/']) {
+    const html = built(path);
+    assert.match(html, /class="mm-toggle"/, path);
+    assert.match(html, /class="nav-links"/, path);
+  }
+  assert.ok(built('/portfolio/').includes('/en/web/'));
+});
+
 test('built HTML and JS use path language links', () => {
   for (const [path] of routes) assert.doesNotMatch(built(path), /\?lang=en|_localized/, path);
   for (const entry of readdirSync('dist/assets')) if (entry.endsWith('.js')) {
