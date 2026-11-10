@@ -97,9 +97,11 @@ Spanish services hub: https://www.sagepoint-analytics.com/servicios/
 - https://www.sagepoint-analytics.com/servicios/dashboards-power-bi-guatemala/
 - https://www.sagepoint-analytics.com/servicios/automatizar-reportes-excel-sheets/
 - https://www.sagepoint-analytics.com/servicios/automatizacion-procesos-pymes/
+Spanish cost guide: https://www.sagepoint-analytics.com/guias/cuanto-cuesta-dashboard-power-bi-guatemala/
 English home: https://www.sagepoint-analytics.com/
 English portfolio: https://www.sagepoint-analytics.com/portfolio/
 English services hub: https://www.sagepoint-analytics.com/en/services/
+English cost guide: https://www.sagepoint-analytics.com/en/guides/small-business-dashboard-cost/
 - https://www.sagepoint-analytics.com/en/services/small-business-dashboards/
 - https://www.sagepoint-analytics.com/en/services/excel-report-automation/
 - https://www.sagepoint-analytics.com/en/services/quickbooks-dashboard/

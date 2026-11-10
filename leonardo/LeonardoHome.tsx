@@ -468,6 +468,7 @@ export default function LeonardoHome() {
             items={[
               { href: servicesPath, label: t('Servicios') },
               { href: '#casos', label: t('Casos') },
+              { href: portfolioPath, label: t('Portafolio') },
               { href: '#sistema', label: t('Cómo funciona') },
               { href: '#paquetes', label: t('Precios') },
               { href: '#faq', label: 'FAQ' },
@@ -1088,6 +1089,7 @@ export default function LeonardoHome() {
                     <Link to="/servicios/pronosticos-ventas-demanda/">{t("Modelos predictivos")}</Link>
                   </li>
                 )}
+              <li><Link to={lang === 'en' ? '/en/guides/small-business-dashboard-cost/' : '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'}>{lang === 'en' ? 'Dashboard cost guide' : 'Guía de costos'}</Link></li>
               <li><Link to={servicesPath}>{lang === 'en' ? 'All services' : 'Todos los servicios'}</Link></li>
               </ul>
             </nav>

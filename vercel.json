@@ -249,6 +249,13 @@
       "status": 308
     },
     {
+      "src": "^/en/guides/small-business-dashboard-cost$",
+      "headers": {
+        "Location": "/en/guides/small-business-dashboard-cost/"
+      },
+      "status": 308
+    },
+    {
       "src": "^/guias/cuanto-cuesta-dashboard-power-bi-guatemala$",
       "headers": {
         "Location": "/guias/cuanto-cuesta-dashboard-power-bi-guatemala/"
@@ -355,6 +362,10 @@
     {
       "src": "^/en/services/contact-center-wfm-reporting/$",
       "dest": "/en/services/contact-center-wfm-reporting/index.html"
+    },
+    {
+      "src": "^/en/guides/small-business-dashboard-cost/$",
+      "dest": "/en/guides/small-business-dashboard-cost/index.html"
     },
     {
       "src": "^/guias/cuanto-cuesta-dashboard-power-bi-guatemala/$",

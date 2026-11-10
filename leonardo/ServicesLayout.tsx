@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BookingModal from './BookingModal';
+import MobileMenu from './MobileMenu';
 import { trackEvent, trackScheduleCall, trackWhatsAppClick } from '../utils/analytics';
 import { getEnglishBookingUrl } from './booking';
 import { localizedPath, type SiteLang } from '../utils/i18nRoutes';
@@ -26,12 +27,20 @@ export function ServicesLayout({ lang, source, children }: { lang: SiteLang; sou
       <nav className="nav-links" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
         <Link to={hub}>{lang === 'es' ? 'Servicios' : 'Services'}</Link>
         <Link to={`${home}#casos`}>{lang === 'es' ? 'Casos' : 'Our work'}</Link>
+        <Link to={localizedPath('/portfolio/', lang)}>Portfolio</Link>
         <Link to={`${home}#paquetes`}>{lang === 'es' ? 'Paquetes' : 'Pricing'}</Link>
       </nav>
       <div className="nav-act"><div className="language-switch" role="group" aria-label={lang === 'es' ? 'Idioma' : 'Language'}>
         <button type="button" lang="es" aria-label="Español" aria-pressed={lang === 'es'} onClick={() => switchLang('es')}>ES</button>
         <button type="button" lang="en" aria-label="English" aria-pressed={lang === 'en'} onClick={() => switchLang('en')}>EN</button>
-      </div><button className="pill pill--fill pill--sm" type="button" onClick={booking}>{lang === 'es' ? 'Agendar diagnóstico' : 'Book a free call'}</button></div>
+      </div><button className="pill pill--fill pill--sm" type="button" onClick={booking}>{lang === 'es' ? 'Agendar diagnóstico' : 'Book a free call'}</button>
+        <MobileMenu lang={lang} items={[
+          { href: hub, label: lang === 'es' ? 'Servicios' : 'Services' },
+          { href: `${home}#casos`, label: lang === 'es' ? 'Casos' : 'Our work' },
+          { href: localizedPath('/portfolio/', lang), label: 'Portfolio' },
+          { href: `${home}#paquetes`, label: lang === 'es' ? 'Paquetes' : 'Pricing' },
+          { href: `${home}#faq`, label: 'FAQ' },
+        ]} cta={{ label: lang === 'es' ? 'Agendar diagnóstico' : 'Book a free call', onClick: booking }} /></div>
     </div></header>
     <main id="content">{children}</main>
     <footer className="site-foot"><div className="wrap"><div className="f-grid">

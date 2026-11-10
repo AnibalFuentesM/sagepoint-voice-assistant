@@ -25,20 +25,20 @@ export type Project = {
 export const portfolioContent = {
   es: {
     meta: {
-      title: 'Portfolio de BI y automatización | Sagepoint',
-      description: 'Casos y proyectos de dashboards, automatización, IA aplicada y desarrollo web para empresas en Guatemala y Estados Unidos.',
+      title: 'Proyectos de dashboards y automatización | Sagepoint',
+      description: 'Dashboards, reportes automatizados, apps y páginas web que hemos hecho para clientes en Guatemala y Estados Unidos, con capturas de cada proyecto.',
     },
     nav: {
       home: 'Inicio',
       portfolio: 'Portfolio',
-      contact: 'Contáctanos',
+      contact: 'Agendar diagnóstico',
     },
     hero: {
       eyebrow: 'Casos seleccionados',
       title_lead: 'Nuestro portfolio.',
       title_sub: 'Prueba, no promesas.',
-      description: 'Una selección de automatizaciones con IA, integraciones API, dashboards y soluciones basadas en datos para operaciones reales.',
-      cta_project: 'Iniciar un proyecto',
+      description: 'Dashboards, reportes automatizados, apps y páginas web que hemos hecho para clientes, más un dashboard de demostración con datos de muestra.',
+      cta_project: 'Agendar diagnóstico gratuito',
       cta_explore: 'Explorar el archivo ↓',
     },
     aside: {
@@ -277,14 +277,14 @@ export const portfolioContent = {
     nav: {
       home: 'Home',
       portfolio: 'Portfolio',
-      contact: 'Contact Us',
+      contact: 'Book a free call',
     },
     hero: {
       eyebrow: 'Selected Work',
       title_lead: 'Our portfolio.',
       title_sub: 'Proof, not promises.',
-      description: 'A curated selection of AI automations, API integrations, dashboards, and data-driven solutions for real-world operations.',
-      cta_project: 'Start a Project',
+      description: 'Dashboards, automated reports, apps and websites we have built for clients, plus one dashboard demo with sample data.',
+      cta_project: 'Book a free call',
       cta_explore: 'Explore the archive ↓',
     },
     aside: {
@@ -504,8 +504,8 @@ export const portfolioContent = {
     cta: {
       eyebrow: 'Your Next Strategic Move',
       title: 'Want measurable results like these for your business?',
-      description: "Book a free 30-minute diagnostic session and we'll outline the exact high-ROI package for your business.",
-      button: 'Book Free Diagnostic Call',
+      description: 'On a free 30 to 45 minute call we look at your numbers and tell you which package fits, with the price in writing.',
+      button: 'Book a free call',
     },
     footer: {
       tagline: 'Clear data, high-impact automation, and human expertise for decisions that drive real revenue.',
@@ -576,7 +576,9 @@ function Navbar({ lang, onSwitchLang }: { lang: 'es' | 'en'; onSwitchLang: (next
         </Link>
         <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] p-1 md:flex" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
           <Link to={homeLink} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">{t.nav.home}</Link>
+          <Link to={localizedPath('/servicios/', lang)} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">{lang === 'es' ? 'Servicios' : 'Services'}</Link>
           <Link to={portfolioLink} aria-current="page" className="rounded-full bg-sage/10 px-5 py-2 text-sm font-semibold text-sage">{t.nav.portfolio}</Link>
+          <Link to={localizedPath('/#paquetes', lang)} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">{lang === 'es' ? 'Paquetes' : 'Pricing'}</Link>
         </nav>
         <div className="flex items-center gap-3">
           {/* Language Toggle */}
@@ -601,6 +603,7 @@ function Navbar({ lang, onSwitchLang }: { lang: 'es' | 'en'; onSwitchLang: (next
 
           <Link
             to={contactLink}
+            aria-label={t.nav.contact}
             className="flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-4 py-2.5 text-sm font-semibold text-sage transition-all duration-300 hover:-translate-y-0.5 hover:border-sage/60 hover:bg-sage hover:text-dark sm:px-5"
           >
             <Mail size={16} />

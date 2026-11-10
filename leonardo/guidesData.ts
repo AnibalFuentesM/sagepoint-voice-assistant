@@ -1,10 +1,15 @@
 export type Guide = {
+  lang: 'es' | 'en'; source: string;
+  /** Service page this guide belongs to (breadcrumb and closing link). */
+  service: { path: string; name: string; linkText: string };
   path: string; title: string; description: string; h1: string; lede: string;
   sections: { heading: string; paragraphs: string[] }[];
   faq: { question: string; answer: string }[];
 };
 
 export const POWER_BI_COST_GUIDE: Guide = {
+  lang: 'es', source: 'guide_power_bi_cost',
+  service: { path: '/servicios/dashboards-power-bi-guatemala/', name: 'Dashboards Power BI', linkText: 'dashboards Power BI en Guatemala →' },
   path: '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/',
   title: 'Cuánto cuesta un dashboard Power BI | Sagepoint',
   description: 'Conoce qué cambia el costo de un dashboard Power BI en Guatemala, compara los paquetes publicados de Sagepoint y prepara una cotización clara.',
@@ -69,4 +74,71 @@ export const POWER_BI_COST_GUIDE: Guide = {
   ]
 };
 
-export const GUIDES = [POWER_BI_COST_GUIDE];
+export const DASHBOARD_COST_GUIDE_EN: Guide = {
+  lang: 'en', source: 'guide_dashboard_cost_en',
+  service: { path: '/en/services/small-business-dashboards/', name: 'Small business dashboards', linkText: 'small business dashboards →' },
+  path: '/en/guides/small-business-dashboard-cost/',
+  title: 'How Much Does a Small Business Dashboard Cost? | Sagepoint',
+  description: 'What changes the price of a Power BI or Looker Studio dashboard for a small business, our published US prices, and how to ask for a quote you can compare.',
+  h1: 'How much does a dashboard cost for a small business?',
+  lede: 'It depends on the work behind the screen, not on the number of charts. Two dashboards that look the same can take very different effort if one reads a clean spreadsheet and the other has to match QuickBooks, a CRM and three Excel files. This guide shows what drives the price, what we charge, and what to ask any provider before you sign.',
+  sections: [
+    {
+      heading: 'Start with the decision, not the charts',
+      paragraphs: [
+        'Before counting charts, write down who will open the dashboard and what they will decide with it. An owner who checks margin by location every Monday needs different definitions, filters and detail than a team that only wants total sales for the month.',
+        'Also separate a dashboard from a recurring report. If what you really need is the same Excel report built and emailed every week, report automation is usually cheaper. A dashboard makes sense when people need to compare periods, filter by product or salesperson and click back to where a number came from.'
+      ]
+    },
+    {
+      heading: 'Your data sources drive the price more than the design',
+      paragraphs: [
+        'One spreadsheet with stable columns is a small job. Several files that change format every month, or a CRM and QuickBooks that use different customer names, take longer. Someone has to check access, export schedules, dates, duplicates and missing fields, and agree on how records match.',
+        'Definitions matter too. A sales total may need rules for refunds, sales tax, discounts or canceled orders. If two people calculate gross margin differently, that has to be settled before the number goes on a screen. A serious proposal says which cleanup is included and how the totals will be checked against your own systems.'
+      ]
+    },
+    {
+      heading: 'Views, refresh and access change the scope',
+      paragraphs: [
+        'The number of views matters, and so does what each one does. A summary page, a detail page by location and a trends page each need their own filters and testing. Start with the views that answer questions you already ask every week.',
+        'Refresh depends on each source and its permissions: a reviewed manual upload, a scheduled daily refresh and a near real-time connection are different amounts of work. Also say how many people will use it and whether they need different access by location or role, because setting up and testing permissions is part of the job.'
+      ]
+    },
+    {
+      heading: 'Training and support after delivery',
+      paragraphs: [
+        'A finished dashboard should make sense without its builder in the room. Ask for a short definitions sheet, an explanation of the filters and a walkthrough for the people who will use it.',
+        'Products, CRM fields and questions change after launch. Ask which changes are included in the project and which need ongoing support. The cost of keeping a dashboard useful depends on how often your sources and rules change.'
+      ]
+    },
+    {
+      heading: 'Our published prices as a reference',
+      paragraphs: [
+        'The 14-Day Dashboard Pilot is US$750: I connect two of your sources, for example QuickBooks and your sales spreadsheet, and build a working dashboard with up to eight of your numbers. If it is not useful to you, you do not pay, and if you continue within 30 days the US$750 comes off the next project. Executive Cockpit is a fixed US$3,900 and takes 4 to 6 weeks: up to four sources, up to three dashboards and one report that builds and sends itself every week. Control Room starts at US$15,000 and takes 10 to 14 weeks when several systems need to be integrated. Projects are paid 50% to start and 50% on delivery.',
+        'Monthly support is US$450, US$900 or US$1,800, with no hour counting and cancel any month; paying the year upfront gives two months free. These are Sagepoint prices, not market averages or an automatic quote for your project. The free call takes 30 to 45 minutes: we look at a sample of your data and the decision you want to improve, then tell you which option fits and what is left out.'
+      ]
+    },
+    {
+      heading: 'Software licenses are separate',
+      paragraphs: [
+        'Power BI, Looker Studio or Google Workspace licenses are not part of our price and stay in your own accounts. We work inside your accounts with the access you approve, so the files, the data model and the logins stay yours.',
+        'Before you accept any proposal, confirm who manages access, where the files and data model will live, and who can view or edit them.'
+      ]
+    },
+    {
+      heading: 'How to ask for a quote you can compare',
+      paragraphs: [
+        'Bring a sample export from each source and a copy of the report you use today. List the numbers you track, how you calculate them, and the questions you still cannot answer. Say who will use the dashboard, how often the data should update and who signs off on the numbers.',
+        'Ask every provider to list sources, cleanup, views, refresh frequency, checks, training, documentation, timeline, revisions and support in writing, with licenses quoted separately. Then you are comparing the same thing.'
+      ]
+    }
+  ],
+  faq: [
+    { question: 'How much does a Power BI dashboard cost for a small business?', answer: 'It depends on sources, cleanup, views, refresh and permissions. At Sagepoint, the 14-Day Dashboard Pilot is US$750 for two sources and Executive Cockpit is a fixed US$3,900 for up to four sources and three dashboards. The price is agreed in writing before work starts.' },
+    { question: 'Does the price include Power BI licenses?', answer: 'No. Licenses are separate and stay in your own Microsoft or Google account. We work inside your accounts with the access you approve.' },
+    { question: 'What if my data is still messy?', answer: 'That is common. The 14-Day Dashboard Pilot is a low-risk way to find out: we connect two sources, check the totals against your systems and show you what needs fixing before a bigger project.' },
+    { question: 'Is there a cost after the dashboard is delivered?', answer: 'Only if you want ongoing changes. Monthly support is US$450, US$900 or US$1,800 depending on how much you want added each month, with no hour counting and cancel any month.' }
+  ]
+};
+
+export const GUIDES = [POWER_BI_COST_GUIDE, DASHBOARD_COST_GUIDE_EN];

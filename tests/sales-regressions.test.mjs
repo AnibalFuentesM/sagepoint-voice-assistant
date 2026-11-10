@@ -66,6 +66,7 @@ const routes = [
   ['/en/services/contact-center-qa-reporting/', 'en'],
   ['/en/services/contact-center-wfm-reporting/', 'en'],
   ['/guias/cuanto-cuesta-dashboard-power-bi-guatemala/', 'es'],
+  ['/en/guides/small-business-dashboard-cost/', 'en'],
 ];
 const site = 'https://www.sagepoint-analytics.com';
 const built = path => readFileSync(join('dist', path, 'index.html'), 'utf8');
@@ -139,6 +140,22 @@ test('guide has matching visible FAQ and Article, BreadcrumbList, FAQPage schema
   assert.doesNotMatch(html, /<link rel="alternate" hreflang="en"/);
   assert.ok(built('/servicios/').includes(path));
   assert.ok(built('/servicios/dashboards-power-bi-guatemala/').includes(path));
+});
+
+test('English cost guide uses US prices, English breadcrumb and is linked from the hub and home', () => {
+  const path = '/en/guides/small-business-dashboard-cost/';
+  const html = built(path);
+  const items = graph(html);
+  for (const type of ['Article', 'BreadcrumbList', 'FAQPage']) assert.ok(items.some(item => item['@type'] === type), type);
+  const breadcrumb = items.find(item => item['@type'] === 'BreadcrumbList');
+  assert.deepEqual(breadcrumb.itemListElement.map(item => item.name).slice(0, 3), ['Home', 'Services', 'Small business dashboards']);
+  const faq = items.find(item => item['@type'] === 'FAQPage');
+  assert.deepEqual(faq.mainEntity.map(item => item.name), [...html.matchAll(/<summary>(.*?)<\/summary>/g)].map(match => match[1]));
+  assert.match(html, /<html lang="en"/);
+  for (const price of ['US$750', 'US$3,900', 'US$15,000', 'US$450']) assert.ok(html.includes(price), price);
+  assert.doesNotMatch(html, /US\$2,500|US\$12,000|US\$300/);
+  for (const from of ['/en/services/', '/en/services/small-business-dashboards/', '/']) assert.ok(built(from).includes(path), from);
+  assert.ok(readFileSync('dist/sitemap.xml', 'utf8').includes(`${site}${path}`));
 });
 
 test('built HTML and JS use path language links', () => {

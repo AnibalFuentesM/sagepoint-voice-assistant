@@ -448,4 +448,4 @@ export const HUBS = {
 
 export const CONTACT_CENTER_SLUGS = ['call-center-kpi-dashboards', 'bpo-client-reporting-automation', 'contact-center-qa-reporting', 'contact-center-wfm-reporting'];
 
-export const ALL_ROUTES = ['/', '/es/', '/portfolio/', '/es/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/'];
+export const ALL_ROUTES = ['/', '/es/', '/portfolio/', '/es/portfolio/', '/web/', '/en/web/', HUBS.es.path, HUBS.en.path, ...SERVICES.map(service => service.path), '/guias/cuanto-cuesta-dashboard-power-bi-guatemala/', '/en/guides/small-business-dashboard-cost/'];
