@@ -52,7 +52,7 @@ Projects: 50% to start, 50% on delivery.
 
 Landing page: https://www.sagepoint-analytics.com/web/ (Spanish) and https://www.sagepoint-analytics.com/en/web/
 
-Websites built by an analytics consultancy, with a customer dashboard included. Positioning: every provider sells a website; we also tell you whether it is working. Prices are quoted in Guatemalan quetzales (GTQ) because the offer targets Guatemalan SMBs; the BI packages above stay in USD.
+Websites built by an analytics consultancy, with a customer dashboard included. Positioning: every provider sells a website; we also tell you whether it is working. The Spanish page (/web/) targets Guatemalan SMBs and quotes Guatemalan quetzales (GTQ). The English page (/en/web/) targets US small businesses and quotes US dollars: Essential $1,200, Site + Customer Dashboard $2,400, Store or Custom from $4,500, maintenance $75 / $150 / $250 per month. The quetzal prices below are the Guatemala offer.
 
 Market context we cite: per the 7th National E-Commerce Study of the Guatemalan Chamber of Commerce (2026), the share of Guatemalans closing their last purchase on a company's own website rose from 36% (2024) to 61% (2026), while social media fell from 26% to 14%.
 
@@ -97,9 +97,11 @@ Spanish services hub: https://www.sagepoint-analytics.com/servicios/
 - https://www.sagepoint-analytics.com/servicios/dashboards-power-bi-guatemala/
 - https://www.sagepoint-analytics.com/servicios/automatizar-reportes-excel-sheets/
 - https://www.sagepoint-analytics.com/servicios/automatizacion-procesos-pymes/
+Spanish cost guide: https://www.sagepoint-analytics.com/guias/cuanto-cuesta-dashboard-power-bi-guatemala/
 English home: https://www.sagepoint-analytics.com/
 English portfolio: https://www.sagepoint-analytics.com/portfolio/
 English services hub: https://www.sagepoint-analytics.com/en/services/
+English cost guide: https://www.sagepoint-analytics.com/en/guides/small-business-dashboard-cost/
 - https://www.sagepoint-analytics.com/en/services/small-business-dashboards/
 - https://www.sagepoint-analytics.com/en/services/excel-report-automation/
 - https://www.sagepoint-analytics.com/en/services/quickbooks-dashboard/

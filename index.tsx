@@ -76,6 +76,8 @@ root.render(
           <Route path="/en/services/:slug/" element={<ServicePage />} />
           <Route path="/guias/:slug" element={<GuidePage />} />
           <Route path="/guias/:slug/" element={<GuidePage />} />
+          <Route path="/en/guides/:slug" element={<GuidePage />} />
+          <Route path="/en/guides/:slug/" element={<GuidePage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

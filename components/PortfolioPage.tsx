@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { ArrowRight, BarChart3, Mail } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import WhatsAppButton from './WhatsAppButton';
+import { ServicesLayout, ServiceActions } from '../leonardo/ServicesLayout';
+import './portfolio.css';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getLangFromPath, localizedPath, pairedAlternates } from '../utils/i18nRoutes';
 import { trackPageView } from '../utils/analytics';
@@ -25,20 +25,20 @@ export type Project = {
 export const portfolioContent = {
   es: {
     meta: {
-      title: 'Portfolio de BI y automatización | Sagepoint',
-      description: 'Casos y proyectos de dashboards, automatización, IA aplicada y desarrollo web para empresas en Guatemala y Estados Unidos.',
+      title: 'Proyectos de dashboards y automatización | Sagepoint',
+      description: 'Dashboards, reportes automatizados, apps y páginas web que hemos hecho para clientes en Guatemala y Estados Unidos, con capturas de cada proyecto.',
     },
     nav: {
       home: 'Inicio',
       portfolio: 'Portfolio',
-      contact: 'Contáctanos',
+      contact: 'Agendar diagnóstico',
     },
     hero: {
       eyebrow: 'Casos seleccionados',
       title_lead: 'Nuestro portfolio.',
       title_sub: 'Prueba, no promesas.',
-      description: 'Una selección de automatizaciones con IA, integraciones API, dashboards y soluciones basadas en datos para operaciones reales.',
-      cta_project: 'Iniciar un proyecto',
+      description: 'Dashboards, reportes automatizados, apps y páginas web que hemos hecho para clientes, más un dashboard de demostración con datos de muestra.',
+      cta_project: 'Agendar diagnóstico gratuito',
       cta_explore: 'Explorar el archivo ↓',
     },
     aside: {
@@ -277,14 +277,14 @@ export const portfolioContent = {
     nav: {
       home: 'Home',
       portfolio: 'Portfolio',
-      contact: 'Contact Us',
+      contact: 'Book a free call',
     },
     hero: {
       eyebrow: 'Selected Work',
       title_lead: 'Our portfolio.',
       title_sub: 'Proof, not promises.',
-      description: 'A curated selection of AI automations, API integrations, dashboards, and data-driven solutions for real-world operations.',
-      cta_project: 'Start a Project',
+      description: 'Dashboards, automated reports, apps and websites we have built for clients, plus one dashboard demo with sample data.',
+      cta_project: 'Book a free call',
       cta_explore: 'Explore the archive ↓',
     },
     aside: {
@@ -504,8 +504,8 @@ export const portfolioContent = {
     cta: {
       eyebrow: 'Your Next Strategic Move',
       title: 'Want measurable results like these for your business?',
-      description: "Book a free 30-minute diagnostic session and we'll outline the exact high-ROI package for your business.",
-      button: 'Book Free Diagnostic Call',
+      description: 'On a free 30 to 45 minute call we look at your numbers and tell you which package fits, with the price in writing.',
+      button: 'Book a free call',
     },
     footer: {
       tagline: 'Clear data, high-impact automation, and human expertise for decisions that drive real revenue.',
@@ -518,9 +518,9 @@ export const portfolioContent = {
 
 export default function PortfolioPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const lang: 'es' | 'en' = getLangFromPath(location.pathname);
   const t = portfolioContent[lang];
+  const [activeFilterId, setActiveFilterId] = useState<CategoryId>('all');
 
   useDocumentMeta(
     t.meta.title,
@@ -530,353 +530,101 @@ export default function PortfolioPage() {
   );
 
   useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
-
-  useEffect(() => {
     trackPageView(localizedPath('/portfolio/', lang), t.meta.title, lang);
   }, [lang, t.meta.title]);
 
-  const switchLang = (next: 'es' | 'en') => navigate(localizedPath('/portfolio/', next));
-
-  return (
-    <div className="relative isolate flex min-h-screen flex-col overflow-x-hidden bg-[#071012] font-sans text-slate-300 selection:bg-sage/30 selection:text-sage">
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -right-64 -top-64 h-[42rem] w-[42rem] rounded-full bg-sage/10 blur-[120px]" />
-        <div className="absolute -bottom-80 -left-72 h-[44rem] w-[44rem] rounded-full bg-copper/5 blur-[140px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(244,247,246,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(244,247,246,0.025)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
-      </div>
-      <Navbar lang={lang} onSwitchLang={switchLang} />
-      <main className="relative z-10 flex-grow pt-28 pb-24">
-        <PortfolioSection lang={lang} />
-      </main>
-      <Footer lang={lang} />
-      <WhatsAppButton lang={lang} />
-    </div>
-  );
-}
-
-function Navbar({ lang, onSwitchLang }: { lang: 'es' | 'en'; onSwitchLang: (next: 'es' | 'en') => void }) {
-  const t = portfolioContent[lang];
-  const homeLink = localizedPath('/', lang);
-  const portfolioLink = localizedPath('/portfolio/', lang);
-  const contactLink = localizedPath('/#contact', lang);
-
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#071012]/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link to={homeLink} className="group flex items-center gap-3 text-ink">
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-[#0d1b1c] shadow-[0_10px_30px_rgba(2,8,9,0.35)]">
-            <BarChart3 size={20} className="text-sage transition-transform duration-300 group-hover:scale-110" strokeWidth={2.4} />
-          </span>
-          <span className="leading-none">
-            <span className="block font-serif text-lg font-bold tracking-tight">Sagepoint</span>
-            <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.28em] text-muted">Analytics</span>
-          </span>
-        </Link>
-        <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] p-1 md:flex" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
-          <Link to={homeLink} className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">{t.nav.home}</Link>
-          <Link to={portfolioLink} aria-current="page" className="rounded-full bg-sage/10 px-5 py-2 text-sm font-semibold text-sage">{t.nav.portfolio}</Link>
-        </nav>
-        <div className="flex items-center gap-3">
-          {/* Language Toggle */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => onSwitchLang('es')}
-              className={`language-chip ${lang === 'es' ? 'language-chip--active' : ''}`}
-              title="Español"
-              aria-label="Español"
-            >
-              ES
-            </button>
-            <button
-              onClick={() => onSwitchLang('en')}
-              className={`language-chip ${lang === 'en' ? 'language-chip--active' : ''}`}
-              title="English"
-              aria-label="English"
-            >
-              EN
-            </button>
-          </div>
-
-          <Link
-            to={contactLink}
-            className="flex items-center gap-2 rounded-full border border-sage/30 bg-sage/10 px-4 py-2.5 text-sm font-semibold text-sage transition-all duration-300 hover:-translate-y-0.5 hover:border-sage/60 hover:bg-sage hover:text-dark sm:px-5"
-          >
-            <Mail size={16} />
-            <span className="hidden sm:inline">{t.nav.contact}</span>
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function PortfolioSection({ lang }: { lang: 'es' | 'en' }) {
-  const [activeFilterId, setActiveFilterId] = useState<CategoryId>('all');
-  const shouldReduceMotion = useReducedMotion();
-  const t = portfolioContent[lang];
-
-  const categoryKeys: CategoryId[] = [
-    'all',
-    'ai-automation',
-    'operations-bi',
-    'web-apps',
-    'corporate-sites',
-    'health-wellness',
-    'gastronomy',
-  ];
-
   const projects = t.projects;
-  const filteredProjects =
-    activeFilterId === 'all'
-      ? projects
-      : projects.filter((p) => p.categoryId === activeFilterId);
-
-  const sectorCount = new Set(projects.map((project) => project.categoryId)).size;
-  const contactLink = localizedPath('/#contact', lang);
+  // Only offer filters that have at least one project, in the order the projects appear.
+  const categoryKeys: CategoryId[] = ['all', ...Array.from(new Set(projects.map((project) => project.categoryId)))];
+  const filteredProjects = activeFilterId === 'all' ? projects : projects.filter((project) => project.categoryId === activeFilterId);
+  const sectorCount = categoryKeys.length - 1;
+  const external = (link: string) => !link.startsWith('mailto:') && !link.startsWith('/');
 
   return (
-    <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-      <motion.section
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="grid gap-14 border-b border-white/10 pb-16 pt-10 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-20 lg:pt-16"
-      >
-        <div className="lg:col-span-8">
-          <div className="mb-8 flex items-center gap-4">
-            <span className="h-2 w-2 rounded-full bg-sage shadow-[0_0_18px_rgba(123,214,180,0.8)]" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-sage">{t.hero.eyebrow}</span>
-            <span className="h-px flex-1 bg-gradient-to-r from-sage/30 to-transparent" />
-          </div>
-          <h1 className="max-w-5xl font-serif text-5xl font-bold leading-[0.94] tracking-[-0.04em] text-ink sm:text-7xl lg:text-[6.6rem]">
-            {t.hero.title_lead}
-            <span className="mt-2 block font-normal italic text-sage">{t.hero.title_sub}</span>
-          </h1>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-            {t.hero.description}
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <Link
-              to={contactLink}
-              className="group inline-flex items-center gap-3 rounded-full bg-deep-sage px-6 py-3.5 text-sm font-bold text-dark transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(47,176,148,0.28)]"
-            >
-              {t.hero.cta_project}
-              <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <a href="#project-grid" className="px-2 py-3 text-sm font-semibold text-muted transition-colors hover:text-ink">
-              {t.hero.cta_explore}
-            </a>
-          </div>
-        </div>
-
-        <aside className="border-l border-white/10 pl-6 sm:pl-8 lg:col-span-4 lg:mb-2">
-          <div className="flex items-center justify-between border-b border-white/10 pb-5">
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted">{t.aside.archive_label}</span>
-            <span className="flex items-center gap-2 text-xs font-semibold text-sage">
-              <span className={`h-1.5 w-1.5 rounded-full bg-sage ${shouldReduceMotion ? '' : 'animate-pulse'}`} />
-              {t.aside.status_online}
-            </span>
-          </div>
-          <div className="grid grid-cols-2 divide-x divide-white/10 border-b border-white/10 py-7">
-            <div className="pr-5">
-              <span className="block font-serif text-4xl font-bold text-ink">{String(projects.length).padStart(2, '0')}</span>
-              <span className="mt-2 block text-xs uppercase tracking-[0.2em] text-muted">{t.aside.projects_label}</span>
-            </div>
-            <div className="pl-6">
-              <span className="block font-serif text-4xl font-bold text-ink">{String(sectorCount).padStart(2, '0')}</span>
-              <span className="mt-2 block text-xs uppercase tracking-[0.2em] text-muted">{t.aside.sectors_label}</span>
-            </div>
-          </div>
-          <p className="pt-6 font-serif text-xl leading-snug text-ink">
-            {t.aside.tagline}
-          </p>
-        </aside>
-      </motion.section>
-
-      <motion.section
-        aria-label={lang === 'es' ? 'Evidencia operativa' : 'Operational evidence'}
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.65, delay: 0.08 }}
-        className="grid border-b border-white/10 sm:grid-cols-2 xl:grid-cols-4"
-      >
-        {t.evidence.map((metric, index) => (
-          <div
-            key={metric.value}
-            className="relative border-t border-white/10 px-0 py-7 sm:px-6 sm:first:pl-0 xl:border-l xl:border-t-0 xl:first:border-l-0 xl:first:pl-0"
-          >
-            <span className="mb-8 block text-[9px] font-bold tracking-[0.24em] text-muted/60">0{index + 1}</span>
-            <div className="font-serif text-2xl font-bold leading-tight text-sage">{metric.value}</div>
-            <p className="mt-3 max-w-[17rem] text-sm leading-relaxed text-muted">{metric.label}</p>
-          </div>
-        ))}
-      </motion.section>
-
-      <motion.section
-        id="project-grid"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.65, delay: 0.12 }}
-        className="scroll-mt-28 pt-20"
-      >
-        <div className="flex flex-col gap-7 border-b border-white/10 pb-8 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.26em] text-sage">{t.filterHeader.eyebrow}</span>
-            <h2 className="mt-3 font-serif text-3xl font-bold text-ink sm:text-4xl">{t.filterHeader.title}</h2>
-          </div>
-          <p className="text-sm text-muted">
-            {t.filterHeader.showing} <span className="font-bold text-ink">{filteredProjects.length}</span> {t.filterHeader.of} {projects.length} {t.filterHeader.projectsSuffix}
-          </p>
-        </div>
-
-        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-3 pt-7 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0" role="group" aria-label={lang === 'es' ? 'Filtrar proyectos por sector' : 'Filter projects by sector'}>
-          {categoryKeys.map((catKey) => {
-            const filterLabel = t.categories[catKey];
-            return (
-              <button
-                key={catKey}
-                type="button"
-                onClick={() => setActiveFilterId(catKey)}
-                aria-pressed={activeFilterId === catKey}
-                className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2.5 text-xs font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage/60 sm:px-5 cursor-pointer ${
-                  activeFilterId === catKey
-                    ? 'border-sage bg-sage text-dark shadow-[0_8px_24px_rgba(123,214,180,0.18)]'
-                    : 'border-white/10 bg-white/[0.025] text-muted hover:border-white/20 hover:text-ink'
-                }`}
-              >
-                {filterLabel}
-              </button>
-            );
-          })}
-        </div>
-
-        <motion.div layout className="mt-8 columns-1 gap-6 md:columns-2 xl:columns-3">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-            <motion.article
-              layout="position"
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
-              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.48, delay: index * 0.035, ease: [0.22, 1, 0.36, 1] }}
-              key={project.id}
-              className="group relative mb-6 inline-block w-full break-inside-avoid overflow-hidden rounded-[28px] border border-white/10 bg-[#0b1517] align-top shadow-[0_22px_60px_rgba(2,8,9,0.24)] transition-all duration-500 hover:-translate-y-1 hover:border-sage/35 hover:shadow-[0_28px_75px_rgba(2,8,9,0.45)]"
-            >
-              <div
-                className={`relative overflow-hidden ${
-                  project.tall && activeFilterId === 'all'
-                    ? 'h-[25rem] sm:h-[30rem]'
-                    : 'h-64 sm:h-72'
-                }`}
-              >
-                <img
-                  src={project.image}
-                  alt={project.alt}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
-                  fetchPriority={index === 0 ? 'high' : 'auto'}
-                  className="absolute inset-0 h-full w-full object-cover object-top saturate-[0.88] transition-all duration-700 group-hover:scale-[1.045] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#071012]/80 via-transparent to-[#071012]/20" />
-                <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
-                  <span className="rounded-full border border-white/15 bg-[#071012]/70 px-3 py-1.5 text-[9px] font-bold tracking-[0.22em] text-ink backdrop-blur-md">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="max-w-[70%] rounded-full border border-white/15 bg-[#071012]/70 px-3 py-1.5 text-right text-[9px] font-bold uppercase tracking-[0.14em] text-sage backdrop-blur-md">
-                    {project.category}
-                  </span>
-                </div>
+    <>
+      <ServicesLayout lang={lang} source="portfolio" switchPath="/portfolio/">
+        <div className="pf">
+          <header className="wrap service-hero">
+            <nav className="service-breadcrumb" aria-label={lang === 'es' ? 'Ruta de navegación' : 'Breadcrumb'}>
+              <Link to={localizedPath('/', lang)}>{t.nav.home}</Link>
+              <span aria-hidden="true">›</span>
+              <span aria-current="page">{t.nav.portfolio}</span>
+            </nav>
+            <p className="eyebrow">{t.hero.eyebrow}</p>
+            <h1>
+              {t.hero.title_lead} <span className="pf-accent">{t.hero.title_sub}</span>
+            </h1>
+            <p className="service-lede">{t.hero.description}</p>
+            <ServiceActions lang={lang} source="portfolio_hero" />
+            <dl className="pf-stats">
+              <div>
+                <dt>{t.aside.projects_label}</dt>
+                <dd>{projects.length}</dd>
               </div>
-
-              <div className="relative z-10 border-t border-white/10 bg-[#0b1517] p-6 sm:p-7">
-                <h3 className="font-serif text-2xl font-bold leading-tight text-ink transition-colors duration-300 group-hover:text-sage sm:text-3xl">
-                  {project.title}
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-muted">
-                  {project.description}
-                </p>
-                <div className="mt-7 flex items-center justify-between border-t border-white/10 pt-5">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-muted/60">{lang === 'es' ? 'Caso' : 'Case'} / {String(project.id).padStart(2, '0')}</span>
-                  <a
-                    href={project.link}
-                    target={project.link.startsWith('mailto:') ? undefined : '_blank'}
-                    rel={project.link.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-sage transition-colors hover:text-copper"
-                  >
-                    {project.linkLabel}
-                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </a>
-                </div>
+              <div>
+                <dt>{t.aside.sectors_label}</dt>
+                <dd>{sectorCount}</dd>
               </div>
-            </motion.article>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      </motion.section>
+            </dl>
+          </header>
 
-      <motion.section
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.65, delay: 0.18 }}
-        className="relative mt-24 overflow-hidden rounded-[32px] bg-sage p-8 text-dark sm:p-12 lg:p-14"
-      >
-        <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(rgba(7,16,18,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(7,16,18,0.08)_1px,transparent_1px)] [background-size:40px_40px]" />
-        <div className="relative grid items-end gap-10 lg:grid-cols-[1fr_auto]">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.26em] text-dark/60">{t.cta.eyebrow}</span>
-            <h2 className="mt-4 max-w-3xl font-serif text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-              {t.cta.title}
-            </h2>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-dark/70">
-              {t.cta.description}
+          <section id="project-grid" className="wrap service-section">
+            <p className="eyebrow">{t.filterHeader.eyebrow}</p>
+            <h2>{t.filterHeader.title}</h2>
+            <div className="pf-filters" role="group" aria-label={lang === 'es' ? 'Filtrar proyectos por sector' : 'Filter projects by sector'}>
+              {categoryKeys.map((catKey) => (
+                <button key={catKey} type="button" className="pf-chip" onClick={() => setActiveFilterId(catKey)} aria-pressed={activeFilterId === catKey}>
+                  {t.categories[catKey]}
+                </button>
+              ))}
+            </div>
+            <p className="pf-count" aria-live="polite">
+              {t.filterHeader.showing} <b>{filteredProjects.length}</b> {t.filterHeader.of} {projects.length} {t.filterHeader.projectsSuffix}
             </p>
-          </div>
-          <Link
-            to={contactLink}
-            className="group inline-flex w-fit items-center gap-3 rounded-full bg-[#071012] px-7 py-4 text-sm font-bold text-ink shadow-[0_18px_40px_rgba(7,16,18,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#0d1b1c]"
-          >
-            {t.cta.button}
-            <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-        </div>
-      </motion.section>
-    </div>
-  );
-}
+            <div className="pf-grid">
+              {filteredProjects.map((project, index) => (
+                <article className="pf-card" key={project.id}>
+                  <div className="pf-shot">
+                    <img src={project.image} alt={project.alt} loading={index < 3 ? 'eager' : 'lazy'} decoding="async" />
+                    <span className="pf-cat">{project.category}</span>
+                  </div>
+                  <div className="pf-body">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <a
+                      className="service-text-link"
+                      href={project.link}
+                      target={external(project.link) ? '_blank' : undefined}
+                      rel={external(project.link) ? 'noopener noreferrer' : undefined}
+                    >
+                      {project.linkLabel} →
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
-function Footer({ lang }: { lang: 'es' | 'en' }) {
-  const t = portfolioContent[lang];
-  const homeLink = localizedPath('/', lang);
-  const portfolioLink = localizedPath('/portfolio/', lang);
+          <section className="wrap service-section" aria-label={lang === 'es' ? 'Evidencia operativa' : 'Operational evidence'}>
+            <ul className="pf-evidence">
+              {t.evidence.map((metric) => (
+                <li key={metric.value}>
+                  <strong>{metric.value}</strong>
+                  <span>{metric.label}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-  return (
-    <footer className="relative z-10 border-t border-white/10 bg-[#050b0d] px-5 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-16">
-        <div>
-          <Link to={homeLink} className="inline-flex items-center gap-3 text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-[#0d1b1c] text-sage">
-              <BarChart3 size={18} />
-            </span>
-            <span className="font-serif text-xl font-bold">Sagepoint Analytics.</span>
-          </Link>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-            {t.footer.tagline}
-          </p>
+          <section className="wrap service-section service-close">
+            <p className="eyebrow">{t.cta.eyebrow}</p>
+            <h2>{t.cta.title}</h2>
+            <p>{t.cta.description}</p>
+            <ServiceActions lang={lang} source="portfolio_close" />
+          </section>
         </div>
-        <nav className="flex gap-6 text-sm font-semibold" aria-label={lang === 'es' ? 'Navegación del pie de página' : 'Footer navigation'}>
-          <Link to={homeLink} className="text-muted transition-colors hover:text-sage">{t.footer.home}</Link>
-          <Link to={portfolioLink} className="text-sage">{t.footer.portfolio}</Link>
-          <Link to={localizedPath('/servicios/', lang)}>{lang === 'en' ? 'Services' : 'Servicios'}</Link>
-        </nav>
-        <a href="mailto:info@sagepoint-analytics.com" className="text-sm font-semibold text-muted transition-colors hover:text-sage">
-          info@sagepoint-analytics.com
-        </a>
-      </div>
-      <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-6 text-xs font-mono text-muted/60">
-        {t.footer.rights}
-      </div>
-    </footer>
+      </ServicesLayout>
+      <WhatsAppButton lang={lang} />
+    </>
   );
 }
