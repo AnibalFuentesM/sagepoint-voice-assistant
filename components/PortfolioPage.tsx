@@ -160,8 +160,8 @@ export const portfolioContent = {
         image: '/projects/plomeros-rapi2.jpg',
         alt: 'Sitio de Plomeros Rapi2 con servicios de calentadores, plomería y electricidad 24 horas',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Plomeros%20Rapi2',
-        linkLabel: 'Solicitar Demo',
+        link: 'https://plomerosrapid2.com.gt/',
+        linkLabel: 'Ver Sitio',
       },
       {
         id: 1,
@@ -406,8 +406,8 @@ export const portfolioContent = {
         image: '/projects/plomeros-rapi2.jpg',
         alt: 'Plomeros Rapi2 website with water heater, plumbing and 24-hour electrical services',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Plomeros%20Rapi2%20Project',
-        linkLabel: 'Request Demo',
+        link: 'https://plomerosrapid2.com.gt/',
+        linkLabel: 'Visit Site',
       },
       {
         id: 1,

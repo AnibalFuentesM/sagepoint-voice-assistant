@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from
 import { useEffect } from 'react';
 import { legacyEnglishPath, localizedPath } from './utils/i18nRoutes';
 import LeonardoHome from './leonardo/LeonardoHome';
-import { captureLeadAttribution, initializeAnalytics } from './utils/analytics';
+import { captureLeadAttribution, initializeAnalytics, initializeMetaPixel } from './utils/analytics';
 import './index.css';
 
 // Separate chunk: the portfolio (and its `motion` dependency) is only downloaded
@@ -18,6 +18,7 @@ const ServicePage = lazy(() => import('./leonardo/ServicePage'));
 const GuidePage = lazy(() => import('./leonardo/GuidePage'));
 
 initializeAnalytics();
+initializeMetaPixel();
 captureLeadAttribution();
 
 function LegacyLanguageFallback() {

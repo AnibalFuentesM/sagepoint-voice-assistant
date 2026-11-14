@@ -23,13 +23,13 @@ export default function PricingEn({
           <div className="prow-body">
             <h3>14-Day Dashboard Pilot</h3>
             <p className="prow-scope">
-              I connect two of your sources, for example QuickBooks and the sales spreadsheet, and build a working
+              We connect two of your sources, for example QuickBooks and the sales spreadsheet, and build a working
               dashboard with up to eight of your numbers. You also get a one-page list of what is worth automating
               next, in order of payoff.
             </p>
             <ul className="pfacts">
               <li>About 90 minutes of your team's time</li>
-              <li>NDA signed before I open a file</li>
+              <li>NDA signed before we open a file</li>
               <li>One round of changes</li>
             </ul>
             <p className="pguar">
@@ -55,7 +55,7 @@ export default function PricingEn({
             <h3>Executive Cockpit</h3>
             <p className="prow-scope">
               Up to four sources, up to three dashboards and one report that builds and sends itself every week. Two
-              training sessions and written documentation, so your team doesn't depend on me to use it.
+              training sessions and written documentation, so your team doesn't depend on us to use it.
             </p>
             <div className="prow-act">
               {cta('executive', 'pill pill--ghost')}
