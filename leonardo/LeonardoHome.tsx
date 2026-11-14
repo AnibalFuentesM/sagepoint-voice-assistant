@@ -71,6 +71,14 @@ type FlyCard = { ang: number; rad: number; birth: number; spin: number; sz: numb
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
+/** Real client websites shown under "Our work" (same sites as the portfolio). */
+const CLIENT_SITES = [
+  { name: 'JKS Mobiliario', url: 'https://www.muebles-jks.com/', image: '/projects/jks-mobiliario.jpg', kind: 'Catálogo con cotización' },
+  { name: 'Plomeros Rapi2', url: 'https://plomerosrapid2.com.gt/', image: '/projects/plomeros-rapi2.jpg', kind: 'Servicios 24 horas' },
+  { name: "Jen's Desserts", url: 'https://jens-desserts.vercel.app/', image: '/projects/jens-desserts.jpg', kind: 'Pastelería' },
+  { name: 'Saludable', url: 'https://saludable-indol.vercel.app/', image: '/projects/saludable.jpg', kind: 'Clínica de nutrición' },
+];
+
 export default function LeonardoHome() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -443,7 +451,8 @@ export default function LeonardoHome() {
           </a>
           <nav className="nav-links" aria-label={t("Secciones del sitio")}>
             <Link to={servicesPath}>{t("Servicios")}</Link>
-            <a href="#casos">{t("Casos")}</a>
+            <Link to={localizedPath('/web/', lang)}>{t("Páginas web")}</Link>
+            <Link to={portfolioPath}>{t("Portafolio")}</Link>
             <a href="#sistema">{t("Cómo funciona")}</a>
             <a href="#paquetes">{t("Precios")}</a>
             <a href="#faq">FAQ</a>
@@ -612,7 +621,7 @@ export default function LeonardoHome() {
                 </h2>
               </div>
               <p className="sec-lede">
-                {t("Un proyecto de reportería entregado y una demo hecha con datos de muestra. En la llamada gratuita te mostramos más trabajos.")}
+                {t("Dashboards, reportes automáticos y sitios web hechos para clientes reales, más una demo con datos de muestra. Aquí van algunos; el resto está en el portafolio.")}
               </p>
             </div>
             <div className="cases">
@@ -695,6 +704,17 @@ export default function LeonardoHome() {
                 <b>{t("Demo de cockpit ejecutivo en Power BI (datos de muestra)")}</b>
               </figcaption>
             </figure>
+            <div className="client-strip" data-rv>
+              {CLIENT_SITES.map((site) => (
+                <a key={site.url} className="client-site" href={site.url} target="_blank" rel="noopener noreferrer">
+                  <img src={site.image} alt={`${t("Sitio web de")} ${site.name}`} loading="lazy" width={1280} height={720} />
+                  <span className="client-site-bar">
+                    <b>{site.name}</b>
+                    <em>{t(site.kind)} ↗</em>
+                  </span>
+                </a>
+              ))}
+            </div>
             <div className="gal-foot" data-rv>
               <Link className="pill pill--ghost" to={portfolioPath}>
                 {t("Ver el portafolio completo")}

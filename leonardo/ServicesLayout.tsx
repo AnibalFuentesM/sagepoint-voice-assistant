@@ -36,8 +36,8 @@ export function SiteHeader({ lang, source, switchPath = '/servicios/' }: ChromeP
         {links.map(item => <Link key={item.href} to={item.href}>{item.label}</Link>)}
       </nav>
       <div className="nav-act"><div className="language-switch" role="group" aria-label={es ? 'Idioma' : 'Language'}>
-        <button type="button" lang="es" aria-label="Español" aria-pressed={es} onClick={() => switchLang('es')}>ES</button>
         <button type="button" lang="en" aria-label="English" aria-pressed={!es} onClick={() => switchLang('en')}>EN</button>
+        <button type="button" lang="es" aria-label="Español" aria-pressed={es} onClick={() => switchLang('es')}>ES</button>
       </div><button className="pill pill--fill pill--sm" type="button" onClick={booking}>{es ? 'Agendar diagnóstico' : 'Book a free call'}</button>
         <MobileMenu lang={lang} items={[...links, { href: `${home}#faq`, label: 'FAQ' }]} cta={{ label: es ? 'Agendar diagnóstico' : 'Book a free call', onClick: booking }} /></div>
     </div></header>

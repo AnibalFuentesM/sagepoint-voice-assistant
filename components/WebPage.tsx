@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   ArrowRight,
   CalendarDays,
@@ -574,6 +574,7 @@ export default function WebPage() {
           <Hero lang={lang} />
           <ProofSection lang={lang} />
           <DiffSection lang={lang} />
+          <ExamplesSection lang={lang} />
           <PackagesSection lang={lang} />
           <CompareSection lang={lang} />
           <ProcessSection lang={lang} />
@@ -725,6 +726,99 @@ function ProofSection({ lang }: { lang: Lang }) {
           <p className="mt-3 text-[10px] leading-relaxed text-muted/70">{t.source}</p>
         </div>
       </div>
+    </section>
+  );
+}
+
+/** Real client sites, so a visitor can see our work before reading the prices. */
+const exampleSites = [
+  {
+    name: 'JKS Mobiliario',
+    url: 'https://www.muebles-jks.com/',
+    host: 'muebles-jks.com',
+    image: '/projects/jks-mobiliario.jpg',
+    es: 'Catálogo de 70 productos con cotización por WhatsApp y un panel para publicar productos.',
+    en: '70-product catalog with WhatsApp quotes and a panel to publish new products.',
+    tag: { es: 'Fabricante de muebles', en: 'Furniture maker' },
+  },
+  {
+    name: 'Plomeros Rapi2',
+    url: 'https://plomerosrapid2.com.gt/',
+    host: 'plomerosrapid2.com.gt',
+    image: '/projects/plomeros-rapi2.jpg',
+    es: 'Rediseño de 206 páginas sin perder posiciones en Google, con llamada y WhatsApp siempre a la vista.',
+    en: '206-page redesign that kept its Google rankings, with call and WhatsApp buttons always in view.',
+    tag: { es: 'Servicios 24 horas', en: '24-hour home services' },
+  },
+  {
+    name: "Jen's Desserts",
+    url: 'https://jens-desserts.vercel.app/',
+    host: 'jens-desserts.vercel.app',
+    image: '/projects/jens-desserts.jpg',
+    es: 'Vitrina de pasteles personalizados con pedidos directos por WhatsApp.',
+    en: 'Custom cake showcase with orders sent straight to WhatsApp.',
+    tag: { es: 'Pastelería', en: 'Bakery' },
+  },
+  {
+    name: 'Saludable',
+    url: 'https://saludable-indol.vercel.app/',
+    host: 'saludable-indol.vercel.app',
+    image: '/projects/saludable.jpg',
+    es: 'Sitio para una nutricionista con servicios, precios y citas por WhatsApp.',
+    en: 'Site for a nutritionist with services, pricing and WhatsApp booking.',
+    tag: { es: 'Clínica de nutrición', en: 'Nutrition clinic' },
+  },
+];
+
+function ExamplesSection({ lang }: { lang: Lang }) {
+  const es = lang === 'es';
+  return (
+    <section id="ejemplos" className="mt-28 scroll-mt-24 sm:mt-36">
+      <SectionHeader
+        eyebrow={es ? 'Sitios que ya hicimos' : 'Sites we have built'}
+        title={es ? 'Míralos funcionando antes de decidir.' : 'See them live before you decide.'}
+        description={
+          es
+            ? 'Cuatro sitios reales de clientes. Ábrelos en tu teléfono: así se verá el tuyo.'
+            : 'Four real client sites. Open them on your phone: that is how yours will look and feel.'
+        }
+      />
+      <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        {exampleSites.map((site) => (
+          <a
+            key={site.url}
+            href={site.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.02] transition-colors hover:border-sage/40"
+          >
+            <div className="aspect-[16/9] overflow-hidden border-b border-white/10 bg-white/[0.03]">
+              <img
+                src={site.image}
+                alt={es ? `Sitio web de ${site.name}` : `${site.name} website`}
+                loading="lazy"
+                width={1280}
+                height={720}
+                className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+            </div>
+            <div className="p-6">
+              <span className="text-[9px] font-bold uppercase tracking-[0.22em] text-sage">{site.tag[lang]}</span>
+              <h3 className="mt-2 text-lg font-bold text-ink">{site.name}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{es ? site.es : site.en}</p>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-sage">
+                {es ? 'Ver sitio' : 'Visit site'} <span aria-hidden="true">↗</span>
+                <span className="font-normal text-muted/70">· {site.host}</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p className="mt-8 text-sm text-muted">
+        <Link to={localizedPath('/portfolio/', lang)} className="font-semibold text-sage underline-offset-4 hover:underline">
+          {es ? 'Ver el portafolio completo →' : 'See the full portfolio →'}
+        </Link>
+      </p>
     </section>
   );
 }
@@ -909,7 +1003,7 @@ function CompareSection({ lang }: { lang: Lang }) {
       <SectionHeader eyebrow={t.eyebrow} title={t.title} description={t.description} />
 
       <div className="mt-12 overflow-x-auto rounded-[28px] border border-white/10 bg-[#0a1714]/60">
-        <table className="w-full min-w-[620px] border-collapse text-center">
+        <table className="w-full sm:min-w-[620px] border-collapse text-center">
           <caption className="sr-only">{t.title}</caption>
           <thead>
             <tr className="border-b border-white/10">
@@ -917,7 +1011,7 @@ function CompareSection({ lang }: { lang: Lang }) {
                 <th
                   key={header || `col-${i}`}
                   scope="col"
-                  className={`px-5 py-5 text-[10px] font-bold uppercase tracking-[0.18em] ${
+                  className={`px-2 py-4 text-[9px] font-bold uppercase tracking-[0.12em] sm:px-5 sm:py-5 sm:text-[10px] sm:tracking-[0.18em] ${
                     i === 3 ? 'text-sage' : 'text-muted'
                   } ${i === 0 ? 'text-left' : ''}`}
                 >
@@ -929,16 +1023,16 @@ function CompareSection({ lang }: { lang: Lang }) {
           <tbody className="divide-y divide-white/[0.06]">
             {t.rows.map((row) => (
               <tr key={row.label}>
-                <th scope="row" className="px-5 py-4 text-left text-sm font-semibold text-ink">
+                <th scope="row" className="px-3 py-4 text-left text-[13px] font-semibold text-ink sm:px-5 sm:text-sm">
                   {row.label}
                 </th>
-                <td className="px-5 py-4">
+                <td className="px-2 py-4 sm:px-5">
                   <CompareCell value={row.a} />
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-2 py-4 sm:px-5">
                   <CompareCell value={row.b} />
                 </td>
-                <td className="bg-sage/[0.04] px-5 py-4">
+                <td className="bg-sage/[0.04] px-2 py-4 sm:px-5">
                   <CompareCell value={row.c} />
                 </td>
               </tr>

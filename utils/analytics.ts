@@ -3,6 +3,8 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
+    fbq?: ((...args: unknown[]) => void) & { callMethod?: (...args: unknown[]) => void; queue?: unknown[]; loaded?: boolean; version?: string; push?: unknown };
+    _fbq?: unknown;
   }
 }
 
@@ -49,6 +51,66 @@ export function initializeAnalytics() {
 
   window.gtag('js', new Date());
   window.gtag('config', measurementId, { send_page_view: false });
+}
+
+// Meta (Facebook/Instagram) Pixel. Stays OFF until a real Pixel ID is set here or in
+// VITE_META_PIXEL_ID (Vercel env). Find it in Meta Events Manager > Data sources.
+const PROD_META_PIXEL_ID = '';
+
+// GA4 event name -> Meta standard event. Events not listed are sent as custom events.
+const META_EVENT_MAP: Record<string, string> = {
+  page_view: 'PageView',
+  schedule_call: 'Schedule',
+  generate_lead: 'Lead',
+  whatsapp_click: 'Contact',
+  select_package: 'ViewContent',
+};
+
+export function getMetaPixelId(): string {
+  const id = (import.meta.env.VITE_META_PIXEL_ID?.trim() || (import.meta.env.PROD ? PROD_META_PIXEL_ID : '')).trim();
+  return /^\d{10,20}$/.test(id) ? id : '';
+}
+
+export function initializeMetaPixel() {
+  const pixelId = getMetaPixelId();
+  if (!pixelId || typeof window === 'undefined' || window.fbq) return;
+
+  // Official Meta bootstrap, written out without minification.
+  const fbq = function (...args: unknown[]) {
+    if (fbq.callMethod) fbq.callMethod(...args);
+    else fbq.queue!.push(args);
+  } as NonNullable<Window['fbq']>;
+  fbq.push = fbq;
+  fbq.loaded = true;
+  fbq.version = '2.0';
+  fbq.queue = [];
+  window.fbq = fbq;
+  if (!window._fbq) window._fbq = fbq;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+  document.head.appendChild(script);
+
+  // PageView is sent by trackPageView on every route, so it is not sent here.
+  window.fbq('init', pixelId);
+}
+
+function sendMetaEvent(name: string, params: Record<string, unknown>) {
+  if (typeof window === 'undefined' || typeof window.fbq !== 'function') return;
+  const standard = META_EVENT_MAP[name];
+  if (standard === 'PageView') {
+    window.fbq('track', 'PageView');
+    return;
+  }
+  // Only plain, non-personal values go to Meta (no names, emails or phone numbers).
+  const safe: Record<string, string | number> = {};
+  for (const key of ['package_id', 'package_name', 'source_section', 'form_location', 'language', 'currency', 'value']) {
+    const v = params[key];
+    if (typeof v === 'string' || typeof v === 'number') safe[key] = v;
+  }
+  if (standard) window.fbq('track', standard, safe);
+  else window.fbq('trackCustom', name, safe);
 }
 
 export function captureLeadAttribution() {
@@ -128,6 +190,7 @@ export function trackEvent(name: string, params: Record<string, unknown> = {}) {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
     window.gtag('event', name, params);
   }
+  sendMetaEvent(name, params);
 }
 
 export function trackPageView(path: string, title: string, language?: string) {

@@ -328,3 +328,20 @@ test('every ALL_ROUTES path has a Vercel destination rule', async () => {
     assert.equal(rule?.dest, `${path}index.html`, path);
   }
 });
+
+test('the websites page shows real client sites and the home no longer undersells the work', () => {
+  const web = readFileSync('components/WebPage.tsx', 'utf8');
+  assert.match(web, /<ExamplesSection lang=\{lang\} \/>/);
+  for (const url of ['https://www.muebles-jks.com/', 'https://plomerosrapid2.com.gt/']) assert.ok(web.includes(url), url);
+  const home = readFileSync('leonardo/LeonardoHome.tsx', 'utf8');
+  assert.doesNotMatch(home, /Un proyecto de reportería entregado y una demo/);
+  assert.match(home, /CLIENT_SITES\.map/);
+});
+
+test('Meta Pixel stays off without a real numeric ID and never forwards personal fields', () => {
+  const src = readFileSync('utils/analytics.ts', 'utf8');
+  assert.match(src, /const PROD_META_PIXEL_ID = '(\d{10,20})?';/);
+  assert.match(src, /\^\\d\{10,20\}\$/);
+  const allowed = src.match(/for \(const key of \[([^\]]+)\]\)/)[1];
+  for (const field of ['name', 'email', 'phone', 'whatsapp', 'details']) assert.ok(!allowed.includes(`'${field}'`), field);
+});
