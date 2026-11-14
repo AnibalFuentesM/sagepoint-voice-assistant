@@ -212,8 +212,8 @@ export const portfolioContent = {
         image: '/projects/jardin-interior.jpg',
         alt: 'Sitio web de la Clínica Psicológica Jardín Interior con botón para agendar cita',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Jardin%20Interior',
-        linkLabel: 'Solicitar Demo',
+        link: 'https://jardin-interior.vercel.app/',
+        linkLabel: 'Ver Sitio',
       },
       {
         id: 5,
@@ -251,8 +251,8 @@ export const portfolioContent = {
         image: '/projects/box-sunshine.jpg',
         alt: 'Catálogo web de Box Sunshine con globos, flores y regalos personalizados',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Proyecto%20Box%20Sunshine',
-        linkLabel: 'Solicitar Demo',
+        link: 'https://box-sunshine.vercel.app/',
+        linkLabel: 'Ver Sitio',
       },
     ],
     cta: {
@@ -458,8 +458,8 @@ export const portfolioContent = {
         image: '/projects/jardin-interior.jpg',
         alt: 'Jardín Interior psychology clinic website with appointment booking button',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Jardin%20Interior%20Project',
-        linkLabel: 'Request Demo',
+        link: 'https://jardin-interior.vercel.app/',
+        linkLabel: 'Visit Site',
       },
       {
         id: 5,
@@ -497,8 +497,8 @@ export const portfolioContent = {
         image: '/projects/box-sunshine.jpg',
         alt: 'Box Sunshine web catalog with balloons, flowers and custom gifts',
         tall: false,
-        link: 'mailto:info@sagepoint-analytics.com?subject=Box%20Sunshine%20Project',
-        linkLabel: 'Request Demo',
+        link: 'https://box-sunshine.vercel.app/',
+        linkLabel: 'Visit Site',
       },
     ],
     cta: {
