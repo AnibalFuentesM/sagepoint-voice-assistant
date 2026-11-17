@@ -22,7 +22,7 @@ Stack: Vite + React 19 + Tailwind compilado + react-router-dom. Deploy en Vercel
 ## Conversión y HTML publicado
 
 - El formulario hace un solo POST. Solo JSON con `success: true` o `status: "success"` confirma recepción; una respuesta ambigua muestra pendiente y nunca se reenvía automáticamente. El contexto se conserva para todos los paquetes. El backend de Apps Script debe confirmar después de guardar: ver [plan comercial](docs/plan-marketing.md).
-- `npm run build` renderiza los componentes React en HTML ES/EN para las tres rutas públicas y genera el sitemap. Las variantes inglesas se sirven con `?lang=en` mediante las reglas de `vercel.json`; el preview local reproduce esas reglas.
+- `npm run build` renderiza los componentes React a HTML estático para cada ruta de `ALL_ROUTES` (`leonardo/servicesData.ts`) y genera el sitemap. El idioma va en la ruta: inglés en `/` y español en `/es/`. Las URLs antiguas con `?lang=en` redirigen mediante las reglas de `vercel.json`; el preview local no reproduce esas redirecciones.
 - La carpeta `private/` contiene material excluido de publicación; no se copia a `dist`. La salida que se despliega es exclusivamente `dist`.
 - Validación: `npm run build` y `node --test tests/sales-regressions.test.mjs`. Los tests simulan el backend y no crean leads reales.
 - [Evidencia pendiente y borradores comerciales](docs/prueba-social-y-borradores.md). No hay automatizaciones activadas ni mensajes enviados.
@@ -31,4 +31,4 @@ Stack: Vite + React 19 + Tailwind compilado + react-router-dom. Deploy en Vercel
 
 Consulta [la auditoría y pendientes](docs/audit-2026-09-05.md). `npm run build` también bloquea texto y nombres de assets excluidos mediante `scripts/check-public-output.mjs`; los PDFs e imágenes requieren revisión manual. `npm test` ejecuta las regresiones después del build.
 
-`vercel.json` es la fuente de configuración: build explícito, salida `dist` y rutas inglesas antes de archivos estáticos. No reemplazarlo por las reglas históricas de un staging temporal. El preview Vite reproduce HTML por idioma, pero no prueba redirecciones, caché ni HTTP 404 de Vercel. Antes de publicar, validar esas reglas en la plataforma. Los cambios de esta auditoría todavía no están desplegados.
+`vercel.json` es la fuente de configuración: build explícito, salida `dist` y redirecciones antes de archivos estáticos. No reemplazarlo por las reglas históricas de un staging temporal. El preview Vite sirve el HTML prerenderizado de cada ruta, pero no prueba redirecciones, caché ni HTTP 404 de Vercel. Antes de publicar, validar esas reglas en la plataforma. Los cambios de esta auditoría todavía no están desplegados.

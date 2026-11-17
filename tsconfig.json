@@ -25,5 +25,16 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "index.tsx",
+    "vite-env.d.ts",
+    "vite.config.ts",
+    "constants.ts",
+    "components",
+    "hooks",
+    "leonardo",
+    "scripts",
+    "utils"
+  ]
 }
