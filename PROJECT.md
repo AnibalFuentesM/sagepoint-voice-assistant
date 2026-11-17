@@ -1,77 +1,82 @@
-# Project: Sagepoint Analytics Landing Page CRO & Modernization
+# Proyecto: sitio web de Sagepoint Analytics
 
-## Architecture
-- **Framework & Bundler**: React 19.2 + Vite 6.2 + TypeScript
-- **Styling**: Tailwind CSS v4 + Custom Modern Dark Luxury CSS
-- **Routing & State**: React Router DOM v7 (with `?lang=en` sync) + React Context / Component State
-- **Analytics & Tracking**: GA4 (`G-F296ZSRJ2Z`) + First-touch UTM & Ad-click Attribution (`localStorage`)
-- **Backend Integrations**: Google Apps Script Endpoint (`AKfycbyD5CjQ2bChRogiXhRiYFkKbLmIYumO6zrhMzKeP-WZOFUwqfuQwsRCyb8mvdiqbch4`) + Contextual WhatsApp (`+502 4046 4716`) + Direct Scheduling Integration
-- **SEO & Prerendering**: Postbuild script (`scripts/postbuild-seo.mjs`) generating static HTML for root and portfolio pages.
+Sitio bilingüe (EN/ES) de Sagepoint Analytics. Este archivo describe la arquitectura vigente. La guía rápida de "dónde tocar qué" está en [AGENTS.md](./AGENTS.md) y la puesta en marcha en [README.md](./README.md).
 
-## Feature Inventory
-| # | Feature | Description | Milestone | Source |
-|---|---------|-------------|-----------|--------|
-| F1 | Executive Value Proposition & Copy | High-impact messaging targeting CEOs/CFOs/COOs vs $60k/yr in-house analyst costs | M1 | Survey / R1 |
-| F2 | 100% Bilingual Parity (ES/EN) | Full localization of App.tsx, PortfolioPage.tsx, and GlobeDashboard.tsx | M1 | Survey / R1 |
-| F3 | Above-the-Fold Hero CTA | Mobile & Desktop hero optimization with instant conversion CTAs | M1 | Survey / R2 |
-| F4 | Interactive Before/After Visualizer | "Antes vs Después con Sagepoint" interactive operational comparison | M2 | Survey / R2 |
-| F5 | Interactive Package Selector & Matrix | Clear 3-tier package comparison with deliverables, profiles, and pricing | M2 | Survey / R2 |
-| F6 | Interactive ROI & Savings Calculator | Interactive tool for estimating hours/money saved based on team size/reports | M2 | Survey / R4 |
-| F7 | Enterprise Case Studies & Metrics | 3 high-impact quantified cases (Apex Auto Group, BPO operations, medical billing) | M3 | Survey / R3 |
-| F8 | Trust Engine & Guarantees | 3+ structured testimonials, 14-day guarantee, 100% data ownership, NDA security badge | M3 | Survey / R3 |
-| F9 | Direct Diagnostic Scheduling | Instant calendar booking integration alongside contact form | M4 | Survey / R4 |
-| F10 | Frictionless Accessible Contact Form | Inline validation (no alert popups), htmlFor/id accessibility, autofill support | M4 | Survey / R4 |
-| F11 | Full Contextual WhatsApp Routing | Contextual pre-filled WhatsApp links for Hero, Packages, Contact, and Float | M4 | Survey / R4 |
-| F12 | Enhanced UTM & Click ID Attribution | First-touch UTM + gclid/fbclid/msclkid capture & transfer to Google Sheets | M4 | Survey / R5 |
-| F13 | Complete GA4 Event Instrumentation | Tracking for select_package, generate_lead, whatsapp_click, schedule_call, view_roi_calc, calculate_roi | M5 | Survey / R5 |
-| F14 | Mobile Responsiveness & Layout Integrity | Flawless rendering 360px+ without horizontal overflow or typography clipping | M5 | Survey / R5 |
-| F15 | Production Build & Pre-rendering | npm run build passes with 0 errors, 0 warnings, fast load, and SEO parity | M5 | Survey / R5 |
+## Arquitectura
 
-## Milestones
-| # | Name | Scope | Dependencies | Status |
-|---|------|-------|-------------|--------|
-| M1 | Value Proposition, Bilingual Parity & Hero CRO | F1, F2, F3 (Hero, copy, ES/EN dictionary, PortfolioPage i18n, GlobeDashboard i18n) | none | DONE |
-| M2 | Interactive Before/After, Package Selector & ROI Calculator | F4, F5, F6 (Interactive comparison, package matrix, ROI estimator) | M1 | DONE |
-| M3 | Trust Engine, Enterprise Case Studies & Social Proof | F7, F8 (Case studies, 3+ testimonials, guarantees, security badges) | M1 | DONE |
-| M4 | Frictionless Funnel, Direct Scheduling & Attribution | F9, F10, F11, F12 (Direct calendar booking, form validation, WhatsApp, UTM/Ad IDs) | M2, M3 | DONE |
-| M5 | Analytics Instrumentation, Performance & E2E Validation | F13, F14, F15 (GA4 events, responsive audit, build integrity, full E2E testing) | M4 | DONE |
+- **Framework y bundler**: React 19 + Vite 6 + TypeScript.
+- **Estilos**: Tailwind CSS v4 (`index.css` define el tema) más un CSS por bloque en `leonardo/*.css`.
+- **Ruteo**: React Router DOM v7 en el cliente; cada página fuera de la home se carga en un chunk aparte (`lazy`).
+- **Idiomas**: por ruta, no por parámetro. El inglés es el principal.
+- **Analítica**: GA4 con atribución de campaña guardada en `localStorage`, y Meta Pixel opcional (`utils/analytics.ts`).
+- **Backend**: un Apps Script de Google que guarda los leads en Google Sheets (`constants.ts`, `utils/sheetUtils.ts`). No hay servidor propio.
+- **SEO**: `scripts/postbuild-seo.mjs` renderiza cada ruta a HTML estático con sus metadatos, hreflang y datos estructurados, y genera el sitemap.
+- **Deploy**: Vercel, con `vercel.json` como única fuente de configuración (build, salida `dist`, redirecciones y 404).
 
-## Interface Contracts
-### Internationalization (i18n)
-- `content: { es: ContentDictionary; en: ContentDictionary }`
-- `lang: 'es' | 'en'` passed to all components (`PortfolioPage`, `GlobeDashboard`, `WhatsAppButton`, `Navbar`, `Footer`)
-- URL synchronization: `?lang=en` for English, default Spanish for clean URLs.
+## Rutas
 
-### Analytics Layer (`utils/analytics.ts`)
-- `trackEvent(eventName: string, params?: Record<string, unknown>): void`
-- Supported events:
-  - `page_view`: `{ page_title, page_location, page_path, language }`
-  - `select_package`: `{ package_id, package_name, price, currency, language }`
-  - `lead_submit_attempt`: `{ package_id, form_location, language }`
-  - `generate_lead`: `{ package_id, lead_id, attribution, language }`
-  - `whatsapp_click`: `{ source_section, package_id, language }`
-  - `schedule_call`: `{ source_section, package_id, method, language }`
-  - `view_roi_calc`: `{ source_section, language }`
-  - `calculate_roi`: `{ team_size, hours_per_week, estimated_savings, language }`
+| Página | Inglés | Español |
+|---|---|---|
+| Home | `/` | `/es/` |
+| Portafolio | `/portfolio/` | `/es/portfolio/` |
+| Páginas web (tráfico pagado) | `/en/web/` (EE. UU., en dólares) | `/web/` (Guatemala, en quetzales) |
+| Hub de servicios | `/en/services/` | `/servicios/` |
+| Detalle de servicio | `/en/services/:slug/` | `/servicios/:slug/` |
+| Guías | `/en/guides/:slug/` | `/guias/:slug/` |
 
-### Lead Capture & Attribution (`utils/sheetUtils.ts`)
-- Payload structure:
-  - `name`, `email`, `whatsapp`, `service`, `industry`, `country`, `details`, `lang`
-  - `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `gclid`, `fbclid`
-  - `submitted_at`, `referrer`, `landing_page`
+Las URLs antiguas (`?lang=en`, `/en/`, `/en/portfolio/`) redirigen a las actuales: con 308 en `vercel.json` y, si la SPA recibe una, desde `index.tsx`. La lista de rutas que se prerenderizan es `ALL_ROUTES` en `leonardo/servicesData.ts`. Historial de la migración: [docs/seo-routing.md](docs/seo-routing.md).
 
-## Code Layout
-- `src/App.tsx`: Main landing page, state orchestration, content dictionaries, section composition.
-- `src/components/`:
-  - `GlobeDashboard.tsx`: Interactive hero 3D decision room dashboard.
-  - `PortfolioPage.tsx`: Dedicated case studies / projects showcase (fully localized).
-  - `BeforeAfterComparison.tsx`: Interactive before vs after Sagepoint comparison.
-  - `RoiCalculator.tsx`: Interactive ROI & time-saving estimator component.
-  - `ScheduleModal.tsx`: Direct diagnostic call scheduling modal/embed.
-  - `SocialConnectButtons.tsx`: Light social links component.
-  - `WhatsAppButton.tsx`: Contextual floating WhatsApp button.
-  - `SEOHead.tsx`: Dynamic meta tag and structured data management.
-- `src/utils/`:
-  - `analytics.ts`: GA4 tracking, UTM & click ID capture.
-  - `sheetUtils.ts`: Google Apps Script submission engine with fallback.
-- `src/constants.ts`: Global configuration, endpoints, WhatsApp numbers, package metadata.
+## Estructura del código
+
+- `index.tsx`: punto de entrada, rutas y redirecciones de idioma.
+- `leonardo/`: la home y las páginas de servicios y guías.
+  - `LeonardoHome.tsx`: la home completa y sus metadatos (`HOME_META`).
+  - `leonardoEnglish.ts`: diccionario EN de la home. La clave es el texto en español (`translateLeo`).
+  - `leonardoData.ts`: galería, casos y cifras de la home.
+  - `HeroCockpit.tsx`, `BeforeAfter.tsx`, `DataFlow.tsx`, `RoiEstimator.tsx`, `TrustGrid.tsx`, `PricingEn.tsx`, `CtaReassure.tsx`, `MobileMenu.tsx`: bloques de la home.
+  - `BookingModal.tsx`, `booking.ts`: formulario de diagnóstico, paquetes y enlace de agenda.
+  - `servicesData.ts`, `ServicesHub.tsx`, `ServicePage.tsx`: páginas de servicios.
+  - `ServicesLayout.tsx`: encabezado y pie del sitio (`SiteHeader`, `SiteFooter`) que comparten servicios, guías, portafolio y `/web`.
+  - `guidesData.ts`, `GuidePage.tsx`: guías.
+- `components/`: `WebPage.tsx` (landing `/web`, con `webSkin.css`), `PortfolioPage.tsx` (portafolio, con `portfolio.css`) y `WhatsAppButton.tsx`.
+- `utils/`: `analytics.ts`, `sheetUtils.ts`, `i18nRoutes.ts`.
+- `hooks/useDocumentMeta.ts`: título, descripción, canonical y hreflang por ruta en el cliente.
+- `scripts/`: prerender SEO (`postbuild-seo.mjs`, `render-pages.tsx`) y bloqueo de material excluido (`check-public-output.mjs`).
+- `tests/sales-regressions.test.mjs`: regresiones sobre el envío de leads, el HTML construido, el sitemap y `vercel.json`.
+- `public/`: archivos estáticos (imágenes, PDFs de proyectos, `robots.txt`, `llms.txt`).
+- `private/`: material excluido de Git y de la publicación.
+
+## Contratos
+
+### Idioma
+
+- `getLangFromPath(pathname)` y `localizedPath(path, lang)` en `utils/i18nRoutes.ts` son la única fuente de verdad del idioma de una ruta.
+- En la home, el inglés se obtiene con `translateLeo(lang, textoEnEspañol)`. Un texto sin entrada en el diccionario se muestra en español.
+
+### Analítica (`utils/analytics.ts`)
+
+Eventos que el sitio envía: `page_view`, `select_package`, `lead_form_open`, `lead_submit_attempt`, `generate_lead`, `lead_duplicate`, `lead_delivery_unconfirmed`, `lead_submit_failed`, `schedule_call`, `whatsapp_click`, `linkedin_click`, `view_roi_calc`, `calculate_roi` y `roi_cta_click`.
+
+El ID de GA4 se toma de `VITE_GA_MEASUREMENT_ID`. En producción hay un ID de respaldo; en desarrollo la medición queda apagada salvo configuración explícita.
+
+El Meta Pixel queda apagado hasta que se defina un ID numérico en `VITE_META_PIXEL_ID`. Nunca reenvía campos personales del formulario.
+
+### Envío de leads (`utils/sheetUtils.ts`)
+
+- Un solo `POST` al Apps Script, con 15 segundos de límite. Nunca se reintenta: un error de red no dice si la fila se guardó.
+- `submitToGoogleSheet` devuelve `'confirmed'`, `'duplicate'`, `'unconfirmed'` o `false`.
+- Solo un JSON con `success: true` o `status: "success"` confirma la recepción. `duplicate: true` significa que el backend reconoció el lead sin escribir otra fila.
+- El envío incluye los datos del formulario, el paquete elegido y la atribución (`utm_*`, click IDs, página de entrada y referente).
+
+## Validación
+
+- `npm run build`: revisa tipos (`tsc`), construye, prerenderiza todas las rutas y falla si aparece material excluido en `dist`.
+- `npm test`: regresiones sobre el build. Simulan el backend y no crean leads reales.
+- Vite preview no reproduce las redirecciones, la caché ni el 404 de Vercel; eso se valida en la plataforma.
+
+## Historial
+
+- Septiembre de 2026: auditoría de publicación ([docs/audit-2026-09-05.md](docs/audit-2026-09-05.md)).
+- Rediseño "Leonardo": la home pasó a `leonardo/LeonardoHome.tsx`.
+- 14 de octubre de 2026: el inglés pasó a ser el idioma principal ([docs/revision-krug-2026-10-14/](docs/revision-krug-2026-10-14/)).
+- Noviembre de 2026: se eliminó la home anterior (`App.tsx`), sus componentes, sus estilos y la suite de pruebas que la cubría. Los documentos de `docs/` anteriores a esa fecha citan esos archivos; siguen en el historial de Git.
